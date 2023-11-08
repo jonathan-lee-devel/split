@@ -1,4 +1,4 @@
-FROM --platform=linux/x86_64 node:lts as build
+FROM --platform=linux/x86_64 node:lts as base
 
 # Add package file
 COPY package.json ./
@@ -18,7 +18,7 @@ COPY tsconfig.json ./tsconfig.json
 RUN yarn build
 
 # Start production image build
-FROM --platform=linux/x86_64 node:lts as build
+FROM --platform=linux/x86_64 node:lts
 
 # Copy node modules and build directory
 COPY --from=base ./node_modules ./node_modules
