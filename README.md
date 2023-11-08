@@ -1,5 +1,5 @@
-# sparrow
-## What is Sparrow?
+# split
+## What is Split?
 Split.Direct is an online platform that allows for people living in shared accommodation to track expenses collaboratively in the cloud for free.
 
 ## Availability
