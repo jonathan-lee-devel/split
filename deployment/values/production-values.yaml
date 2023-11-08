@@ -1,4 +1,4 @@
-applicationName: split
+applicationName: split-direct
 replicaCount: 1
 
 environment:
