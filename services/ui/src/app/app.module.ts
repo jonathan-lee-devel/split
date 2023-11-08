@@ -46,6 +46,8 @@ import { FullWidthSearchBarComponent } from './components/full-width-search-bar/
 import { EmptySearchResultsComponent } from './components/empty-search-results/empty-search-results.component';
 import { LandingPageSplashTextComponent } from './components/landing-page-splash-text/landing-page-splash-text.component';
 import { ProductWithImageComponent } from './components/product-with-image/product-with-image.component';
+import {CardWithIconComponent} from "./components/card-with-icon/card-with-icon.component";
+import {TopBannerComponent} from "./components/top-banner/top-banner.component";
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -88,6 +90,8 @@ import { ProductWithImageComponent } from './components/product-with-image/produ
     HttpClientModule,
     FormsModule,
     NgOptimizedImage,
+    CardWithIconComponent,
+    TopBannerComponent,
   ],
   providers: [
     {

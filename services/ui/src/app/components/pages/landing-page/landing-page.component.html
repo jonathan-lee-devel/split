@@ -1,16 +1,27 @@
 <div class="container pt-32 max-w-7xl mx-auto">
     <app-landing-page-splash-text></app-landing-page-splash-text>
-    <app-full-width-search-bar
-            [initialSearchCategory]="allCategories"
-            [searchCategories]="[restaurants, allCategories]"
-            [searchableComponent]="this"
-    ></app-full-width-search-bar>
+    <div class="text-center mb-5">
+        <h3 class="text-3xl">Using this free service, you and your housemates/roommates can manage and track your shared living expenses collaboratively!</h3>
+    </div>
     <div>
-        <app-loading-spinner *ngIf="isLoadingMap.get(landingPageSearchResultsLoadingKey)"
-                             class="flex justify-center pt-5"></app-loading-spinner>
-        <app-empty-search-results *ngIf="isEmptySearchResults" class="flex justify-center"></app-empty-search-results>
-        <div *ngFor="let searchResult of searchResults" class="flex justify-center pt-5">
-            <app-organization-search-result [searchResult]="searchResult"></app-organization-search-result>
-        </div>
+        <app-card-with-icon
+                [cardIconPath]="'assets/cloud-icon.svg'"
+                [cardTitle]="'Cloud-Hosted'"
+                [cardText]="'Work collaboratively with housemates/roommates to track shared living expenses in the cloud.'"
+        ></app-card-with-icon>
+    </div>
+    <div class="mt-5">
+        <app-card-with-icon
+                [cardIconPath]="'assets/smartphone.svg'"
+                [cardTitle]="'Responsive Design'"
+                [cardText]="'Platform is accessible from devices of all screen-sizes.'"
+        ></app-card-with-icon>
+    </div>
+    <div class="mt-5">
+        <app-card-with-icon
+                [cardIconPath]="'assets/lock-icon.svg'"
+                [cardTitle]="'Secure'"
+                [cardText]="'You control who has access to your data.'"
+        ></app-card-with-icon>
     </div>
 </div>
