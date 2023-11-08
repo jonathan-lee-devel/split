@@ -1,0 +1,11 @@
+apiVersion: v2
+appVersion: "0.1"
+description: An online platform for delivery services
+name: sparrow-express
+version: 0.1.0
+sources:
+  - https://github.com/jonathan-lee-devel/sparrow
+dependencies:
+  - name: nginx-ingress
+    version: 1.41.2
+    repository: https://charts.helm.sh/stable

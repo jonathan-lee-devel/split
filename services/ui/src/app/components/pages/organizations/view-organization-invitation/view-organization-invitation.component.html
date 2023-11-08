@@ -1,0 +1,17 @@
+<app-loading-spinner *ngIf="isLoadingMap.get(organizationInvitationSnippetInitialLoading)"
+                     class="flex justify-center"></app-loading-spinner>
+<h1 *ngIf="!isLoadingMap.get(organizationInvitationSnippetInitialLoading)" class="flex justify-center mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">{{organizationSnippet.name}}</h1>
+<div *ngIf="!isLoadingMap.get(organizationInvitationSnippetInitialLoading)" class="flex justify-center">
+    <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 pt-5 mt-5">
+        <div class="flex flex-col items-center pb-10">
+            <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white pt-5">Organization Invitation</h5>
+            <span class="text-sm text-gray-500 dark:text-gray-400">Click the button below to accept the invitation.</span>
+            <div class="flex mt-4 space-x-3 md:mt-6">
+                <button (click)="doAcceptInvitation()"
+                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    Accept
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

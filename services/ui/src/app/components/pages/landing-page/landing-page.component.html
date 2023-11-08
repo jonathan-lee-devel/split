@@ -1,0 +1,16 @@
+<div class="container pt-32 max-w-7xl mx-auto">
+    <app-landing-page-splash-text></app-landing-page-splash-text>
+    <app-full-width-search-bar
+            [initialSearchCategory]="allCategories"
+            [searchCategories]="[restaurants, allCategories]"
+            [searchableComponent]="this"
+    ></app-full-width-search-bar>
+    <div>
+        <app-loading-spinner *ngIf="isLoadingMap.get(landingPageSearchResultsLoadingKey)"
+                             class="flex justify-center pt-5"></app-loading-spinner>
+        <app-empty-search-results *ngIf="isEmptySearchResults" class="flex justify-center"></app-empty-search-results>
+        <div *ngFor="let searchResult of searchResults" class="flex justify-center pt-5">
+            <app-organization-search-result [searchResult]="searchResult"></app-organization-search-result>
+        </div>
+    </div>
+</div>

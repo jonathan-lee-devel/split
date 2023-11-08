@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.applicationName }}-ui-service
+  namespace: sparrow-{{ .Values.environment.name }}
+  labels:
+    app: {{ .Values.applicationName }}
+    chart: {{ template "sparrow.chart" . }}
+    component: "{{ .Values.ui.name }}"
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  selector:
+    app: {{ template "sparrow.fullname" . }}
+    component: "{{ .Values.ui.name }}"
+    release: {{ .Release.Name }}
