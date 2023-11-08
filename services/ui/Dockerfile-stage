@@ -1,4 +1,4 @@
-FROM --platform=linux/x86_64 node:20.9.0-alpine3.18 as build
+FROM --platform=linux/x86_64 node:lts as build
 
 WORKDIR /app
 
