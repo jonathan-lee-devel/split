@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "sparrow.fullname" . }}-api-deployment
-  namespace: sparrow-{{ .Values.environment.name }}
+  name: {{ template "split.fullname" . }}-api-deployment
+  namespace: split-{{ .Values.environment.name }}
   labels:
-    app: {{ template "sparrow.fullname" . }}
-    chart: {{ template "sparrow.chart" . }}
+    app: {{ template "split.fullname" . }}
+    chart: {{ template "split.chart" . }}
     component: "{{ .Values.api.fullname }}"
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   selector:
     matchLabels:
-      app: {{ template "sparrow.fullname" . }}
+      app: {{ template "split.fullname" . }}
       component: "{{ .Values.api.name }}"
       release: {{ .Release.Name }}
   replicas: {{ .Values.replicaCount }}
@@ -21,66 +21,66 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ template "sparrow.fullname" . }}
+        app: {{ template "split.fullname" . }}
         component: "{{ .Values.api.name }}"
         release: {{ .Release.Name }}
     spec:
       securityContext:
         runAsUser: 1000
       containers:
-      - name: {{ template "sparrow.fullname" . }}-api
+      - name: {{ template "split.fullname" . }}-api
         image: "{{ .Values.api.image.repository }}:{{ .Values.api.image.tag }}"
         imagePullPolicy: "{{ .Values.api.image.pullPolicy }}"
         env:
           - name: NODE_ENV
             valueFrom:
               secretKeyRef:
-                name: sparrow-node-env
+                name: split-node-env
                 key: NODE_ENV
           - name: SESSION_SECRET
             valueFrom:
               secretKeyRef:
-                name: sparrow-session-secret
+                name: split-session-secret
                 key: SESSION_SECRET
           - name: DATABASE_URL
             valueFrom:
               secretKeyRef:
-                name: sparrow-database-url
+                name: split-database-url
                 key: DATABASE_URL
           - name: PORT
             valueFrom:
               secretKeyRef:
-                name: sparrow-port
+                name: split-port
                 key: PORT
           - name: FRONT_END_URL
             valueFrom:
               secretKeyRef:
-                name: sparrow-frontend-url
+                name: split-frontend-url
                 key: FRONT_END_URL
           - name: EMAIL_USER
             valueFrom:
               secretKeyRef:
-                name: sparrow-email-user
+                name: split-email-user
                 key: EMAIL_USER
           - name: EMAIL_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: sparrow-email-password
+                name: split-email-password
                 key: EMAIL_PASSWORD
           - name: GOOGLE_CLIENT_ID
             valueFrom:
               secretKeyRef:
-                name: sparrow-google-client-id
+                name: split-google-client-id
                 key: GOOGLE_CLIENT_ID
           - name: GOOGLE_CLIENT_SECRET
             valueFrom:
               secretKeyRef:
-                name: sparrow-google-client-secret
+                name: split-google-client-secret
                 key: GOOGLE_CLIENT_SECRET
           - name: GOOGLE_CALLBACK_URL
             valueFrom:
               secretKeyRef:
-                name: sparrow-google-callback-url
+                name: split-google-callback-url
                 key: GOOGLE_CALLBACK_URL
         ports:
         - containerPort: 3000

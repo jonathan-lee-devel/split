@@ -1,4 +1,4 @@
-applicationName: sparrow-express
+applicationName: split
 replicaCount: 1
 
 environment:
@@ -8,15 +8,15 @@ environment:
 ui:
   name: ui
   image:
-    repository: jonathanleedev/sparrow-express-ui
-    tag: stage-0.2.25
+    repository: jonathanleedev/split-ui
+    tag: stage-0.1.0
     pullPolicy: Always
   port: 80
 
 api:
   name: api
   image:
-    repository: jonathanleedev/sparrow-express-api
-    tag: 0.2.25
+    repository: jonathanleedev/split-api
+    tag: 0.1.0
     pullPolicy: Always
   port: 3000

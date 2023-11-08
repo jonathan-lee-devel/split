@@ -1,8 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: sparrow-{{ .Values.environment.name }}-ingress
-  namespace: sparrow-{{ .Values.environment.name }}
+  name: split-{{ .Values.environment.name }}-ingress
+  namespace: split-{{ .Values.environment.name }}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
@@ -10,7 +10,7 @@ spec:
   tls:
     - hosts:
       - {{ .Values.environment.hostPrefix }}split.direct
-      secretName: sparrow-tls-{{ .Values.environment.name }}
+      secretName: split-tls-{{ .Values.environment.name }}
   rules:
     - host: api.{{ .Values.environment.hostPrefix }}split.direct
       http:
