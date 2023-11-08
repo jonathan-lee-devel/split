@@ -1,6 +1,6 @@
 # sparrow
 ## What is Sparrow?
-Split.Direct is an online platform intended to allow for restaurants and other businesses to offer delivery services without needing to build their own web application.
+Split.Direct is an online platform that allows for people living in shared accommodation to track expenses collaboratively in the cloud for free.
 
 ## Availability
 Split.Direct is available at: **[https://split.direct](https://split.direct)**
