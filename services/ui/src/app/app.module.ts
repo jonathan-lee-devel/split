@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
+import {BrowserModule, provideClientHydration} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -33,21 +33,21 @@ import {
 import {GoogleLoginSuccessComponent} from './components/pages/google-login-success/google-login-success.component';
 import {ServerErrorComponent} from './components/pages/error/server-error/server-error.component';
 import {PopupModalComponent} from './components/modals/popup-modal/popup-modal.component';
-import { ManageAccountComponent } from './components/pages/manage-account/manage-account.component';
-import { ErrorNotFoundComponent } from './components/pages/error/error-not-found/error-not-found.component';
-import { OrganizationPageComponent } from './components/pages/organizations/per-organization/organization-page/organization-page.component';
-import { CreateProductComponent } from './components/pages/organizations/per-organization/create-product/create-product.component';
-import { InviteMemberComponent } from './components/pages/organizations/per-organization/invite-member/invite-member.component';
-import { ViewOrganizationInvitationComponent } from './components/pages/organizations/view-organization-invitation/view-organization-invitation.component';
-import { RightArrowComponent } from './components/right-arrow/right-arrow.component';
-import { CardWithLinkComponent } from './components/card-with-link/card-with-link.component';
-import { OrganizationSearchResultComponent } from './components/organization-search-result/organization-search-result.component';
-import { FullWidthSearchBarComponent } from './components/full-width-search-bar/full-width-search-bar.component';
-import { EmptySearchResultsComponent } from './components/empty-search-results/empty-search-results.component';
-import { LandingPageSplashTextComponent } from './components/landing-page-splash-text/landing-page-splash-text.component';
-import { ProductWithImageComponent } from './components/product-with-image/product-with-image.component';
-import {CardWithIconComponent} from "./components/card-with-icon/card-with-icon.component";
-import {TopBannerComponent} from "./components/top-banner/top-banner.component";
+import {ManageAccountComponent} from './components/pages/manage-account/manage-account.component';
+import {ErrorNotFoundComponent} from './components/pages/error/error-not-found/error-not-found.component';
+import {OrganizationPageComponent} from './components/pages/organizations/per-organization/organization-page/organization-page.component';
+import {CreateProductComponent} from './components/pages/organizations/per-organization/create-product/create-product.component';
+import {InviteMemberComponent} from './components/pages/organizations/per-organization/invite-member/invite-member.component';
+import {ViewOrganizationInvitationComponent} from './components/pages/organizations/view-organization-invitation/view-organization-invitation.component';
+import {RightArrowComponent} from './components/right-arrow/right-arrow.component';
+import {CardWithLinkComponent} from './components/card-with-link/card-with-link.component';
+import {OrganizationSearchResultComponent} from './components/organization-search-result/organization-search-result.component';
+import {FullWidthSearchBarComponent} from './components/full-width-search-bar/full-width-search-bar.component';
+import {EmptySearchResultsComponent} from './components/empty-search-results/empty-search-results.component';
+import {LandingPageSplashTextComponent} from './components/landing-page-splash-text/landing-page-splash-text.component';
+import {ProductWithImageComponent} from './components/product-with-image/product-with-image.component';
+import {CardWithIconComponent} from './components/card-with-icon/card-with-icon.component';
+import {TopBannerComponent} from './components/top-banner/top-banner.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -100,6 +100,7 @@ import {TopBannerComponent} from "./components/top-banner/top-banner.component";
       multi: true,
     },
     CookieService,
+    provideClientHydration(),
   ],
 })
 /**
