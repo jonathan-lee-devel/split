@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 import {LandingPageComponent} from "./components/pages/landing-page/landing-page.component";
+import {LoginComponent} from "./components/pages/login/login.component";
+import {RegisterComponent} from "./components/pages/register/register.component";
 
 export enum RoutePaths {
   /* ANONYMOUS ROUTES */
@@ -34,5 +36,15 @@ export const routes: Routes = [
     path: '',
     component: LandingPageComponent,
     title: 'Split',
-  }
+  },
+  {
+    path: RoutePaths.LOGIN,
+    component: LoginComponent,
+    title: 'Split | Login',
+  },
+  {
+    path: RoutePaths.REGISTER,
+    component: RegisterComponent,
+    title: 'Split | Register',
+  },
 ];
