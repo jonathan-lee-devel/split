@@ -1,1 +1,32 @@
-<p>landing-page works!</p>
+<div class="mt-10">
+  <app-landing-page-splash-text class="animate__animated animate__bounceInDown"></app-landing-page-splash-text>
+</div>
+<div class="container max-w-7xl mx-auto">
+  <div class="text-center mb-5">
+    <h3 class="text-2xl sm:text-2xl">Using this free service, you and your housemates/roommates can manage and track your shared living expenses collaboratively!</h3>
+  </div>
+  <div class="animate__animated animate__bounceInUp">
+    <app-card-with-icon
+      class="x-10"
+      [cardIconPath]="'assets/cloud-icon.svg'"
+      [cardTitle]="'Cloud-Hosted'"
+      [cardText]="'Work collaboratively with housemates/roommates to track shared living expenses in the cloud.'"
+    ></app-card-with-icon>
+  </div>
+  <div class="mt-5 animate__animated animate__bounceInUp animate__slow">
+    <app-card-with-icon
+      class="x-10"
+      [cardIconPath]="'assets/smartphone.svg'"
+      [cardTitle]="'Responsive Design'"
+      [cardText]="'Platform is accessible from devices of all screen-sizes.'"
+    ></app-card-with-icon>
+  </div>
+  <div class="mt-5 animate__animated animate__bounceInUp animate__slower">
+    <app-card-with-icon
+      class="x-10"
+      [cardIconPath]="'assets/lock-icon.svg'"
+      [cardTitle]="'Secure'"
+      [cardText]="'You control who has access to your data.'"
+    ></app-card-with-icon>
+  </div>
+</div>
