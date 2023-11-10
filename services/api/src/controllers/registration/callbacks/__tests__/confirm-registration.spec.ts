@@ -143,8 +143,8 @@ describe('Confirm Registration Callback Unit Tests', () => {
         }},
     );
 
-    expect(returnedCode).toStrictEqual(HttpStatus.INTERNAL_SERVER_ERROR);
-    expect(returnedBody).toStrictEqual({status: RegistrationStatus[RegistrationStatus.FAILURE]});
+    expect(returnedCode).toStrictEqual(HttpStatus.BAD_REQUEST);
+    expect(returnedBody).toStrictEqual({status: RegistrationStatus[RegistrationStatus.EMAIL_ALREADY_VERIFIED]});
     expect(loggedMessage).toStrictEqual(`User found for registration verification token with userEmail: <${email}> already verified`);
   });
   it('When confirm registration And token expired Then return correct status', async () => {
