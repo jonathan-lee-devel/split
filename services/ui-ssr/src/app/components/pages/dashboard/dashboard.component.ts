@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {afterRender, Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {CardWithLinkComponent} from "../../lib/card-with-link/card-with-link.component";
 import {AuthService} from "../../../services/auth/auth.service";
@@ -10,12 +10,12 @@ import {AuthService} from "../../../services/auth/auth.service";
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
 
-  constructor(private authService: AuthService) {}
-
-  ngOnInit() {
-    this.authService.triggerOnServerReload();
+  constructor(private authService: AuthService) {
+    afterRender(() => {
+      this.authService.triggerOnServerReload();
+    });
   }
 
 }
