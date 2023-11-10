@@ -1,18 +1,16 @@
 import {afterRender, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {initModals} from "flowbite";
-import {ModalService} from "../../../../services/modal/modal.service";
-import {CookiesNoticeService} from "../../../../services/cookies-notice/cookies-notice.service";
+import {CommonModule} from '@angular/common';
+import {initModals} from 'flowbite';
+import {ModalService} from '../../../../services/modal/modal.service';
 
 @Component({
   selector: 'app-popup-modal',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './popup-modal.component.html',
-  styleUrl: './popup-modal.component.css'
+  styleUrl: './popup-modal.component.css',
 })
 export class PopupModalComponent {
-
   modalPrompt: string = 'Prompt';
   modalConfirmButtonText: string = 'Confirm';
   modalCancelButtonText: string = 'Cancel';

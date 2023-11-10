@@ -1,21 +1,20 @@
 import {afterRender, Component} from '@angular/core';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
-import {FormsModule} from "@angular/forms";
-import {RouterLink} from "@angular/router";
-import {AuthService} from "../../../services/auth/auth.service";
-import {RegisterService} from "../../../services/register/register.service";
-import {CookiesNoticeService} from "../../../services/cookies-notice/cookies-notice.service";
-import {SyncService} from "../../../services/sync/sync.service";
+import {FormsModule} from '@angular/forms';
+import {RouterLink} from '@angular/router';
+import {AuthService} from '../../../services/auth/auth.service';
+import {RegisterService} from '../../../services/register/register.service';
+import {CookiesNoticeService} from '../../../services/cookies-notice/cookies-notice.service';
+import {SyncService} from '../../../services/sync/sync.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-    imports: [CommonModule, FormsModule, NgOptimizedImage, RouterLink],
+  imports: [CommonModule, FormsModule, NgOptimizedImage, RouterLink],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrl: './register.component.css',
 })
 export class RegisterComponent {
-
   email: string = '';
   firstName: string = '';
   lastName: string = '';
@@ -32,7 +31,7 @@ export class RegisterComponent {
     afterRender(() => {
       syncService.sync();
       cookiesNoticeService.triggerIfNotAccepted();
-    })
+    });
   }
 
   doRegister() {
@@ -49,5 +48,4 @@ export class RegisterComponent {
   doGoogleLogin() {
     this.authService.doGoogleLogin();
   }
-
 }

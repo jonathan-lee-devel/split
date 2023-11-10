@@ -1,10 +1,11 @@
 import {CanActivateFn, Router} from '@angular/router';
-import {inject} from "@angular/core";
-import {AuthService} from "../services/auth/auth.service";
-import {RoutePaths} from "../app.routes";
-import {ModalService} from "../services/modal/modal.service";
-import {SyncService} from "../services/sync/sync.service";
+import {inject} from '@angular/core';
+import {AuthService} from '../services/auth/auth.service';
+import {RoutePaths} from '../app.routes';
+import {ModalService} from '../services/modal/modal.service';
+import {SyncService} from '../services/sync/sync.service';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const authGuard: CanActivateFn = (route, state) => {
   if (inject(SyncService).isServerSide()) {
     return false;

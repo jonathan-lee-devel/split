@@ -4,9 +4,9 @@ import {CommonModule, NgOptimizedImage} from '@angular/common';
 @Component({
   selector: 'app-card-with-icon',
   standalone: true,
-    imports: [CommonModule, NgOptimizedImage],
+  imports: [CommonModule, NgOptimizedImage],
   templateUrl: './card-with-icon.component.html',
-  styleUrl: './card-with-icon.component.css'
+  styleUrl: './card-with-icon.component.css',
 })
 export class CardWithIconComponent {
   @Input() cardTitle: string = '';

@@ -1,18 +1,16 @@
 import {afterRender, Component, ElementRef} from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {initModals} from "flowbite";
-import {ModalService} from "../../../../services/modal/modal.service";
-import {CookiesNoticeService} from "../../../../services/cookies-notice/cookies-notice.service";
+import {CommonModule} from '@angular/common';
+import {initModals} from 'flowbite';
+import {ModalService} from '../../../../services/modal/modal.service';
 
 @Component({
   selector: 'app-default-modal',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './default-modal.component.html',
-  styleUrl: './default-modal.component.css'
+  styleUrl: './default-modal.component.css',
 })
 export class DefaultModalComponent {
-
   modalHeading: string = 'Request Error';
   modalText: string = 'There was an error with the request';
 

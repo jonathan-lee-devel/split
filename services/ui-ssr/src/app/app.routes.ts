@@ -1,16 +1,16 @@
 import {Routes} from '@angular/router';
-import {LandingPageComponent} from "./components/pages/landing-page/landing-page.component";
-import {LoginComponent} from "./components/pages/login/login.component";
-import {RegisterComponent} from "./components/pages/register/register.component";
-import {GoogleLoginSuccessComponent} from "./components/pages/google-login-success/google-login-success.component";
-import {DashboardComponent} from "./components/pages/dashboard/dashboard.component";
-import {RegisterConfirmComponent} from "./components/pages/register-confirm/register-confirm.component";
-import {ResetPasswordComponent} from "./components/pages/reset-password/reset-password.component";
+import {LandingPageComponent} from './components/pages/landing-page/landing-page.component';
+import {LoginComponent} from './components/pages/login/login.component';
+import {RegisterComponent} from './components/pages/register/register.component';
+import {GoogleLoginSuccessComponent} from './components/pages/google-login-success/google-login-success.component';
+import {DashboardComponent} from './components/pages/dashboard/dashboard.component';
+import {RegisterConfirmComponent} from './components/pages/register-confirm/register-confirm.component';
+import {ResetPasswordComponent} from './components/pages/reset-password/reset-password.component';
 import {
-  ResetPasswordConfirmComponent
-} from "./components/pages/reset-password-confirm/reset-password-confirm.component";
-import {ManageAccountComponent} from "./components/pages/manage-account/manage-account.component";
-import {authGuard} from "./guards/auth.guard";
+  ResetPasswordConfirmComponent,
+} from './components/pages/reset-password-confirm/reset-password-confirm.component';
+import {ManageAccountComponent} from './components/pages/manage-account/manage-account.component';
+import {authGuard} from './guards/auth.guard';
 
 export enum RoutePaths {
   /* ANONYMOUS ROUTES */

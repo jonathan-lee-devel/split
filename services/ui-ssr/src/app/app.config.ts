@@ -1,9 +1,8 @@
-import { ApplicationConfig } from '@angular/core';
-import { provideRouter } from '@angular/router';
-
-import { routes } from './app.routes';
-import { provideClientHydration } from '@angular/platform-browser';
-import {HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi} from "@angular/common/http";
+import {ApplicationConfig} from '@angular/core';
+import {provideRouter} from '@angular/router';
+import {routes} from './app.routes';
+import {provideClientHydration} from '@angular/platform-browser';
+import {HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi} from '@angular/common/http';
 import {ErrorInterceptor} from './interceptors/error/error.interceptor';
 
 export const appConfig: ApplicationConfig = {
@@ -12,5 +11,5 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideHttpClient(withFetch(), withInterceptorsFromDi()),
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
-  ]
+  ],
 };
