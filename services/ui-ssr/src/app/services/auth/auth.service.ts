@@ -7,6 +7,7 @@ import {Router} from "@angular/router";
 import {RoutePaths} from "../../app.routes";
 import {LogoutDto} from "../../dtos/auth/LogoutDto";
 import {ProfileService} from "../profile/profile.service";
+import {isPlatformServer} from "@angular/common";
 
 @Injectable({
     providedIn: 'root'

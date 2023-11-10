@@ -10,6 +10,7 @@ import {
   ResetPasswordConfirmComponent
 } from "./components/pages/reset-password-confirm/reset-password-confirm.component";
 import {ManageAccountComponent} from "./components/pages/manage-account/manage-account.component";
+import {authGuard} from "./guards/auth.guard";
 
 export enum RoutePaths {
   /* ANONYMOUS ROUTES */
@@ -79,10 +80,12 @@ export const routes: Routes = [
     path: RoutePaths.DASHBOARD,
     component: DashboardComponent,
     title: 'Split | Dashboard',
+    canActivate: [authGuard],
   },
   {
     path: RoutePaths.ACCOUNT_MANAGE,
     component: ManageAccountComponent,
     title: 'Split | Account',
+    canActivate: [authGuard],
   },
 ];

@@ -1,14 +1,22 @@
-import { Injectable } from '@angular/core';
+import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {AuthService} from "../auth/auth.service";
+import {isPlatformServer} from "@angular/common";
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class SyncService {
 
-  constructor(private authService: AuthService) { }
+    constructor(
+        @Inject(PLATFORM_ID) private platformId: Object,
+        private authService: AuthService,
+    ) {}
 
-  sync() {
-    this.authService.triggerOnServerReload();
-  }
+    isServerSide() {
+        return isPlatformServer(this.platformId)
+    }
+
+    sync() {
+        this.authService.triggerOnServerReload();
+    }
 }
