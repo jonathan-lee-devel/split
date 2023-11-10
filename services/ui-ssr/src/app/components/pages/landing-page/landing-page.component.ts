@@ -6,6 +6,7 @@ import {CookiesNoticeService} from "../../../services/cookies-notice/cookies-not
 import {Modal} from "flowbite";
 import {ModalService} from "../../../services/modal/modal.service";
 import {AuthService} from "../../../services/auth/auth.service";
+import {SyncService} from "../../../services/sync/sync.service";
 
 @Component({
     selector: 'app-landing-page',
@@ -17,13 +18,13 @@ import {AuthService} from "../../../services/auth/auth.service";
 export class LandingPageComponent implements AfterViewInit {
 
     constructor(
-        private authService: AuthService,
+        syncService: SyncService,
         private changeDetector: ChangeDetectorRef,
         private cookiesNoticeService: CookiesNoticeService,
     ) {
         afterRender(() => {
+            syncService.sync();
             this.cookiesNoticeService.triggerIfNotAccepted();
-            this.authService.triggerOnServerReload();
         });
     }
 
