@@ -14,7 +14,7 @@ import {AuthService} from "../../../services/auth/auth.service";
     templateUrl: './landing-page.component.html',
     styleUrl: './landing-page.component.css'
 })
-export class LandingPageComponent implements OnInit, AfterViewInit {
+export class LandingPageComponent implements AfterViewInit {
 
     constructor(
         private authService: AuthService,
@@ -23,11 +23,8 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
     ) {
         afterRender(() => {
             this.cookiesNoticeService.triggerIfNotAccepted();
+            this.authService.triggerOnServerReload();
         });
-    }
-
-    ngOnInit() {
-        this.authService.triggerOnServerReload();
     }
 
     ngAfterViewInit() {
