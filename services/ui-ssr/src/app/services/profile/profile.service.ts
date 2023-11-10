@@ -11,6 +11,6 @@ export class ProfileService {
   constructor(private httpClient: HttpClient) { }
 
   getUserInfo() {
-    return this.httpClient.get<UserDto>(`${environment.MAIN_API_URL}/profile`);
+    return this.httpClient.get<UserDto>(`${environment.RAW_API_URL}/profile`);
   }
 }

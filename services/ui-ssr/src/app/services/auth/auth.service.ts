@@ -55,7 +55,7 @@ export class AuthService {
             .set(this.USERNAME, username)
             .set(this.PASSWORD, password);
 
-        this.httpClient.post<LoginDto>(`${environment.MAIN_API_URL}/auth/login`, body, {
+        this.httpClient.post<LoginDto>(`${environment.RAW_API_URL}/auth/login`, body, {
             withCredentials: true,
         }).subscribe((loginDto) => {
             if (loginDto.loginStatus === this.SUCCESS) {

@@ -5,6 +5,11 @@ import {RegisterComponent} from "./components/pages/register/register.component"
 import {GoogleLoginSuccessComponent} from "./components/pages/google-login-success/google-login-success.component";
 import {DashboardComponent} from "./components/pages/dashboard/dashboard.component";
 import {RegisterConfirmComponent} from "./components/pages/register-confirm/register-confirm.component";
+import {ResetPasswordComponent} from "./components/pages/reset-password/reset-password.component";
+import {
+  ResetPasswordConfirmComponent
+} from "./components/pages/reset-password-confirm/reset-password-confirm.component";
+import {ManageAccountComponent} from "./components/pages/manage-account/manage-account.component";
 
 export enum RoutePaths {
   /* ANONYMOUS ROUTES */
@@ -56,6 +61,16 @@ export const routes: Routes = [
     title: 'Split | Confirm Registration',
   },
   {
+    path: RoutePaths.RESET_PASSWORD,
+    component: ResetPasswordComponent,
+    title: 'Split | Reset Password',
+  },
+  {
+    path: RoutePaths.RESET_PASSWORD_CONFIRM,
+    component: ResetPasswordConfirmComponent,
+    title: 'Split | Confirm Password Reset',
+  },
+  {
     path: RoutePaths.GOOGLE_LOGIN_SUCCESS,
     component: GoogleLoginSuccessComponent,
     title: 'Split | Google Login Success',
@@ -64,5 +79,10 @@ export const routes: Routes = [
     path: RoutePaths.DASHBOARD,
     component: DashboardComponent,
     title: 'Split | Dashboard',
+  },
+  {
+    path: RoutePaths.ACCOUNT_MANAGE,
+    component: ManageAccountComponent,
+    title: 'Split | Account',
   },
 ];
