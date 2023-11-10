@@ -3,6 +3,7 @@ import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {FormsModule} from "@angular/forms";
 import {RouterLink} from "@angular/router";
 import {AuthService} from "../../../services/auth/auth.service";
+import {RegisterService} from "../../../services/register/register.service";
 
 @Component({
   selector: 'app-register',
@@ -21,8 +22,8 @@ export class RegisterComponent {
   acceptTermsAndConditions: boolean = false;
 
   constructor(
-      /*private cookiesNoticeService: CookiesNoticeService,
-      private registerService: RegisterService,*/
+      /*private cookiesNoticeService: CookiesNoticeService,*/
+      private registerService: RegisterService,
       private authService: AuthService,
   ) {
   }
@@ -32,14 +33,14 @@ export class RegisterComponent {
   }
 
   doRegister() {
-    /*this.registerService.doRegister(
+    this.registerService.doRegister(
         this.email,
         this.firstName,
         this.lastName,
         this.password,
         this.confirmPassword,
         this.acceptTermsAndConditions,
-    );*/
+    );
   }
 
   doGoogleLogin() {

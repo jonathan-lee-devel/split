@@ -3,7 +3,7 @@
   <p class="mb-5 text-base text-gray-500 sm:text-lg dark:text-gray-400">{{cardText}}</p>
   <div class="items-center justify-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4">
     <div class="w-full sm:w-auto bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
-      <img [ngSrc]="cardIconPath" alt="{{cardIconAlt}}" class="w-36 h-36" height="100" width="100">
+      <img [ngSrc]="cardIconPath" alt="{{cardIconAlt}}" class="w-36 h-36" [height]="cardIconHeight" [width]="cardIconWidth">
     </div>
   </div>
 </div>

@@ -13,4 +13,6 @@ export class CardWithIconComponent {
   @Input() cardText: string = '';
   @Input() cardIconPath: string = '';
   @Input() cardIconAlt: string = '';
+  @Input() cardIconHeight: number = 0;
+  @Input() cardIconWidth: number = 0;
 }
