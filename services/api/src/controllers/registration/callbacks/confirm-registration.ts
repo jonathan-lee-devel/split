@@ -26,7 +26,7 @@ export const makeConfirmRegistrationCallback = (
 
   if (user.emailVerified) {
     logger.error(`User found for registration verification token with userEmail: <${registrationVerificationToken.userEmail}> already verified`);
-    return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({status: RegistrationStatus[RegistrationStatus.FAILURE]});
+    return res.status(HttpStatus.BAD_REQUEST).json({status: RegistrationStatus[RegistrationStatus.EMAIL_ALREADY_VERIFIED]});
   }
 
   if (registrationVerificationToken.expiryDate.getTime() < new Date().getTime()) {
