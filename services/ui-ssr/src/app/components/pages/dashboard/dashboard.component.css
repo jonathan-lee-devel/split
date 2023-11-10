@@ -1,0 +1,11 @@
+.dashboard-container {
+    display: flex;
+    flex-direction: column; /* Arrange the cards in a single column */
+    align-items: center;    /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    height: 100vh;           /* Make the container full height of the viewport */
+}
+
+.dashboard-card {
+    margin: 10px; /* Add margin between cards */
+}

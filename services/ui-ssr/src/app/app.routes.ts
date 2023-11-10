@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import {LandingPageComponent} from "./components/pages/landing-page/landing-page.component";
 import {LoginComponent} from "./components/pages/login/login.component";
 import {RegisterComponent} from "./components/pages/register/register.component";
+import {GoogleLoginSuccessComponent} from "./components/pages/google-login-success/google-login-success.component";
+import {DashboardComponent} from "./components/pages/dashboard/dashboard.component";
 
 export enum RoutePaths {
   /* ANONYMOUS ROUTES */
@@ -33,7 +35,7 @@ export enum RoutePaths {
 
 export const routes: Routes = [
   {
-    path: '',
+    path: RoutePaths.LANDING_PAGE,
     component: LandingPageComponent,
     title: 'Split',
   },
@@ -46,5 +48,15 @@ export const routes: Routes = [
     path: RoutePaths.REGISTER,
     component: RegisterComponent,
     title: 'Split | Register',
+  },
+  {
+    path: RoutePaths.GOOGLE_LOGIN_SUCCESS,
+    component: GoogleLoginSuccessComponent,
+    title: 'Split | Google Login Success',
+  },
+  {
+    path: RoutePaths.DASHBOARD,
+    component: DashboardComponent,
+    title: 'Split | Dashboard',
   },
 ];

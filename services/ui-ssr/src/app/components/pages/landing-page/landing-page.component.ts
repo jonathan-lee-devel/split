@@ -5,6 +5,7 @@ import {LandingPageSplashTextComponent} from "../../lib/landing-page-splash-text
 import {CookiesNoticeService} from "../../../services/cookies-notice/cookies-notice.service";
 import {Modal} from "flowbite";
 import {ModalService} from "../../../services/modal/modal.service";
+import {AuthService} from "../../../services/auth/auth.service";
 
 @Component({
     selector: 'app-landing-page',
@@ -13,30 +14,23 @@ import {ModalService} from "../../../services/modal/modal.service";
     templateUrl: './landing-page.component.html',
     styleUrl: './landing-page.component.css'
 })
-export class LandingPageComponent implements AfterViewInit {
+export class LandingPageComponent implements OnInit, AfterViewInit {
 
     constructor(
+        private authService: AuthService,
         private changeDetector: ChangeDetectorRef,
         private cookiesNoticeService: CookiesNoticeService,
-        private modalService: ModalService,
     ) {
         afterRender(() => {
             this.cookiesNoticeService.triggerIfNotAccepted();
         });
     }
 
+    ngOnInit() {
+        this.authService.triggerOnServerReload();
+    }
+
     ngAfterViewInit() {
-      /*this.modalService.showPopupModal(
-          'Test Popup',
-          'Confirm',
-          'Cancel',
-          () => {
-            console.log('confirmed');
-          },
-          () => {
-            console.log('canceled');
-          }
-      );*/
       this.changeDetector.detectChanges();
     }
 }
