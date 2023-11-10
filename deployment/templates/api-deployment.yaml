@@ -83,11 +83,11 @@ spec:
                 name: split-google-callback-url
                 key: GOOGLE_CALLBACK_URL
         ports:
-        - containerPort: 3000
+        - containerPort: {{ .Values.api.port }}
         resources: {}
         livenessProbe:
           httpGet:
-            port: 3000
+            port: {{ .Values.api.port }}
             path: /
           initialDelaySeconds: 3
           periodSeconds: 3

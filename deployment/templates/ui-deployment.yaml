@@ -31,7 +31,7 @@ spec:
           imagePullPolicy: "{{ .Values.ui.image.pullPolicy }}"
           livenessProbe:
             httpGet:
-              port: 80
+              port: {{ .Values.ui.port }}
               path: /
             initialDelaySeconds: 3
             periodSeconds: 3
