@@ -1,8 +1,9 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {afterRender, AfterViewInit, ChangeDetectorRef, Component, inject, OnInit} from '@angular/core';
 import {CommonModule, NgIf} from '@angular/common';
 import {RouterLink} from "@angular/router";
 import {AuthService} from "../../../services/auth/auth.service";
 import {UserDto} from "../../../dtos/auth/UserDto";
+import {after} from "node:test";
 
 @Component({
   selector: 'app-navbar',
@@ -11,12 +12,16 @@ import {UserDto} from "../../../dtos/auth/UserDto";
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent implements OnInit {
+// TODO: Address NG0100 for Navbar Component
+export class NavbarComponent implements OnInit, AfterViewInit {
 
   isLoggedIn: boolean = false;
   userInfo: UserDto = AuthService.INITIAL_USER;
 
-  constructor(private authService: AuthService) {
+  constructor(
+      private changeDetector: ChangeDetectorRef,
+      private authService: AuthService,
+  ) {
   }
 
   ngOnInit() {
@@ -28,6 +33,10 @@ export class NavbarComponent implements OnInit {
     this.authService.userInfo.subscribe((userInfo) => {
       this.userInfo = userInfo;
     });
+  }
+
+  ngAfterViewInit() {
+    this.changeDetector.detectChanges();
   }
 
   doLogout() {

@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import {afterRender, Component} from '@angular/core';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {FormsModule} from "@angular/forms";
 import {RouterLink} from "@angular/router";
 import {AuthService} from "../../../services/auth/auth.service";
 import {RegisterService} from "../../../services/register/register.service";
+import {CookiesNoticeService} from "../../../services/cookies-notice/cookies-notice.service";
+import {SyncService} from "../../../services/sync/sync.service";
 
 @Component({
   selector: 'app-register',
@@ -22,14 +24,15 @@ export class RegisterComponent {
   acceptTermsAndConditions: boolean = false;
 
   constructor(
-      /*private cookiesNoticeService: CookiesNoticeService,*/
+      syncService: SyncService,
+      cookiesNoticeService: CookiesNoticeService,
       private registerService: RegisterService,
       private authService: AuthService,
   ) {
-  }
-
-  ngOnInit() {
-    // this.cookiesNoticeService.triggerIfNotAccepted();
+    afterRender(() => {
+      syncService.sync();
+      cookiesNoticeService.triggerIfNotAccepted();
+    })
   }
 
   doRegister() {
