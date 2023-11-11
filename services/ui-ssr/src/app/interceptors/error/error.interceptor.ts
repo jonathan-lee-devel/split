@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, NgZone} from '@angular/core';
 import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {catchError, Observable} from 'rxjs';
 import {ModalService} from '../../services/modal/modal.service';
@@ -11,6 +11,7 @@ export class ErrorInterceptor implements HttpInterceptor {
   constructor(
         private router: Router,
         private modalService: ModalService,
+        private ngZone: NgZone,
   ) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -59,7 +60,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     if (error.status === HttpStatus.UNAUTHORIZED) {
       this.modalService.showDefaultModal('Authentication Error', 'Invalid Login Credentials');
-      this.router.navigate([`/${RoutePaths.LOGIN}`]).catch((reason) => window.alert(reason));
+      this.ngZoneRedirect(`/${RoutePaths.LOGIN}`);
     }
 
     if (error.status === HttpStatus.FORBIDDEN) {
@@ -67,7 +68,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     }
 
     if (error.status === HttpStatus.NOT_FOUND) {
-      this.router.navigate([`/${RoutePaths.ERROR_NOT_FOUND}`]).catch((reason) => window.alert(reason));
+      this.ngZoneRedirect(`/${RoutePaths.ERROR_NOT_FOUND}`);
     }
 
     if (error.status === HttpStatus.CONFLICT) {
@@ -75,9 +76,15 @@ export class ErrorInterceptor implements HttpInterceptor {
     }
 
     if (error.status === HttpStatus.INTERNAL_SERVER_ERROR) {
-      this.router.navigate([`/${RoutePaths.SERVER_ERROR}`]).catch((reason) => window.alert(reason));
+      this.ngZoneRedirect(`/${RoutePaths.SERVER_ERROR}`);
     }
 
     throw error;
+  }
+
+  private ngZoneRedirect(path: string) {
+    this.ngZone.run(() => {
+      this.router.navigate([path]).catch((reason) => window.alert(reason));
+    })
   }
 }
