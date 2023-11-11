@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {AuthService} from '../../../services/auth/auth.service';
 import {SyncService} from '../../../services/sync/sync.service';
 import {LoadingSpinnerComponent} from '../../lib/loading-spinner/loading-spinner.component';
-import {SuccessCheckmarkComponent} from "../../lib/success-checkmark/success-checkmark.component";
+import {SuccessCheckmarkComponent} from '../../lib/success-checkmark/success-checkmark.component';
 
 @Component({
   selector: 'app-google-login-success',
