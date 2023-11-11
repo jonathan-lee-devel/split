@@ -102,6 +102,9 @@ import {TopBannerComponent} from './components/top-banner/top-banner.component';
     CookieService,
     provideClientHydration(),
   ],
+  exports: [
+    LoadingSpinnerComponent
+  ]
 })
 /**
  * Default generated app module.

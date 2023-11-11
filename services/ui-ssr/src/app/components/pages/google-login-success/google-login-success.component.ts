@@ -20,7 +20,7 @@ export class GoogleLoginSuccessComponent {
       syncService.sync();
       setTimeout(() => {
         this.authService.onSuccessfulGoogleLogin();
-      }, 1000);
+      }, 2000);
     });
   }
 }
