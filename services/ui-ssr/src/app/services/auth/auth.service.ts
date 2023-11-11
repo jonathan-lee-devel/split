@@ -84,7 +84,7 @@ export class AuthService {
     }
 
     doGoogleLogin() {
-      window.location.href = `${environment.RAW_API_URL}/auth/google`;
+      this.router.navigate([`/${RoutePaths.GOOGLE_LOGIN_IN_PROGRESS}`]).catch((reason) => window.alert(reason));
     }
 
     onSuccessfulGoogleLogin() {

@@ -12,6 +12,9 @@ import {
 import {ManageAccountComponent} from './components/pages/manage-account/manage-account.component';
 import {authGuard} from './guards/auth.guard';
 import {LogoutInProcessComponent} from "./components/pages/logout-in-process/logout-in-process.component";
+import {
+  GoogleLoginProcessingComponent
+} from "./components/pages/google-login-processing/google-login-processing.component";
 
 export enum RoutePaths {
   /* ANONYMOUS ROUTES */
@@ -26,6 +29,7 @@ export enum RoutePaths {
   ERROR_NOT_FOUND = 'error/not-found',
   /* LOADING ROUTES */
   LOGOUT_IN_PROCESS = 'logout-in-process',
+  GOOGLE_LOGIN_IN_PROGRESS = 'google-login-in-process',
   GOOGLE_LOGIN_SUCCESS = 'google-login-success',
   /* DASHBOARD ROUTES */
   DASHBOARD = 'dashboard',
@@ -77,6 +81,11 @@ export const routes: Routes = [
     path: RoutePaths.LOGOUT_IN_PROCESS,
     component: LogoutInProcessComponent,
     title: 'Split | Logout',
+  },
+  {
+    path: RoutePaths.GOOGLE_LOGIN_IN_PROGRESS,
+    component: GoogleLoginProcessingComponent,
+    title: 'Split | Google Login in Progress',
   },
   {
     path: RoutePaths.GOOGLE_LOGIN_SUCCESS,

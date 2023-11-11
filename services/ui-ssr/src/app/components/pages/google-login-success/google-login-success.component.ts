@@ -3,11 +3,12 @@ import {CommonModule} from '@angular/common';
 import {AuthService} from '../../../services/auth/auth.service';
 import {SyncService} from '../../../services/sync/sync.service';
 import {LoadingSpinnerComponent} from '../../lib/loading-spinner/loading-spinner.component';
+import {SuccessCheckmarkComponent} from "../../lib/success-checkmark/success-checkmark.component";
 
 @Component({
   selector: 'app-google-login-success',
   standalone: true,
-  imports: [CommonModule, LoadingSpinnerComponent],
+  imports: [CommonModule, LoadingSpinnerComponent, SuccessCheckmarkComponent],
   templateUrl: './google-login-success.component.html',
   styleUrl: './google-login-success.component.css',
 })
@@ -20,7 +21,7 @@ export class GoogleLoginSuccessComponent {
       syncService.sync();
       setTimeout(() => {
         this.authService.onSuccessfulGoogleLogin();
-      }, 2000);
+      }, 2500);
     });
   }
 }
