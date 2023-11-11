@@ -11,7 +11,7 @@ import {RightArrowComponent} from '../right-arrow/right-arrow.component';
   styleUrl: './card-with-link.component.css',
 })
 export class CardWithLinkComponent {
-  @Input() linkTitle: string = '';
+  @Input() linkTitle: string = 'Initial Value';
   @Input() linkDescription: string = '';
   @Input() linkText: string = '';
   @Input() linkDestination: string = '';

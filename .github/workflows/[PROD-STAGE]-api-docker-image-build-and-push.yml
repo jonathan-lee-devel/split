@@ -28,4 +28,4 @@ jobs:
           context: "{{defaultContext}}:./services/api/"
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/split-api:0.1.0
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/split-api:0.1.1

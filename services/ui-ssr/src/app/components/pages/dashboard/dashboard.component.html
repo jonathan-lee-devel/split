@@ -5,7 +5,7 @@
             [linkDescription]="'Here you can manage an organization where you are an administrator and create products etc.'"
             [linkDestination]="'/organizations/manage'"
             [linkText]="'Manage Organizations'"
-            [linkTitle]="'Manage Existing Organizations'" />
+            [linkTitle]="this.manageOrganizationsCardTitle()" />
     <app-card-with-link
             [linkDescription]="'Here you can create a new organization which you and anyone you add as an administrator will control.'"
             [linkDestination]="'/organizations/create'"

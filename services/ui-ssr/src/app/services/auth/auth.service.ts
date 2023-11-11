@@ -1,4 +1,4 @@
-import {EventEmitter, Injectable, Output, signal} from '@angular/core';
+import {EventEmitter, Injectable, NgZone, Output, signal} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {LoginDto} from '../../dtos/auth/LoginDto';
@@ -30,6 +30,7 @@ export class AuthService {
         private httpClient: HttpClient,
         private router: Router,
         private profileService: ProfileService,
+        private ngZone: NgZone,
     ) {
     }
 
@@ -98,6 +99,8 @@ export class AuthService {
       this.isLoggedIn.next(true);
       this.currentUserInfo.set(userInfo);
       this.userInfo.next(userInfo);
-      this.router.navigate([`/${RoutePaths.DASHBOARD}`]).catch((reason) => window.alert(reason));
+      this.ngZone.run(() => { // ngZone.run() prevents empty values for card-with-links on dashboard
+        this.router.navigate([`/${RoutePaths.DASHBOARD}`]).catch((reason) => window.alert(reason));
+      });
     }
 }
