@@ -11,10 +11,11 @@ import {
 } from './components/pages/reset-password-confirm/reset-password-confirm.component';
 import {ManageAccountComponent} from './components/pages/manage-account/manage-account.component';
 import {authGuard} from './guards/auth.guard';
-import {LogoutInProcessComponent} from "./components/pages/logout-in-process/logout-in-process.component";
+import {LogoutInProcessComponent} from './components/pages/logout-in-process/logout-in-process.component';
 import {
-  GoogleLoginProcessingComponent
-} from "./components/pages/google-login-processing/google-login-processing.component";
+  GoogleLoginProcessingComponent,
+} from './components/pages/google-login-processing/google-login-processing.component';
+import {PropertiesManageComponent} from './components/pages/_properties/properties-manage/properties-manage.component';
 
 export enum RoutePaths {
   /* ANONYMOUS ROUTES */
@@ -35,6 +36,8 @@ export enum RoutePaths {
   DASHBOARD = 'dashboard',
   /* ACCOUNT ROUTES */
   ACCOUNT_MANAGE = 'account/manage',
+  /* PROPERTY ROUTES */
+  PROPERTIES_MANAGE = 'properties/manage',
   /* ORGANIZATION ROUTES */
   ORGANIZATIONS_CREATE = 'organizations/create',
   ORGANIZATIONS_MANAGE = 'organizations/manage',
@@ -102,6 +105,13 @@ export const routes: Routes = [
     path: RoutePaths.ACCOUNT_MANAGE,
     component: ManageAccountComponent,
     title: 'Split | Account',
+    canActivate: [authGuard],
+  },
+  /* PROPERTY ROUTES */
+  {
+    path: RoutePaths.PROPERTIES_MANAGE,
+    component: PropertiesManageComponent,
+    title: 'Split | Manage Properties',
     canActivate: [authGuard],
   },
 ];
