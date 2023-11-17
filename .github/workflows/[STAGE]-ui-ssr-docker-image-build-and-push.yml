@@ -28,4 +28,4 @@ jobs:
           context: "{{defaultContext}}:./services/ui-ssr/"
           file: ./Dockerfile-stage
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/split-ui-ssr:stage-0.1.1
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/split-ui-ssr:stage-0.2.1
