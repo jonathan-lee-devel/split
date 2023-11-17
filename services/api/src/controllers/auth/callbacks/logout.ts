@@ -9,7 +9,7 @@ export const makeLogoutCallback = (
   const requestingUserEmail = req.user.email;
   req.logout((err) => {
     if (err) {
-      logger.error(`An error has occurred during logout: ${err}`);
+      logger.error(`An error has occurred during logout for <${requestingUserEmail}>: ${err}`);
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({logoutStatus: 'FAILURE'});
     }
   });
