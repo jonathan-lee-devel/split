@@ -36,7 +36,9 @@ export class CookiesNoticeService {
   }
 
   private openCookiesNoticeDialog() {
-    const cookiesNoticeDialogRef = this.cookiesNoticeDialog.open(CookiesNoticeDialogComponent);
-    cookiesNoticeDialogRef.disableClose = true;
+    this.cookiesNoticeDialog.open(CookiesNoticeDialogComponent, {
+      disableClose: true,
+      enterAnimationDuration: 500,
+    });
   }
 }
