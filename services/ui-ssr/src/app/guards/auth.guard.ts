@@ -1,8 +1,7 @@
-import {CanActivateFn, Router} from '@angular/router';
+import {CanActivateFn, Router, UrlSegment} from '@angular/router';
 import {inject} from '@angular/core';
 import {AuthService} from '../services/auth/auth.service';
 import {RoutePaths} from '../app.routes';
-import {ModalService} from '../services/modal/modal.service';
 import {SyncService} from '../services/sync/sync.service';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -11,9 +10,18 @@ export const authGuard: CanActivateFn = (route, state) => {
     return false;
   }
   if (!inject(AuthService).isAuthenticated()) {
-    inject(Router).navigate([`/${RoutePaths.LOGIN}`]).catch((reason) => window.alert(reason));
-    inject(ModalService).showDefaultModal('Login Required', 'You must be logged in to view that page');
+    inject(Router).navigate([`/${RoutePaths.LOGIN}`], {queryParams: {
+      next: buildUrlEncodedNextParam(route.url),
+    }}).catch((reason) => window.alert(reason));
     return false;
   }
   return true;
+};
+
+const buildUrlEncodedNextParam = (urlSegments: UrlSegment[]) => {
+  let nextParam = '';
+  for (const urlSegment of urlSegments) {
+    nextParam = `${nextParam}/${urlSegment}`;
+  }
+  return encodeURIComponent(nextParam);
 };

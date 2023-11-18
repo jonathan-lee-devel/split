@@ -24,7 +24,7 @@ import {MatButtonModule} from '@angular/material/button';
 export class LandingPageComponent {
   constructor(
       syncService: SyncService,
-    private cookiesNoticeService: CookiesNoticeService,
+      private cookiesNoticeService: CookiesNoticeService,
   ) {
     afterRender(() => {
       syncService.sync();
