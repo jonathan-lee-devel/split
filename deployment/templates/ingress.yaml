@@ -7,10 +7,10 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx
-  tls:
-    - hosts:
-      - {{ .Values.environment.hostPrefix }}split.direct
-      secretName: split-tls-{{ .Values.environment.name }}
+{{/*  tls:*/}}
+{{/*    - hosts:*/}}
+{{/*      - {{ .Values.environment.hostPrefix }}split.direct*/}}
+{{/*      secretName: split-tls-{{ .Values.environment.name }}*/}}
   rules:
     - host: api.{{ .Values.environment.hostPrefix }}split.direct
       http:
