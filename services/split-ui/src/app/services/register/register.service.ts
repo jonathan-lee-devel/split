@@ -5,7 +5,6 @@ import {RegisterDto} from '../../dtos/register/RegisterDto';
 import {environment} from '../../../environments/environment';
 import {RoutePaths} from '../../app.routes';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {RegisterConfirmComponent} from '../../components/pages/_users/register-confirm/register-confirm.component';
 
 @Injectable({
   providedIn: 'root',
@@ -42,10 +41,7 @@ export class RegisterService {
         default:
           message = 'An unknown error has occurred';
       }
-      this.snackBar.openFromComponent(RegisterConfirmComponent, {
-        duration: 2500,
-        data: message,
-      });
+      this.snackBar.open(message);
     });
   }
 
@@ -62,10 +58,7 @@ export class RegisterService {
             default:
               message = 'An unknown error has occurred';
           }
-          this.snackBar.openFromComponent(RegisterConfirmComponent, {
-            duration: 2500,
-            data: message,
-          });
+          this.snackBar.open(message);
           if (shouldRedirect) {
             this.router.navigate([`/${RoutePaths.LOGIN}`]).catch((reason) => window.alert(reason));
           }
