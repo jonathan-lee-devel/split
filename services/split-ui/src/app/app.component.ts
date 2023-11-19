@@ -11,5 +11,5 @@ import {NavbarComponent} from "./components/lib/navbar/navbar.component";
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'split-ui';
+  title = 'Split';
 }

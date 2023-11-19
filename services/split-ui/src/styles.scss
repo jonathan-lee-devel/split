@@ -38,5 +38,11 @@ $split-ui-theme: mat.define-light-theme((
 
 /* You can add global styles to this file, and also import other style files */
 
+@import 'themes';
+
 html, body { height: 100%; }
-body { margin: 0; font-family: Inter, serif; }
+body {
+  margin: 0;
+  font-family: Inter, serif;
+  background-color: var(--body-content-background-color);
+}
