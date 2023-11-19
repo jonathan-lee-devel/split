@@ -19,4 +19,4 @@ COPY --from=build /app/dist /dist
 # Expose port 4000
 EXPOSE 4000
 
-CMD ["dist/ui-ssr/server/server.mjs"]
+CMD ["dist/split-ui/server/server.mjs"]
