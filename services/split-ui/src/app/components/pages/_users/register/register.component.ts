@@ -1,7 +1,10 @@
-import {Component} from '@angular/core';
+import {afterRender, Component} from '@angular/core';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
+import {SyncService} from '../../../../services/sync/sync.service';
+import {AuthService} from '../../../../services/auth/auth.service';
+import {RegisterService} from '../../../../services/register/register.service';
 
 @Component({
   selector: 'app-register',
@@ -18,11 +21,28 @@ export class RegisterComponent {
   confirmPassword: string = '';
   acceptTermsAndConditions: boolean = false;
 
-  doGoogleLogin() {
+  constructor(
+      syncService: SyncService,
+    private authService: AuthService,
+    private registerService: RegisterService,
+  ) {
+    afterRender(() => {
+      syncService.sync();
+    });
+  }
 
+  doGoogleLogin() {
+    this.authService.doGoogleLogin();
   }
 
   doRegister() {
-
+    this.registerService.doRegister(
+        this.email,
+        this.firstName,
+        this.lastName,
+        this.password,
+        this.confirmPassword,
+        this.acceptTermsAndConditions,
+    );
   }
 }
