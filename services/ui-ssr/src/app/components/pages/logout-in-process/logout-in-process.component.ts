@@ -7,7 +7,7 @@ import {LoadingSpinnerComponent} from "../../lib/loading-spinner/loading-spinner
   standalone: true,
     imports: [CommonModule, LoadingSpinnerComponent],
   templateUrl: './logout-in-process.component.html',
-  styleUrl: './logout-in-process.component.css'
+  styleUrl: './logout-in-process.component.scss'
 })
 export class LogoutInProcessComponent {
 

@@ -19,7 +19,7 @@ import {MatButtonModule} from '@angular/material/button';
     CookiesNoticeDialogComponent,
   ],
   templateUrl: './landing-page.component.html',
-  styleUrl: './landing-page.component.css',
+  styleUrl: './landing-page.component.scss',
 })
 export class LandingPageComponent {
   constructor(

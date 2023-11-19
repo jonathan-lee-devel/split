@@ -6,7 +6,7 @@ import {CommonModule} from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './right-arrow.component.html',
-  styleUrl: './right-arrow.component.css',
+  styleUrl: './right-arrow.component.scss',
 })
 export class RightArrowComponent {
 

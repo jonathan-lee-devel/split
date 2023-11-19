@@ -18,7 +18,7 @@ import {CookiesNoticeService} from '../../../../services/cookies-notice/cookies-
     A11yModule,
   ],
   templateUrl: './cookies-notice-dialog.component.html',
-  styleUrl: './cookies-notice-dialog.component.css',
+  styleUrl: './cookies-notice-dialog.component.scss',
 })
 export class CookiesNoticeDialogComponent {
   constructor(

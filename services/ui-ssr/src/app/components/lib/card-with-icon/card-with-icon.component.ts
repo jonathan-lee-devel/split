@@ -6,7 +6,7 @@ import {CommonModule, NgOptimizedImage} from '@angular/common';
   standalone: true,
   imports: [CommonModule, NgOptimizedImage],
   templateUrl: './card-with-icon.component.html',
-  styleUrl: './card-with-icon.component.css',
+  styleUrl: './card-with-icon.component.scss',
 })
 export class CardWithIconComponent {
   @Input() cardTitle: string = '';

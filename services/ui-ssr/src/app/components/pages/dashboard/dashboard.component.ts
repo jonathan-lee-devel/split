@@ -8,7 +8,7 @@ import {SyncService} from '../../../services/sync/sync.service';
   standalone: true,
   imports: [CommonModule, CardWithLinkComponent],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css',
+  styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent {
   constructor(

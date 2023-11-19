@@ -8,7 +8,7 @@ import {RightArrowComponent} from '../right-arrow/right-arrow.component';
   standalone: true,
   imports: [CommonModule, RouterLink, RightArrowComponent],
   templateUrl: './card-with-link.component.html',
-  styleUrl: './card-with-link.component.css',
+  styleUrl: './card-with-link.component.scss',
 })
 export class CardWithLinkComponent {
   @Input() linkTitle: string = 'Initial Value';

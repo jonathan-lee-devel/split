@@ -9,7 +9,7 @@ import {SyncService} from '../../../services/sync/sync.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './register-confirm.component.html',
-  styleUrl: './register-confirm.component.css',
+  styleUrl: './register-confirm.component.scss',
 })
 export class RegisterConfirmComponent {
   tokenValue: string = '';

@@ -12,7 +12,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
   standalone: true,
   imports: [CommonModule, FormsModule, NgOptimizedImage, RouterLink],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
+  styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
   username: string = '';

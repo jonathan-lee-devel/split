@@ -8,7 +8,7 @@ import {ModalService} from '../../../../services/modal/modal.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './default-modal.component.html',
-  styleUrl: './default-modal.component.css',
+  styleUrl: './default-modal.component.scss',
 })
 export class DefaultModalComponent {
   modalHeading: string = 'Request Error';

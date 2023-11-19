@@ -14,7 +14,7 @@ import {RouterLink} from '@angular/router';
   standalone: true,
   imports: [CommonModule, LoadingSpinnerComponent, RouterLink],
   templateUrl: './properties-manage.component.html',
-  styleUrl: './properties-manage.component.css',
+  styleUrl: './properties-manage.component.scss',
 })
 export class PropertiesManageComponent implements OnInit, AfterViewInit {
   properties: PropertyDto[] = [];

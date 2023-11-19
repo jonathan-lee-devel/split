@@ -10,7 +10,7 @@ import {SyncService} from '../../../services/sync/sync.service';
   standalone: true,
   imports: [CommonModule, FormsModule, NgOptimizedImage, ReactiveFormsModule, RouterLink],
   templateUrl: './reset-password.component.html',
-  styleUrl: './reset-password.component.css',
+  styleUrl: './reset-password.component.scss',
 })
 export class ResetPasswordComponent {
   email: string = '';

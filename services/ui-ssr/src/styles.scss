@@ -1,0 +1,31 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+$custom-typography: mat.define-typography-config($font-family: 'Inter');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: Inter, serif;
+  font-size: 20px;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, serif !important;
+  font-size: 48px;
+}
+
+body {
+  background-color: #0b829d;
+}
+
+html, body {
+  height: 100%;
+}
+
+a, button {
+  font-size: 20px;
+}

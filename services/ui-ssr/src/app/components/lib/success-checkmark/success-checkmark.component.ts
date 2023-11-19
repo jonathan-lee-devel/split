@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './success-checkmark.component.html',
-  styleUrl: './success-checkmark.component.css'
+  styleUrl: './success-checkmark.component.scss'
 })
 export class SuccessCheckmarkComponent {
 

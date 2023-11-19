@@ -12,7 +12,7 @@ import {RoutePaths} from "../../../app.routes";
   standalone: true,
   imports: [CommonModule, NgIf, RouterLink, LoadingSpinnerComponent],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css',
+  styleUrl: './navbar.component.scss',
 })
 export class NavbarComponent implements OnInit, AfterViewInit {
   isLoggedIn: boolean = false;

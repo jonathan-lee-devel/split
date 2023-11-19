@@ -9,7 +9,7 @@ import {SuccessCheckmarkComponent} from "../../lib/success-checkmark/success-che
   standalone: true,
   imports: [CommonModule, LoadingSpinnerComponent, SuccessCheckmarkComponent],
   templateUrl: './google-login-processing.component.html',
-  styleUrl: './google-login-processing.component.css',
+  styleUrl: './google-login-processing.component.scss',
 })
 export class GoogleLoginProcessingComponent {
   constructor() {

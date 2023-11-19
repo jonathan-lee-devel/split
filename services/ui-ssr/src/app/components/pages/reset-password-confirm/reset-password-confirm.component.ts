@@ -10,7 +10,7 @@ import {SyncService} from '../../../services/sync/sync.service';
   standalone: true,
   imports: [CommonModule, FormsModule, NgOptimizedImage, ReactiveFormsModule, RouterLink],
   templateUrl: './reset-password-confirm.component.html',
-  styleUrl: './reset-password-confirm.component.css',
+  styleUrl: './reset-password-confirm.component.scss',
 })
 export class ResetPasswordConfirmComponent {
   tokenValue: string = '';

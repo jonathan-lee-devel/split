@@ -8,7 +8,7 @@ import {SyncService} from '../../../services/sync/sync.service';
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './manage-account.component.html',
-  styleUrl: './manage-account.component.css',
+  styleUrl: './manage-account.component.scss',
 })
 export class ManageAccountComponent {
   constructor(syncService: SyncService) {

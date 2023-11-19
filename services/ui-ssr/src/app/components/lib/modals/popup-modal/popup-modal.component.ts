@@ -8,7 +8,7 @@ import {ModalService} from '../../../../services/modal/modal.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './popup-modal.component.html',
-  styleUrl: './popup-modal.component.css',
+  styleUrl: './popup-modal.component.scss',
 })
 export class PopupModalComponent {
   modalPrompt: string = 'Prompt';

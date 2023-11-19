@@ -9,7 +9,7 @@ import {ModalService} from '../../../../services/modal/modal.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './cookies-notice-modal.component.html',
-  styleUrl: './cookies-notice-modal.component.css',
+  styleUrl: './cookies-notice-modal.component.scss',
 })
 export class CookiesNoticeModalComponent {
   constructor(
