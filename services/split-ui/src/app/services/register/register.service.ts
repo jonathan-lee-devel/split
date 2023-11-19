@@ -58,10 +58,10 @@ export class RegisterService {
             default:
               message = 'An unknown error has occurred';
           }
-          this.snackBar.open(message);
           if (shouldRedirect) {
             this.router.navigate([`/${RoutePaths.LOGIN}`]).catch((reason) => window.alert(reason));
           }
+          this.snackBar.open(message);
         });
   }
 }
