@@ -1,0 +1,66 @@
+<section class="container flex justify-center mt-10">
+  <div class="card border-dark-subtle text-center animate__animated animate__bounceInUp bg-[#133247]" style="width: 36rem;">
+    <div class="card-body">
+      <div class="flex justify-center text-center items-center pt-10">
+        <a class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white" href="#">
+          <img [ngSrc]="'favicon.ico'" alt="logo" class="w-8 h-8 mr-2" height="32" width="32">
+          Split
+        </a>
+      </div>
+      <div class="flex justify-center items-center mt-2.5 mb-3.5">
+        <button (click)="doGoogleLogin()" class="flex items-center px-4 py-2 border border-slate-200 rounded-lg text-white">
+          <img [ngSrc]="'assets/google-color.svg'" alt="Google logo" class="w-6 h-6" height="100" width="100">
+          <span class="ml-2">Login with Google</span>
+        </button>
+      </div>
+      <div class="flex justify-center mb-3.5">
+        <p class="text-white italic">By logging in with Google you agree to the <a class="underline italic" href="https://github.com/jonathan-lee-devel/sparrow/blob/main/LICENSE">Terms and Conditions</a></p>
+      </div>
+      <form>
+        <label class="form-label text-white" for="emailInput">Email address</label>
+        <div class="mb-3 flex justify-center">
+          <input class="form-control max-w-sm" id="emailInput" placeholder="user@example.com" type="email">
+        </div>
+        <label class="form-label text-white" for="passwordInput">First Name</label>
+        <div class="mb-3 flex justify-center">
+          <input class="form-control max-w-sm" id="passwordInput" placeholder="password" type="password">
+        </div>
+        <label class="form-label text-white" for="emailInput">Last Name</label>
+        <div class="mb-3 flex justify-center">
+          <input class="form-control max-w-sm" id="emailInput" placeholder="user@example.com" type="email">
+        </div>
+        <label class="form-label text-white" for="passwordInput">Password</label>
+        <div class="mb-3 flex justify-center">
+          <input class="form-control max-w-sm" id="passwordInput" placeholder="password" type="password">
+        </div>
+        <label class="form-label text-white" for="passwordInput">Confirm Password</label>
+        <div class="mb-3 flex justify-center">
+          <input class="form-control max-w-sm" id="passwordInput" placeholder="password" type="password">
+        </div>
+        <div class="flex justify-center">
+          <div class="flex items-center h-5">
+            <input [(ngModel)]="acceptTermsAndConditions" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" id="acceptTermsAndConditions" name="acceptTermsAndConditions" required type="checkbox">
+          </div>
+          <div class="ml-3 text-sm">
+            <label class="text-gray-500 dark:text-gray-300" for="acceptTermsAndConditions">Accept <a class="underline italic" href="https://github.com/jonathan-lee-devel/sparrow/blob/main/LICENSE">Terms and Conditions</a></label>
+          </div>
+        </div>
+        <div class="flex justify-center my-3.5">
+          <button (click)="doRegister()" class="text-center px-4 py-2 border border-slate-200 rounded-lg text-white hover:border-slate-400 hover:text-slate-900 hover:shadow transition duration-150">
+            <span>Register</span>
+          </button>
+        </div>
+        <div class="mt-3.5">
+          <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+            Already have an account? <a class="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                                          routerLink="/login">Sign in</a>
+          </p>
+          <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+            Forgot password? <a class="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                                routerLink="/reset-password">Reset Password</a>
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

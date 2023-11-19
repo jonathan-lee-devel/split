@@ -11,15 +11,8 @@ import {RouterLink} from '@angular/router';
   styleUrl: './navbar.component.scss',
 })
 export class NavbarComponent {
-  public isDarkMode = true;
   isLoading = false;
   isLoggedIn = false;
-
-  onThemeSwitchChange() {
-    this.isDarkMode = !this.isDarkMode;
-
-    document.body.setAttribute('data-theme', (this.isDarkMode) ? 'light' : 'dark');
-  }
 
   doLogout() {
 
