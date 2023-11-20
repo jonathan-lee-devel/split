@@ -84,10 +84,10 @@ export class AuthService {
     }
 
     onSuccessfulGoogleLogin(tokenCode: string) {
-      window.alert(tokenCode);
       // this.profileService.getUserInfo().subscribe((userInfo) => {
       //   this.onSuccessfulLogin(userInfo);
       // });
+      console.log(tokenCode);
       this.onSuccessfulLogin({
         email: 'test@example.com',
         firstName: 'Jonathan',
