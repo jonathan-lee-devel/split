@@ -1,4 +1,4 @@
-import {afterRender, Component} from '@angular/core';
+import {afterRender, AfterViewInit, ChangeDetectorRef, Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {SyncService} from '../../../services/sync/sync.service';
 
@@ -9,12 +9,17 @@ import {SyncService} from '../../../services/sync/sync.service';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
-export class DashboardComponent {
+export class DashboardComponent implements AfterViewInit {
   constructor(
       syncService: SyncService,
+      private changeDetector: ChangeDetectorRef,
   ) {
     afterRender(() => {
       syncService.sync();
     });
+  }
+
+  ngAfterViewInit() {
+    this.changeDetector.detectChanges();
   }
 }

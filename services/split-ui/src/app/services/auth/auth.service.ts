@@ -83,9 +83,15 @@ export class AuthService {
       this.router.navigate([`/${RoutePaths.GOOGLE_LOGIN_IN_PROGRESS}`]).catch((reason) => window.alert(reason));
     }
 
-    onSuccessfulGoogleLogin() {
-      this.profileService.getUserInfo().subscribe((userInfo) => {
-        this.onSuccessfulLogin(userInfo);
+    onSuccessfulGoogleLogin(tokenCode: string) {
+      console.log(tokenCode);
+      // this.profileService.getUserInfo().subscribe((userInfo) => {
+      //   this.onSuccessfulLogin(userInfo);
+      // });
+      this.onSuccessfulLogin({
+        email: 'test@example.com',
+        firstName: 'Jonathan',
+        lastName: 'Lee',
       });
     }
 
@@ -96,7 +102,7 @@ export class AuthService {
       this.currentUserInfo.set(userInfo);
       this.userInfo.next(userInfo);
       this.ngZone.run(() => { // ngZone.run() prevents empty values for card-with-links on dashboard
-        this.router.navigate([`/${RoutePaths.DASHBOARD}`]).catch((reason) => window.alert(reason));
+        this.router.navigate([`/${RoutePaths.DASHBOARD}`], {replaceUrl: true}).catch((reason) => window.alert(reason));
       });
     }
 }

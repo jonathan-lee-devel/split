@@ -4,6 +4,8 @@ import {LoadingSpinnerComponent} from '../../../lib/loading-spinner/loading-spin
 import {SuccessCheckmarkComponent} from '../../../lib/success-checkmark/success-checkmark.component';
 import {SyncService} from '../../../../services/sync/sync.service';
 import {AuthService} from '../../../../services/auth/auth.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-google-login-success',
@@ -13,14 +15,21 @@ import {AuthService} from '../../../../services/auth/auth.service';
   styleUrl: './google-login-success.component.scss',
 })
 export class GoogleLoginSuccessComponent {
+  tokenCode = '';
+
   constructor(
       syncService: SyncService,
       private authService: AuthService,
+      private route: ActivatedRoute,
+      private snackBar: MatSnackBar,
   ) {
+    this.route.queryParams.subscribe((params) => {
+      this.tokenCode = params['tokenCode'];
+    });
     afterRender(() => {
       syncService.sync();
       setTimeout(() => {
-        this.authService.onSuccessfulGoogleLogin();
+        this.authService.onSuccessfulGoogleLogin(this.tokenCode);
       }, 2500);
     });
   }
