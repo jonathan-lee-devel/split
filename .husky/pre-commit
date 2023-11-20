@@ -1,0 +1,2 @@
+cd services/api
+yarn run test
