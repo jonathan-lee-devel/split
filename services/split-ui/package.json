@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "yarn run build:stage && yarn run build:prod",
     "build:prod": "ng build --configuration production",
     "build:stage": "ng build --configuration stage",
     "watch": "ng build --watch --configuration development",

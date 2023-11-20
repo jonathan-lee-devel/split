@@ -1,15 +1,3 @@
-cd services &&
-cd split-ui &&
-yarn run fix-lint &&
-yarn run build:prod &&
-yarn run build:stage &&
-cd .. &&
-cd api &&
-yarn run fix-lint &&
-yarn run build &&
-cd .. &&
-cd split-micro-users &&
-yarn run fix-lint &&
-yarn run build &&
-
+npx lerna@latest run fix-lint
+npx lerna@latest run build
 npx lerna@latest run test
