@@ -5,16 +5,18 @@ import {HttpStatus} from '../../common/enums/HttpStatus';
 import {Router} from '@angular/router';
 import {RoutePaths} from '../../app.routes';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {LoadingService} from '../../services/loading/loading.service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(
         private router: Router,
         private ngZone: NgZone,
+        private loadingService: LoadingService,
         private snackBar: MatSnackBar,
   ) {}
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     request = request.clone({withCredentials: true});
 
     return next.handle(request)
@@ -22,7 +24,7 @@ export class ErrorInterceptor implements HttpInterceptor {
   }
 
   private handleError(error: HttpErrorResponse): Observable<HttpEvent<unknown>> {
-    // this.loadingService.onAllLoadingFinished();
+    this.loadingService.onAllLoadingFinished();
     if (error.status === 0) {
       throw error;
     }

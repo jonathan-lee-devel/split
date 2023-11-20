@@ -54,11 +54,6 @@ export default class SafeMongooseConnection {
 
   private connectionTimeout?: NodeJS.Timeout;
 
-  /**
-   * Start mongo connection
-   * @param mongoUrl MongoDB URL
-   * @param onConnectedCallback callback to be called when mongo connection is successful
-   */
   constructor(options: SafeMongooseConnectionOptions) {
     this.options = options;
     mongoose.connection.on('error', this.onError);
@@ -74,7 +69,6 @@ export default class SafeMongooseConnection {
     }
   }
 
-  /** Close mongo connection */
   public async close(force: boolean = false) {
     if (this.connectionTimeout) {
       clearTimeout(this.connectionTimeout);
@@ -83,7 +77,6 @@ export default class SafeMongooseConnection {
     await mongoose.connection.close(force);
   }
 
-  /** Start mongo connection */
   public connect(onConnectedCallback: IOnConnectedCallback) {
     this.onConnectedCallback = onConnectedCallback;
     this.startConnection();
