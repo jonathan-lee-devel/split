@@ -10,7 +10,8 @@
     "services/*"
   ],
   "scripts": {
-    "postinstall": "husky install"
+    "postinstall": "husky install",
+    "new-version": "lerna version --conventional-commits --yes"
   },
   "devDependencies": {
     "@changesets/cli": "^2.26.2",
