@@ -1,4 +1,4 @@
-import mongoose, { ConnectOptions } from 'mongoose';
+import mongoose, {ConnectOptions} from 'mongoose';
 
 /** Callback for establishing or re-establishing mongo connection */
 type IOnConnectedCallback = (mongoUrl: string) => void;
@@ -20,7 +20,7 @@ interface SafeMongooseConnectionOptions {
 
 const defaultMongooseConnectionOptions: ConnectOptions = {
   autoCreate: true,
-  autoIndex: true
+  autoIndex: true,
 };
 
 /**
