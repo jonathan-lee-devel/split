@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { CookiesNoticeDialogComponent } from './cookies-notice-dialog.component';
+import {CookiesNoticeDialogComponent} from './cookies-notice-dialog.component';
 
 describe('CookiesNoticeDialogComponent', () => {
   let component: CookiesNoticeDialogComponent;
@@ -8,10 +8,10 @@ describe('CookiesNoticeDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CookiesNoticeDialogComponent]
+      imports: [CookiesNoticeDialogComponent],
     })
-    .compileComponents();
-    
+        .compileComponents();
+
     fixture = TestBed.createComponent(CookiesNoticeDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

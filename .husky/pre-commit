@@ -1,2 +1,7 @@
-cd services/api
-yarn run test
+cd services
+cd api && yarn run test
+cd ..
+cd split-ui && yarn run fix-lint
+cd ..
+cd split-micro-users && yarn run fix-lint
+cd ..

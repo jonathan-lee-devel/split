@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { GoogleLoginProcessingComponent } from './google-login-processing.component';
+import {GoogleLoginProcessingComponent} from './google-login-processing.component';
 
 describe('GoogleLoginProcessingComponent', () => {
   let component: GoogleLoginProcessingComponent;
@@ -8,10 +8,10 @@ describe('GoogleLoginProcessingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GoogleLoginProcessingComponent]
+      imports: [GoogleLoginProcessingComponent],
     })
-    .compileComponents();
-    
+        .compileComponents();
+
     fixture = TestBed.createComponent(GoogleLoginProcessingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

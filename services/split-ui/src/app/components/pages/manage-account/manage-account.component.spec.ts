@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ManageAccountComponent } from './manage-account.component';
+import {ManageAccountComponent} from './manage-account.component';
 
 describe('ManageAccountComponent', () => {
   let component: ManageAccountComponent;
@@ -8,10 +8,10 @@ describe('ManageAccountComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ManageAccountComponent]
+      imports: [ManageAccountComponent],
     })
-    .compileComponents();
-    
+        .compileComponents();
+
     fixture = TestBed.createComponent(ManageAccountComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

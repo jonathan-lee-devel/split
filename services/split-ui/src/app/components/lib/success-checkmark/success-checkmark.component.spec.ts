@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { SuccessCheckmarkComponent } from './success-checkmark.component';
+import {SuccessCheckmarkComponent} from './success-checkmark.component';
 
 describe('SuccessCheckmarkComponent', () => {
   let component: SuccessCheckmarkComponent;
@@ -8,10 +8,10 @@ describe('SuccessCheckmarkComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SuccessCheckmarkComponent]
+      imports: [SuccessCheckmarkComponent],
     })
-    .compileComponents();
-    
+        .compileComponents();
+
     fixture = TestBed.createComponent(SuccessCheckmarkComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

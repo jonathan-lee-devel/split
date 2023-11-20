@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { CookiesNoticeService } from './cookies-notice.service';
+import {CookiesNoticeService} from './cookies-notice.service';
 
 describe('CookiesNoticeService', () => {
   let service: CookiesNoticeService;

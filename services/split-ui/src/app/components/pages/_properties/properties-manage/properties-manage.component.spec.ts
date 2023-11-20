@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { PropertiesManageComponent } from './properties-manage.component';
+import {PropertiesManageComponent} from './properties-manage.component';
 
 describe('PropertiesManageComponent', () => {
   let component: PropertiesManageComponent;
@@ -8,10 +8,10 @@ describe('PropertiesManageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PropertiesManageComponent]
+      imports: [PropertiesManageComponent],
     })
-    .compileComponents();
-    
+        .compileComponents();
+
     fixture = TestBed.createComponent(PropertiesManageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

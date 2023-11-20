@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { RegisterConfirmComponent } from './register-confirm.component';
+import {RegisterConfirmComponent} from './register-confirm.component';
 
 describe('RegisterConfirmComponent', () => {
   let component: RegisterConfirmComponent;
@@ -8,10 +8,10 @@ describe('RegisterConfirmComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RegisterConfirmComponent]
+      imports: [RegisterConfirmComponent],
     })
-    .compileComponents();
-    
+        .compileComponents();
+
     fixture = TestBed.createComponent(RegisterConfirmComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

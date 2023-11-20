@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { GoogleLoginSuccessComponent } from './google-login-success.component';
+import {GoogleLoginSuccessComponent} from './google-login-success.component';
 
 describe('GoogleLoginSuccessComponent', () => {
   let component: GoogleLoginSuccessComponent;
@@ -8,10 +8,10 @@ describe('GoogleLoginSuccessComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GoogleLoginSuccessComponent]
+      imports: [GoogleLoginSuccessComponent],
     })
-    .compileComponents();
-    
+        .compileComponents();
+
     fixture = TestBed.createComponent(GoogleLoginSuccessComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

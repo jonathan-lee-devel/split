@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { LogoutInProcessComponent } from './logout-in-process.component';
+import {LogoutInProcessComponent} from './logout-in-process.component';
 
 describe('LogoutInProcessComponent', () => {
   let component: LogoutInProcessComponent;
@@ -8,10 +8,10 @@ describe('LogoutInProcessComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LogoutInProcessComponent]
+      imports: [LogoutInProcessComponent],
     })
-    .compileComponents();
-    
+        .compileComponents();
+
     fixture = TestBed.createComponent(LogoutInProcessComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
