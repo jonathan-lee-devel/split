@@ -28,7 +28,7 @@ app.get('/auth/google/redirect', passport.authenticate('google', {
   failureRedirect: '/login',
   session: false,
   // @ts-ignore
-}), makeLoginSuccessTokenHold(TokenHoldModel));
+}), makeLoginSuccessTokenHold(environment, TokenHoldModel));
 app.use(notFoundCallback);
 app.use(errorResponseHandler);
 

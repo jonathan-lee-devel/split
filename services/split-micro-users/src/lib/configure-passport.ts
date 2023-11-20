@@ -6,7 +6,7 @@ import {UserModel} from '../models/users/User';
 
 const opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: '12345',
+  secretOrKey: environment.JWT_SECRET,
 };
 
 const JwtStrategy = Strategy;
