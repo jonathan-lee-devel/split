@@ -16,7 +16,8 @@
     "@changesets/cli": "^2.26.2",
     "grunt": "^1.6.1",
     "grunt-bump": "^0.8.0",
-    "husky": "^8.0.3"
+    "husky": "^8.0.3",
+    "lerna": "^7.4.2"
   },
   "dependencies": {}
 }
