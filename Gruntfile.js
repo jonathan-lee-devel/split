@@ -4,6 +4,7 @@ module.exports = function(grunt) {
     bump: {
       options: {
         files: [
+          'lerna.json',
           'package.json',
           'services/split-ui/package.json',
           'services/api/package.json',
