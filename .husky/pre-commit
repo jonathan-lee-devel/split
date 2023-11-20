@@ -2,6 +2,8 @@ cd services
 cd api && yarn run test
 cd ..
 cd split-ui && yarn run fix-lint
+yarn run build:prod
+yarn run build:stage
 cd ..
 cd split-micro-users && yarn run fix-lint
 cd ..
