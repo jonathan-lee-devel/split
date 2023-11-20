@@ -1,6 +1,6 @@
 {
   "name": "split",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Bill-splitting application",
   "repository": "git@github.com:jonathan-lee-devel/split.git",
   "author": "Jonathan Lee <jonathan.lee.devel@gmail.com>",
@@ -11,6 +11,8 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.26.2",
+    "grunt": "^1.6.1",
+    "grunt-bump": "^0.8.0",
     "husky": "^8.0.3"
   }
 }
