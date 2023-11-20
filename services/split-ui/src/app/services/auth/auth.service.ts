@@ -84,7 +84,7 @@ export class AuthService {
     }
 
     onSuccessfulGoogleLogin(tokenCode: string) {
-      console.log(tokenCode);
+      window.alert(tokenCode);
       // this.profileService.getUserInfo().subscribe((userInfo) => {
       //   this.onSuccessfulLogin(userInfo);
       // });
