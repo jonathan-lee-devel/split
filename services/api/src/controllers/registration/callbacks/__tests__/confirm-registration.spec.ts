@@ -1,3 +1,4 @@
+import {expect} from '@jest/globals';
 import {makeConfirmRegistrationCallback} from '../confirm-registration';
 import {HttpStatus} from '../../../../lib/enums/HttpStatus';
 import {RegistrationStatus} from '../../../../lib/enums/registration/RegistrationStatus';

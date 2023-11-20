@@ -4,12 +4,11 @@
   "description": "API for bill-splitting application",
   "scripts": {
     "build": "tsc",
-    "lint": "./node_modules/eslint/bin/eslint.js  src --ext .ts",
     "ts-node-server": "ts-node src/server.ts",
     "prestart": "yarn build",
     "start": "node dist/server.js",
     "test": "jest",
-    "fix-lint": "./node_modules/eslint/bin/eslint.js  src --ext .ts --fix"
+    "fix-lint": "eslint  src --ext .ts --fix"
   },
   "jestSonar": {
     "reportPath": "coverage",

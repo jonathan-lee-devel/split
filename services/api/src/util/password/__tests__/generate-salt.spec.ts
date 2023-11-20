@@ -1,3 +1,4 @@
+import {expect} from '@jest/globals';
 import {makeGenerateSalt} from '../generate-salt';
 
 describe('Generate Salt Unit Tests', () => {

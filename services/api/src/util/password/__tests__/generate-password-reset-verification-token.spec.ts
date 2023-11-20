@@ -1,3 +1,4 @@
+import {expect} from '@jest/globals';
 import {makeGeneratePasswordResetVerificationToken} from '../generate-password-reset-verification-token';
 import {PasswordResetVerificationToken} from '../../../models/users/password/PasswordResetVerificationToken';
 import {DEFAULT_TOKEN_SIZE} from '../../../constants/token/token';

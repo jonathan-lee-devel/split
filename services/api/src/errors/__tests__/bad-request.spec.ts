@@ -1,3 +1,4 @@
+import {expect} from '@jest/globals';
 import BadRequest from '../bad-request';
 
 describe('ApplicationError test suite', () => {

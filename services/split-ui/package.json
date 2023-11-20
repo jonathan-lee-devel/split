@@ -8,10 +8,9 @@
     "build:prod": "ng build --configuration production",
     "build:stage": "ng build --configuration stage",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "test:headless": "ng test --watch=false --browsers=ChromeHeadless",
+    "test": "ng test --watch=false --browsers=ChromeHeadless",
     "serve:ssr:split-ui": "node dist/split-ui/server/server.mjs",
-    "fix-lint": "./node_modules/eslint/bin/eslint.js  src --ext .ts --fix"
+    "fix-lint": "eslint  src --ext .ts --fix"
   },
   "private": true,
   "dependencies": {

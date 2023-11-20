@@ -1,3 +1,4 @@
+import {expect} from '@jest/globals';
 import {HttpStatus} from '../../../../lib/enums/HttpStatus';
 import {makeSearchOrganizationsCallback} from '../search-organizations';
 import {ModelTransformFunction} from '../../../../lib/model-transform/default-model-transform';

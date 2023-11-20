@@ -1,3 +1,4 @@
+import {expect} from '@jest/globals';
 import {makeHandleExistingUser} from '../handle-existing-user';
 
 describe('Handle Existing User Unit Tests', () => {

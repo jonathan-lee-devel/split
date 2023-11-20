@@ -8,12 +8,11 @@
   "private": false,
   "scripts": {
     "build": "tsc",
-    "lint": "./node_modules/eslint/bin/eslint.js  src --ext .ts",
     "ts-node-server": "ts-node src/server.ts",
     "prestart": "yarn build",
     "start": "node dist/server.js",
     "test": "jest",
-    "fix-lint": "./node_modules/eslint/bin/eslint.js  src --ext .ts --fix"
+    "fix-lint": "eslint  src --ext .ts --fix"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

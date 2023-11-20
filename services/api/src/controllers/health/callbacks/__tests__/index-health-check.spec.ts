@@ -1,3 +1,4 @@
+import {expect} from '@jest/globals';
 import {makeIndexHealthCheckCallback} from '../index-health-check';
 import {HttpStatus} from '../../../../lib/enums/HttpStatus';
 

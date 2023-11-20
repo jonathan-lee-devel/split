@@ -7,8 +7,10 @@ cd .. &&
 cd api &&
 yarn run fix-lint &&
 yarn run build &&
-yarn run test &&
+# yarn run test &&
 cd .. &&
 cd split-micro-users &&
 yarn run fix-lint &&
-yarn run build
+yarn run build &&
+
+npx lerna@latest run test
