@@ -1,3 +1,4 @@
+import {expect} from '@jest/globals';
 import {makeGetProductsCallback} from '../get-products';
 import {HttpStatus} from '../../../../lib/enums/HttpStatus';
 import {Product} from '../../../../models/products/Product';

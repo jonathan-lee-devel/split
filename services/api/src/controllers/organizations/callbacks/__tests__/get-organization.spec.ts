@@ -1,3 +1,4 @@
+import {expect} from '@jest/globals';
 import {HttpStatus} from '../../../../lib/enums/HttpStatus';
 import {makeGetOrganizationCallback} from '../get-organization';
 

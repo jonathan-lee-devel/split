@@ -1,3 +1,4 @@
+import {expect} from '@jest/globals';
 import {makeSendMail} from '../send-mail';
 import {EmailSendAttempt} from '../../../models/email/EmailSendAttempt';
 

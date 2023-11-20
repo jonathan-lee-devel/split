@@ -1,3 +1,4 @@
+import {expect} from '@jest/globals';
 import {makeGenerateRegistrationVerificationToken} from '../generate-registration-verification-token';
 import {RegistrationVerificationToken} from '../../../models/users/registration/RegistrationVerificationToken';
 import {DEFAULT_TOKEN_SIZE} from '../../../constants/token/token';

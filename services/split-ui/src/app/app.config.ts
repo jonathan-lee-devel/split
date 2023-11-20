@@ -4,8 +4,8 @@ import {routes} from './app.routes';
 import {provideClientHydration} from '@angular/platform-browser';
 import {provideAnimations} from '@angular/platform-browser/animations';
 import {HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi} from '@angular/common/http';
-import {ErrorInterceptor} from './interceptors/error/error.interceptor';
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material/snack-bar';
+import {ErrorInterceptor} from './interceptors/error.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [

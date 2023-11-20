@@ -1,3 +1,4 @@
+import {expect} from '@jest/globals';
 import {makeResetPasswordCallback} from '../reset-password';
 import {HttpStatus} from '../../../../lib/enums/HttpStatus';
 import {PasswordResetStatus} from '../../../../lib/enums/password/PasswordResetStatus';

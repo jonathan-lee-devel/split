@@ -1,3 +1,4 @@
+import {expect} from '@jest/globals';
 import {makeRemoveOrganizationAdministratorCallback} from '../remove-organization-administrator';
 import {HttpStatus} from '../../../../lib/enums/HttpStatus';
 import {ADMINISTRATOR_EMAILS_FIELD} from '../../../../constants/organizations/field-names';

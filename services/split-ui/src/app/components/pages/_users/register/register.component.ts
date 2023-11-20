@@ -7,7 +7,7 @@ import {AuthService} from '../../../../services/auth/auth.service';
 import {RegisterService} from '../../../../services/register/register.service';
 
 @Component({
-  selector: 'app-register',
+  selector: 'app-auth',
   standalone: true,
   imports: [CommonModule, FormsModule, NgOptimizedImage, RouterLink, FormsModule],
   templateUrl: './register.component.html',
