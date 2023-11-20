@@ -7,11 +7,11 @@ import {AuthService} from '../../../../services/auth/auth.service';
 import {RegisterService} from '../../../../services/register/register.service';
 
 @Component({
-  selector: 'app-register',
+  selector: 'app-auth',
   standalone: true,
   imports: [CommonModule, FormsModule, NgOptimizedImage, RouterLink, FormsModule],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss',
+  styleUrl: './auth.component.scss',
 })
 export class RegisterComponent {
   email: string = '';

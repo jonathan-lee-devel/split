@@ -4,7 +4,7 @@ import {RegistrationStatus} from '../../../../lib/enums/registration/Registratio
 import {REGISTRATION_CONFIRMATION_EMAIL_SUBJECT} from '../../../../constants/registration/registration';
 
 describe('Register User Callback Unit Tests', () => {
-  it('When make register user Then defined function', async () => {
+  it('When make auth user Then defined function', async () => {
     const registerUser = makeRegisterUserCallback(
         // @ts-ignore
         {},
@@ -20,7 +20,7 @@ describe('Register User Callback Unit Tests', () => {
     expect(registerUser).toBeDefined();
     expect(registerUser).toBeInstanceOf(Function);
   });
-  it('When register user And existing user Then return conflict', async () => {
+  it('When auth user And existing user Then return conflict', async () => {
     const registerUser = makeRegisterUserCallback(
         // @ts-ignore
         {},
@@ -51,7 +51,7 @@ describe('Register User Callback Unit Tests', () => {
 
     expect(returnedCode).toStrictEqual(HttpStatus.CONFLICT);
   });
-  it('When register user And passwords do not match Then return correct status', async () => {
+  it('When auth user And passwords do not match Then return correct status', async () => {
     const registerUser = makeRegisterUserCallback(
         // @ts-ignore
         {},
@@ -86,7 +86,7 @@ describe('Register User Callback Unit Tests', () => {
     expect(returnedCode).toStrictEqual(HttpStatus.BAD_REQUEST);
     expect(returnedBody).toStrictEqual({error: 'Passwords do not match'});
   });
-  it('When register user And no existing user Then return correct status', async () => {
+  it('When auth user And no existing user Then return correct status', async () => {
     let savedUser: any;
     let userFilter: any;
     let sentTo: string | undefined;
@@ -151,7 +151,7 @@ describe('Register User Callback Unit Tests', () => {
     expect(sentSubject).toStrictEqual(REGISTRATION_CONFIRMATION_EMAIL_SUBJECT);
     expect(sentHtml).toStrictEqual(`<h4>Please click the following link to verify your account: <a href="${frontEndUrl}/register/confirm/${tokenValue}">Verify Account</a></h4>`);
   });
-  it('When register user And existing google user Then return correct status', async () => {
+  it('When auth user And existing google user Then return correct status', async () => {
     let userFilter: any;
     let sentTo: string | undefined;
     let sentSubject: string | undefined;
@@ -222,7 +222,7 @@ describe('Register User Callback Unit Tests', () => {
     expect(sentHtml).toStrictEqual(`<h4>Please click the following link to verify your account: <a href="${frontEndUrl}/register/confirm/${tokenValue}">Verify Account</a></h4>`);
     expect(isExistingUserSaveCalled).toBeTruthy();
   });
-  it('When register user And token is null Then log message return correct status', async () => {
+  it('When auth user And token is null Then log message return correct status', async () => {
     let userFilter: any;
     let isExistingUserSaveCalled = false;
     let loggedMessage: string | undefined;
@@ -278,7 +278,7 @@ describe('Register User Callback Unit Tests', () => {
     expect(isExistingUserSaveCalled).toBeTruthy();
     expect(loggedMessage).toStrictEqual(`Error generating verification token for new user with e-mail: <${email}>`);
   });
-  it('When register user And send mail returns error Then error logged', async () => {
+  it('When auth user And send mail returns error Then error logged', async () => {
     let userFilter: any;
     const frontEndUrl = 'http://localhost:4200';
     const tokenValue = '12345';

@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import {indexHealthCheckHandler} from './controllers/health';
-import {loginHandler, registerHandler} from './controllers/register';
+import {loginHandler, registerHandler} from './controllers/auth';
 
 const router = Router();
 
