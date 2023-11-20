@@ -9,7 +9,7 @@ import {RegisterService} from '../../../../services/register/register.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './register-confirm.component.html',
-  styleUrl: './auth-confirm.component.scss',
+  styleUrl: './register-confirm.component.scss',
 })
 export class RegisterConfirmComponent implements OnInit {
   tokenValue: string = '';

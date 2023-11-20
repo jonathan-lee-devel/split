@@ -26,6 +26,7 @@
         "ignoreTemplateLiterals": true
       }
     ],
-    "new-cap": 0
+    "new-cap": 0,
+    "require-jsdoc": "off"
   }
 }

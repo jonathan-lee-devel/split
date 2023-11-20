@@ -11,7 +11,7 @@ import {RegisterService} from '../../../../services/register/register.service';
   standalone: true,
   imports: [CommonModule, FormsModule, NgOptimizedImage, RouterLink, FormsModule],
   templateUrl: './register.component.html',
-  styleUrl: './auth.component.scss',
+  styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
   email: string = '';
