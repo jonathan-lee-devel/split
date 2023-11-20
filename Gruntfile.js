@@ -7,7 +7,7 @@ module.exports = function(grunt) {
           'package.json',
           'services/split-ui/package.json',
           'services/api/package.json',
-          'services/split-micro-users/package/json',
+          'services/split-micro-users/package.json',
         ],
         updateConfigs: [],
         commit: false,
