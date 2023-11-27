@@ -79,7 +79,7 @@ spec:
                   name: split-google-client-secret
                   key: GOOGLE_CLIENT_SECRET
             - name: GOOGLE_CALLBACK_URL
-              value: https://api.split.direct/users/auth/google/redirect
+              value: https://api.staging.split.direct/users/auth/google/redirect
 {{/*              valueFrom:*/}}
 {{/*                secretKeyRef:*/}}
 {{/*                  name: split-google-callback-url*/}}
