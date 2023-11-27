@@ -15,6 +15,10 @@ export class SyncService {
     return isPlatformServer(this.platformId);
   }
 
+  isClientSide() {
+    return !this.isServerSide();
+  }
+
   sync() {
     this.authService.triggerOnServerReload();
   }

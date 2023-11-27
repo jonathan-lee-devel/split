@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "split.fullname" . }}-micro-users-deployment
+  namespace: split-{{ .Values.environment.name }}
+  labels:
+    app: {{ template "split.fullname" . }}
+    chart: {{ template "split.chart" . }}
+    component: "{{ .Values.microUsers.fullname }}"
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "split.fullname" . }}
+      component: "{{ .Values.microUsers.name }}"
+      release: {{ .Release.Name }}
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ template "split.fullname" . }}
+        component: "{{ .Values.microUsers.name }}"
+        release: {{ .Release.Name }}
+    spec:
+      securityContext:
+        runAsUser: 1000
+      containers:
+        - name: {{ template "split.fullname" . }}-api
+          image: "{{ .Values.microUsers.image.repository }}:{{ .Values.microUsers.image.tag }}"
+          imagePullPolicy: "{{ .Values.microUsers.image.pullPolicy }}"
+          env:
+            - name: NODE_ENV
+              valueFrom:
+                secretKeyRef:
+                  name: split-node-env
+                  key: NODE_ENV
+            - name: SESSION_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: split-session-secret
+                  key: SESSION_SECRET
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: split-database-url
+                  key: DATABASE_URL
+            - name: PORT
+              value: '3001'
+{{/*              valueFrom:*/}}
+{{/*                secretKeyRef:*/}}
+{{/*                  name: split-port*/}}
+{{/*                  key: PORT*/}}
+            - name: FRONT_END_URL
+              valueFrom:
+                secretKeyRef:
+                  name: split-frontend-url
+                  key: FRONT_END_URL
+            - name: EMAIL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: split-email-user
+                  key: EMAIL_USER
+            - name: EMAIL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: split-email-password
+                  key: EMAIL_PASSWORD
+            - name: GOOGLE_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: split-google-client-id
+                  key: GOOGLE_CLIENT_ID
+            - name: GOOGLE_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: split-google-client-secret
+                  key: GOOGLE_CLIENT_SECRET
+            - name: GOOGLE_CALLBACK_URL
+              value: https://api.staging.split.direct/users/auth/google/redirect
+{{/*              valueFrom:*/}}
+{{/*                secretKeyRef:*/}}
+{{/*                  name: split-google-callback-url*/}}
+{{/*                  key: GOOGLE_CALLBACK_URL*/}}
+            - name: JWT_SECRET
+              value: '12345'
+          ports:
+            - containerPort: {{ .Values.microUsers.port }}
+          resources: {}
+          livenessProbe:
+            httpGet:
+              port: {{ .Values.microUsers.port }}
+              path: /
+            initialDelaySeconds: 3
+            periodSeconds: 3
+      restartPolicy: Always
+status: {}

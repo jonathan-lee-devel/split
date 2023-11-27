@@ -2,8 +2,8 @@ import {model, Schema} from 'mongoose';
 
 export interface User {
   email: string;
-  firstName: string | undefined;
-  lastName: string | undefined;
+  firstName: string;
+  lastName: string;
   password: string | undefined;
   emailVerified: boolean;
   googleId: string | undefined;
@@ -11,8 +11,8 @@ export interface User {
 
 const schema = new Schema<User>({
   email: {type: String, required: true, unique: true},
-  firstName: {type: String, required: false, unique: false},
-  lastName: {type: String, required: false, unique: false},
+  firstName: {type: String, required: true, unique: false},
+  lastName: {type: String, required: true, unique: false},
   password: {type: String, required: false, unique: false},
   emailVerified: {type: Boolean, required: true, unique: false},
   googleId: {type: String, required: false, unique: true},

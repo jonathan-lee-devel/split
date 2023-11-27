@@ -1,5 +1,6 @@
-import {afterRender, AfterViewInit, ChangeDetectorRef, Component} from '@angular/core';
+import {afterRender, AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {AuthService} from '../../../services/auth/auth.service';
 import {SyncService} from '../../../services/sync/sync.service';
 
 @Component({
@@ -9,17 +10,28 @@ import {SyncService} from '../../../services/sync/sync.service';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
-export class DashboardComponent implements AfterViewInit {
+export class DashboardComponent implements OnInit, AfterViewInit {
+  userFirstName: string = '';
+
   constructor(
-      syncService: SyncService,
-      private changeDetector: ChangeDetectorRef,
+    private syncService: SyncService,
+    private authService: AuthService,
+    private changeDetector: ChangeDetectorRef,
   ) {
     afterRender(() => {
       syncService.sync();
     });
   }
 
+  ngOnInit() {
+    if (this.syncService.isClientSide()) {
+      this.userFirstName = this.authService.getCurrentUserInfo().firstName;
+    }
+  }
+
   ngAfterViewInit() {
-    this.changeDetector.detectChanges();
+    if (this.syncService.isClientSide()) {
+      this.changeDetector.detectChanges();
+    }
   }
 }

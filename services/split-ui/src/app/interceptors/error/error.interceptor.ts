@@ -3,9 +3,9 @@ import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest}
 import {catchError, Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {LoadingService} from '../services/loading/loading.service';
-import {HttpStatus} from '../common/enums/HttpStatus';
-import {RoutePaths} from '../app.routes';
+import {LoadingService} from '../../services/loading/loading.service';
+import {HttpStatus} from '../../common/enums/HttpStatus';
+import {RoutePaths} from '../../app.routes';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
