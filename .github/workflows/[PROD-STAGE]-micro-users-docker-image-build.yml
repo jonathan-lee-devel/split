@@ -1,4 +1,4 @@
-name: '[MICRO-USERS] Docker Image Build & Push'
+name: '[MICRO-USERS] Docker Image Build'
 
 on:
   push:
