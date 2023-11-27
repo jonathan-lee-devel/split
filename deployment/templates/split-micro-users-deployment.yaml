@@ -84,6 +84,8 @@ spec:
 {{/*                secretKeyRef:*/}}
 {{/*                  name: split-google-callback-url*/}}
 {{/*                  key: GOOGLE_CALLBACK_URL*/}}
+            - name: JWT_SECRET
+              value: '12345'
           ports:
             - containerPort: {{ .Values.microUsers.port }}
           resources: {}
