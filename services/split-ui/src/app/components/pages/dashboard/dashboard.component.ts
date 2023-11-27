@@ -1,7 +1,6 @@
 import {afterRender, AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {AuthService} from '../../../services/auth/auth.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
 import {SyncService} from '../../../services/sync/sync.service';
 
 @Component({
@@ -15,9 +14,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   userFirstName: string = '';
 
   constructor(
-      private syncService: SyncService,
+    private syncService: SyncService,
     private authService: AuthService,
-    private matSnackBar: MatSnackBar,
     private changeDetector: ChangeDetectorRef,
   ) {
     afterRender(() => {
@@ -27,12 +25,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     if (this.syncService.isClientSide()) {
-      this.matSnackBar.open(JSON.stringify(this.authService.getCurrentUserInfo()));
       this.userFirstName = this.authService.getCurrentUserInfo().firstName;
-      this.authService.test()
-          .subscribe((content: unknown) => {
-            this.matSnackBar.open(JSON.stringify(content), 'OK', {duration: 5000});
-          });
     }
   }
 

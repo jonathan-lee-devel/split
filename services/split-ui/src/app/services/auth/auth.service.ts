@@ -1,22 +1,22 @@
-import {EventEmitter, Injectable, NgZone, Output, signal} from '@angular/core';
+import {Inject, Injectable, NgZone, PLATFORM_ID, signal, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {UserDto} from '../../dtos/auth/UserDto';
 import {Router} from '@angular/router';
 import {RoutePaths} from '../../app.routes';
 import {ProfileService} from '../profile/profile.service';
 import {UsersService} from '../users/users.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
 import {environment} from '../../../environments/environment';
+import {isPlatformServer} from '@angular/common';
+import {AppComponent} from '../../app.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   public static readonly INITIAL_USER: UserDto = {email: '', firstName: '', lastName: ''};
-  @Output() isLoggedIn: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() userInfo: EventEmitter<UserDto> = new EventEmitter<UserDto>();
-  currentIsLoggedIn = signal<boolean>(false);
+  isLoggedIn = signal<boolean>(false);
   currentUserInfo = signal<UserDto>(AuthService.INITIAL_USER);
+  @ViewChild(AppComponent, {static: true}) appComponent: AppComponent | undefined;
   private readonly USERNAME = 'username';
   private readonly PASSWORD = 'password';
   private readonly SUCCESS = 'SUCCESS';
@@ -24,19 +24,17 @@ export class AuthService {
   private readonly ACCESS_TOKEN_KEY: string = 'access-token';
 
   constructor(
+    @Inject(PLATFORM_ID) private platformId: NonNullable<unknown>,
     private httpClient: HttpClient,
     private router: Router,
     private ngZone: NgZone,
     private usersService: UsersService,
     private profileService: ProfileService,
-    private matSnackbar: MatSnackBar,
   ) {
   }
 
   triggerOnServerReload() {
-    this.isLoggedIn.next(this.isAuthenticated());
-    this.currentIsLoggedIn.set(this.isAuthenticated());
-    this.userInfo.next(this.getCurrentUserInfo());
+    this.isLoggedIn.set(this.isAuthenticated());
     this.currentUserInfo.set(this.getCurrentUserInfo());
   }
 
@@ -51,8 +49,7 @@ export class AuthService {
   }
 
   isAuthenticated() {
-    const userData = sessionStorage.getItem(this.USER_DATA_KEY);
-    return (userData) ? JSON.parse(userData) : false;
+    return this.getCurrentAccessToken() !== '';
   }
 
   doLogin(username: string, password: string) {
@@ -78,15 +75,16 @@ export class AuthService {
   doLogout() {
     sessionStorage.removeItem(this.USER_DATA_KEY);
     sessionStorage.removeItem(this.ACCESS_TOKEN_KEY);
-    this.currentIsLoggedIn.set(false);
-    this.isLoggedIn.next(false);
+    this.isLoggedIn.set(false);
     this.currentUserInfo.set(AuthService.INITIAL_USER);
-    this.userInfo.next(AuthService.INITIAL_USER);
-    this.router.navigate([`/${RoutePaths.LOGIN}`]).catch((reason) => window.alert(reason));
+    this.appComponent?.ngAfterViewInit();
+    this.router.navigate([`/${RoutePaths.LOGIN}`])
+        .catch((reason) => window.alert(reason));
   }
 
   doGoogleLogin() {
-    this.router.navigate([`/${RoutePaths.GOOGLE_LOGIN_IN_PROGRESS}`]).catch((reason) => window.alert(reason));
+    this.router.navigate([`/${RoutePaths.GOOGLE_LOGIN_IN_PROGRESS}`])
+        .catch((reason) => window.alert(reason));
   }
 
   onSuccessfulGoogleLogin(tokenCode: string) {
@@ -101,20 +99,18 @@ export class AuthService {
   }
 
   private onSuccessfulLogin(accessToken: string) {
-    sessionStorage.setItem(this.ACCESS_TOKEN_KEY, accessToken);
-    this.currentIsLoggedIn.set(true);
-    this.isLoggedIn.next(true);
-    this.profileService.getUserInfo()
-        .subscribe((userInfo) => {
-          this.matSnackbar.open(`API: ${JSON.stringify(userInfo)}`);
-          console.log(`userInfo.firstName: ${userInfo.firstName}`);
-          this.currentUserInfo.set(userInfo);
-          this.userInfo.next(userInfo);
-          sessionStorage.setItem(this.USER_DATA_KEY, JSON.stringify(userInfo));
-          this.ngZone.run(() => {
-            this.router.navigate([`/${RoutePaths.DASHBOARD}`], {replaceUrl: true})
-                .catch((reason) => window.alert(reason));
+    if (!isPlatformServer(this.platformId)) {
+      sessionStorage.setItem(this.ACCESS_TOKEN_KEY, accessToken);
+      this.profileService.getUserInfo()
+          .subscribe((userInfo) => {
+            this.ngZone.run(() => {
+              this.isLoggedIn.set(true);
+              sessionStorage.setItem(this.USER_DATA_KEY, JSON.stringify(userInfo));
+              this.currentUserInfo.set(userInfo);
+              this.router.navigate([`/${RoutePaths.DASHBOARD}`], {replaceUrl: true})
+                  .catch((reason) => window.alert(reason));
+            });
           });
-        });
+    }
   }
 }

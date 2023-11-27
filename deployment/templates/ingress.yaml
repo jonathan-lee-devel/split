@@ -22,6 +22,13 @@ spec:
                   number: {{ .Values.api.port }}
             pathType: Prefix
             path: /
+          - backend:
+              service:
+                name: {{ .Values.applicationName }}-micro-users-service
+                port:
+                  number: {{ .Values.microUsers.port }}
+            pathType: Prefix
+            path: /users/?(.*)
     - host: {{ .Values.environment.hostPrefix }}split.direct
       http:
         paths:

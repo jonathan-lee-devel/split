@@ -20,3 +20,11 @@ api:
     tag: 0.2.1
     pullPolicy: Always
   port: 3000
+
+microUsers:
+  name: micro-users
+  image:
+    repository: jonathanleedev/split-micro-users
+    tag: 0.2.9
+    pullPolicy: Always
+  port: 3001
