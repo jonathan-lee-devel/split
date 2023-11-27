@@ -4,7 +4,8 @@ metadata:
   name: split-{{ .Values.environment.name }}-ingress
   namespace: split-{{ .Values.environment.name }}
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
 spec:
   ingressClassName: nginx
 {{/*  tls:*/}}

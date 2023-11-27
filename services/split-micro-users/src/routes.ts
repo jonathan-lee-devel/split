@@ -12,12 +12,12 @@ const router = Router();
 router.get('/', indexHealthCheckHandler);
 
 // Registration Endpoints
-router.post('/users/register', registerHandler);
-router.post('/users/login', loginHandler);
-router.post('/users/token-code', getTokenFromTokenHoldHandler);
+router.post('/register', registerHandler);
+router.post('/login', loginHandler);
+router.post('/token-code', getTokenFromTokenHoldHandler);
 
 // Protected Routes Example
-router.get('/users/profile', passport.authenticate('jwt', {session: false}),
+router.get('/profile', passport.authenticate('jwt', {session: false}),
     async (req, res) => {
       logger.silly(`/users/profile req.user = ${JSON.stringify(req.user)}`);
       const user = await UserModel.findOne({
@@ -32,7 +32,7 @@ router.get('/users/profile', passport.authenticate('jwt', {session: false}),
       return res.status(HttpStatus.OK).json({email: user.email, firstName: user.firstName, lastName: user.lastName});
     });
 
-router.get('/users/test', passport.authenticate('jwt', {session: false}),
+router.get('/test', passport.authenticate('jwt', {session: false}),
     async (req, res) => {
       logger.info(`req.user: ${JSON.stringify(req.user)}`);
       return res.status(HttpStatus.OK).json({content: 'Hello'});
