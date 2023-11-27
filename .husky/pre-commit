@@ -1,3 +1,4 @@
 lerna run fix-lint &&
 lerna run build &&
+lerna run build:stage &&
 lerna run test
