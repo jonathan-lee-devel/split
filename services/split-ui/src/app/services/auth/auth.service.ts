@@ -5,7 +5,6 @@ import {Router} from '@angular/router';
 import {RoutePaths} from '../../app.routes';
 import {ProfileService} from '../profile/profile.service';
 import {UsersService} from '../users/users.service';
-import {environment} from '../../../environments/environment';
 import {isPlatformServer} from '@angular/common';
 import {AppComponent} from '../../app.component';
 
@@ -92,10 +91,6 @@ export class AuthService {
         .subscribe((tokenHold) => {
           this.onSuccessfulLogin(tokenHold.token);
         });
-  }
-
-  test() {
-    return this.httpClient.get<unknown>(`${environment.USERS_SERVICE_BASE_URL}/test`);
   }
 
   private onSuccessfulLogin(accessToken: string) {
