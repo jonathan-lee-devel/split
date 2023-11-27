@@ -1,6 +1,6 @@
 {
   "name": "split",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "description": "Bill-splitting application",
   "repository": "git@github.com:jonathan-lee-devel/split.git",
   "author": "Jonathan Lee <jonathan.lee.devel@gmail.com>",
