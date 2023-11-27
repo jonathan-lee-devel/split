@@ -2,16 +2,19 @@ import {afterRender, AfterViewInit, ChangeDetectorRef, Component, OnInit} from '
 import {CommonModule} from '@angular/common';
 import {AuthService} from '../../../services/auth/auth.service';
 import {SyncService} from '../../../services/sync/sync.service';
+import {CardWithLinkComponent} from '../../lib/card-with-link/card-with-link.component';
+import {RoutePaths} from '../../../app.routes';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CardWithLinkComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
   userFirstName: string = '';
+  protected readonly RoutePaths = RoutePaths;
 
   constructor(
     private syncService: SyncService,
