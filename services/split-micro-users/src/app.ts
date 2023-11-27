@@ -23,8 +23,8 @@ app.use(express.urlencoded({extended: false}));
 const configuredPassport = configurePassport(passport);
 configuredPassport.initialize();
 app.use(routes);
-app.get('/auth/google', passport.authenticate('google', {scope: ['email', 'profile']}));
-app.get('/auth/google/redirect', passport.authenticate('google', {
+app.get('/users/auth/google', passport.authenticate('google', {scope: ['email', 'profile']}));
+app.get('/users/auth/google/redirect', passport.authenticate('google', {
   failureRedirect: '/login',
   session: false,
   // @ts-ignore
