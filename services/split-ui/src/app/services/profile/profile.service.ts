@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
+import {UserDto} from '../../dtos/auth/UserDto';
 
 @Injectable({
   providedIn: 'root',
@@ -8,10 +9,7 @@ import {environment} from '../../../environments/environment';
 export class ProfileService {
   constructor(private httpClient: HttpClient) { }
 
-  // getUserInfo() {
-  //   return this.httpClient.get<UserDto>(`${environment.RAW_API_URL}/profile`);
-  // }
   getUserInfo() {
-    return this.httpClient.get<unknown>(`${environment.USERS_SERVICE_BASE_URL}/protected`);
+    return this.httpClient.get<UserDto>(`${environment.USERS_SERVICE_BASE_URL}/profile`);
   }
 }

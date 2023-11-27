@@ -1,11 +1,10 @@
-import {afterRender, Component} from '@angular/core';
+import {afterRender, Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {LoadingSpinnerComponent} from '../../../lib/loading-spinner/loading-spinner.component';
 import {SuccessCheckmarkComponent} from '../../../lib/success-checkmark/success-checkmark.component';
-import {SyncService} from '../../../../services/sync/sync.service';
 import {AuthService} from '../../../../services/auth/auth.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute} from '@angular/router';
+import {SyncService} from '../../../../services/sync/sync.service';
 
 @Component({
   selector: 'app-google-login-success',
@@ -14,23 +13,24 @@ import {ActivatedRoute} from '@angular/router';
   templateUrl: './google-login-success.component.html',
   styleUrl: './google-login-success.component.scss',
 })
-export class GoogleLoginSuccessComponent {
-  tokenCode = '';
-
+export class GoogleLoginSuccessComponent implements OnInit {
   constructor(
-      syncService: SyncService,
+      private syncService: SyncService,
       private authService: AuthService,
       private route: ActivatedRoute,
-      private snackBar: MatSnackBar,
   ) {
-    this.route.queryParams.subscribe((params) => {
-      this.tokenCode = params['tokenCode'];
-    });
     afterRender(() => {
-      syncService.sync();
-      setTimeout(() => {
-        this.authService.onSuccessfulGoogleLogin(this.tokenCode);
-      }, 2500);
+
     });
+  }
+
+  ngOnInit() {
+    if (this.syncService.isClientSide()) {
+      this.route.queryParams.subscribe((params) => {
+        setTimeout(() => {
+          this.authService.onSuccessfulGoogleLogin(params['tokenCode']);
+        }, 2500);
+      });
+    }
   }
 }

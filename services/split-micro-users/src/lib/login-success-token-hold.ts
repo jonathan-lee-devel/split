@@ -13,7 +13,11 @@ export const makeLoginSuccessTokenHold = (
     TokenHold: Model<TokenHold>,
 ) => async (req: AuthenticatedRequest, res: Response) => {
   logger.info(`Successful Google authentication for: <${req.user.email}>`);
-  const token = jwt.sign({email: req.user.email}, environment.JWT_SECRET);
+  const token = jwt.sign({
+    email: req.user.email,
+    firstName: req.user.firstName,
+    lastName: req.user.lastName,
+  }, environment.JWT_SECRET);
   const tokenCode = crypto.randomBytes(DEFAULT_TOKEN_SIZE / 2).toString('hex');
   const refreshToken = crypto.randomBytes(DEFAULT_TOKEN_SIZE / 2).toString('hex');
   await TokenHold.create({
@@ -23,5 +27,6 @@ export const makeLoginSuccessTokenHold = (
     refreshToken,
     expiryDate: addMinutes(new Date(), DEFAULT_TOKEN_HOLD_EXPIRY_TIME_MINUTES),
   });
+  logger.silly(`Redirecting user to: ${environment.FRONT_END_URL}/google-login-success?tokenCode=${encodeURIComponent(tokenCode)}`);
   res.redirect(`${environment.FRONT_END_URL}/google-login-success?tokenCode=${encodeURIComponent(tokenCode)}`);
 };

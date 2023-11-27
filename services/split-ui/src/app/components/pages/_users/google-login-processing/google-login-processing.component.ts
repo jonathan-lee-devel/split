@@ -1,4 +1,4 @@
-import {afterRender, Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {LoadingSpinnerComponent} from '../../../lib/loading-spinner/loading-spinner.component';
 import {SuccessCheckmarkComponent} from '../../../lib/success-checkmark/success-checkmark.component';
@@ -11,10 +11,10 @@ import {environment} from '../../../../../environments/environment';
   templateUrl: './google-login-processing.component.html',
   styleUrl: './google-login-processing.component.scss',
 })
-export class GoogleLoginProcessingComponent {
-  constructor() {
-    afterRender(() => {
-      window.location.href = `${environment.RAW_API_URL}/auth/google`;
-    });
+export class GoogleLoginProcessingComponent implements OnInit {
+  constructor() {}
+
+  ngOnInit() {
+    window.location.href = `${environment.USERS_SERVICE_BASE_URL}/auth/google`;
   }
 }

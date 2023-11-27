@@ -30,8 +30,14 @@ export const makeLoginCallback = (
     return res.status(HttpStatus.UNAUTHORIZED).send();
   }
 
-  const token = jwt.sign({email}, environment.JWT_SECRET, {expiresIn: '1h'});
+  const token = jwt.sign(
+      {email, firstName: user.firstName, lastName: user.lastName},
+      environment.JWT_SECRET,
+      {expiresIn: '1h'},
+  );
+  logger.silly(`Signed token with payload: ${{email, firstName: user.firstName, lastName: user.lastName}}`);
   const refreshToken = crypto.randomBytes(DEFAULT_TOKEN_SIZE / 2).toString('hex');
 
+  // TODO: modify returned body
   return res.status(HttpStatus.OK).json({email, password, token, refreshToken});
 };

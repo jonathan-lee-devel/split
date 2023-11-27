@@ -1,12 +1,12 @@
 import {EventEmitter, Injectable, NgZone, Output, signal} from '@angular/core';
-import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {UserDto} from '../../dtos/auth/UserDto';
 import {Router} from '@angular/router';
 import {RoutePaths} from '../../app.routes';
-import {LogoutDto} from '../../dtos/auth/LogoutDto';
 import {ProfileService} from '../profile/profile.service';
 import {UsersService} from '../users/users.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +29,7 @@ export class AuthService {
     private ngZone: NgZone,
     private usersService: UsersService,
     private profileService: ProfileService,
+    private matSnackbar: MatSnackBar,
   ) {
   }
 
@@ -76,18 +77,12 @@ export class AuthService {
 
   doLogout() {
     sessionStorage.removeItem(this.USER_DATA_KEY);
+    sessionStorage.removeItem(this.ACCESS_TOKEN_KEY);
     this.currentIsLoggedIn.set(false);
     this.isLoggedIn.next(false);
     this.currentUserInfo.set(AuthService.INITIAL_USER);
     this.userInfo.next(AuthService.INITIAL_USER);
-    this.httpClient.post<LogoutDto>(`${environment.RAW_API_URL}/auth/logout`, {}, {withCredentials: true})
-        .subscribe((logoutDto) => {
-          if (logoutDto.logoutStatus !== this.SUCCESS) {
-            window.alert('Logout Failed!');
-          } else {
-            this.router.navigate([`/${RoutePaths.LOGIN}`]).catch((reason) => window.alert(reason));
-          }
-        });
+    this.router.navigate([`/${RoutePaths.LOGIN}`]).catch((reason) => window.alert(reason));
   }
 
   doGoogleLogin() {
@@ -101,18 +96,24 @@ export class AuthService {
         });
   }
 
+  test() {
+    return this.httpClient.get<unknown>(`${environment.USERS_SERVICE_BASE_URL}/test`);
+  }
+
   private onSuccessfulLogin(accessToken: string) {
     sessionStorage.setItem(this.ACCESS_TOKEN_KEY, accessToken);
     this.currentIsLoggedIn.set(true);
     this.isLoggedIn.next(true);
     this.profileService.getUserInfo()
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
         .subscribe((userInfo) => {
-          window.alert(`Content: ${JSON.stringify(userInfo)}`);
-          this.ngZone.run(() => { // ngZone.run() prevents empty values for card-with-links on dashboard
-            // this.currentUserInfo.set(userInfo);
-            // this.userInfo.next(userInfo);
-            this.router.navigate([`/${RoutePaths.DASHBOARD}`], {replaceUrl: true}).catch((reason) => window.alert(reason));
+          this.matSnackbar.open(`API: ${JSON.stringify(userInfo)}`);
+          console.log(`userInfo.firstName: ${userInfo.firstName}`);
+          this.currentUserInfo.set(userInfo);
+          this.userInfo.next(userInfo);
+          sessionStorage.setItem(this.USER_DATA_KEY, JSON.stringify(userInfo));
+          this.ngZone.run(() => {
+            this.router.navigate([`/${RoutePaths.DASHBOARD}`], {replaceUrl: true})
+                .catch((reason) => window.alert(reason));
           });
         });
   }
