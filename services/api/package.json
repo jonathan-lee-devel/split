@@ -1,6 +1,6 @@
 {
   "name": "split-api",
-  "version": "0.2.20",
+  "version": "0.2.21",
   "description": "API for bill-splitting application",
   "scripts": {
     "build": "tsc",

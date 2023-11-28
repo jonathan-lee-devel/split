@@ -111,7 +111,19 @@ module.exports = function(grunt) {
     updateChartValues('./deployment/values/staging-values.yaml', bumpVersionMajor(getVersion()), true);
   });
 
-  grunt.registerTask('bump-patch', ['prompt:patch', 'update-staging-values:patch', 'bump:patch']);
-  grunt.registerTask('bump-minor', ['prompt:minor', 'update-staging-values:minor', 'bump:minor']);
-  grunt.registerTask('bump-major', ['prompt:major', 'update-staging-values:major', 'bump:major']);
+  grunt.registerTask('update-production-values:patch', 'Updates staging image version', function() {
+    updateChartValues('./deployment/values/staging-values.yaml', bumpVersionPatch(getVersion()), true);
+  });
+
+  grunt.registerTask('update-production-values:minor', 'Updates staging image version', function() {
+    updateChartValues('./deployment/values/staging-values.yaml', bumpVersionMinor(getVersion()), true);
+  });
+
+  grunt.registerTask('update-production-values:major', 'Updates staging image version', function() {
+    updateChartValues('./deployment/values/staging-values.yaml', bumpVersionMajor(getVersion()), true);
+  });
+
+  grunt.registerTask('bump-patch', ['prompt:patch', 'update-staging-values:patch', 'update-production-values:patch', 'bump:patch']);
+  grunt.registerTask('bump-minor', ['prompt:minor', 'update-staging-values:minor', 'update-production-values:minor', 'bump:minor']);
+  grunt.registerTask('bump-major', ['prompt:major', 'update-staging-values:major', 'update-production-values:major', 'bump:major']);
 };
