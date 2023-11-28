@@ -15,9 +15,6 @@ jobs:
           namespace: default
           release: 0.1
           chart: deployment
-          value-files: >-
-          [
-            "deployment/values/staging-values.yaml"
-          ]
+          value-files: 'deployment/values/staging-values.yaml'
         env:
           KUBECONFIG_FILE: ${{ secrets.KUBECONFIG }}
