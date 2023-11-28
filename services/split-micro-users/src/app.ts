@@ -11,6 +11,7 @@ import passport from 'passport';
 import {notFoundCallback} from './lib/not-found-callback';
 import {makeLoginSuccessTokenHold} from './lib/login-success-token-hold';
 import {TokenHoldModel} from './models/tokens/TokenHold';
+import {UserModel} from './models/users/User';
 
 const app = express();
 
@@ -25,10 +26,15 @@ configuredPassport.initialize();
 app.use(routes);
 app.get('/users/auth/google', passport.authenticate('google', {scope: ['email', 'profile']}));
 app.get('/users/auth/google/redirect', passport.authenticate('google', {
-  failureRedirect: '/login',
+  failureRedirect: environment.FRONT_END_URL,
   session: false,
-  // @ts-ignore
-}), makeLoginSuccessTokenHold(environment, TokenHoldModel));
+}),
+// @ts-ignore
+makeLoginSuccessTokenHold(
+    environment,
+    TokenHoldModel,
+    UserModel),
+);
 app.use(notFoundCallback);
 app.use(errorResponseHandler);
 

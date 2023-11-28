@@ -17,7 +17,7 @@ export const configurePassport = (passport: passport.PassportStatic): passport.P
   passport.use(new JwtStrategy(opts, (_: unknown, payload: any, done: VerifiedCallback) => {
     logger.silly(`payload = ${JSON.stringify(payload)}`);
     return (payload) ?
-      done(null, {email: payload.email}) :
+      done(null, {email: payload.email, firstName: payload.firstName, lastName: payload.lastName}) :
       done(null, false);
   }));
   passport.use('google', new GoogleStrategy(

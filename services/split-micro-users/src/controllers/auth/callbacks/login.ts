@@ -31,7 +31,7 @@ export const makeLoginCallback = (
   }
 
   const token = jwt.sign(
-      {email, firstName: user.firstName, lastName: user.lastName},
+      {email, firstName: user.firstName, lastName: user.lastName, emailVerified: user.emailVerified},
       environment.JWT_SECRET,
       {expiresIn: '1h'},
   );
