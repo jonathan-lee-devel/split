@@ -1,30 +1,26 @@
 applicationName: split-direct
 replicaCount: 1
-
 environment:
   name: staging
   hostPrefix: staging.
-
 ui:
   name: ui
   image:
     repository: jonathanleedev/split-ui
-    tag: stage-0.2.11
+    tag: stage-0.2.14
     pullPolicy: Always
   port: 4000
-
 api:
   name: api
   image:
     repository: jonathanleedev/split-api
-    tag: 0.2.1
+    tag: 0.2.14
     pullPolicy: Always
   port: 3000
-
 microUsers:
   name: micro-users
   image:
     repository: jonathanleedev/split-micro-users
-    tag: 0.2.11
+    tag: 0.2.14
     pullPolicy: Always
   port: 3001

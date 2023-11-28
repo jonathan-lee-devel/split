@@ -1,8 +1,12 @@
+YAML = require('js-yaml');
+const exec = require('child_process').exec;
+
 module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-bump');
   grunt.loadNpmTasks('grunt-prompt');
 
   grunt.initConfig({
+    productionChart: grunt.file.readYAML('./deployment/values/production-values.yaml'),
     prompt: {
       patch: {
         options: {
@@ -43,7 +47,7 @@ module.exports = function(grunt) {
         ],
         updateConfigs: [],
         commit: true,
-        commitMessage: 'Release v%VERSION% <%=grunt.config("gitmessage")%>',
+        commitMessage: 'Release (Staging) v%VERSION% <%=grunt.config("gitmessage")%>',
         commitFiles: ['-a'],
         createTag: true,
         tagName: 'v%VERSION%',
@@ -59,7 +63,67 @@ module.exports = function(grunt) {
     },
   });
 
-  grunt.registerTask('bump-patch', ['prompt:patch', 'bump:patch']);
-  grunt.registerTask('bump-minor', ['prompt:minor', 'bump:minor']);
-  grunt.registerTask('bump-major', ['prompt:major', 'bump:major']);
+  function getVersion() {
+    const packageJson = grunt.file.readJSON('package.json');
+    return packageJson['version'];
+  }
+
+  function bumpVersionPatch(version) {
+    const versionSplit = version.split('.');
+    const currentPatchVersion = versionSplit[2];
+    const nextPatchVersion = String(Number(currentPatchVersion) + 1);
+    return `${versionSplit[0]}.${versionSplit[1]}.${nextPatchVersion}`;
+  }
+
+  function bumpVersionMinor(version) {
+    const versionSplit = version.split('.');
+    const currentMinorVersion = versionSplit[1];
+    const nextMinorVersion = String(Number(currentMinorVersion) + 1);
+    return `${versionSplit[0]}.${nextMinorVersion}.${versionSplit[2]}`;
+  }
+
+  function bumpVersionMajor(version) {
+    const versionSplit = version.split('.');
+    const currentMajorVersion = versionSplit[0];
+    const nextMajorVersion = String(Number(currentMajorVersion) + 1);
+    return `${nextMajorVersion}.${versionSplit[1]}.${versionSplit[2]}`;
+  }
+
+  function updateChartValues(chartPath, version, isStage) {
+    const chart = grunt.file.readYAML(chartPath);
+
+    chart['ui']['image']['tag'] = (isStage) ? `stage-${version}`: `${version}`;
+    chart['api']['image']['tag'] = `${version}`;
+    chart['microUsers']['image']['tag'] = `${version}`;
+
+    grunt.file.write(chartPath, YAML.dump(chart));
+  }
+
+  grunt.registerTask('update-staging-values:patch', 'Updates staging image version', function() {
+    updateChartValues('./deployment/values/staging-values.yaml', bumpVersionPatch(getVersion()), true);
+  });
+
+  grunt.registerTask('update-staging-values:minor', 'Updates staging image version', function() {
+    updateChartValues('./deployment/values/staging-values.yaml', bumpVersionMinor(getVersion()), true);
+  });
+
+  grunt.registerTask('update-staging-values:major', 'Updates staging image version', function() {
+    updateChartValues('./deployment/values/staging-values.yaml', bumpVersionMajor(getVersion()), true);
+  });
+
+  grunt.registerTask('update-production-values:patch', 'Updates production image version', function() {
+    updateChartValues('./deployment/values/production-values.yaml', bumpVersionPatch(getVersion()), false);
+  });
+
+  grunt.registerTask('update-production-values:minor', 'Updates production image version', function() {
+    updateChartValues('./deployment/values/production-values.yaml', bumpVersionMinor(getVersion()), false);
+  });
+
+  grunt.registerTask('update-production-values:major', 'Updates production image version', function() {
+    updateChartValues('./deployment/values/production-values.yaml', bumpVersionMajor(getVersion()), false);
+  });
+
+  grunt.registerTask('bump-patch', ['prompt:patch', 'update-staging-values', 'bump:patch']);
+  grunt.registerTask('bump-minor', ['prompt:minor', 'update-staging-values', 'bump:minor']);
+  grunt.registerTask('bump-major', ['prompt:major', 'update-staging-values', 'bump:major']);
 };
