@@ -5,16 +5,29 @@ on:
     branches: [main]
 
 jobs:
-  deployment:
+  deploy:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
-      - name: Helm Deploy
-        uses: vimeda/helm@v1.7.0
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v2.0
         with:
-          namespace: default
-          release: split-direct-staging
-          chart: deployment
-          value-files: 'deployment/values/staging-values.yaml'
-        env:
-          KUBECONFIG_FILE: ${{ secrets.KUBECONFIG }}
+          version: 'v1.27.0' # default is latest stable
+        id: install
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-1
+
+      - name: Update Kubeconfig
+        run: aws eks update-kubeconfig --name jonathanlee-io-cluster
+
+      - name: Run Helm Upgrade
+        run: |
+          cd deployment &&
+          helm upgrade split-direct-staging . --values ./values/staging-values.yaml
