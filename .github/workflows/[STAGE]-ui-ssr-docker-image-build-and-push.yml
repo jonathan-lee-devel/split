@@ -1,6 +1,7 @@
 name: '[STAGE-UI] Docker Image Build & Push (SSR)'
 
 on:
+  workflow_dispatch:
   push:
     branches: [main]
   pull_request:
