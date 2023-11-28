@@ -4,12 +4,32 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     prompt: {
-      commit: {
-        options: [{
-          config: 'gitmessage',
-          type: 'input',
-          message: 'Commit Message',
-        }],
+      patch: {
+        options: {
+          questions: [{
+            config: 'gitmessage',
+            type: 'input',
+            message: 'Commit message for PATCH version bump:',
+          }],
+        },
+      },
+      minor: {
+        options: {
+          questions: [{
+            config: 'gitmessage',
+            type: 'input',
+            message: 'Commit message for MINOR version bump:',
+          }],
+        },
+      },
+      major: {
+        options: {
+          questions: [{
+            config: 'gitmessage',
+            type: 'input',
+            message: 'Commit message for MAJOR version bump:',
+          }],
+        },
       },
     },
     bump: {
@@ -39,5 +59,7 @@ module.exports = function(grunt) {
     },
   });
 
-  grunt.registerTask('bumpmsg:patch', ['prompt:commit', 'bump:patch']);
+  grunt.registerTask('bump-patch', ['prompt:patch', 'bump:patch']);
+  grunt.registerTask('bump-minor', ['prompt:minor', 'bump:minor']);
+  grunt.registerTask('bump-major', ['prompt:major', 'bump:major']);
 };
