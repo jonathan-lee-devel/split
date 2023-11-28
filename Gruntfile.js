@@ -1,6 +1,17 @@
 module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-bump');
+  grunt.loadNpmTasks('grunt-prompt');
+
   grunt.initConfig({
+    prompt: {
+      commit: {
+        options: [{
+          config: 'gitmessage',
+          type: 'input',
+          message: 'Commit Message',
+        }],
+      },
+    },
     bump: {
       options: {
         files: [
@@ -12,7 +23,7 @@ module.exports = function(grunt) {
         ],
         updateConfigs: [],
         commit: true,
-        commitMessage: 'Release v%VERSION%',
+        commitMessage: 'Release v%VERSION% <%=grunt.config("gitmessage")%>',
         commitFiles: ['-a'],
         createTag: true,
         tagName: 'v%VERSION%',
@@ -23,8 +34,10 @@ module.exports = function(grunt) {
         globalReplace: false,
         prereleaseName: false,
         metadata: '',
-        regExp: false
-      }
+        regExp: false,
+      },
     },
   });
+
+  grunt.registerTask('bumpmsg', ['prompt:commit', 'bump']);
 };
