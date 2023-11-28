@@ -2,13 +2,6 @@ name: Deploy to Production
 
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows:
-      - '[PROD-UI] Docker Image Build & Push (SSR)'
-      - '[API] Docker Image Build & Push'
-      - '[MICRO-USERS] Docker Image Build & Push'
-    branches: [main]
-    types: [completed]
 
 jobs:
   deploy:

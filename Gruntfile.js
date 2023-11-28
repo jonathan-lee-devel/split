@@ -47,7 +47,7 @@ module.exports = function(grunt) {
         ],
         updateConfigs: [],
         commit: true,
-        commitMessage: 'Release (Staging) v%VERSION% <%=grunt.config("gitmessage")%>',
+        commitMessage: 'Release v%VERSION% <%=grunt.config("gitmessage")%>',
         commitFiles: ['-a'],
         createTag: true,
         tagName: 'v%VERSION%',
