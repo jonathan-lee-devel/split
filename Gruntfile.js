@@ -1,5 +1,4 @@
 YAML = require('js-yaml');
-const exec = require('child_process').exec;
 
 module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-bump');
