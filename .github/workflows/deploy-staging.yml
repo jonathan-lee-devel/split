@@ -1,0 +1,23 @@
+name: Deploy to Staging
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deployment:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy
+        uses: deliverybot/helm@v1
+        with:
+          namespace: default
+          release: 0.1
+          chart: deployment
+          value-files: >-
+          [
+            "deployment/values/staging-values.yaml"
+          ]
+        env:
+          KUBECONFIG_FILE: ${{ secrets.KUBECONFIG }}
