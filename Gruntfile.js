@@ -39,5 +39,5 @@ module.exports = function(grunt) {
     },
   });
 
-  grunt.registerTask('bumpmsg', ['prompt:commit', 'bump']);
+  grunt.registerTask('bumpmsg:patch', ['prompt:commit', 'bump:patch']);
 };
