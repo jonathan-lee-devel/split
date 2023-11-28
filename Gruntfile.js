@@ -123,7 +123,7 @@ module.exports = function(grunt) {
     updateChartValues('./deployment/values/production-values.yaml', bumpVersionMajor(getVersion()), false);
   });
 
-  grunt.registerTask('bump-patch', ['prompt:patch', 'update-staging-values', 'bump:patch']);
-  grunt.registerTask('bump-minor', ['prompt:minor', 'update-staging-values', 'bump:minor']);
-  grunt.registerTask('bump-major', ['prompt:major', 'update-staging-values', 'bump:major']);
+  grunt.registerTask('bump-patch', ['prompt:patch', 'update-staging-values:patch', 'bump:patch']);
+  grunt.registerTask('bump-minor', ['prompt:minor', 'update-staging-values:minor', 'bump:minor']);
+  grunt.registerTask('bump-major', ['prompt:major', 'update-staging-values:major', 'bump:major']);
 };
