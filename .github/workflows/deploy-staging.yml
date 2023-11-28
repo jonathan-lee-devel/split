@@ -13,7 +13,7 @@ jobs:
         uses: vimeda/helm@v1.7.0
         with:
           namespace: default
-          release: 0.1
+          release: split-direct-staging
           chart: deployment
           value-files: 'deployment/values/staging-values.yaml'
         env:
