@@ -112,15 +112,15 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('update-production-values:patch', 'Updates staging image version', function() {
-    updateChartValues('./deployment/values/staging-values.yaml', bumpVersionPatch(getVersion()), true);
+    updateChartValues('./deployment/values/production-values.yaml', bumpVersionPatch(getVersion()), true);
   });
 
   grunt.registerTask('update-production-values:minor', 'Updates staging image version', function() {
-    updateChartValues('./deployment/values/staging-values.yaml', bumpVersionMinor(getVersion()), true);
+    updateChartValues('./deployment/values/production-values.yaml', bumpVersionMinor(getVersion()), true);
   });
 
   grunt.registerTask('update-production-values:major', 'Updates staging image version', function() {
-    updateChartValues('./deployment/values/staging-values.yaml', bumpVersionMajor(getVersion()), true);
+    updateChartValues('./deployment/values/production-values.yaml', bumpVersionMajor(getVersion()), true);
   });
 
   grunt.registerTask('bump-patch', ['prompt:patch', 'update-staging-values:patch', 'update-production-values:patch', 'bump:patch']);
