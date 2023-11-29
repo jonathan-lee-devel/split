@@ -7,7 +7,7 @@ ui:
   name: ui
   image:
     repository: jonathanleedev/split-ui
-    tag: stage-0.2.25
+    tag: 0.2.25
     pullPolicy: Always
   port: 4000
 api:
