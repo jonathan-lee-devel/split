@@ -47,14 +47,13 @@ spec:
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
-                  name: split-database-url
+                  name: split-micro-users-database-url
                   key: DATABASE_URL
             - name: PORT
-              value: '3001'
-{{/*              valueFrom:*/}}
-{{/*                secretKeyRef:*/}}
-{{/*                  name: split-port*/}}
-{{/*                  key: PORT*/}}
+              valueFrom:
+                secretKeyRef:
+                  name: split-micro-users-port
+                  key: PORT
             - name: FRONT_END_URL
               valueFrom:
                 secretKeyRef:
@@ -81,13 +80,15 @@ spec:
                   name: split-google-client-secret
                   key: GOOGLE_CLIENT_SECRET
             - name: GOOGLE_CALLBACK_URL
-              value: https://api.staging.split.direct/users/auth/google/redirect
-{{/*              valueFrom:*/}}
-{{/*                secretKeyRef:*/}}
-{{/*                  name: split-google-callback-url*/}}
-{{/*                  key: GOOGLE_CALLBACK_URL*/}}
+              valueFrom:
+                secretKeyRef:
+                  name: split-google-callback-url
+                  key: GOOGLE_CALLBACK_URL
             - name: JWT_SECRET
-              value: '12345'
+              valueFrom:
+                secretKeyRef:
+                  name: split-micro-users-jwt-secret
+                  key: JWT_SECRET
           ports:
             - containerPort: {{ .Values.microUsers.port }}
           resources: {}
