@@ -1,6 +1,6 @@
 {
   "name": "split-constants",
-  "version": "0.2.26",
+  "version": "0.2.27",
   "description": "Constants for use within Split services",
   "keywords": [
     "Split",
@@ -15,16 +15,16 @@
     "test": "__tests__"
   },
   "files": [
-    "lib"
+    "./"
   ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jonathan-lee-devel/split.git"
   },
   "scripts": {
-    "test": "exit 0",
-    "build": "exit 0",
-    "fix-lint": "exit 0"
+    "test": "echo 'No tests required for constants' && exit 0",
+    "build": "echo 'No build required for constants' && exit 0",
+    "fix-lint": "echo 'No linting required for constants' && exit 0"
   },
   "bugs": {
     "url": "https://github.com/jonathan-lee-devel/split/issues"

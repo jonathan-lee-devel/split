@@ -8,7 +8,7 @@ import {HttpStatus} from '../../../lib/enums/HttpStatus';
 import {User} from '../../../models/users/User';
 import {LoginRequestBody, LoginRequestQuery} from '../schemas/login';
 import {Environment} from '../../../environment';
-import {DEFAULT_TOKEN_SIZE} from 'split-constants/lib/token';
+import {DEFAULT_TOKEN_SIZE} from 'split-constants/token';
 
 export const makeLoginCallback = (
     logger: winston.Logger,

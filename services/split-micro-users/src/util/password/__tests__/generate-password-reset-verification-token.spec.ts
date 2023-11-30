@@ -1,6 +1,6 @@
 import {expect} from '@jest/globals';
 import isAfter from 'date-fns/isAfter';
-import {DEFAULT_TOKEN_SIZE} from 'split-constants/lib/token';
+import {DEFAULT_TOKEN_SIZE} from 'split-constants/token';
 import {makeGeneratePasswordResetVerificationToken} from '../generate-password-reset-verification-token';
 import {PasswordResetVerificationToken} from '../../../models/users/password/PasswordResetVerificationToken';
 
