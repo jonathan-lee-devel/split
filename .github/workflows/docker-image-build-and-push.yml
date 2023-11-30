@@ -122,7 +122,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.scope }}:${{ steps.package-version.outputs.current-version}}
 
-  deploy:
+  deploy-to-staging:
     needs: [build-and-push-services, build-and-push-ui-staging]
     runs-on: ubuntu-22.04
     steps:
