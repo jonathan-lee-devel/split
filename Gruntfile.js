@@ -92,7 +92,6 @@ module.exports = function(grunt) {
     const chart = grunt.file.readYAML(chartPath);
 
     chart['ui']['image']['tag'] = (isStage) ? `stage-${version}`: `${version}`;
-    chart['api']['image']['tag'] = `${version}`;
     chart['microUsers']['image']['tag'] = `${version}`;
 
     grunt.file.write(chartPath, YAML.dump(chart));
