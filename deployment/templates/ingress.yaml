@@ -11,6 +11,7 @@ spec:
   tls:
     - hosts:
       - {{ .Values.environment.hostPrefix }}split.direct
+      - api.{{ .Values.environment.hostPrefix }}split.direct
       secretName: split-tls-{{ .Values.environment.name }}
   rules:
     - host: api.{{ .Values.environment.hostPrefix }}split.direct
