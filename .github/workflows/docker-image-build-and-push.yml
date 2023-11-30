@@ -120,7 +120,7 @@ jobs:
           context: ./
           file: ./ui/${{ matrix.scope }}/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.scope }}:${{ steps.package-version.outputs.current-version}}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.scope }}:stage-${{ steps.package-version.outputs.current-version}}
 
   deploy-to-staging:
     needs: [build-and-push-services, build-and-push-ui-staging]
