@@ -1,8 +1,8 @@
 import {expect} from '@jest/globals';
+import isAfter from 'date-fns/isAfter';
+import {DEFAULT_TOKEN_SIZE} from 'split-constants/lib/token';
 import {makeGeneratePasswordResetVerificationToken} from '../generate-password-reset-verification-token';
 import {PasswordResetVerificationToken} from '../../../models/users/password/PasswordResetVerificationToken';
-import {DEFAULT_TOKEN_SIZE} from '../../../constants/token/token';
-import isAfter from 'date-fns/isAfter';
 
 describe('Generate Password Reset Verification Token Unit Tests', () => {
   it('When make generate password reset verification token Then defined function', async () => {

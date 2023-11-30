@@ -1,11 +1,11 @@
 import {AuthenticatedRequest, Response} from 'express';
-import logger from '../logger';
-import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
-import addMinutes from 'date-fns/addMinutes';
+import jwt from 'jsonwebtoken';
 import {Model} from 'mongoose';
+import addMinutes from 'date-fns/addMinutes';
+import {DEFAULT_TOKEN_HOLD_EXPIRY_TIME_MINUTES, DEFAULT_TOKEN_SIZE} from 'split-constants/lib/token';
+import logger from '../logger';
 import {Environment} from '../environment';
-import {DEFAULT_TOKEN_HOLD_EXPIRY_TIME_MINUTES, DEFAULT_TOKEN_SIZE} from '../constants/token/token';
 import {TokenHold} from '../models/tokens/TokenHold';
 import {User} from '../models/users/User';
 import {HttpStatus} from './enums/HttpStatus';

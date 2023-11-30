@@ -1,9 +1,9 @@
 import winston from 'winston';
 import {Model} from 'mongoose';
-import {RegistrationVerificationToken} from '../../models/users/registration/RegistrationVerificationToken';
 import {randomBytes} from 'crypto';
 import addMinutes from 'date-fns/addMinutes';
-import {DEFAULT_TOKEN_BUFFER_ENCODING, DEFAULT_TOKEN_EXPIRY_TIME_MINUTES, DEFAULT_TOKEN_SIZE} from '../../constants/token/token';
+import {DEFAULT_TOKEN_BUFFER_ENCODING, DEFAULT_TOKEN_EXPIRY_TIME_MINUTES, DEFAULT_TOKEN_SIZE} from 'split-constants/lib/token';
+import {RegistrationVerificationToken} from '../../models/users/registration/RegistrationVerificationToken';
 
 export type GenerateRegistrationVerificationTokenFunction = (
   userEmail: string,

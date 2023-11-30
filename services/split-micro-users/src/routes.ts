@@ -3,7 +3,7 @@ import {indexHealthCheckHandler} from './controllers/health';
 import {getTokenFromTokenHoldHandler, loginHandler, registerHandler} from './controllers/auth';
 import passport from 'passport';
 import {getProfileHandler} from './controllers/profile';
-import {JWT_AUTHENTICATION_STRATEGY} from './constants/auth';
+import {JWT_AUTHENTICATION_STRATEGY} from 'split-constants/lib/auth';
 
 const router = Router();
 

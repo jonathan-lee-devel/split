@@ -99,12 +99,12 @@ dist
 services/api/dist
 services/api/node_modules
 
-services/ui/dist
-services/ui/node_modules
+ui/split-ui/dist
+ui/node_modules
 
-services/ui/cypress/videos
-services/ui/cypress/screenshots
-services/ui/.angular
+ui/split-ui/cypress/videos
+ui/split-ui/cypress/screenshots
+ui/split-ui/.angular
 
 # Gatsby files
 .cache/

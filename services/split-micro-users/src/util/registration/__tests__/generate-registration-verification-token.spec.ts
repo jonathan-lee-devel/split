@@ -1,8 +1,8 @@
 import {expect} from '@jest/globals';
+import isAfter from 'date-fns/isAfter';
+import {DEFAULT_TOKEN_SIZE} from 'split-constants/lib/token';
 import {makeGenerateRegistrationVerificationToken} from '../generate-registration-verification-token';
 import {RegistrationVerificationToken} from '../../../models/users/registration/RegistrationVerificationToken';
-import {DEFAULT_TOKEN_SIZE} from '../../../constants/token/token';
-import isAfter from 'date-fns/isAfter';
 
 describe('Generate Registration Verification Token Unit Tests', () => {
   it('When make generate registration verification token Then defined function', async () => {

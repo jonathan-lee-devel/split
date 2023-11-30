@@ -12,3 +12,7 @@ declare module 'express' {
     user: User
   }
 }
+
+declare module 'split-constants' {
+
+}

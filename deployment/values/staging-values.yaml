@@ -7,20 +7,20 @@ ui:
   name: ui
   image:
     repository: jonathanleedev/split-ui
-    tag: stage-0.2.25
+    tag: stage-0.2.26
     pullPolicy: Always
   port: 4000
 api:
   name: api
   image:
     repository: jonathanleedev/split-api
-    tag: 0.2.25
+    tag: 0.2.26
     pullPolicy: Always
   port: 3000
 microUsers:
   name: micro-users
   image:
     repository: jonathanleedev/split-micro-users
-    tag: 0.2.25
+    tag: 0.2.26
     pullPolicy: Always
   port: 3001

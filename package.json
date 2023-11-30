@@ -1,13 +1,15 @@
 {
   "name": "split",
-  "version": "0.2.25",
+  "version": "0.2.26",
   "description": "Bill-splitting application",
   "repository": "git@github.com:jonathan-lee-devel/split.git",
   "author": "Jonathan Lee <jonathan.lee.devel@gmail.com>",
   "license": "GPL-3.0-or-later",
   "private": true,
   "workspaces": [
-    "services/*"
+    "services/*",
+    "packages/*",
+    "ui/*"
   ],
   "scripts": {
     "postinstall": "husky install",
