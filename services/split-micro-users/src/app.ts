@@ -20,8 +20,9 @@ app.use(compression() as any);
 app.use(cors({credentials: true, optionsSuccessStatus: 200, origin: environment.FRONT_END_URL}));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
-const configuredPassport = configurePassport(logger, passport);
-configuredPassport.initialize();
+configurePassport(logger, passport).then((configuredPassport) => {
+  configuredPassport.initialize();
+});
 app.use(routes);
 app.get('/users/auth/google', passport.authenticate('google', {scope: ['email', 'profile']}));
 app.get('/users/auth/google/redirect', passport.authenticate('google', {

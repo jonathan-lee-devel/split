@@ -38,6 +38,5 @@ export const makeLoginCallback = (
   logger.silly(`Signed token with payload: ${{email, firstName: user.firstName, lastName: user.lastName}}`);
   const refreshToken = crypto.randomBytes(DEFAULT_TOKEN_SIZE / 2).toString('hex');
 
-  // TODO: modify returned body
-  return res.status(HttpStatus.OK).json({email, password, token, refreshToken});
+  return res.status(HttpStatus.OK).json({token, refreshToken});
 };
