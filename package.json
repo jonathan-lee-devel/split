@@ -1,6 +1,6 @@
 {
   "name": "@split/root",
-  "version": "0.2.37",
+  "version": "0.2.38",
   "description": "Bill-splitting application",
   "repository": "git@github.com:jonathan-lee-devel/split.git",
   "author": "Jonathan Lee <jonathan.lee.devel@gmail.com>",
@@ -13,7 +13,8 @@
   ],
   "scripts": {
     "postinstall": "husky install",
-    "new-version": "lerna version --conventional-commits --yes"
+    "new-version": "lerna version --conventional-commits --yes",
+    "coverage:combined": "node ./coverage.js && nyc report --reporter lcov"
   },
   "devDependencies": {
     "@changesets/cli": "^2.26.2",
@@ -22,7 +23,8 @@
     "grunt-prompt": "^1.3.3",
     "husky": "^8.0.3",
     "js-yaml": "^4.1.0",
-    "lerna": "^7.4.2"
+    "lerna": "^7.4.2",
+    "nyc": "^15.1.0"
   },
   "dependencies": {}
 }

@@ -1,6 +1,6 @@
 {
   "name": "@split/split-micro-users",
-  "version": "0.2.37",
+  "version": "0.2.38",
   "description": "Microservice for handling users",
   "repository": "https://github.com/jonathan-lee-devel/split.git",
   "author": "Jonathan Lee <jonathan.lee.devel@gmail.com>",

@@ -11,7 +11,7 @@ permissions:
   pull-requests: read
 
 jobs:
-  Analysis:
+  analysis:
     runs-on: ubuntu-22.04
 
     steps:
@@ -21,14 +21,16 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 20.x
-          cache: 'npm'
+          cache: yarn
           cache-dependency-path: '**/yarn.lock'
-      - name: Install API Dependencies
-        working-directory: ./services/api
+      - name: Install Dependencies
         run: yarn install
-      - name: Run API Tests
-        working-directory: ./services/api
-        run: yarn run test --coverage
+      - name: Build Packages and Services
+        run: yarn lerna run build
+      - name: Run Tests
+        run: yarn lerna run test
+      - name: Aggregate Coverage
+        run: ./coverage.sh
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
         env:
@@ -38,9 +40,9 @@ jobs:
           args:
             -Dsonar.projectKey=jonathan-lee-devel_split
             -Dsonar.organization=jonathan-lee-devel
-            -Dsonar.sources=services/api/src
-            -Dsonar.tests=services/api/src
+            -Dsonar.sources=services/**/src/**
+            -Dsonar.tests=**/*.spec.ts
             -Dsonar.inclusions=**
             -Dsonar.exclusions=**/*.spec.ts,**/index.ts,**/src/app.ts,**/src/routes.ts,**/src/server.ts,**/src/middleware/request-middleware.ts,**/src/logger.ts,**/src/lib/**.ts,**/src/models/**/**.ts
             -Dsonar.test.inclusions=src/**/*.spec.ts,src/**/*.spec.tsx,src/**/*.test.ts,src/**/*.test.tsx
-            -Dsonar.javascript.lcov.reportPaths=services/api/coverage/lcov.info
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov/lcov.info
