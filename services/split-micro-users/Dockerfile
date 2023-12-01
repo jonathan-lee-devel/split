@@ -1,13 +1,21 @@
-# Start production image build
 FROM --platform=linux/x86_64 node:lts
 
 WORKDIR /app
 
-# Copy node modules, dependencies, and build directory
-COPY ./node_modules ./node_modules
-COPY ./services/split-micro-users ./split-micro-users
-COPY ./packages/split-constants/dist/* ./split-micro-users/dist
+# Copy project files, dependencies, and build directory
+COPY ./package.json .
+COPY ./yarn.lock .
+COPY ./lerna.json .
+COPY ./packages/split-constants/ ./packages/split-constants
+COPY ./services/split-micro-users ./services/split-micro-users
+
+RUN yarn install
+
+RUN yarn lerna run --scope '{@split/split-constants,@split/split-micro-users}' build
+
+WORKDIR /app/services/split-micro-users
 
 # Expose port 3000
 EXPOSE 3000
-CMD ["split-micro-users/dist/server.js"]
+
+CMD ["yarn", "run-no-build"]

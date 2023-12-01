@@ -1,6 +1,6 @@
 {
   "name": "@split/split-micro-users",
-  "version": "0.2.33",
+  "version": "0.2.34",
   "description": "Microservice for handling users",
   "repository": "https://github.com/jonathan-lee-devel/split.git",
   "author": "Jonathan Lee <jonathan.lee.devel@gmail.com>",
@@ -8,9 +8,9 @@
   "private": false,
   "scripts": {
     "build": "tsc",
-    "ts-node-server": "ts-node src/server.ts",
     "prestart": "yarn build",
     "start": "node dist/server.js",
+    "run-no-build": "node dist/server.js",
     "test": "jest",
     "fix-lint": "eslint  src --ext .ts --fix"
   },
