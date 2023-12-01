@@ -1,6 +1,6 @@
 import {Request, Response} from 'express';
 import {z} from 'zod';
-import {AnonymousEndpointCallback, ReturnAnonymouslyBasedOnSafeParseResultFunction} from '../../../lib/endpoint-util';
+import {AnonymousEndpointCallback, ReturnAnonymouslyBasedOnSafeParseResultFunction} from '@split/split-http';
 
 export const makeMakeRegisterEndpoint = <TBody, TQuery>(
   returnAnonymouslyBasedOnSafeParseResult: ReturnAnonymouslyBasedOnSafeParseResultFunction<TBody, TQuery>,

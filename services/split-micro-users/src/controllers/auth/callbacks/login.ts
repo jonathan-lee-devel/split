@@ -4,11 +4,10 @@ import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import {Model} from 'mongoose';
 import {User} from '@split/split-auth-config';
-import {AnonymousEndpointCallback} from '../../../lib/endpoint-util';
-import {HttpStatus} from '../../../lib/enums/HttpStatus';
+import {DEFAULT_TOKEN_SIZE} from '@split/split-constants';
+import {AnonymousEndpointCallback, HttpStatus} from '@split/split-http';
 import {LoginRequestBody, LoginRequestQuery} from '../schemas/login';
 import {Environment} from '../../../environment';
-import {DEFAULT_TOKEN_SIZE} from '@split/split-constants';
 
 export const makeLoginCallback = (
     logger: winston.Logger,

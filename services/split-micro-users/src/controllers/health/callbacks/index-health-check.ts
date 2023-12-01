@@ -1,7 +1,6 @@
 import winston from 'winston';
-import {AnonymousEndpointCallback} from '../../../lib/endpoint-util';
+import {AnonymousEndpointCallback, HttpStatus} from '@split/split-http';
 import {IndexHealthCheckRequestBody, IndexHealthCheckRequestQuery} from '../schemas/index-health-check';
-import {HttpStatus} from '../../../lib/enums/HttpStatus';
 
 export const makeIndexHealthCheckCallback = (
     logger: winston.Logger,

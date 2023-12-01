@@ -1,6 +1,6 @@
 {
   "name": "@split/split-micro-users",
-  "version": "0.2.40",
+  "version": "0.2.41",
   "description": "Microservice for handling users",
   "repository": "https://github.com/jonathan-lee-devel/split.git",
   "author": "Jonathan Lee <jonathan.lee.devel@gmail.com>",
@@ -15,9 +15,11 @@
     "fix-lint": "eslint  src --ext .ts --fix"
   },
   "dependencies": {
+    "@split/split-service-config": "*",
     "@split/split-constants": "*",
     "@split/split-observability": "*",
     "@split/split-auth-config": "*",
+    "@split/split-http": "*",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "compression": "^1.7.4",

@@ -1,6 +1,6 @@
 {
   "name": "@split/split-constants",
-  "version": "0.2.40",
+  "version": "0.2.41",
   "description": "Constants for use within Split services",
   "keywords": [
     "Split",

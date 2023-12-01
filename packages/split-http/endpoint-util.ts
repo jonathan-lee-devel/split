@@ -1,7 +1,6 @@
 import {AuthenticatedRequest, NextFunction, Request, Response} from 'express';
 import {SafeParseError, SafeParseSuccess} from 'zod';
-import {HttpStatus} from './enums/HttpStatus';
-import logger from '../logger';
+import {HttpStatus} from './enums';
 
 export interface EndpointInformation<TBody, TQuery> {
   bodyParseResult: SafeParseSuccess<TBody> | SafeParseError<TBody>;
@@ -54,7 +53,6 @@ export type ReturnBasedOnAuthenticationAndSafeParseResultFunction<TBody, TQuery>
 export const returnBasedOnAuthenticationAndSafeParseResult = <TBody, TQuery>(
   endpointInformation: EndpointInformation<TBody, TQuery>,
 ) => {
-  logger.silly(`endpointInformation = ${JSON.stringify(endpointInformation.req.user)}`);
   return (endpointInformation.req.user) ?
     /* TODO: Reinstate the check for verified e-mail -> && (endpointInformation.req as AuthenticatedRequest).user.emailVerified */
     returnBasedOnSafeParseResult(endpointInformation) :

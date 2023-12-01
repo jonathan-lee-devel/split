@@ -1,7 +1,7 @@
 import {NextFunction, Request, Response} from 'express';
-import logger from '../logger';
+import winston from 'winston';
 
-export const logResponseTime = (req: Request, res: Response, next: NextFunction) => {
+export const makeLogResponseTime = (logger: winston.Logger) => (req: Request, res: Response, next: NextFunction) => {
   const startHrTime = process.hrtime();
 
   res.on('finish', () => {

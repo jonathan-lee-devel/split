@@ -1,6 +1,6 @@
 import {expect} from '@jest/globals';
+import {HttpStatus} from '@split/split-http';
 import {makeIndexHealthCheckCallback} from '../index-health-check';
-import {HttpStatus} from '../../../../lib/enums/HttpStatus';
 
 describe('Index Health Check Callback Unit Tests', () => {
   it('When make health check callback Then defined function', async () => {

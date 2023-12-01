@@ -1,6 +1,6 @@
-import logger from '../logger';
+import winston from 'winston';
 
-export const errorResponseHandler = (
+export const makeErrorResponseHandler = (logger: winston.Logger) => (
     err: { message: string; status: string },
     req: any,
     res: {

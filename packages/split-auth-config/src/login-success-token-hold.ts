@@ -2,14 +2,15 @@ import {AuthenticatedRequest, Response} from 'express';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import {Model} from 'mongoose';
+import winston from 'winston';
 import addMinutes from 'date-fns/addMinutes';
 import {DEFAULT_TOKEN_HOLD_EXPIRY_TIME_MINUTES, DEFAULT_TOKEN_SIZE} from '@split/split-constants';
-import {TokenHold, User} from '@split/split-auth-config';
-import logger from '../logger';
-import {Environment} from '../environment';
-import {HttpStatus} from './enums/HttpStatus';
+import {HttpStatus} from '@split/split-http';
+import {TokenHold, User} from './models';
+import {Environment} from './environment';
 
-export const makeLoginSuccessTokenHold = (
+export const makeLoginSuccessTokenHoldCallback = (
+    logger: winston.Logger,
     environment: Environment,
     TokenHold: Model<TokenHold>,
     User: Model<User>,
