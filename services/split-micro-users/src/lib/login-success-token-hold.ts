@@ -3,7 +3,7 @@ import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import {Model} from 'mongoose';
 import addMinutes from 'date-fns/addMinutes';
-import {DEFAULT_TOKEN_HOLD_EXPIRY_TIME_MINUTES, DEFAULT_TOKEN_SIZE} from 'split-constants/token';
+import {DEFAULT_TOKEN_HOLD_EXPIRY_TIME_MINUTES, DEFAULT_TOKEN_SIZE} from '@split/split-constants';
 import logger from '../logger';
 import {Environment} from '../environment';
 import {TokenHold} from '../models/tokens/TokenHold';

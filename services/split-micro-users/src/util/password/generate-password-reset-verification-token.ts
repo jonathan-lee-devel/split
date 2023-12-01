@@ -2,7 +2,7 @@ import winston from 'winston';
 import {Model} from 'mongoose';
 import {randomBytes} from 'crypto';
 import addMinutes from 'date-fns/addMinutes';
-import {DEFAULT_TOKEN_BUFFER_ENCODING, DEFAULT_TOKEN_EXPIRY_TIME_MINUTES, DEFAULT_TOKEN_SIZE} from 'split-constants/token';
+import {DEFAULT_TOKEN_BUFFER_ENCODING, DEFAULT_TOKEN_EXPIRY_TIME_MINUTES, DEFAULT_TOKEN_SIZE} from '@split/split-constants';
 import {PasswordResetVerificationToken} from '../../models/users/password/PasswordResetVerificationToken';
 
 export type GeneratePasswordResetVerificationTokenFunction = (
