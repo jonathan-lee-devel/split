@@ -5,13 +5,12 @@ import cors from 'cors';
 import routes from './routes';
 import {environment} from './environment';
 import {logResponseTime} from './lib/log-response-time';
-import {configurePassport} from './lib/configure-passport';
 import {errorResponseHandler} from './lib/error-response-handler';
 import passport from 'passport';
 import {notFoundCallback} from './lib/not-found-callback';
 import {makeLoginSuccessTokenHold} from './lib/login-success-token-hold';
-import {TokenHoldModel} from './models/tokens/TokenHold';
-import {UserModel} from './models/users/User';
+import {configurePassport, TokenHoldModel, UserModel} from '@split/split-auth-config';
+import logger from './logger';
 
 const app = express();
 
@@ -21,7 +20,7 @@ app.use(compression() as any);
 app.use(cors({credentials: true, optionsSuccessStatus: 200, origin: environment.FRONT_END_URL}));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
-const configuredPassport = configurePassport(passport);
+const configuredPassport = configurePassport(logger, passport);
 configuredPassport.initialize();
 app.use(routes);
 app.get('/users/auth/google', passport.authenticate('google', {scope: ['email', 'profile']}));

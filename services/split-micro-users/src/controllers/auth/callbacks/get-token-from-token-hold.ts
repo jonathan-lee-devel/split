@@ -1,9 +1,9 @@
 import {Model} from 'mongoose';
-import {TokenHold} from '../../../models/tokens/TokenHold';
+import isAfter from 'date-fns/isAfter';
 import {AnonymousEndpointCallback} from '../../../lib/endpoint-util';
 import {GetTokenFromTokenHoldRequestBody, GetTokenFromTokenHoldRequestQuery} from '../schemas/get-token-from-token-hold';
 import {HttpStatus} from '../../../lib/enums/HttpStatus';
-import isAfter from 'date-fns/isAfter';
+import {TokenHold} from '@split/split-auth-config/models';
 
 export const makeGetTokenFromTokenHoldCallback = (
     TokenHold: Model<TokenHold>,

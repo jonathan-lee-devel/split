@@ -41,6 +41,8 @@ module.exports = function(grunt) {
           'lerna.json',
           'package.json',
           'packages/split-constants/package.json',
+          'packages/split-auth-config/package.json',
+          'packages/split-observability/package.json',
           'services/split-micro-users/package.json',
           'ui/split-ui/package.json',
         ],

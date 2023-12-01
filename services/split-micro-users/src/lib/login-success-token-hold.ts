@@ -4,10 +4,9 @@ import jwt from 'jsonwebtoken';
 import {Model} from 'mongoose';
 import addMinutes from 'date-fns/addMinutes';
 import {DEFAULT_TOKEN_HOLD_EXPIRY_TIME_MINUTES, DEFAULT_TOKEN_SIZE} from '@split/split-constants';
+import {TokenHold, User} from '@split/split-auth-config';
 import logger from '../logger';
 import {Environment} from '../environment';
-import {TokenHold} from '../models/tokens/TokenHold';
-import {User} from '../models/users/User';
 import {HttpStatus} from './enums/HttpStatus';
 
 export const makeLoginSuccessTokenHold = (

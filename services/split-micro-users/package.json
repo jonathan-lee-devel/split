@@ -1,6 +1,6 @@
 {
   "name": "@split/split-micro-users",
-  "version": "0.2.34",
+  "version": "0.2.35",
   "description": "Microservice for handling users",
   "repository": "https://github.com/jonathan-lee-devel/split.git",
   "author": "Jonathan Lee <jonathan.lee.devel@gmail.com>",
@@ -16,6 +16,8 @@
   },
   "dependencies": {
     "@split/split-constants": "*",
+    "@split/split-observability": "*",
+    "@split/split-auth-config": "*",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "compression": "^1.7.4",

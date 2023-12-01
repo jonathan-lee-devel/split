@@ -1,9 +1,9 @@
 import passport from 'passport';
 import {ExtractJwt, Strategy, VerifiedCallback} from 'passport-jwt';
-import {environment} from '../environment';
 import passportGoogle from 'passport-google-oauth20';
-import {UserModel} from '../models/users/User';
-import logger from '../logger';
+import winston from 'winston';
+import {environment} from './environment';
+import {UserModel} from './models';
 
 const opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -13,7 +13,7 @@ const opts = {
 
 const JwtStrategy = Strategy;
 const GoogleStrategy = passportGoogle.Strategy;
-export const configurePassport = (passport: passport.PassportStatic): passport.PassportStatic => {
+export const configurePassport = (logger: winston.Logger, passport: passport.PassportStatic): passport.PassportStatic => {
   passport.use(new JwtStrategy(opts, (_: unknown, payload: any, done: VerifiedCallback) => {
     logger.silly(`payload = ${JSON.stringify(payload)}`);
     return (payload) ?
