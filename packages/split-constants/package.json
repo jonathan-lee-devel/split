@@ -1,6 +1,6 @@
 {
   "name": "@split/split-constants",
-  "version": "0.2.36",
+  "version": "0.2.37",
   "description": "Constants for use within Split services",
   "keywords": [
     "Split",
@@ -11,6 +11,7 @@
   "license": "GPL-3.0-or-later",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "type": "commonjs",
   "files": [
     "dist/*"
   ],
