@@ -25,7 +25,7 @@ jobs:
           cache: yarn
           cache-dependency-path: '**/yarn.lock'
       - run: yarn install
-      - run: yarn lerna run --scope '{@split/split-constants,@split/${{ matrix.scope }}}' build
+      - run: yarn lerna run --scope '${{ matrix.scope }}' --include-dependencies build
       - name: Get Package Version
         id: package-version
         uses: martinbeentjes/npm-get-version-action@v1.3.1
