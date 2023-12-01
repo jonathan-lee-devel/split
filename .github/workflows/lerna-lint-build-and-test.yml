@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        node-version: [ 20.x ]
+        node-version: [20.x]
     name: Lerna Build using Node v${{ matrix.node-version }}
     steps:
       - name: Checkout
@@ -51,7 +51,7 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        node-version: [ 20.x ]
+        node-version: [20.x]
     name: Lerna Build (Stage) using Node v${{ matrix.node-version }}
     steps:
       - name: Checkout
@@ -71,7 +71,7 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        node-version: [ 20.x ]
+        node-version: [20.x]
     name: Lerna Test using Node v${{ matrix.node-version }}
     steps:
       - name: Checkout

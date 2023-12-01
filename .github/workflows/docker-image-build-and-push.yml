@@ -25,7 +25,7 @@ jobs:
           cache: yarn
           cache-dependency-path: '**/yarn.lock'
       - run: yarn install
-      - run: yarn lerna run --scope ${{ matrix.scope }} build
+      - run: yarn lerna run --scope @split/${{ matrix.scope }} build
       - name: Get Package Version
         id: package-version
         uses: martinbeentjes/npm-get-version-action@v1.3.1
@@ -63,7 +63,7 @@ jobs:
           cache: yarn
           cache-dependency-path: '**/yarn.lock'
       - run: yarn install
-      - run: yarn lerna run --scope ${{ matrix.scope }} build
+      - run: yarn lerna run --scope @split/${{ matrix.scope }} build
       - name: Get Package Version
         id: package-version
         uses: martinbeentjes/npm-get-version-action@v1.3.1
@@ -101,7 +101,7 @@ jobs:
           cache: yarn
           cache-dependency-path: '**/yarn.lock'
       - run: yarn install
-      - run: yarn lerna run --scope ${{ matrix.scope }} build:stage
+      - run: yarn lerna run --scope @split/${{ matrix.scope }} build:stage
       - name: Get Package Version
         id: package-version
         uses: martinbeentjes/npm-get-version-action@v1.3.1
