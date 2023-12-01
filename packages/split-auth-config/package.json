@@ -34,6 +34,7 @@
     "typescript": "^5.3.2"
   },
   "dependencies": {
+    "@split/split-constants": "*",
     "winston": "^3.11.0"
   }
 }
