@@ -10,7 +10,6 @@ import passport from 'passport';
 import {notFoundCallback} from './lib/not-found-callback';
 import {makeLoginSuccessTokenHold} from './lib/login-success-token-hold';
 import {configurePassport, TokenHoldModel, UserModel} from '@split/split-auth-config';
-import logger from './logger';
 
 const app = express();
 
@@ -20,7 +19,7 @@ app.use(compression() as any);
 app.use(cors({credentials: true, optionsSuccessStatus: 200, origin: environment.FRONT_END_URL}));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
-configurePassport(logger, passport).then((configuredPassport) => {
+configurePassport(passport).then((configuredPassport) => {
   configuredPassport.initialize();
 });
 app.use(routes);
