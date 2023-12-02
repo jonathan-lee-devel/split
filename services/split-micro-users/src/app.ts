@@ -1,6 +1,6 @@
 import passport from 'passport';
-import {configureExpressApp} from '@split/split-service-config';
 import {configurePassport} from '@split/split-auth-config';
+import {configureExpressApp} from '@split/split-service-config';
 import routes from './routes';
 import {environment} from './environment';
 import logger from './logger';

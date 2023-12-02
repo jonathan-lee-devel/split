@@ -1,9 +1,12 @@
 import mongoose, {ConnectOptions} from 'mongoose';
+import winston from 'winston';
+import {Environment} from './environment';
+import util from 'util';
 
 /** Callback for establishing or re-establishing mongo connection */
-type IOnConnectedCallback = (mongoUrl: string) => void;
+export type IOnConnectedCallback = (mongoUrl: string) => void;
 
-interface SafeMongooseConnectionOptions {
+export interface SafeMongooseConnectionOptions {
   mongoUrl: string;
   mongooseConnectionOptions?: ConnectOptions;
   retryDelayMs?: number;
@@ -31,7 +34,7 @@ const defaultMongooseConnectionOptions: ConnectOptions = {
  * MongoDB without crashing the server.
  * @author Sidhant Panda
  */
-export default class SafeMongooseConnection {
+export class SafeMongooseConnection {
   /** Safe Mongoose Connection options */
   private readonly options: SafeMongooseConnectionOptions;
 
@@ -124,3 +127,48 @@ export default class SafeMongooseConnection {
     }
   };
 }
+
+export const makeDefaultSafeMongooseConnectionOptions = (
+    environment: Environment,
+    logger: winston.Logger,
+): SafeMongooseConnectionOptions => {
+  let debugCallback;
+  if (environment.NODE_ENV === 'development') {
+    debugCallback = (collectionName: string, method: string, query: any, doc: string): void => {
+      const message = `${collectionName}.${method}(${util.inspect(query, {colors: true, depth: null})})`;
+      logger.log({
+        level: 'verbose',
+        message,
+        consoleLoggerOptions: {label: 'MICRO-USERS-MONGO'},
+      });
+    };
+  }
+  return {
+    mongoUrl: environment.DATABASE_URL,
+    debugCallback,
+    onStartConnection: (mongoUrl) => logger.info(`Connecting to MongoDB at ${mongoUrl}`),
+    onConnectionError: (error, mongoUrl) => logger.log({
+      level: 'error',
+      message: `Could not connect to MongoDB at ${mongoUrl}`,
+      error,
+    }),
+    onConnectionRetry: (mongoUrl) => logger.info(`Retrying to MongoDB at ${mongoUrl}`),
+  };
+};
+
+export const makeOnProcessInterruptSignal = (logger: winston.Logger, safeMongooseConnection: SafeMongooseConnection) => async () => {
+  console.log('\n'); /* eslint-disable-line */
+  logger.info('Gracefully shutting down');
+  logger.info('Closing the MongoDB connection');
+  try {
+    await safeMongooseConnection.close(true);
+    logger.info('Mongo connection closed successfully');
+  } catch (err) {
+    logger.log({
+      level: 'error',
+      message: 'Error shutting closing mongo connection',
+      error: err,
+    });
+  }
+  process.exit(0);
+};

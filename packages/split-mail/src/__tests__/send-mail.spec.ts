@@ -1,12 +1,13 @@
 import {expect} from '@jest/globals';
 import {makeSendMail} from '../send-mail';
-import {EmailSendAttempt} from '@split/split-auth-config';
+import {EmailSendAttempt} from '../models';
 
 describe('Send Mail Util Unit Tests', () => {
   it('When make send mail Then defined function', async () => {
     const sendMail = makeSendMail(
         // @ts-ignore
         {},
+        // @ts-ignore
         {},
         {},
         () => undefined,
@@ -23,6 +24,7 @@ describe('Send Mail Util Unit Tests', () => {
     const sendMail = makeSendMail(
         // @ts-ignore
         {EMAIL_USER: emailUser},
+        // @ts-ignore
         {info: () => {}, error: () => {}},
         {create: async (doc: any) => {
           emailSendAttempt.id = doc.id;
@@ -54,6 +56,7 @@ describe('Send Mail Util Unit Tests', () => {
     const sendMail = makeSendMail(
         // @ts-ignore
         {EMAIL_USER: emailUser},
+        // @ts-ignore
         {info: () => {}, error: (errMessage: any) => {
           errorMessages.push(errMessage);
         }},
@@ -89,8 +92,10 @@ describe('Send Mail Util Unit Tests', () => {
     const sendMail = makeSendMail(
         // @ts-ignore
         {EMAIL_USER: emailUser},
+        // @ts-ignore
         {info: (message) => {
           loggedInfoMessages.push(message);
+          // @ts-ignore
         }, error: () => {}},
         {create: async (doc: any) => {
           emailSendAttempt.id = doc.id;
@@ -134,7 +139,9 @@ describe('Send Mail Util Unit Tests', () => {
     const sendMail = makeSendMail(
         // @ts-ignore
         {EMAIL_USER: emailUser},
+        // @ts-ignore
         {info: () => {
+          // @ts-ignore
         }, error: (message) => {
           loggedErrorMessages.push(message);
         }},

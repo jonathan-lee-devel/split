@@ -40,7 +40,7 @@ jobs:
           args:
             -Dsonar.projectKey=jonathan-lee-devel_split
             -Dsonar.organization=jonathan-lee-devel
-            -Dsonar.sources=packages/split-auth-config,packages/split-constants,packages/split-observability,services/split-micro-users/src
+            -Dsonar.sources=packages/split-auth,packages/split-constants,packages/split-observability,services/split-micro-users/src
             -Dsonar.tests=services/split-micro-users/src
             -Dsonar.inclusions=**
             -Dsonar.exclusions=**/*.spec.ts,**/index.ts,**/src/app.ts,**/src/routes.ts,**/src/server.ts,**/src/middleware/request-middleware.ts,**/src/logger.ts,**/src/lib/**.ts,**/src/models/**/**.ts

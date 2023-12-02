@@ -1,6 +1,6 @@
 {
   "name": "@split/split-http",
-  "version": "0.2.41",
+  "version": "0.2.42",
   "description": "Observability config for use within Split services",
   "keywords": [
     "Split",

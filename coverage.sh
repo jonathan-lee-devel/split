@@ -4,7 +4,7 @@ set -e
 
 rm -rf coverage
 mkdir -p coverage/workspaces
-for project in 'packages/split-auth-config' 'packages/split-constants' 'packages/split-observability' 'services/split-micro-users'
+for project in 'packages/split-auth' 'packages/split-constants' 'packages/split-observability' 'services/split-micro-users'
 do
   if [ -f "$project/coverage/coverage-final.json" ]; then
     cp "$project"/coverage/coverage-final.json "$PWD"/coverage/workspaces/"$(basename $project)"-coverage-final.json

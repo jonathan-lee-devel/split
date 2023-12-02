@@ -1,13 +1,11 @@
 import {
-  EmailSendAttemptModel,
+  makeGenerateId,
   PasswordResetVerificationTokenModel,
   RegistrationVerificationTokenModel,
   UserModel,
 } from '@split/split-auth-config';
-import {transporterConfig} from '../lib/nodemailer-transporter';
-import {makeSendMail} from './email/send-mail';
+import {EmailSendAttemptModel, makeSendMail, transporterConfig} from '@split/split-mail';
 import logger from '../logger';
-import {generateId} from '../lib/generate-id';
 import {environment} from '../environment';
 import {makeGenerateRegistrationVerificationToken} from './registration/generate-registration-verification-token';
 import {makeEncodePassword} from './password/encode-password';
@@ -21,7 +19,7 @@ export const sendMail = makeSendMail(
     environment,
     logger,
     EmailSendAttemptModel,
-    generateId,
+    makeGenerateId(logger),
     transporter,
 );
 

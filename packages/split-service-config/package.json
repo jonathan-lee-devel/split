@@ -1,6 +1,6 @@
 {
   "name": "@split/split-service-config",
-  "version": "0.2.41",
+  "version": "0.2.42",
   "description": "Auth config for use within Split services",
   "keywords": [
     "Split",
@@ -13,7 +13,7 @@
   "types": "dist/index.d.ts",
   "type": "commonjs",
   "files": [
-    "dist/*"
+    "./src/*"
   ],
   "repository": {
     "type": "git",

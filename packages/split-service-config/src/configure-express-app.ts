@@ -2,12 +2,12 @@ import express, {Express, Router} from 'express';
 import helmet from 'helmet';
 import compression from 'compression';
 import cors from 'cors';
-import {Environment} from './environment';
+import passport from 'passport';
 import winston from 'winston';
 import {makeLogResponseTime} from '@split/split-observability';
 import {makeErrorResponseHandler, notFoundCallback} from '@split/split-http';
-import passport from 'passport';
 import {makeLoginSuccessTokenHoldCallback, TokenHoldModel, UserModel} from '@split/split-auth-config';
+import {Environment} from './environment';
 
 export const configureExpressApp = (
     logger: winston.Logger,
