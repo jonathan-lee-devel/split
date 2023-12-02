@@ -1,6 +1,6 @@
 import winston from 'winston';
 import {Model} from 'mongoose';
-import {User} from '@split/split-auth-config';
+import {User} from '@split/split-auth';
 import {AnonymousEndpointCallback, HttpStatus} from '@split/split-http';
 import {RegisterRequestBody, RegisterRequestQuery} from '../schemas/register';
 import {encodePassword} from '../../../util';

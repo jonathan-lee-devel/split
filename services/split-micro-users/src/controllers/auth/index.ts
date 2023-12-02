@@ -1,4 +1,4 @@
-import {TokenHoldModel, UserModel} from '@split/split-auth-config';
+import {TokenHoldModel, UserModel} from '@split/split-auth';
 import {returnAnonymouslyBasedOnSafeParseResult} from '@split/split-http';
 import logger from '../../logger';
 import {makeMakeRegisterEndpoint} from './endpoints/register';

@@ -6,7 +6,7 @@ import passport from 'passport';
 import winston from 'winston';
 import {makeLogResponseTime} from '@split/split-observability';
 import {makeErrorResponseHandler, notFoundCallback} from '@split/split-http';
-import {makeLoginSuccessTokenHoldCallback, TokenHoldModel, UserModel} from '@split/split-auth-config';
+import {makeLoginSuccessTokenHoldCallback, TokenHoldModel, UserModel} from '@split/split-auth';
 import {Environment} from './environment';
 
 export const configureExpressApp = (

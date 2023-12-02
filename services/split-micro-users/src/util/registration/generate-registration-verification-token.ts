@@ -3,7 +3,7 @@ import {Model} from 'mongoose';
 import {randomBytes} from 'crypto';
 import addMinutes from 'date-fns/addMinutes';
 import {DEFAULT_TOKEN_BUFFER_ENCODING, DEFAULT_TOKEN_EXPIRY_TIME_MINUTES, DEFAULT_TOKEN_SIZE} from '@split/split-constants';
-import {RegistrationVerificationToken} from '@split/split-auth-config';
+import {RegistrationVerificationToken} from '@split/split-auth';
 
 
 export type GenerateRegistrationVerificationTokenFunction = (

@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "@split/split-constants": "*",
+    "@split/split-auth": "*",
     "winston": "^3.11.0"
   }
 }

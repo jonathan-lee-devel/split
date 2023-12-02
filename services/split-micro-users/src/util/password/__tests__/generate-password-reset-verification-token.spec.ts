@@ -1,7 +1,7 @@
 import {expect} from '@jest/globals';
 import isAfter from 'date-fns/isAfter';
 import {DEFAULT_TOKEN_SIZE} from '@split/split-constants';
-import {PasswordResetVerificationToken} from '@split/split-auth-config';
+import {PasswordResetVerificationToken} from '@split/split-auth';
 import {makeGeneratePasswordResetVerificationToken} from '../generate-password-reset-verification-token';
 
 describe('Generate Password Reset Verification Token Unit Tests', () => {

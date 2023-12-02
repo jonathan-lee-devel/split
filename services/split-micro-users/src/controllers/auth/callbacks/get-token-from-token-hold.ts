@@ -2,7 +2,7 @@ import {Model} from 'mongoose';
 import isAfter from 'date-fns/isAfter';
 import {GetTokenFromTokenHoldRequestBody, GetTokenFromTokenHoldRequestQuery} from '../schemas/get-token-from-token-hold';
 import {AnonymousEndpointCallback, HttpStatus} from '@split/split-http';
-import {TokenHold} from '@split/split-auth-config';
+import {TokenHold} from '@split/split-auth';
 
 export const makeGetTokenFromTokenHoldCallback = (
     TokenHold: Model<TokenHold>,

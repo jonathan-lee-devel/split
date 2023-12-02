@@ -1,6 +1,6 @@
 import winston from 'winston';
 import {Model} from 'mongoose';
-import {PasswordResetVerificationToken, RegistrationVerificationToken, User} from '@split/split-auth-config';
+import {PasswordResetVerificationToken, RegistrationVerificationToken, User} from '@split/split-auth';
 
 export type HandleExistingUserFunction = (email: string) => Promise<boolean>;
 

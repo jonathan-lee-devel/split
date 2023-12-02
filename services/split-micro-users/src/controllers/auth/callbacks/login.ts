@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import {Model} from 'mongoose';
-import {User} from '@split/split-auth-config';
+import {User} from '@split/split-auth';
 import {DEFAULT_TOKEN_SIZE} from '@split/split-constants';
 import {AnonymousEndpointCallback, HttpStatus} from '@split/split-http';
 import {LoginRequestBody, LoginRequestQuery} from '../schemas/login';
