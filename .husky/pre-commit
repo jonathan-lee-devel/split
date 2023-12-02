@@ -1,1 +1,1 @@
-lerna clean -y && grunt clean:dist && yarn install && lerna run fix-lint && lerna run --scope "@split-common/*" build && lerna run --scope "@split-ui/*" --scope "@split-micro/*" build && lerna run test
+lerna clean -y && grunt clean:dist && yarn install && lerna run fix-lint && lerna run --scope "@split-common/*" build && lerna run --scope "@split-ui/*" --scope "@split-micro/*" build,build:stage && lerna run test
