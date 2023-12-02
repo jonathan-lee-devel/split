@@ -2,7 +2,7 @@ import winston from 'winston';
 import {Transporter} from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import {Model} from 'mongoose';
-import {GenerateIdFunction} from '@split/split-auth';
+import {GenerateIdFunction} from '@split-common/split-auth';
 import {EmailSendAttempt} from './models';
 import {Environment} from './environment';
 

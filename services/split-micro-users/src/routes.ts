@@ -1,9 +1,9 @@
 import {Router} from 'express';
+import {JWT_AUTHENTICATION_STRATEGY} from '@split-common/split-constants';
 import {indexHealthCheckHandler} from './controllers/health';
 import {getTokenFromTokenHoldHandler, loginHandler, registerHandler} from './controllers/auth';
 import passport from 'passport';
 import {getProfileHandler} from './controllers/profile';
-import {JWT_AUTHENTICATION_STRATEGY} from '@split/split-constants';
 
 const router = Router();
 

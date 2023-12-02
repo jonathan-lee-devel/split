@@ -6,6 +6,7 @@ describe('Handle Existing User Unit Tests', () => {
     const handleExistingUser = makeHandleExistingUser(
         // @ts-ignore
         {},
+        // @ts-ignore
         {},
         {},
         {},
@@ -24,6 +25,7 @@ describe('Handle Existing User Unit Tests', () => {
           loggedInfoMessage = message;
         }},
         {
+          // @ts-ignore
           findOne: () => {
             return {
               exec: () => undefined,
@@ -62,6 +64,7 @@ describe('Handle Existing User Unit Tests', () => {
         // @ts-ignore
         {info: (message) => {}},
         {
+          // @ts-ignore
           findOne: () => {
             return {
               exec: () => {
@@ -94,6 +97,7 @@ describe('Handle Existing User Unit Tests', () => {
           loggedInfoMessage = message;
         }},
         {
+          // @ts-ignore
           findOne: () => {
             return {
               exec: () => {
@@ -103,6 +107,7 @@ describe('Handle Existing User Unit Tests', () => {
               },
             };
           },
+          // @ts-ignore
           deleteOne: (filter) => {
             userDeleteFilter = filter;
             return {

@@ -1,4 +1,4 @@
-import {returnAnonymouslyBasedOnSafeParseResult} from '@split/split-http';
+import {returnAnonymouslyBasedOnSafeParseResult} from '@split-common/split-http';
 import {makeMakeIndexHealthCheckEndpoint} from './endpoints/index-health-check';
 import logger from '../../logger';
 import {IndexHealthCheckRequestBodySchema, IndexHealthCheckRequestQuerySchema} from './schemas/index-health-check';

@@ -3,8 +3,8 @@ import {
   PasswordResetVerificationTokenModel,
   RegistrationVerificationTokenModel,
   UserModel,
-} from '@split/split-auth';
-import {EmailSendAttemptModel, makeSendMail, transporterConfig} from '@split/split-mail';
+} from '@split-common/split-auth';
+import {EmailSendAttemptModel, makeSendMail, transporterConfig} from '@split-common/split-mail';
 import logger from '../logger';
 import {environment} from '../environment';
 import {makeGenerateRegistrationVerificationToken} from './registration/generate-registration-verification-token';

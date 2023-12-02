@@ -1,7 +1,7 @@
 import {expect} from '@jest/globals';
 import isAfter from 'date-fns/isAfter';
-import {DEFAULT_TOKEN_SIZE} from '@split/split-constants';
-import {PasswordResetVerificationToken} from '@split/split-auth';
+import {DEFAULT_TOKEN_SIZE} from '@split-common/split-constants';
+import {PasswordResetVerificationToken} from '@split-common/split-auth';
 import {makeGeneratePasswordResetVerificationToken} from '../generate-password-reset-verification-token';
 
 describe('Generate Password Reset Verification Token Unit Tests', () => {
@@ -9,6 +9,7 @@ describe('Generate Password Reset Verification Token Unit Tests', () => {
     const generatePasswordResetVerificationToken = makeGeneratePasswordResetVerificationToken(
         // @ts-ignore
         {},
+        // @ts-ignore
         {},
     );
 
@@ -28,6 +29,7 @@ describe('Generate Password Reset Verification Token Unit Tests', () => {
           loggedInfoMessage = message;
         }},
         {
+          // @ts-ignore
           create: async (doc: any) => {
             passwordResetVerificationToken.value = doc.value;
             passwordResetVerificationToken.userEmail = doc.userEmail;

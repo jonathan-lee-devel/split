@@ -1,5 +1,5 @@
 import winston from 'winston';
-import {AnonymousEndpointCallback, HttpStatus} from '@split/split-http';
+import {AnonymousEndpointCallback, HttpStatus} from '@split-common/split-http';
 import {IndexHealthCheckRequestBody, IndexHealthCheckRequestQuery} from '../schemas/index-health-check';
 
 export const makeIndexHealthCheckCallback = (

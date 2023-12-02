@@ -1,5 +1,5 @@
 import {expect} from '@jest/globals';
-import {HttpStatus} from '@split/split-http';
+import {HttpStatus} from '@split-common/split-http';
 import {makeIndexHealthCheckCallback} from '../index-health-check';
 
 describe('Index Health Check Callback Unit Tests', () => {

@@ -1,7 +1,7 @@
 import {expect} from '@jest/globals';
 import isAfter from 'date-fns/isAfter';
-import {DEFAULT_TOKEN_SIZE} from '@split/split-constants';
-import {RegistrationVerificationToken} from '@split/split-auth';
+import {DEFAULT_TOKEN_SIZE} from '@split-common/split-constants';
+import {RegistrationVerificationToken} from '@split-common/split-auth';
 import {makeGenerateRegistrationVerificationToken} from '../generate-registration-verification-token';
 
 describe('Generate Registration Verification Token Unit Tests', () => {
@@ -9,6 +9,7 @@ describe('Generate Registration Verification Token Unit Tests', () => {
     const generateRegistrationVerificationToken = makeGenerateRegistrationVerificationToken(
         // @ts-ignore
         {},
+        // @ts-ignore
         {},
     );
 
@@ -28,6 +29,7 @@ describe('Generate Registration Verification Token Unit Tests', () => {
           loggedInfoMessage = message;
         }},
         {
+          // @ts-ignore
           create: async (doc: any) => {
             registrationVerificationToken.value = doc.value;
             registrationVerificationToken.userEmail = doc.userEmail;

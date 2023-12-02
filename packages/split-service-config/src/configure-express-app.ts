@@ -4,9 +4,9 @@ import compression from 'compression';
 import cors from 'cors';
 import passport from 'passport';
 import winston from 'winston';
-import {makeLogResponseTime} from '@split/split-observability';
-import {makeErrorResponseHandler, notFoundCallback} from '@split/split-http';
-import {makeLoginSuccessTokenHoldCallback, TokenHoldModel, UserModel} from '@split/split-auth';
+import {makeLogResponseTime} from '@split-common/split-observability';
+import {makeErrorResponseHandler, notFoundCallback} from '@split-common/split-http';
+import {makeLoginSuccessTokenHoldCallback, TokenHoldModel, UserModel} from '@split-common/split-auth';
 import {Environment} from './environment';
 
 export const configureExpressApp = (

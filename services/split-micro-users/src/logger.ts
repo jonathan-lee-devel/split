@@ -1,4 +1,4 @@
-import {createApplicationLogger} from '@split/split-observability';
+import {createApplicationLogger} from '@split-common/split-observability';
 
 const logger = createApplicationLogger('split-micro-users');
 

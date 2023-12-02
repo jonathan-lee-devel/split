@@ -4,8 +4,8 @@ import jwt from 'jsonwebtoken';
 import {Model} from 'mongoose';
 import winston from 'winston';
 import addMinutes from 'date-fns/addMinutes';
-import {DEFAULT_TOKEN_HOLD_EXPIRY_TIME_MINUTES, DEFAULT_TOKEN_SIZE} from '@split/split-constants';
-import {HttpStatus} from '@split/split-http';
+import {DEFAULT_TOKEN_HOLD_EXPIRY_TIME_MINUTES, DEFAULT_TOKEN_SIZE} from '@split-common/split-constants';
+import {HttpStatus} from '@split-common/split-http';
 import {TokenHold, User} from './models';
 import {Environment} from './environment';
 

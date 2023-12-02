@@ -1,6 +1,6 @@
 import {Request, Response} from 'express';
 import {z} from 'zod';
-import {AuthenticatedEndpointCallback, ReturnBasedOnAuthenticationAndSafeParseResultFunction} from '@split/split-http';
+import {AuthenticatedEndpointCallback, ReturnBasedOnAuthenticationAndSafeParseResultFunction} from '@split-common/split-http';
 
 export const makeMakeGetProfileEndpoint = <TBody, TQuery>(
   returnBasedOnAuthenticationAndSafeParseResult: ReturnBasedOnAuthenticationAndSafeParseResultFunction<TBody, TQuery>,

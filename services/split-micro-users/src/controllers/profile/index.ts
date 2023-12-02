@@ -1,5 +1,5 @@
-import {UserModel} from '@split/split-auth';
-import {returnBasedOnAuthenticationAndSafeParseResult} from '@split/split-http';
+import {UserModel} from '@split-common/split-auth';
+import {returnBasedOnAuthenticationAndSafeParseResult} from '@split-common/split-http';
 import logger from '../../logger';
 import {makeGetProfileCallback} from './callbacks/get-profile';
 import {makeMakeGetProfileEndpoint} from './endpoints/get-profile';

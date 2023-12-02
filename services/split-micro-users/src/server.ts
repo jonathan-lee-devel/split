@@ -1,4 +1,8 @@
-import {makeDefaultSafeMongooseConnectionOptions, makeOnProcessInterruptSignal, SafeMongooseConnection} from '@split/split-service-config';
+import {
+  makeDefaultSafeMongooseConnectionOptions,
+  makeOnProcessInterruptSignal,
+  SafeMongooseConnection,
+} from '@split-common/split-service-config';
 import app from './app';
 import logger from './logger';
 import {environment} from './environment';
