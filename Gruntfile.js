@@ -3,6 +3,7 @@ YAML = require('js-yaml');
 module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-bump');
   grunt.loadNpmTasks('grunt-prompt');
+  grunt.loadNpmTasks('grunt-contrib-clean');
 
   grunt.initConfig({
     productionChart: grunt.file.readYAML('./deployment/values/production-values.yaml'),
@@ -64,6 +65,21 @@ module.exports = function(grunt) {
         prereleaseName: false,
         metadata: '',
         regExp: false,
+      },
+    },
+    clean: {
+      dist: {
+        src: [
+          'packages/split-env/dist',
+          'packages/split-constants/dist',
+          'packages/split-auth/dist',
+          'packages/split-observability/dist',
+          'packages/split-service-config/dist',
+          'packages/split-http/dist',
+          'packages/split-mail/dist',
+          'services/split-micro-users/dist',
+          'ui/split-ui/dist',
+        ],
       },
     },
   });

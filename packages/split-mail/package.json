@@ -1,6 +1,6 @@
 {
   "name": "@split/split-mail",
-  "version": "0.2.42",
+  "version": "0.2.43",
   "description": "Auth config for use within Split services",
   "keywords": [
     "Split",
@@ -20,22 +20,26 @@
     "url": "git+https://github.com/jonathan-lee-devel/split.git"
   },
   "scripts": {
-    "test": "echo 'No tests required for constants' && exit 0",
     "build": "tsc",
-    "fix-lint": "echo 'No linting required for constants' && exit 0"
+    "test": "jest",
+    "fix-lint": "eslint src --ext .ts --fix"
   },
   "bugs": {
     "url": "https://github.com/jonathan-lee-devel/split/issues"
   },
   "devDependencies": {
+    "@types/jest": "^29.5.10",
     "eslint": "^8.54.0",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-import": "^2.29.0",
+    "jest": "^29.7.0",
+    "jest-express": "^1.12.0",
     "typescript": "^5.3.2"
   },
   "dependencies": {
-    "@split/split-constants": "*",
     "@split/split-auth": "*",
+    "@split/split-constants": "*",
+    "ts-jest": "^29.1.1",
     "winston": "^3.11.0"
   }
 }
