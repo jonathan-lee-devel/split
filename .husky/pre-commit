@@ -1,1 +1,1 @@
-lerna clean -y && lerna run fix-lint,build,build:stage && lerna run test
+lerna clean -y && yarn install && lerna run fix-lint,build,build:stage && lerna run test
