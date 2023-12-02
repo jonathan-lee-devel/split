@@ -8,10 +8,11 @@ COPY ./yarn.lock .
 COPY ./lerna.json .
 COPY ./packages/split-env/ ./packages/split-env
 COPY ./packages/split-constants/ ./packages/split-constants
-COPY ./packages/split-auth-config/ ./packages/split-auth-config
+COPY ./packages/split-auth/ ./packages/split-auth
 COPY ./packages/split-observability/ ./packages/split-observability
 COPY ./packages/split-service-config ./packages/split-service-config
 COPY ./packages/split-http ./packages/split-http
+COPY ./packages/split-mail ./packages/split-mail
 COPY ./services/split-micro-users ./services/split-micro-users
 
 RUN yarn install
