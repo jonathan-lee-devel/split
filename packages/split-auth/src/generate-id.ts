@@ -8,7 +8,7 @@ export const makeGenerateId = (
     logger: winston.Logger,
 ): GenerateIdFunction => async (idLength): Promise<string> => {
   return new Promise<string>((resolve, reject) => {
-    idLength = idLength || DEFAULT_ID_LENGTH;
+    idLength = idLength ?? DEFAULT_ID_LENGTH;
     crypto.randomBytes(idLength / 2, (err, buffer) => {
       if (err) {
         logger.error(err);
