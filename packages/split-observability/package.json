@@ -1,6 +1,6 @@
 {
   "name": "@split-common/split-observability",
-  "version": "0.2.48",
+  "version": "0.2.49",
   "description": "Observability config for use within Split services",
   "keywords": [
     "Split",

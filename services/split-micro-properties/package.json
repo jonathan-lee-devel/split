@@ -1,7 +1,7 @@
 {
-  "name": "@split-micro/split-micro-users",
-  "version": "0.2.49",
-  "description": "Microservice for handling users",
+  "name": "@split-micro/split-micro-properties",
+  "version": "0.2.48",
+  "description": "Microservice for handling properties",
   "repository": "https://github.com/jonathan-lee-devel/split.git",
   "author": "Jonathan Lee <jonathan.lee.devel@gmail.com>",
   "license": "GPL-3.0-or-later",

@@ -1,6 +1,6 @@
 import passport from 'passport';
-import {configurePassport} from '@split-common/split-auth';
 import {configureExpressApp} from '@split-common/split-service-config';
+import {configurePassport} from '@split-common/split-auth';
 import routes from './routes';
 import {environment} from './environment';
 import logger from './logger';
@@ -15,6 +15,6 @@ configurePassport(
   configuredPassport.initialize();
 });
 
-const app = configureExpressApp(logger, routes, 'USERS', environment.JWT_SECRET, environment.FRONT_END_URL, passport);
+const app = configureExpressApp(logger, routes, 'PROPERTIES', environment.JWT_SECRET, environment.FRONT_END_URL, passport);
 
 export default app;

@@ -10,12 +10,7 @@ import {environment} from './environment';
 const PORT = environment.PORT;
 
 const safeMongooseConnection = new SafeMongooseConnection(
-    makeDefaultSafeMongooseConnectionOptions(
-        logger,
-        environment.NODE_ENV,
-        environment.DATABASE_URL,
-        'USERS',
-    ),
+    makeDefaultSafeMongooseConnectionOptions(logger, environment.NODE_ENV, environment.DATABASE_URL, 'PROPERTIES'),
 );
 
 const serve = () => app.listen(PORT, () => {

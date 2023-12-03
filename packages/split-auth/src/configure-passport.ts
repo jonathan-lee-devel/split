@@ -1,39 +1,54 @@
 import passport from 'passport';
 import {ExtractJwt, Strategy, VerifiedCallback} from 'passport-jwt';
 import passportGoogle from 'passport-google-oauth20';
-import {environment} from './environment';
 import {UserModel} from './models';
-
-const opts = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: environment.JWT_SECRET,
-  passReqToCallback: true,
-};
 
 const JwtStrategy = Strategy;
 const GoogleStrategy = passportGoogle.Strategy;
 
-export const configurePassport = async (passport: passport.PassportStatic): Promise<passport.PassportStatic> => {
+export const configurePassport = async (
+    passport: passport.PassportStatic,
+    googleClientId: string,
+    googleClientSecret: string,
+    googleCallbackUrl: string,
+    jwtSecret: string,
+): Promise<passport.PassportStatic> => {
   return configurePassportGoogleStrategy(
-      configurePassportJwtStrategy(passport),
+      configurePassportJwtStrategy(passport, jwtSecret),
+      googleClientId,
+      googleClientSecret,
+      googleCallbackUrl,
   );
 };
 
-const configurePassportJwtStrategy = (passport: passport.PassportStatic) => {
-  passport.use(new JwtStrategy(opts, (_: unknown, payload: any, done: VerifiedCallback) => {
-    return (payload) ?
+const configurePassportJwtStrategy = (
+    passport: passport.PassportStatic,
+    jwtSecret: string,
+) => {
+  passport.use(new JwtStrategy(
+      {
+        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+        secretOrKey: jwtSecret,
+        passReqToCallback: true,
+      }, (_: unknown, payload: any, done: VerifiedCallback) => {
+        return (payload) ?
         done(null, {email: payload.email, firstName: payload.firstName, lastName: payload.lastName}) :
         done(null, false);
-  }));
+      }));
   return passport;
 };
 
-const configurePassportGoogleStrategy = (passport: passport.PassportStatic) => {
+const configurePassportGoogleStrategy = (
+    passport: passport.PassportStatic,
+    googleClientId: string,
+    googleClientSecret: string,
+    googleCallbackUrl: string,
+) => {
   passport.use('google', new GoogleStrategy(
       {
-        clientID: environment.GOOGLE_CLIENT_ID,
-        clientSecret: environment.GOOGLE_CLIENT_SECRET,
-        callbackURL: environment.GOOGLE_CALLBACK_URL,
+        clientID: googleClientId,
+        clientSecret: googleClientSecret,
+        callbackURL: googleCallbackUrl,
         userProfileURL: 'https://www.googleapis.com/oauth2/v3/userinfo',
       },
       async (

@@ -1,6 +1,5 @@
 import mongoose, {ConnectOptions} from 'mongoose';
 import winston from 'winston';
-import {Environment} from './environment';
 import util from 'util';
 
 /** Callback for establishing or re-establishing mongo connection */
@@ -129,22 +128,20 @@ export class SafeMongooseConnection {
 }
 
 export const makeDefaultSafeMongooseConnectionOptions = (
-    environment: Environment,
     logger: winston.Logger,
+    nodeEnv: string,
+    mongoUrl: string,
+    label: string,
 ): SafeMongooseConnectionOptions => {
   let debugCallback;
-  if (environment.NODE_ENV === 'development') {
+  if (nodeEnv === 'development') {
     debugCallback = (collectionName: string, method: string, query: any, doc: string): void => {
       const message = `${collectionName}.${method}(${util.inspect(query, {colors: true, depth: null})})`;
-      logger.log({
-        level: 'verbose',
-        message,
-        consoleLoggerOptions: {label: 'MICRO-USERS-MONGO'},
-      });
+      logger.log({level: 'verbose', message, consoleLoggerOptions: {label}});
     };
   }
   return {
-    mongoUrl: environment.DATABASE_URL,
+    mongoUrl,
     debugCallback,
     onStartConnection: (mongoUrl) => logger.info(`Connecting to MongoDB at ${mongoUrl}`),
     onConnectionError: (error, mongoUrl) => logger.log({

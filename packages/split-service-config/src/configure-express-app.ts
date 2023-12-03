@@ -11,6 +11,7 @@ import {makeLoginSuccessTokenHoldCallback, TokenHoldModel, UserModel} from '@spl
 export const configureExpressApp = (
     logger: winston.Logger,
     routes: Router,
+    serviceName: string,
     jwtSecret: string,
     frontEndUrl: string,
     passport?: passport.PassportStatic,
@@ -18,7 +19,7 @@ export const configureExpressApp = (
   const app: Express = express();
 
   app.use(helmet.hidePoweredBy());
-  app.use(makeLogResponseTime(logger));
+  app.use(makeLogResponseTime(logger, serviceName));
   app.use(compression());
   app.use(cors({credentials: true, optionsSuccessStatus: 200, origin: frontEndUrl}));
   app.use(express.json());
