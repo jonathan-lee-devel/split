@@ -21,14 +21,14 @@ jobs:
         node-version: [20.x]
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: yarn
-          cache-dependency-path: '**/yarn.lock'
-      - run: yarn install
-      - run: yarn lerna run build --include-dependencies
+#      - name: Use Node.js ${{ matrix.node-version }}
+#        uses: actions/setup-node@v3
+#        with:
+#          node-version: ${{ matrix.node-version }}
+#          cache: yarn
+#          cache-dependency-path: '**/yarn.lock'
+#      - run: yarn install
+#      - run: yarn lerna run build --include-dependencies
       - name: Set up Snyk CLI to check for security issues
         uses: snyk/actions/setup@806182742461562b67788a64410098c9d9b96adb
         env:
