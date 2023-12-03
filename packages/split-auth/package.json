@@ -1,6 +1,6 @@
 {
   "name": "@split-common/split-auth",
-  "version": "0.2.46",
+  "version": "0.2.47",
   "description": "Auth config for use within Split services",
   "keywords": [
     "Split",
@@ -28,7 +28,7 @@
     "url": "https://github.com/jonathan-lee-devel/split/issues"
   },
   "devDependencies": {
-    "eslint": "^8.54.0",
+    "eslint": "^8.55.0",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-import": "^2.29.0",
     "typescript": "^5.3.2"
