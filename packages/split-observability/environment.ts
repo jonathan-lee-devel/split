@@ -1,10 +1,7 @@
-import dotenv from 'dotenv';
 import {z} from 'zod';
+import {loadDotEnv} from '@split-common/split-env';
 
-const result = dotenv.config();
-if (result.error) {
-  dotenv.config({path: '.env.default'});
-}
+loadDotEnv();
 
 const environmentVariables = z.object({
   NODE_ENV: z.string(),

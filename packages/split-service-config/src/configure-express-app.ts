@@ -7,12 +7,12 @@ import winston from 'winston';
 import {makeLogResponseTime} from '@split-common/split-observability';
 import {makeErrorResponseHandler, notFoundCallback} from '@split-common/split-http';
 import {makeLoginSuccessTokenHoldCallback, TokenHoldModel, UserModel} from '@split-common/split-auth';
-import {Environment} from './environment';
 
 export const configureExpressApp = (
     logger: winston.Logger,
-    environment: Environment,
     routes: Router,
+    jwtSecret: string,
+    frontEndUrl: string,
     passport?: passport.PassportStatic,
 ): Express => {
   const app: Express = express();
@@ -20,7 +20,7 @@ export const configureExpressApp = (
   app.use(helmet.hidePoweredBy());
   app.use(makeLogResponseTime(logger));
   app.use(compression());
-  app.use(cors({credentials: true, optionsSuccessStatus: 200, origin: environment.FRONT_END_URL}));
+  app.use(cors({credentials: true, optionsSuccessStatus: 200, origin: frontEndUrl}));
   app.use(express.json());
   app.use(express.urlencoded({extended: false}));
   app.use(routes);
@@ -29,12 +29,13 @@ export const configureExpressApp = (
     app.get(
         '/users/auth/google/redirect',
         passport.authenticate('google', {
-          failureRedirect: environment.FRONT_END_URL,
+          failureRedirect: frontEndUrl,
           session: false,
         }),
       makeLoginSuccessTokenHoldCallback(
           logger,
-          environment,
+          jwtSecret,
+          frontEndUrl,
           TokenHoldModel,
           UserModel,
       ) as any,

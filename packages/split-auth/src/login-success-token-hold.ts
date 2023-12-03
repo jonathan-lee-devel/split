@@ -7,11 +7,11 @@ import addMinutes from 'date-fns/addMinutes';
 import {DEFAULT_TOKEN_HOLD_EXPIRY_TIME_MINUTES, DEFAULT_TOKEN_SIZE} from '@split-common/split-constants';
 import {HttpStatus} from '@split-common/split-http';
 import {TokenHold, User} from './models';
-import {Environment} from './environment';
 
 export const makeLoginSuccessTokenHoldCallback = (
     logger: winston.Logger,
-    environment: Environment,
+    jwtSecret: string,
+    frontEndUrl: string,
     TokenHold: Model<TokenHold>,
     User: Model<User>,
 ) => async (req: AuthenticatedRequest, res: Response) => {
@@ -26,7 +26,7 @@ export const makeLoginSuccessTokenHoldCallback = (
     firstName: req.user.firstName,
     lastName: req.user.lastName,
     emailVerified: user.emailVerified,
-  }, environment.JWT_SECRET);
+  }, jwtSecret);
   const tokenCode = crypto.randomBytes(DEFAULT_TOKEN_SIZE / 2).toString('hex');
   const refreshToken = crypto.randomBytes(DEFAULT_TOKEN_SIZE / 2).toString('hex');
   await TokenHold.create({
@@ -36,6 +36,6 @@ export const makeLoginSuccessTokenHoldCallback = (
     refreshToken,
     expiryDate: addMinutes(new Date(), DEFAULT_TOKEN_HOLD_EXPIRY_TIME_MINUTES),
   });
-  logger.info(`Redirecting user <${req.user.email}> to: ${environment.FRONT_END_URL}/google-login-success?tokenCode=${encodeURIComponent(tokenCode)}`);
-  res.redirect(`${environment.FRONT_END_URL}/google-login-success?tokenCode=${encodeURIComponent(tokenCode)}`);
+  logger.info(`Redirecting user <${req.user.email}> to: ${frontEndUrl}/google-login-success?tokenCode=${encodeURIComponent(tokenCode)}`);
+  res.redirect(`${frontEndUrl}/google-login-success?tokenCode=${encodeURIComponent(tokenCode)}`);
 };
