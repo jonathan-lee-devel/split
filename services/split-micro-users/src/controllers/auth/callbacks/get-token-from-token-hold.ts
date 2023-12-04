@@ -18,5 +18,5 @@ export const makeGetTokenFromTokenHoldCallback = (
     return res.status(HttpStatus.UNAUTHORIZED).send();
   }
 
-  return res.status(HttpStatus.OK).json({token: tokenHold.token});
+  return res.status(HttpStatus.OK).json({token: tokenHold.token, refreshToken: tokenHold.refreshToken});
 };
