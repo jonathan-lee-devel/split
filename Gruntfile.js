@@ -49,6 +49,7 @@ module.exports = function(grunt) {
           'packages/split-http/package.json',
           'packages/split-mail/package.json',
           'services/split-micro-users/package.json',
+          'services/split-micro-properties/package.json',
           'ui/split-ui/package.json',
         ],
         updateConfigs: [],
