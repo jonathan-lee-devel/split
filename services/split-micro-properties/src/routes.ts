@@ -1,7 +1,7 @@
 import {Router} from 'express';
-import {indexHealthCheckHandler} from './controllers/health';
 import passport from 'passport';
 import {JWT_AUTHENTICATION_STRATEGY} from '@split-common/split-constants';
+import {indexHealthCheckHandler} from './controllers/health';
 import {createPropertyHandler} from './controllers/properties';
 
 const router = Router();
