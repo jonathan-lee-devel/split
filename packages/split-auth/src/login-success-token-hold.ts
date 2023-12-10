@@ -36,6 +36,7 @@ export const makeLoginSuccessTokenHoldCallback = (
     refreshToken,
     expiryDate: addMinutes(new Date(), DEFAULT_TOKEN_HOLD_EXPIRY_TIME_MINUTES),
   });
-  logger.info(`Redirecting user <${req.user.email}> to: ${frontEndUrl}/google-login-success?tokenCode=${encodeURIComponent(tokenCode)}`);
-  res.redirect(`${frontEndUrl}/google-login-success?tokenCode=${encodeURIComponent(tokenCode)}`);
+  const redirectUrl = `${frontEndUrl}/google-login-success?tokenCode=${encodeURIComponent(tokenCode)}`;
+  logger.info(`Redirecting user <${req.user.email}> to: ${redirectUrl}`);
+  res.redirect(redirectUrl);
 };
