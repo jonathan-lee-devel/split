@@ -1,6 +1,12 @@
 import winston from 'winston';
 
-export const makeErrorResponseHandler = (logger: winston.Logger) => (
+/**
+ * Handles error responses and logs the error using the provided logger.
+ *
+ * @param {winston.Logger} logger - The logger instance for logging the error.
+ * @return {*} - The resulting response
+ */
+export const makeErrorResponseHandler = (logger: winston.Logger): any => (
     err: { message: string; status: string },
     req: any,
     res: {

@@ -1,9 +1,8 @@
 import {z} from 'zod';
 import {loadDotEnv} from '@split-common/split-env';
 
-loadDotEnv();
-
-const environmentVariables = z.object({
+// Define environment variables schema
+const environmentSchema = z.object({
   NODE_ENV: z.string(),
   PORT: z.string(),
   DATABASE_URL: z.string(),
@@ -17,6 +16,11 @@ const environmentVariables = z.object({
   JWT_SECRET: z.string(),
 });
 
-export const environment = environmentVariables.parse(process.env);
+// Function to load and parse environment
+const loadEnvironment = () => {
+  loadDotEnv();
+  return environmentSchema.parse(process.env);
+};
 
-export type Environment = z.infer<typeof environmentVariables>;
+export const environment = loadEnvironment();
+export type Environment = z.infer<typeof environmentSchema>;

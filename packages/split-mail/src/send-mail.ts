@@ -12,6 +12,17 @@ export type SendMailFunction = (
   html: string,
 ) => Promise<void>;
 
+/**
+ * Send an email using the specified environment, logger, EmailSendAttempt model,
+ * generateId function, and transporter.
+ *
+ * @param {Environment} environment - The environment configuration.
+ * @param {winston.Logger} logger - The logger instance.
+ * @param {Model<EmailSendAttempt>} EmailSendAttempt - The Mongoose model for EmailSendAttempt documents.
+ * @param {GenerateIdFunction} generateId - The function to generate a unique ID.
+ * @param {Transporter<SMTPTransport.SentMessageInfo>} transporter - The email transporter.
+ * @return {SendMailFunction} - The function to send the email.
+ */
 export const makeSendMail = (
     environment: Environment,
     logger: winston.Logger,

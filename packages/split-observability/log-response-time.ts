@@ -1,7 +1,18 @@
 import {NextFunction, Request, Response} from 'express';
 import winston from 'winston';
 
-export const makeLogResponseTime = (logger: winston.Logger, serviceName: string) => (req: Request, res: Response, next: NextFunction) => {
+// eslint-disable-next-line valid-jsdoc
+/**
+ * Logs the response time for each request and sends it to the specified logger.
+ *
+ * @param {winston.Logger} logger - The logger instance to send the log to.
+ * @param {string} serviceName - The name of the service.
+ * @return Returns the middleware function.
+ */
+export const makeLogResponseTime = (
+    logger: winston.Logger,
+    serviceName: string,
+) => (req: Request, res: Response, next: NextFunction) => {
   const startHrTime = process.hrtime();
 
   res.on('finish', () => {
