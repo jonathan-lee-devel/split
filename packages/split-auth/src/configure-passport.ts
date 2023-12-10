@@ -32,7 +32,7 @@ const configurePassportJwtStrategy = (
         passReqToCallback: true,
       }, (_: unknown, payload: any, done: VerifiedCallback) => {
         return (payload) ?
-        done(null, {email: payload.email, firstName: payload.firstName, lastName: payload.lastName}) :
+        done(null, {email: payload.email, firstName: payload.firstName, lastName: payload.lastName, emailVerified: payload.emailVerified}) :
         done(null, false);
       }));
   return passport;

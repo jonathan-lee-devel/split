@@ -8,6 +8,7 @@ export const makeGetProfileCallback = (
     logger: winston.Logger,
     User: Model<User>,
 ): AuthenticatedEndpointCallback<GetProfileRequestBody, GetProfileRequestQuery> => async (req, res) => {
+  logger.silly(`req.user = ${JSON.stringify(req.user)}`);
   const user = await User.findOne({email: req.user.email});
   if (!user) {
     logger.error(`req.user.email query returned null for user ${JSON.stringify(req.user)}`);
