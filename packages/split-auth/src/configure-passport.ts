@@ -6,6 +6,17 @@ import {UserModel} from './models';
 const JwtStrategy = Strategy;
 const GoogleStrategy = passportGoogle.Strategy;
 
+/**
+ * Configures the Passport library with the required strategies and options.
+ *
+ * @param {passport.PassportStatic} passport - The Passport instance to configure.
+ * @param {string} googleClientId - The Google client ID for OAuth 2.0 authentication.
+ * @param {string} googleClientSecret - The Google client secret for OAuth 2.0 authentication.
+ * @param {string} googleCallbackUrl - The URL where the user will be redirected after authentication.
+ * @param {string} jwtSecret - The secret key used for JWT authentication.
+ *
+ * @return {Promise<passport.PassportStatic>} A Promise that resolves to the configured Passport instance.
+ */
 export const configurePassport = async (
     passport: passport.PassportStatic,
     googleClientId: string,
@@ -21,10 +32,16 @@ export const configurePassport = async (
   );
 };
 
+/**
+ * Configures Passport JWT Strategy.
+ * @param {passport.PassportStatic} passport - Passport instance.
+ * @param {string} jwtSecret - Secret key used to sign the JWT.
+ * @return {passport.PassportStatic} - Configured Passport instance.
+ */
 const configurePassportJwtStrategy = (
     passport: passport.PassportStatic,
     jwtSecret: string,
-) => {
+): passport.PassportStatic => {
   passport.use(new JwtStrategy(
       {
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -38,12 +55,21 @@ const configurePassportJwtStrategy = (
   return passport;
 };
 
+/**
+ * Configures the Google authentication strategy for Passport.
+ *
+ * @param {passport.PassportStatic} passport - The Passport object.
+ * @param {string} googleClientId - The Client ID provided by Google.
+ * @param {string} googleClientSecret - The Client Secret provided by Google.
+ * @param {string} googleCallbackUrl - The Callback URL for the Google authentication.
+ * @return {passport.PassportStatic} - The configured Passport object.
+ */
 const configurePassportGoogleStrategy = (
     passport: passport.PassportStatic,
     googleClientId: string,
     googleClientSecret: string,
     googleCallbackUrl: string,
-) => {
+): passport.PassportStatic => {
   passport.use('google', new GoogleStrategy(
       {
         clientID: googleClientId,

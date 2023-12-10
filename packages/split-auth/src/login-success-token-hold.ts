@@ -8,13 +8,23 @@ import {DEFAULT_TOKEN_HOLD_EXPIRY_TIME_MINUTES, DEFAULT_TOKEN_SIZE} from '@split
 import {HttpStatus} from '@split-common/split-http';
 import {TokenHold, User} from './models';
 
+/**
+ * Function that handles the callback for a successful login using Google authentication.
+ *
+ * @param {winston.Logger} logger - The logger instance to use for logging.
+ * @param {string} jwtSecret - The secret key used for JWT token generation.
+ * @param {string} frontEndUrl - The URL of the front-end application.
+ * @param {Model<TokenHold>} TokenHold - The Mongoose model for the TokenHold collection.
+ * @param {Model<User>} User - The Mongoose model for the User collection.
+ * @return {Function} - The handler function for the login success callback.
+ */
 export const makeLoginSuccessTokenHoldCallback = (
     logger: winston.Logger,
     jwtSecret: string,
     frontEndUrl: string,
     TokenHold: Model<TokenHold>,
     User: Model<User>,
-) => async (req: AuthenticatedRequest, res: Response) => {
+): Function => async (req: AuthenticatedRequest, res: Response) => {
   logger.info(`Successful Google authentication for: <${req.user.email}>`);
   const user = await User.findOne({email: req.user.email}).exec();
   if (!user) {
