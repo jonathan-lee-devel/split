@@ -1,6 +1,7 @@
 import {AuthenticatedRequest, NextFunction, Request, Response} from 'express';
 import {SafeParseError, SafeParseSuccess} from 'zod';
 import {HttpStatus} from './enums';
+import logger from './logger';
 
 export interface EndpointInformation<TBody, TQuery> {
   bodyParseResult: SafeParseSuccess<TBody> | SafeParseError<TBody>;
@@ -38,7 +39,7 @@ export type AnonymousEndpointCallback<TBody, TQuery> = (
   req: Request<any, any, TBody, TQuery>,
   res: Response,
   next?: NextFunction,
-) => void;
+) => Promise<Response<any, Record<string, any>>> | undefined;
 
 export type ReturnAnonymouslyBasedOnSafeParseResultFunction<TBody, TQuery> = (
   endpointInformation: EndpointInformation<TBody, TQuery>,
@@ -52,17 +53,18 @@ export type AuthenticatedEndpointCallback<TBody, TQuery> = (
   req: AuthenticatedRequest<any, any, TBody, TQuery>,
   res: Response,
   next?: NextFunction,
-) => void;
+) => Promise<Response<any, Record<string, any>>> | undefined;
 
 export type ReturnBasedOnAuthenticationAndSafeParseResultFunction<TBody, TQuery> = (
   endpointInformation: EndpointInformation<TBody, TQuery>,
 ) => void;
 
+// eslint-disable-next-line valid-jsdoc
 /**
  * Returns a result based on authentication and safe parse result.
  *
  * @param {EndpointInformation<TBody, TQuery>} endpointInformation - The endpoint information.
- * @return {*} - The result based on authentication and safe parse result.
+ * @return The result based on authentication and safe parse result.
  */
 export const returnBasedOnAuthenticationAndSafeParseResult = <TBody, TQuery>(
   endpointInformation: EndpointInformation<TBody, TQuery>,
@@ -70,14 +72,26 @@ export const returnBasedOnAuthenticationAndSafeParseResult = <TBody, TQuery>(
   returnBasedOnSafeParseResult(endpointInformation) :
   endpointInformation.res.status(HttpStatus.UNAUTHORIZED).send();
 
-export const withTryCatchBlock = <TBody, TQuery>(
-  callback: AnonymousEndpointCallback<TBody, TQuery> |
-    AuthenticatedEndpointCallback<TBody, TQuery>,
+export const wrapTryCatchAuthenticated = <TBody, TQuery>(
+  callback: AuthenticatedEndpointCallback<TBody, TQuery>,
 ) =>
-    (req: Request | AuthenticatedRequest, res: Response) => {
+    async (req: AuthenticatedRequest<any, any, TBody, TQuery>, res: Response, next?: NextFunction) => {
       try {
-        callback(req as any, res);
-      } catch (error) {
+        await callback(req, res, next);
+      } catch (err) {
+        logger.error(`Unhandled error has occurred: ${err}`);
+        return res.status(HttpStatus.INTERNAL_SERVER_ERROR).send();
+      }
+    };
+
+export const wrapTryCatchAnonymous = <TBody, TQuery>(
+  callback: AnonymousEndpointCallback<TBody, TQuery>,
+) =>
+    async (req: Request<any, any, TBody, TQuery>, res: Response, next?: NextFunction)=> {
+      try {
+        await callback(req, res, next);
+      } catch (err) {
+        logger.error(`Unhandled error has occurred: ${err}`);
         return res.status(HttpStatus.INTERNAL_SERVER_ERROR).send();
       }
     };
