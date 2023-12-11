@@ -24,13 +24,13 @@ export const makeRegisterCallback = (
           return res.status(HttpStatus.BAD_REQUEST).json({error: 'You must accept the terms and conditions'});
         }
         const existingUser = await User.findOne({email});
-        if (existingUser && existingUser.emailVerified && existingUser.password) {
+        if (existingUser?.emailVerified && existingUser?.password) {
           return res.status(HttpStatus.BAD_REQUEST).json({error: 'User with that e-mail address already exists'});
         }
         if (existingUser && !existingUser.emailVerified) {
           await User.deleteOne({email});
         }
-        if (existingUser && existingUser.googleId) {
+        if (existingUser?.googleId) {
           existingUser.password = await encodePassword(password);
           await existingUser.save();
         } else {
