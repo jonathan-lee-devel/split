@@ -116,6 +116,7 @@ module.exports = function(grunt) {
 
     chart['ui']['image']['tag'] = (isStage) ? `stage-${version}`: `${version}`;
     chart['microUsers']['image']['tag'] = `${version}`;
+    chart['microProperties']['image']['tag'] = `${version}`;
 
     grunt.file.write(chartPath, YAML.dump(chart));
   }
