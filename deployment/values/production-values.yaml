@@ -7,20 +7,20 @@ ui:
   name: ui
   image:
     repository: jonathanleedev/split-ui
-    tag: 0.2.58
+    tag: 0.2.59
     pullPolicy: Always
   port: 4000
 microUsers:
   name: micro-users
   image:
     repository: jonathanleedev/split-micro-users
-    tag: 0.2.58
+    tag: 0.2.59
     pullPolicy: Always
   port: 3000
 microProperties:
   name: micro-properties
   image:
     repository: jonathanleedev/split-micro-properties
-    tag: 0.2.57
+    tag: 0.2.59
     pullPolicy: Always
   port: 3000
