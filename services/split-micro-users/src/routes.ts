@@ -16,6 +16,6 @@ router.post('/users/login', loginHandler);
 router.post('/users/token-code', getTokenFromTokenHoldHandler);
 
 // Protected Routes Example
-router.get('/users/profile', passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), getProfileHandler);
+router.get('/users/profile', passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), getProfileHandler as any);
 
 export default router;

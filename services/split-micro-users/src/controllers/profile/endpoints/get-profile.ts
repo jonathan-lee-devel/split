@@ -1,4 +1,4 @@
-import {Request, Response} from 'express';
+import {AuthenticatedRequest, Response} from 'express';
 import {z} from 'zod';
 import {AuthenticatedEndpointCallback, ReturnBasedOnAuthenticationAndSafeParseResultFunction} from '@split-common/split-http';
 
@@ -9,7 +9,7 @@ export const makeMakeGetProfileEndpoint = <TBody, TQuery>(
         bodySchema: z.Schema<TBody>,
         querySchema: z.Schema<TQuery>,
         callback: AuthenticatedEndpointCallback<TBody, TQuery>,
-    ) => (req: Request, res: Response) => {
+    ) => (req: AuthenticatedRequest, res: Response) => {
       returnBasedOnAuthenticationAndSafeParseResult({
         bodyParseResult: bodySchema.safeParse(req.body),
         queryParseResult: querySchema.safeParse(req.query),
