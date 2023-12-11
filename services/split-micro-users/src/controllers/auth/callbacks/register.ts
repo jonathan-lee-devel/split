@@ -43,5 +43,6 @@ export const makeRegisterCallback = (
             googleId: undefined,
           });
         }
+        logger.info(`Registration process initiated for user: <${email}>`);
         return res.status(HttpStatus.OK).json({status: 'AWAITING_EMAIL_VERIFICATION'});
       }) as any;
