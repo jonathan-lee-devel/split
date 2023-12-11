@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "split.fullname" . }}-micro-users-deployment
+  name: {{ template "split.fullname" . }}-micro-properties-deployment
   namespace: split-{{ .Values.environment.name }}
   labels:
     app: {{ template "split.fullname" . }}
     chart: {{ template "split.chart" . }}
-    component: "{{ .Values.microUsers.fullname }}"
+    component: "{{ .Values.microProperties.name }}"
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   selector:
     matchLabels:
       app: {{ template "split.fullname" . }}
-      component: "{{ .Values.microUsers.name }}"
+      component: "{{ .Values.microProperties.name }}"
       release: {{ .Release.Name }}
   replicas: {{ .Values.replicaCount }}
   strategy:
@@ -24,15 +24,15 @@ spec:
     metadata:
       labels:
         app: {{ template "split.fullname" . }}
-        component: "{{ .Values.microUsers.name }}"
+        component: "{{ .Values.microProperties.name }}"
         release: {{ .Release.Name }}
     spec:
       securityContext:
         runAsUser: 1000
       containers:
         - name: {{ template "split.fullname" . }}-api
-          image: "{{ .Values.microUsers.image.repository }}:{{ .Values.microUsers.image.tag }}"
-          imagePullPolicy: "{{ .Values.microUsers.image.pullPolicy }}"
+          image: "{{ .Values.microProperties.image.repository }}:{{ .Values.microProperties.image.tag }}"
+          imagePullPolicy: "{{ .Values.microProperties.image.pullPolicy }}"
           env:
             - name: NODE_ENV
               valueFrom:
@@ -47,12 +47,12 @@ spec:
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
-                  name: split-micro-users-database-url
+                  name: split-micro-properties-database-url
                   key: DATABASE_URL
             - name: PORT
               valueFrom:
                 secretKeyRef:
-                  name: split-micro-users-port
+                  name: split-micro-properties-port
                   key: PORT
             - name: FRONT_END_URL
               valueFrom:
@@ -90,11 +90,11 @@ spec:
                   name: split-micro-jwt-secret
                   key: JWT_SECRET
           ports:
-            - containerPort: {{ .Values.microUsers.port }}
+            - containerPort: {{ .Values.microProperties.port }}
           resources: {}
           livenessProbe:
             httpGet:
-              port: {{ .Values.microUsers.port }}
+              port: {{ .Values.microProperties.port }}
               path: /
             initialDelaySeconds: 3
             periodSeconds: 3

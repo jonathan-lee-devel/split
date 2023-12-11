@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.applicationName }}-micro-properties-service
+  namespace: split-{{ .Values.environment.name }}
+  labels:
+    app: {{ .Values.applicationName }}
+    chart: {{ template "split.chart" . }}
+    component: "{{ .Values.microProperties.name }}"
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  ports:
+    - name: http
+      protocol: TCP
+      port: {{ .Values.microProperties.port }}
+      targetPort: {{ .Values.microProperties.port }}
+  selector:
+    app: {{ template "split.fullname" . }}
+    component: "{{ .Values.microProperties.name }}"
+    release: {{ .Release.Name }}
