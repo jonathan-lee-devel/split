@@ -101,14 +101,14 @@ module.exports = function(grunt) {
     const versionSplit = version.split('.');
     const currentMinorVersion = versionSplit[1];
     const nextMinorVersion = String(Number(currentMinorVersion) + 1);
-    return `${versionSplit[0]}.${nextMinorVersion}.${versionSplit[2]}`;
+    return `${versionSplit[0]}.${nextMinorVersion}.${0}`;
   }
 
   function bumpVersionMajor(version) {
     const versionSplit = version.split('.');
     const currentMajorVersion = versionSplit[0];
     const nextMajorVersion = String(Number(currentMajorVersion) + 1);
-    return `${nextMajorVersion}.${versionSplit[1]}.${versionSplit[2]}`;
+    return `${nextMajorVersion}.${0}.${0}`;
   }
 
   function updateChartValues(chartPath, version, isStage) {
