@@ -5,6 +5,7 @@ import {RegisterDto} from '../../dtos/register/RegisterDto';
 import {environment} from '../../../environments/environment';
 import {RoutePaths} from '../../app.routes';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {RegistrationRequestDto} from '../../dtos/register/RegistrationRequestDto';
 
 @Injectable({
   providedIn: 'root',
@@ -16,33 +17,23 @@ export class RegisterService {
     private snackBar: MatSnackBar,
   ) { }
 
-  doRegister(email: string,
-      firstName: string,
-      lastName: string,
-      password: string,
-      confirmPassword: string,
-      acceptTermsAndConditions: boolean) {
-    this.httpClient.post<RegisterDto>(`${environment.RAW_API_URL}/register`, {
-      email,
-      firstName,
-      lastName,
-      password,
-      confirmPassword,
-      acceptTermsAndConditions,
-    }).subscribe((registerDto) => {
-      this.router.navigate([`/${RoutePaths.LOGIN}`]).catch((reason) => {
-        window.alert(reason);
-      });
-      let message: string;
-      switch (registerDto.status) {
-        case 'AWAITING_EMAIL_VERIFICATION':
-          message = 'Please check your e-mail inbox for further instructions';
-          break;
-        default:
-          message = 'An unknown error has occurred';
-      }
-      this.snackBar.open(message);
-    });
+  doRegister(registrationRequestDto: RegistrationRequestDto) {
+    this.httpClient.post<RegisterDto>(`${environment.USERS_SERVICE_BASE_URL}/register`, registrationRequestDto)
+        .subscribe((registerDto) => {
+          this.router.navigate([`/${RoutePaths.LOGIN}`])
+              .catch((reason) => {
+                window.alert(reason);
+              });
+          let message: string;
+          switch (registerDto.status) {
+            case 'AWAITING_EMAIL_VERIFICATION':
+              message = 'Please check your e-mail inbox for further instructions';
+              break;
+            default:
+              message = 'An unknown error has occurred';
+          }
+          this.snackBar.open(message);
+        });
   }
 
   doConfirmRegister(tokenValue: string) {

@@ -24,7 +24,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
-  username: string = '';
+  email: string = '';
   password: string = '';
 
   constructor(
@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
   }
 
   doLogin() {
-    this.authService.doLogin(this.username, this.password);
+    this.authService.doLogin({email: this.email, password: this.password});
   }
 
   doGoogleLogin() {

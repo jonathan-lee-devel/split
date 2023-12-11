@@ -5,6 +5,7 @@ import {RouterLink} from '@angular/router';
 import {SyncService} from '../../../../services/sync/sync.service';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {RegisterService} from '../../../../services/register/register.service';
+import {first} from 'rxjs';
 
 @Component({
   selector: 'app-auth',
@@ -20,6 +21,7 @@ export class RegisterComponent {
   password: string = '';
   confirmPassword: string = '';
   acceptTermsAndConditions: boolean = false;
+  protected readonly first = first;
 
   constructor(
       syncService: SyncService,
@@ -36,13 +38,13 @@ export class RegisterComponent {
   }
 
   doRegister() {
-    this.registerService.doRegister(
-        this.email,
-        this.firstName,
-        this.lastName,
-        this.password,
-        this.confirmPassword,
-        this.acceptTermsAndConditions,
-    );
+    this.registerService.doRegister({
+      email: this.email,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      password: this.password,
+      confirmPassword: this.confirmPassword,
+      acceptTermsAndConditions: this.acceptTermsAndConditions,
+    });
   }
 }

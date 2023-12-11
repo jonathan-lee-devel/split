@@ -1,9 +1,12 @@
 import {z} from 'zod';
 
 export const RegisterRequestBodySchema = z.object({
-  email: z.string(),
+  email: z.string().email(),
+  firstName: z.string(),
+  lastName: z.string(),
   password: z.string(),
   confirmPassword: z.string(),
+  acceptTermsAndConditions: z.boolean(),
 });
 
 export type RegisterRequestBody = z.infer<typeof RegisterRequestBodySchema>;

@@ -1,12 +1,16 @@
 import {Inject, Injectable, NgZone, PLATFORM_ID, signal, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {UserDto} from '../../dtos/auth/UserDto';
 import {Router} from '@angular/router';
+import {isPlatformServer} from '@angular/common';
+import {environment} from '../../../environments/environment';
 import {RoutePaths} from '../../app.routes';
 import {ProfileService} from '../profile/profile.service';
 import {UsersService} from '../users/users.service';
-import {isPlatformServer} from '@angular/common';
 import {AppComponent} from '../../app.component';
+import {UserDto} from '../../dtos/auth/UserDto';
+import {LoginDto} from '../../dtos/auth/LoginDto';
+import {AuthenticationRequestDto} from '../../dtos/auth/AuthenticationRequestDto';
+import {TokensDto} from '../../dtos/auth/TokensDto';
 
 @Injectable({
   providedIn: 'root',
@@ -16,11 +20,9 @@ export class AuthService {
   isLoggedIn = signal<boolean>(false);
   currentUserInfo = signal<UserDto>(AuthService.INITIAL_USER);
   @ViewChild(AppComponent, {static: true}) appComponent: AppComponent | undefined;
-  private readonly USERNAME = 'username';
-  private readonly PASSWORD = 'password';
-  private readonly SUCCESS = 'SUCCESS';
   private readonly USER_DATA_KEY = 'user-data';
   private readonly ACCESS_TOKEN_KEY: string = 'access-token';
+  private readonly REFRESH_TOKEN_KEY: string = 'refresh-token';
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: NonNullable<unknown>,
@@ -43,32 +45,22 @@ export class AuthService {
   }
 
   getCurrentAccessToken(): string {
-    const accessToken = sessionStorage.getItem(this.ACCESS_TOKEN_KEY);
-    return (accessToken) ? accessToken : '';
+    return this.getToken(this.ACCESS_TOKEN_KEY);
+  }
+
+  getCurrentRefreshToken(): string {
+    return this.getToken(this.REFRESH_TOKEN_KEY);
   }
 
   isAuthenticated() {
     return this.getCurrentAccessToken() !== '';
   }
 
-  doLogin(username: string, password: string) {
-    if (username === password) {
-      window.alert('Change your password');
-    }
-    window.alert('Login not yet implemented, please sign in with Google');
-    // const body = new HttpParams()
-    //     .set(this.USERNAME, username)
-    //     .set(this.PASSWORD, password);
-    //
-    // this.httpClient.post<LoginDto>(`${environment.RAW_API_URL}/auth/login`, body, {
-    //   withCredentials: true,
-    // }).subscribe((loginDto) => {
-    //   if (loginDto.loginStatus === this.SUCCESS) {
-    //     this.onSuccessfulLogin(loginDto.user);
-    //   } else {
-    //     window.alert('Login Failed!');
-    //   }
-    // });
+  doLogin(authenticationRequest: AuthenticationRequestDto) {
+    this.httpClient.post<LoginDto>(`${environment.USERS_SERVICE_BASE_URL}/login`, authenticationRequest)
+        .subscribe((loginDto) => {
+          this.onSuccessfulLogin({accessToken: loginDto.token, refreshToken: loginDto.refreshToken});
+        });
   }
 
   doLogout() {
@@ -89,13 +81,19 @@ export class AuthService {
   onSuccessfulGoogleLogin(tokenCode: string) {
     this.usersService.getTokenFromTokenCode(tokenCode)
         .subscribe((tokenHold) => {
-          this.onSuccessfulLogin(tokenHold.token);
+          this.onSuccessfulLogin({accessToken: tokenHold.token, refreshToken: tokenHold.refreshToken});
         });
   }
 
-  private onSuccessfulLogin(accessToken: string) {
+  private getToken(key: string) {
+    const token = sessionStorage.getItem(key);
+    return (token) ? token : '';
+  }
+
+  private onSuccessfulLogin(tokensDto: TokensDto) {
     if (!isPlatformServer(this.platformId)) {
-      sessionStorage.setItem(this.ACCESS_TOKEN_KEY, accessToken);
+      sessionStorage.setItem(this.ACCESS_TOKEN_KEY, tokensDto.accessToken);
+      sessionStorage.setItem(this.REFRESH_TOKEN_KEY, tokensDto.refreshToken);
       this.profileService.getUserInfo()
           .subscribe((userInfo) => {
             this.ngZone.run(() => {

@@ -1,7 +1,6 @@
 import {AuthenticatedRequest, NextFunction, Request, Response} from 'express';
 import {SafeParseError, SafeParseSuccess} from 'zod';
 import {HttpStatus} from './enums';
-import logger from './logger';
 
 export interface EndpointInformation<TBody, TQuery> {
   bodyParseResult: SafeParseSuccess<TBody> | SafeParseError<TBody>;
@@ -24,7 +23,7 @@ export interface EndpointInformation<TBody, TQuery> {
  */
 const returnBasedOnSafeParseResult = <TBody, TQuery>(
   endpointInformation: EndpointInformation<TBody, TQuery>,
-): any => {
+) => {
   if (!endpointInformation.bodyParseResult.success) {
     return endpointInformation.res.status(HttpStatus.BAD_REQUEST).json(endpointInformation.bodyParseResult.error);
   } else if (!endpointInformation.queryParseResult.success) {
@@ -38,7 +37,7 @@ const returnBasedOnSafeParseResult = <TBody, TQuery>(
 export type AnonymousEndpointCallback<TBody, TQuery> = (
   req: Request<any, any, TBody, TQuery>,
   res: Response,
-  next?: NextFunction
+  next?: NextFunction,
 ) => void;
 
 export type ReturnAnonymouslyBasedOnSafeParseResultFunction<TBody, TQuery> = (
@@ -47,14 +46,12 @@ export type ReturnAnonymouslyBasedOnSafeParseResultFunction<TBody, TQuery> = (
 
 export const returnAnonymouslyBasedOnSafeParseResult = <TBody, TQuery>(
   endpointInformation: EndpointInformation<TBody, TQuery>,
-) => {
-  return returnBasedOnSafeParseResult(endpointInformation);
-};
+) => returnBasedOnSafeParseResult(endpointInformation);
 
 export type AuthenticatedEndpointCallback<TBody, TQuery> = (
   req: AuthenticatedRequest<any, any, TBody, TQuery>,
   res: Response,
-  next?: NextFunction
+  next?: NextFunction,
 ) => void;
 
 export type ReturnBasedOnAuthenticationAndSafeParseResultFunction<TBody, TQuery> = (
@@ -65,14 +62,22 @@ export type ReturnBasedOnAuthenticationAndSafeParseResultFunction<TBody, TQuery>
  * Returns a result based on authentication and safe parse result.
  *
  * @param {EndpointInformation<TBody, TQuery>} endpointInformation - The endpoint information.
- * @return {any} - The result based on authentication and safe parse result.
+ * @return {*} - The result based on authentication and safe parse result.
  */
 export const returnBasedOnAuthenticationAndSafeParseResult = <TBody, TQuery>(
   endpointInformation: EndpointInformation<TBody, TQuery>,
-) => {
-  logger.silly(`endpoint info = ${JSON.stringify( (endpointInformation.req as AuthenticatedRequest).user )}`);
-  return (endpointInformation.req.user) && (endpointInformation.req as AuthenticatedRequest).user.emailVerified ?
-    returnBasedOnSafeParseResult(endpointInformation) :
-    endpointInformation.res.status(HttpStatus.UNAUTHORIZED).send();
-};
+) => (endpointInformation.req.user) && (endpointInformation.req as AuthenticatedRequest).user.emailVerified ?
+  returnBasedOnSafeParseResult(endpointInformation) :
+  endpointInformation.res.status(HttpStatus.UNAUTHORIZED).send();
 
+export const withTryCatchBlock = <TBody, TQuery>(
+  callback: AnonymousEndpointCallback<TBody, TQuery> |
+    AuthenticatedEndpointCallback<TBody, TQuery>,
+) =>
+    (req: Request | AuthenticatedRequest, res: Response) => {
+      try {
+        callback(req as any, res);
+      } catch (error) {
+        return res.status(HttpStatus.INTERNAL_SERVER_ERROR).send();
+      }
+    };

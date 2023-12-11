@@ -1,7 +1,7 @@
 import {z} from 'zod';
 
 export const LoginRequestBodySchema = z.object({
-  email: z.string(),
+  email: z.string().email(),
   password: z.string(),
 });
 
