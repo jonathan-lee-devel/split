@@ -35,7 +35,7 @@ spec:
               service:
                 name: split-direct-micro-expenses-service
                 port:
-                  number; {{ .Values.microExpenses.port }}
+                  number: {{ .Values.microExpenses.port }}
             pathType: Prefix
             path: /expenses
     - host: {{ .Values.environment.hostPrefix }}split.direct
