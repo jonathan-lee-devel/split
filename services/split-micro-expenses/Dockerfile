@@ -7,7 +7,7 @@ COPY ./package.json .
 COPY ./yarn.lock .
 COPY ./lerna.json .
 COPY ./packages ./packages
-COPY ./services/split-micro-properties ./services/split-micro-expenses
+COPY ./services/split-micro-expenses ./services/split-micro-expenses
 
 RUN yarn install
 
