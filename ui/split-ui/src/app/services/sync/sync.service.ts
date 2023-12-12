@@ -1,6 +1,7 @@
-import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
-import {AuthService} from '../auth/auth.service';
 import {isPlatformServer} from '@angular/common';
+import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
+
+import {AuthService} from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root',

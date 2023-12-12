@@ -1,6 +1,7 @@
-import {afterRender, Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {afterRender, Component} from '@angular/core';
 import {RouterLink} from '@angular/router';
+
 import {SyncService} from '../../../services/sync/sync.service';
 
 @Component({

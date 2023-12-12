@@ -1,8 +1,9 @@
-import {afterRender, Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {afterRender, Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {SyncService} from '../../../../services/sync/sync.service';
+
 import {RegisterService} from '../../../../services/register/register.service';
+import {SyncService} from '../../../../services/sync/sync.service';
 
 @Component({
   selector: 'app-auth-confirm',

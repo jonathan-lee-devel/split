@@ -1,7 +1,8 @@
-import {Component, Signal} from '@angular/core';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
+import {Component, Signal} from '@angular/core';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {Router, RouterLink} from '@angular/router';
+
 import {RoutePaths} from '../../../app.routes';
 import {AuthService} from '../../../services/auth/auth.service';
 

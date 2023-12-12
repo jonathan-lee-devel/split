@@ -1,10 +1,11 @@
-import winston from 'winston';
-import {AuthenticatedEndpointCallback, HttpStatus, wrapTryCatchAuthenticated} from '@split-common/split-http';
-import {CreatePropertyRequestBody, CreatePropertyRequestQuery} from '../schemas/create-property';
-import {Model} from 'mongoose';
-import {Property} from '../../../models';
 import {GenerateIdFunction} from '@split-common/split-auth';
+import {AuthenticatedEndpointCallback, HttpStatus, wrapTryCatchAuthenticated} from '@split-common/split-http';
 import {ModelTransformFunction} from '@split-common/split-service-config';
+import {Model} from 'mongoose';
+import winston from 'winston';
+
+import {Property} from '../../../models';
+import {CreatePropertyRequestBody, CreatePropertyRequestQuery} from '../schemas/create-property';
 
 export const makeCreatePropertyCallback = (
     logger: winston.Logger,

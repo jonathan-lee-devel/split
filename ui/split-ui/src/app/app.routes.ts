@@ -1,23 +1,24 @@
 import {Routes} from '@angular/router';
-import {LandingPageComponent} from './components/pages/landing-page/landing-page.component';
-import {LoginComponent} from './components/pages/_users/login/login.component';
-import {RegisterComponent} from './components/pages/_users/register/register.component';
-import {RegisterConfirmComponent} from './components/pages/_users/register-confirm/register-confirm.component';
-import {ResetPasswordComponent} from './components/pages/_users/reset-password/reset-password.component';
-import {
-  ResetPasswordConfirmComponent,
-} from './components/pages/_users/reset-password-confirm/reset-password-confirm.component';
-import {LogoutInProcessComponent} from './components/pages/_users/logout-in-process/logout-in-process.component';
+
+import {PropertiesManageComponent} from './components/pages/_properties/properties-manage/properties-manage.component';
 import {
   GoogleLoginProcessingComponent,
 } from './components/pages/_users/google-login-processing/google-login-processing.component';
 import {
   GoogleLoginSuccessComponent,
 } from './components/pages/_users/google-login-success/google-login-success.component';
+import {LoginComponent} from './components/pages/_users/login/login.component';
+import {LogoutInProcessComponent} from './components/pages/_users/logout-in-process/logout-in-process.component';
+import {RegisterComponent} from './components/pages/_users/register/register.component';
+import {RegisterConfirmComponent} from './components/pages/_users/register-confirm/register-confirm.component';
+import {ResetPasswordComponent} from './components/pages/_users/reset-password/reset-password.component';
+import {
+  ResetPasswordConfirmComponent,
+} from './components/pages/_users/reset-password-confirm/reset-password-confirm.component';
 import {DashboardComponent} from './components/pages/dashboard/dashboard.component';
+import {LandingPageComponent} from './components/pages/landing-page/landing-page.component';
 import {ManageAccountComponent} from './components/pages/manage-account/manage-account.component';
 import {authGuard} from './guards/auth.guard';
-import {PropertiesManageComponent} from './components/pages/_properties/properties-manage/properties-manage.component';
 
 export enum RoutePaths {
   /* ANONYMOUS ROUTES */

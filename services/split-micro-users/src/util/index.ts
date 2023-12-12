@@ -5,13 +5,14 @@ import {
   UserModel,
 } from '@split-common/split-auth';
 import {EmailSendAttemptModel, makeSendMail, transporterConfig} from '@split-common/split-mail';
-import logger from '../logger';
-import {environment} from '../environment';
-import {makeGenerateRegistrationVerificationToken} from './registration/generate-registration-verification-token';
+
 import {makeEncodePassword} from './password/encode-password';
-import {makeGenerateSalt} from './password/generate-salt';
 import {makeGeneratePasswordResetVerificationToken} from './password/generate-password-reset-verification-token';
+import {makeGenerateSalt} from './password/generate-salt';
+import {makeGenerateRegistrationVerificationToken} from './registration/generate-registration-verification-token';
 import {makeHandleExistingUser} from './registration/handle-existing-user';
+import {environment} from '../environment';
+import logger from '../logger';
 
 const transporter = transporterConfig();
 

@@ -1,5 +1,6 @@
 import {expect} from '@jest/globals';
 import bcrypt from 'bcrypt';
+
 import {makeEncodePassword} from '../encode-password';
 
 describe('Encode Password Unit Tests', () => {

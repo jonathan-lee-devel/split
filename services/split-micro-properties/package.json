@@ -1,6 +1,6 @@
 {
   "name": "@split-micro/split-micro-properties",
-  "version": "0.2.59",
+  "version": "0.2.60",
   "description": "Microservice for handling properties",
   "repository": "https://github.com/jonathan-lee-devel/split.git",
   "author": "Jonathan Lee <jonathan.lee.devel@gmail.com>",
@@ -15,12 +15,12 @@
     "fix-lint": "eslint src --ext .ts --fix"
   },
   "dependencies": {
-    "@split-common/split-service-config": "*",
-    "@split-common/split-constants": "*",
-    "@split-common/split-observability": "*",
     "@split-common/split-auth": "*",
+    "@split-common/split-constants": "*",
     "@split-common/split-http": "*",
     "@split-common/split-mail": "*",
+    "@split-common/split-observability": "*",
+    "@split-common/split-service-config": "*",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "compression": "^1.7.4",

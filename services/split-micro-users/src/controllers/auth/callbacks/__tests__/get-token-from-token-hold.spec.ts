@@ -1,4 +1,5 @@
 import {expect} from '@jest/globals';
+
 import {makeGetTokenFromTokenHoldCallback} from '../get-token-from-token-hold';
 
 describe('Token Hold Callback Unit Tests', () => {

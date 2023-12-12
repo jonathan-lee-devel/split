@@ -1,10 +1,11 @@
-import {afterRender, Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {afterRender, Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+
+import {AuthService} from '../../../../services/auth/auth.service';
+import {SyncService} from '../../../../services/sync/sync.service';
 import {LoadingSpinnerComponent} from '../../../lib/loading-spinner/loading-spinner.component';
 import {SuccessCheckmarkComponent} from '../../../lib/success-checkmark/success-checkmark.component';
-import {AuthService} from '../../../../services/auth/auth.service';
-import {ActivatedRoute} from '@angular/router';
-import {SyncService} from '../../../../services/sync/sync.service';
 
 @Component({
   selector: 'app-google-login-success',

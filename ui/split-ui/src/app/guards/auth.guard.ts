@@ -1,7 +1,8 @@
-import {CanActivateFn, Router, UrlSegment} from '@angular/router';
 import {inject} from '@angular/core';
-import {AuthService} from '../services/auth/auth.service';
+import {CanActivateFn, Router, UrlSegment} from '@angular/router';
+
 import {RoutePaths} from '../app.routes';
+import {AuthService} from '../services/auth/auth.service';
 import {SyncService} from '../services/sync/sync.service';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

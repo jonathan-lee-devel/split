@@ -1,16 +1,17 @@
-import {Inject, Injectable, NgZone, PLATFORM_ID, signal, ViewChild} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Router} from '@angular/router';
 import {isPlatformServer} from '@angular/common';
+import {HttpClient} from '@angular/common/http';
+import {Inject, Injectable, NgZone, PLATFORM_ID, signal, ViewChild} from '@angular/core';
+import {Router} from '@angular/router';
+
 import {environment} from '../../../environments/environment';
+import {AppComponent} from '../../app.component';
 import {RoutePaths} from '../../app.routes';
+import {AuthenticationRequestDto} from '../../dtos/auth/AuthenticationRequestDto';
+import {LoginDto} from '../../dtos/auth/LoginDto';
+import {TokensDto} from '../../dtos/auth/TokensDto';
+import {UserDto} from '../../dtos/auth/UserDto';
 import {ProfileService} from '../profile/profile.service';
 import {UsersService} from '../users/users.service';
-import {AppComponent} from '../../app.component';
-import {UserDto} from '../../dtos/auth/UserDto';
-import {LoginDto} from '../../dtos/auth/LoginDto';
-import {AuthenticationRequestDto} from '../../dtos/auth/AuthenticationRequestDto';
-import {TokensDto} from '../../dtos/auth/TokensDto';
 
 @Injectable({
   providedIn: 'root',

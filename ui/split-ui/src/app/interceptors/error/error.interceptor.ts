@@ -1,11 +1,12 @@
-import {Injectable, NgZone} from '@angular/core';
 import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {catchError, Observable} from 'rxjs';
-import {Router} from '@angular/router';
+import {Injectable, NgZone} from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {LoadingService} from '../../services/loading/loading.service';
-import {HttpStatus} from '../../common/enums/HttpStatus';
+import {Router} from '@angular/router';
+import {catchError, Observable} from 'rxjs';
+
 import {RoutePaths} from '../../app.routes';
+import {HttpStatus} from '../../common/enums/HttpStatus';
+import {LoadingService} from '../../services/loading/loading.service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {

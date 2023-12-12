@@ -1,6 +1,7 @@
-import {afterRender, AfterViewInit, Component, Signal, ViewChild} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {afterRender, AfterViewInit, Component, Signal, ViewChild} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
+
 import {NavbarComponent} from './components/lib/navbar/navbar.component';
 import {AuthService} from './services/auth/auth.service';
 import {SyncService} from './services/sync/sync.service';

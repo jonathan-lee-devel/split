@@ -1,4 +1,5 @@
 import {expect} from '@jest/globals';
+
 import {makeCreatePropertyCallback} from '../create-property';
 
 describe('Create Property Callback Unit Tests', () => {

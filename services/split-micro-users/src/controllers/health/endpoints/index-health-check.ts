@@ -1,6 +1,6 @@
+import {AnonymousEndpointCallback, ReturnAnonymouslyBasedOnSafeParseResultFunction} from '@split-common/split-http';
 import {Request, Response} from 'express';
 import {z} from 'zod';
-import {AnonymousEndpointCallback, ReturnAnonymouslyBasedOnSafeParseResultFunction} from '@split-common/split-http';
 
 export const makeMakeIndexHealthCheckEndpoint = <TBody, TQuery>(
   returnAnonymouslyBasedOnSafeParseResult: ReturnAnonymouslyBasedOnSafeParseResultFunction<TBody, TQuery>,

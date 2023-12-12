@@ -1,9 +1,10 @@
-import {afterRender, Component, OnInit} from '@angular/core';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
+import {afterRender, Component, OnInit} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
-import {SyncService} from '../../../services/sync/sync.service';
+
 import {CookiesNoticeService} from '../../../services/cookies-notice/cookies-notice.service';
+import {SyncService} from '../../../services/sync/sync.service';
 
 @Component({
   selector: 'app-landing-page',

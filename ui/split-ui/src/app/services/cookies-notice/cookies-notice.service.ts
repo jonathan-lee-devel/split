@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
-import {CookieService} from 'ngx-cookie-service';
 import {MatDialog} from '@angular/material/dialog';
+import {CookieService} from 'ngx-cookie-service';
+
 import {
   CookiesNoticeDialogComponent,
 } from '../../components/lib/dialogs/cookies-notice-dialog/cookies-notice-dialog.component';

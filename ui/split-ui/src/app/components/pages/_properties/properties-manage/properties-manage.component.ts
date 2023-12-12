@@ -1,13 +1,14 @@
-import {afterRender, AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {PropertyDto} from '../../../../dtos/properties/PropertyDto';
+import {afterRender, AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {RouterLink} from '@angular/router';
+
 import {UserDto} from '../../../../dtos/auth/UserDto';
+import {PropertyDto} from '../../../../dtos/properties/PropertyDto';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {LoadingService} from '../../../../services/loading/loading.service';
-import {SyncService} from '../../../../services/sync/sync.service';
 import {PropertyService} from '../../../../services/property/property.service';
+import {SyncService} from '../../../../services/sync/sync.service';
 import {LoadingSpinnerComponent} from '../../../lib/loading-spinner/loading-spinner.component';
-import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-properties-manage',

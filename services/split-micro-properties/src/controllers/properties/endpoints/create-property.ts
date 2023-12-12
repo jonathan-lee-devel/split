@@ -1,6 +1,6 @@
+import {AuthenticatedEndpointCallback, ReturnBasedOnAuthenticationAndSafeParseResultFunction} from '@split-common/split-http';
 import {AuthenticatedRequest, Response} from 'express';
 import {z} from 'zod';
-import {AuthenticatedEndpointCallback, ReturnBasedOnAuthenticationAndSafeParseResultFunction} from '@split-common/split-http';
 
 export const makeMakeCreatePropertyEndpoint = <TBody, TQuery>(
   returnBasedOnAuthenticationAndSafeParseResult: ReturnBasedOnAuthenticationAndSafeParseResultFunction<TBody, TQuery>,

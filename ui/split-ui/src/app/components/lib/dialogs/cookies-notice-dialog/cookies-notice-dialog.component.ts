@@ -1,8 +1,9 @@
-import {Component} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle} from '@angular/material/dialog';
-import {MatButtonModule} from '@angular/material/button';
 import {A11yModule} from '@angular/cdk/a11y';
+import {CommonModule} from '@angular/common';
+import {Component} from '@angular/core';
+import {MatButtonModule} from '@angular/material/button';
+import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle} from '@angular/material/dialog';
+
 import {CookiesNoticeService} from '../../../../services/cookies-notice/cookies-notice.service';
 
 @Component({

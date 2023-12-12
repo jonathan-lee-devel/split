@@ -1,13 +1,15 @@
-import winston from 'winston';
-import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
-import {Model} from 'mongoose';
+
 import {User} from '@split-common/split-auth';
 import {DEFAULT_TOKEN_SIZE} from '@split-common/split-constants';
 import {AnonymousEndpointCallback, HttpStatus, wrapTryCatchAnonymous} from '@split-common/split-http';
-import {LoginRequestBody, LoginRequestQuery} from '../schemas/login';
-import {Environment} from '../../../environment';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import {Model} from 'mongoose';
+import winston from 'winston';
+
+import {Environment} from '../../../environment';
+import {LoginRequestBody, LoginRequestQuery} from '../schemas/login';
 
 export const makeLoginCallback = (
     logger: winston.Logger,

@@ -1,7 +1,8 @@
 import {expect} from '@jest/globals';
-import isAfter from 'date-fns/isAfter';
-import {DEFAULT_TOKEN_SIZE} from '@split-common/split-constants';
 import {RegistrationVerificationToken} from '@split-common/split-auth';
+import {DEFAULT_TOKEN_SIZE} from '@split-common/split-constants';
+import isAfter from 'date-fns/isAfter';
+
 import {makeGenerateRegistrationVerificationToken} from '../generate-registration-verification-token';
 
 describe('Generate Registration Verification Token Unit Tests', () => {

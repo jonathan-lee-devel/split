@@ -1,12 +1,13 @@
+import {HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi} from '@angular/common/http';
 import {ApplicationConfig} from '@angular/core';
-import {provideRouter} from '@angular/router';
-import {routes} from './app.routes';
+import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material/snack-bar';
 import {provideClientHydration} from '@angular/platform-browser';
 import {provideAnimations} from '@angular/platform-browser/animations';
-import {HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi} from '@angular/common/http';
-import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material/snack-bar';
-import {ErrorInterceptor} from './interceptors/error/error.interceptor';
+import {provideRouter} from '@angular/router';
+
+import {routes} from './app.routes';
 import {AuthInterceptor} from './interceptors/auth/auth.interceptor';
+import {ErrorInterceptor} from './interceptors/error/error.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [

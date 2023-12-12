@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {Component, OnInit} from '@angular/core';
+
+import {environment} from '../../../../../environments/environment';
 import {LoadingSpinnerComponent} from '../../../lib/loading-spinner/loading-spinner.component';
 import {SuccessCheckmarkComponent} from '../../../lib/success-checkmark/success-checkmark.component';
-import {environment} from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-google-login-processing',

@@ -1,9 +1,10 @@
-import {afterRender, Component} from '@angular/core';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
+import {afterRender, Component} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, RouterLink} from '@angular/router';
-import {SyncService} from '../../../../services/sync/sync.service';
+
 import {PasswordService} from '../../../../services/password/password.service';
+import {SyncService} from '../../../../services/sync/sync.service';
 
 @Component({
   selector: 'app-reset-password-confirm',

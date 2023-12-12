@@ -1,9 +1,10 @@
-import {afterRender, AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {afterRender, AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+
+import {RoutePaths} from '../../../app.routes';
 import {AuthService} from '../../../services/auth/auth.service';
 import {SyncService} from '../../../services/sync/sync.service';
 import {CardWithLinkComponent} from '../../lib/card-with-link/card-with-link.component';
-import {RoutePaths} from '../../../app.routes';
 
 @Component({
   selector: 'app-dashboard',

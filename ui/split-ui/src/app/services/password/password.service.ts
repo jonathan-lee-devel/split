@@ -1,10 +1,11 @@
-import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Router} from '@angular/router';
-import {RoutePaths} from '../../app.routes';
-import {environment} from '../../../environments/environment';
-import {PasswordResetDto} from '../../dtos/password/PasswordResetDto';
+import {Injectable} from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {Router} from '@angular/router';
+
+import {environment} from '../../../environments/environment';
+import {RoutePaths} from '../../app.routes';
+import {PasswordResetDto} from '../../dtos/password/PasswordResetDto';
 
 @Injectable({
   providedIn: 'root',

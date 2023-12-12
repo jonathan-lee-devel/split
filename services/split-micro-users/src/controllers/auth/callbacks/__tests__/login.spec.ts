@@ -1,4 +1,5 @@
 import {expect} from '@jest/globals';
+
 import {makeLoginCallback} from '../login';
 
 describe('Login Callback Unit Tests', () => {

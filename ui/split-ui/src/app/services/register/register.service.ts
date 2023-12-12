@@ -1,10 +1,11 @@
-import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
-import {RegisterDto} from '../../dtos/register/RegisterDto';
+
 import {environment} from '../../../environments/environment';
 import {RoutePaths} from '../../app.routes';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import {RegisterDto} from '../../dtos/register/RegisterDto';
 import {RegistrationRequestDto} from '../../dtos/register/RegistrationRequestDto';
 
 @Injectable({

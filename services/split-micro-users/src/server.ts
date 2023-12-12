@@ -3,9 +3,10 @@ import {
   makeOnProcessInterruptSignal,
   SafeMongooseConnection,
 } from '@split-common/split-service-config';
+
 import app from './app';
-import logger from './logger';
 import {environment} from './environment';
+import logger from './logger';
 
 const PORT = environment.PORT;
 

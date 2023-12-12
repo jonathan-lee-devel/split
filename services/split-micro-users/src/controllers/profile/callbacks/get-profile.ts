@@ -1,7 +1,8 @@
-import winston from 'winston';
-import {Model} from 'mongoose';
 import {User} from '@split-common/split-auth';
 import {AuthenticatedEndpointCallback, HttpStatus, wrapTryCatchAuthenticated} from '@split-common/split-http';
+import {Model} from 'mongoose';
+import winston from 'winston';
+
 import {GetProfileRequestBody, GetProfileRequestQuery} from '../schemas/get-profile';
 
 export const makeGetProfileCallback = (

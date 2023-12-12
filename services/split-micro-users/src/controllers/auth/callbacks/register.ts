@@ -1,9 +1,10 @@
-import winston from 'winston';
-import {Model} from 'mongoose';
 import {User} from '@split-common/split-auth';
 import {AnonymousEndpointCallback, HttpStatus, wrapTryCatchAnonymous} from '@split-common/split-http';
-import {RegisterRequestBody, RegisterRequestQuery} from '../schemas/register';
+import {Model} from 'mongoose';
+import winston from 'winston';
+
 import {encodePassword} from '../../../util';
+import {RegisterRequestBody, RegisterRequestQuery} from '../schemas/register';
 
 export const makeRegisterCallback = (
     logger: winston.Logger,
