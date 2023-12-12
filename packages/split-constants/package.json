@@ -1,6 +1,6 @@
 {
   "name": "@split-common/split-constants",
-  "version": "0.2.62",
+  "version": "0.2.63",
   "description": "Constants for use within Split services",
   "keywords": [
     "Split",
@@ -28,6 +28,6 @@
     "url": "https://github.com/jonathan-lee-devel/split/issues"
   },
   "devDependencies": {
-    "typescript": "^5.3.2"
+    "typescript": "^5.3.3"
   }
 }
