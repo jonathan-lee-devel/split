@@ -13,7 +13,10 @@ jobs:
     strategy:
       matrix:
         node-version: [20.x]
-        scope: [split-micro-users, split-micro-properties]
+        scope:
+        - split-micro-users
+        - split-micro-properties
+        - split-micro-expenses
     name: Lerna Build ${{ matrix.scope }} using Node v${{ matrix.node-version }}
     steps:
       - name: Checkout
