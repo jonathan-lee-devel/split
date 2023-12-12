@@ -15,12 +15,12 @@ Previews of new features are available on the staging environment: **[https://st
 Split.Direct is open source and is licensed under **[GPL-3](https://github.com/jonathan-lee-devel/split/blob/main/LICENSE)**
 
 ## What to Do
-- [x] Create a Property to Manage
+- [x] Create a Expense to Manage
 - [x] Invite Tenants via E-mail
 - [x] Create Expenses
 - [x] Create Expense Distribution Assignments
 - [x] View Monthly Expense Reports
-## Create a Property
+## Create a Expense
 Go to the 'New' dropdown menu in the navbar. There you will find the page you use to create a property.
 ## Invite Tenants
 Provide the e-mail address of tenants to invite, if they choose to accept, they will receive notifications.

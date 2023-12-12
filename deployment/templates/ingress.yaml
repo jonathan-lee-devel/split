@@ -31,6 +31,13 @@ spec:
                   number: {{ .Values.microProperties.port }}
             pathType: Prefix
             path: /properties
+          - backend:
+              service:
+                name: split-direct-micro-expenses-service
+                port:
+                  number; {{ .Values.microExpenses.port }}
+            pathType: Prefix
+            path: /expenses
     - host: {{ .Values.environment.hostPrefix }}split.direct
       http:
         paths:

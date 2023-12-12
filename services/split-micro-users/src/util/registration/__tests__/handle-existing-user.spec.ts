@@ -16,7 +16,7 @@ describe('Handle Existing User Unit Tests', () => {
     expect(handleExistingUser).toBeDefined();
     expect(handleExistingUser).toBeInstanceOf(Function);
   });
-  it('When handle existing user And no existing user Then delete property', async () => {
+  it('When handle existing user And no existing user Then delete expense', async () => {
     let loggedInfoMessage: string | undefined;
     let registrationDeleteFilter: any;
     let passwordDeleteFilter: any;
@@ -87,7 +87,7 @@ describe('Handle Existing User Unit Tests', () => {
 
     expect(result).toBeTruthy();
   });
-  it('When handle existing user And existing user And not verified Then delete user and property', async () => {
+  it('When handle existing user And existing user And not verified Then delete user and expense', async () => {
     let loggedInfoMessage: string | undefined;
     let registrationDeleteFilter: any;
     let passwordDeleteFilter: any;
