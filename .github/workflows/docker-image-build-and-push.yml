@@ -142,7 +142,4 @@ jobs:
       - name: Update Kubeconfig
         run: aws eks update-kubeconfig --name jonathanlee-io-cluster
       - name: Run Helm Upgrade
-        run: |
-          cd deployment &&
-          helm dependency build &&
-          helm upgrade split-direct-staging . --values ./values/staging-values.yaml
+        run: cd deployment && helm dependency build && helm upgrade split-direct-staging . --values ./values/staging-values.yaml

@@ -23,14 +23,14 @@ spec:
                 port:
                   number: {{ .Values.microUsers.port }}
             pathType: Prefix
-            path: /users/?(.*)
+            path: /users
           - backend:
               service:
                 name: split-direct-micro-properties-service
                 port:
                   number: {{ .Values.microProperties.port }}
             pathType: Prefix
-            path: /properties/?(.*)
+            path: /properties
     - host: {{ .Values.environment.hostPrefix }}split.direct
       http:
         paths:
