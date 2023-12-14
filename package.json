@@ -14,7 +14,11 @@
   "scripts": {
     "postinstall": "husky install",
     "new-version": "lerna version --conventional-commits --yes",
-    "coverage:combined": "node ./coverage.js && nyc report --reporter lcov"
+    "coverage:combined": "node ./coverage.js && nyc report --reporter lcov",
+    "full-clean-build-and-test": "lerna clean -y && grunt clean:dist && yarn install && lerna run fix-lint && lerna run --scope \"@split-common/*\" build && lerna run --scope \"@split-ui/*\" --scope \"@split-micro/*\" build,build:stage && lerna run test"
+  },
+  "prepush-if-changed": {
+    "src/**/*.ts?(x)": "yarn run full-clean-build-and-test"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
@@ -25,7 +29,8 @@
     "husky": "^8.0.3",
     "js-yaml": "^4.1.0",
     "lerna": "^8.0.0",
-    "nyc": "^15.1.0"
+    "nyc": "^15.1.0",
+    "prepush-if-changed": "^1.0.8"
   },
   "dependencies": {}
 }
