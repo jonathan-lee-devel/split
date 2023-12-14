@@ -18,7 +18,7 @@
     "full-clean-build-and-test": "lerna clean -y && grunt clean:dist && yarn install && lerna run fix-lint && lerna run --scope \"@split-common/*\" build && lerna run --scope \"@split-ui/*\" --scope \"@split-micro/*\" build,build:stage && lerna run test"
   },
   "prepush-if-changed": {
-    "src/**/*.ts?(x)": "yarn run full-clean-build-and-test"
+    "**/*.ts?(x)": "yarn run full-clean-build-and-test"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
