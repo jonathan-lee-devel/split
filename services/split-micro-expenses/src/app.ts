@@ -16,6 +16,13 @@ configurePassport(
   configuredPassport.initialize();
 });
 
-const app = configureExpressApp(logger, routes, 'EXPENSES', environment.JWT_SECRET, environment.FRONT_END_URL, passport);
+const app = configureExpressApp(
+    logger,
+    routes,
+    'EXPENSES',
+    environment.JWT_SECRET,
+    environment.FRONT_END_URL,
+    passport,
+);
 
 export default app;
