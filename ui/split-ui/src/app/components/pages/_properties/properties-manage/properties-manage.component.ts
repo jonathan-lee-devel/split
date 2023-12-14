@@ -1,7 +1,6 @@
 import {CommonModule} from '@angular/common';
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit, Signal} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {skipWhile, Subscription} from 'rxjs';
 
 import {UserDto} from '../../../../dtos/auth/UserDto';
 import {PropertyDto} from '../../../../dtos/properties/PropertyDto';
@@ -17,29 +16,21 @@ import {LoadingSpinnerComponent} from '../../../lib/loading-spinner/loading-spin
   templateUrl: './properties-manage.component.html',
   styleUrl: './properties-manage.component.scss',
 })
-export class PropertiesManageComponent implements OnInit, OnDestroy {
+export class PropertiesManageComponent implements OnInit {
   properties: PropertyDto[] = [];
   currentUser: UserDto = AuthService.INITIAL_USER;
-  isLoadingMap = new Map<string, boolean>();
+  isLoadingMap_: Signal<Map<string, boolean>>;
   readonly propertiesWhereInvolvedLoading = 'properties-where-involved-loading';
-  private isLoadingMapSubscription: Subscription | undefined;
 
   constructor(
       private loadingService: LoadingService,
       private authService: AuthService,
       private propertyService: PropertyService,
-  ) {}
+  ) {
+    this.isLoadingMap_ = this.loadingService.isLoadingMap_;
+  }
 
   ngOnInit() {
-    this.isLoadingMapSubscription = this.loadingService.isLoadingMap$
-        .pipe(
-            skipWhile((loadingMap) =>
-              loadingMap.get(this.propertiesWhereInvolvedLoading) !== this.isLoadingMap.get(this.propertiesWhereInvolvedLoading),
-            ),
-        )
-        .subscribe((isLoadingMap) => {
-          this.isLoadingMap = isLoadingMap;
-        });
     this.loadingService.onLoadingStart(this.propertiesWhereInvolvedLoading);
     this.currentUser = this.authService.getCurrentUserInfo();
     this.propertyService.getPropertiesWhereInvolved()
@@ -49,9 +40,5 @@ export class PropertiesManageComponent implements OnInit, OnDestroy {
             this.loadingService.onLoadingFinished(this.propertiesWhereInvolvedLoading);
           }, 2000);
         });
-  }
-
-  ngOnDestroy() {
-    this.isLoadingMapSubscription?.unsubscribe();
   }
 }

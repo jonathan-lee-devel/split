@@ -1,30 +1,30 @@
-import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs';
+import {Injectable, signal} from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoadingService {
-  private isLoadingMap = new Subject<Map<string, boolean>>();
-  isLoadingMap$ = this.isLoadingMap.asObservable();
-  private readonly loadingMap = new Map<string, boolean>();
+  private isLoadingMap = signal<Map<string, boolean>>(new Map<string, boolean>());
+  isLoadingMap_ = this.isLoadingMap.asReadonly();
+  private readonly loadingMapData = new Map<string, boolean>();
 
   constructor() { }
 
   public onLoadingStart(key: string) {
-    this.loadingMap.set(key, true);
-    this.isLoadingMap.next(this.loadingMap);
+    this.loadingMapData.set(key, true);
+    this.isLoadingMap.set(this.loadingMapData);
   }
 
   public onLoadingFinished(key: string) {
-    this.loadingMap.set(key, false);
-    this.isLoadingMap.next(this.loadingMap);
-    this.loadingMap.delete(key);
+    this.loadingMapData.set(key, false);
+    this.isLoadingMap.set(this.loadingMapData);
+    this.loadingMapData.delete(key);
   }
 
   public onAllLoadingFinished() {
-    this.loadingMap.forEach((_value, key) => {
-      this.onLoadingFinished(key);
-    });
+    this.loadingMapData
+        .forEach((_value, key) => {
+          this.onLoadingFinished(key);
+        });
   }
 }
