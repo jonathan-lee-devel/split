@@ -1,19 +1,15 @@
-import {EventEmitter, Injectable, Output} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Injectable} from '@angular/core';
+import {Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoadingService {
-  @Output() isLoadingMap = new EventEmitter<Map<string, boolean>>();
-
+  private isLoadingMap = new Subject<Map<string, boolean>>();
+  isLoadingMap$ = this.isLoadingMap.asObservable();
   private readonly loadingMap = new Map<string, boolean>();
 
   constructor() { }
-
-  public isLoadingMapObservable(): Observable<Map<string, boolean>> {
-    return this.isLoadingMap;
-  }
 
   public onLoadingStart(key: string) {
     this.loadingMap.set(key, true);

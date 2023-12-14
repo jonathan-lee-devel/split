@@ -1,7 +1,7 @@
 import {inject} from '@angular/core';
 import {CanActivateFn, Router, UrlSegment} from '@angular/router';
 
-import {RoutePaths} from '../app.routes';
+import {RoutePath} from '../app.routes';
 import {AuthService} from '../services/auth/auth.service';
 import {SyncService} from '../services/sync/sync.service';
 
@@ -11,7 +11,7 @@ export const authGuard: CanActivateFn = (route, state) => {
     return false;
   }
   if (!inject(AuthService).isAuthenticated()) {
-    inject(Router).navigate([`/${RoutePaths.LOGIN}`], {queryParams: {
+    inject(Router).navigate([`/${RoutePath.LOGIN}`], {queryParams: {
       next: buildUrlEncodedNextParam(route.url),
     }}).catch((reason) => window.alert(reason));
     return false;

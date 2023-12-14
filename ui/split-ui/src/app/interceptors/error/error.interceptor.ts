@@ -4,7 +4,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
 import {catchError, Observable} from 'rxjs';
 
-import {RoutePaths} from '../../app.routes';
+import {RoutePath} from '../../app.routes';
 import {HttpStatus} from '../../common/enums/HttpStatus';
 import {LoadingService} from '../../services/loading/loading.service';
 
@@ -63,7 +63,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     if (error.status === HttpStatus.UNAUTHORIZED) {
       this.snackBar.open( 'Invalid Login Credentials');
-      this.ngZoneRedirect(`/${RoutePaths.LOGIN}`);
+      this.ngZoneRedirect(`/${RoutePath.LOGIN}`);
     }
 
     if (error.status === HttpStatus.FORBIDDEN) {
@@ -71,7 +71,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     }
 
     if (error.status === HttpStatus.NOT_FOUND) {
-      this.ngZoneRedirect(`/${RoutePaths.ERROR_NOT_FOUND}`);
+      this.ngZoneRedirect(`/${RoutePath.ERROR_NOT_FOUND}`);
     }
 
     if (error.status === HttpStatus.CONFLICT) {
@@ -79,7 +79,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     }
 
     if (error.status === HttpStatus.INTERNAL_SERVER_ERROR) {
-      this.ngZoneRedirect(`/${RoutePaths.SERVER_ERROR}`);
+      this.ngZoneRedirect(`/${RoutePath.SERVER_ERROR}`);
     }
 
     throw error;

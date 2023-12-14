@@ -1,9 +1,9 @@
 import {CommonModule} from '@angular/common';
-import {afterRender, AfterViewInit, Component, Signal, ViewChild} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
+import {afterRender, Component} from '@angular/core';
+import {NavigationEnd, Router, RouterOutlet} from '@angular/router';
+import {filter} from 'rxjs';
 
 import {NavbarComponent} from './components/lib/navbar/navbar.component';
-import {AuthService} from './services/auth/auth.service';
 import {SyncService} from './services/sync/sync.service';
 
 @Component({
@@ -13,25 +13,24 @@ import {SyncService} from './services/sync/sync.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent implements AfterViewInit {
-  isLoggedIn: Signal<boolean> = this.authService.isLoggedIn.asReadonly();
+export class AppComponent {
   title = 'Split';
-
-
-  @ViewChild(NavbarComponent, {static: true}) navbarComponent: NavbarComponent | undefined;
+  private readonly REFRESH_EVENT_ID = 1;
 
   constructor(
       syncService: SyncService,
-    private authService: AuthService,
+    private router: Router,
   ) {
     afterRender(() => {
-      syncService.sync();
+      this.router.events
+          .pipe(
+              filter((routerEvent): routerEvent is NavigationEnd => routerEvent instanceof NavigationEnd),
+          )
+          .subscribe((event) => {
+            if (event.id === this.REFRESH_EVENT_ID && event.url === event.urlAfterRedirects) {
+              syncService.sync();
+            }
+          });
     });
-  }
-
-  ngAfterViewInit() {
-    if (this.navbarComponent) {
-      // this.navbarComponent.isLoggedIn.set(this.isLoggedIn());
-    }
   }
 }

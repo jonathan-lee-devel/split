@@ -3,7 +3,7 @@ import {Component, Signal} from '@angular/core';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {Router, RouterLink} from '@angular/router';
 
-import {RoutePaths} from '../../../app.routes';
+import {RoutePath} from '../../../app.routes';
 import {AuthService} from '../../../services/auth/auth.service';
 
 @Component({
@@ -22,7 +22,7 @@ export class NavbarComponent {
   ) {}
 
   doLogout() {
-    this.router.navigate([`/${RoutePaths.LOGOUT_IN_PROCESS}`])
+    this.router.navigate([`/${RoutePath.LOGOUT_IN_PROCESS}`])
         .catch((reason: string) => window.alert(reason));
     setTimeout(() => {
       this.authService.doLogout();

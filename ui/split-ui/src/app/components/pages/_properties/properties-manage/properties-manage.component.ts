@@ -1,13 +1,13 @@
 import {CommonModule} from '@angular/common';
-import {afterRender, AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {RouterLink} from '@angular/router';
+import {skipWhile, Subscription} from 'rxjs';
 
 import {UserDto} from '../../../../dtos/auth/UserDto';
 import {PropertyDto} from '../../../../dtos/properties/PropertyDto';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {LoadingService} from '../../../../services/loading/loading.service';
 import {PropertyService} from '../../../../services/property/property.service';
-import {SyncService} from '../../../../services/sync/sync.service';
 import {LoadingSpinnerComponent} from '../../../lib/loading-spinner/loading-spinner.component';
 
 @Component({
@@ -17,29 +17,29 @@ import {LoadingSpinnerComponent} from '../../../lib/loading-spinner/loading-spin
   templateUrl: './properties-manage.component.html',
   styleUrl: './properties-manage.component.scss',
 })
-export class PropertiesManageComponent implements OnInit, AfterViewInit {
+export class PropertiesManageComponent implements OnInit, OnDestroy {
   properties: PropertyDto[] = [];
   currentUser: UserDto = AuthService.INITIAL_USER;
   isLoadingMap = new Map<string, boolean>();
   readonly propertiesWhereInvolvedLoading = 'properties-where-involved-loading';
+  private isLoadingMapSubscription: Subscription | undefined;
 
   constructor(
-      private syncService: SyncService,
-      private changeDetector: ChangeDetectorRef,
       private loadingService: LoadingService,
       private authService: AuthService,
       private propertyService: PropertyService,
-  ) {
-    this.loadingService.isLoadingMapObservable()
+  ) {}
+
+  ngOnInit() {
+    this.isLoadingMapSubscription = this.loadingService.isLoadingMap$
+        .pipe(
+            skipWhile((loadingMap) =>
+              loadingMap.get(this.propertiesWhereInvolvedLoading) !== this.isLoadingMap.get(this.propertiesWhereInvolvedLoading),
+            ),
+        )
         .subscribe((isLoadingMap) => {
           this.isLoadingMap = isLoadingMap;
         });
-    afterRender(() => {
-
-    });
-  }
-
-  ngOnInit() {
     this.loadingService.onLoadingStart(this.propertiesWhereInvolvedLoading);
     this.currentUser = this.authService.getCurrentUserInfo();
     this.propertyService.getPropertiesWhereInvolved()
@@ -51,8 +51,7 @@ export class PropertiesManageComponent implements OnInit, AfterViewInit {
         });
   }
 
-  ngAfterViewInit() {
-    this.syncService.sync();
-    this.changeDetector.detectChanges();
+  ngOnDestroy() {
+    this.isLoadingMapSubscription?.unsubscribe();
   }
 }

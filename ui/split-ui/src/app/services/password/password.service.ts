@@ -4,7 +4,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
 
 import {environment} from '../../../environments/environment';
-import {RoutePaths} from '../../app.routes';
+import {RoutePath} from '../../app.routes';
 import {PasswordResetDto} from '../../dtos/password/PasswordResetDto';
 
 @Injectable({
@@ -50,7 +50,7 @@ export class PasswordService {
               message = 'An unknown error has occurred';
           }
           if (shouldRedirect) {
-            this.router.navigate([`/${RoutePaths.LOGIN}`]).catch((reason) => window.alert(reason));
+            this.router.navigate([`/${RoutePath.LOGIN}`]).catch((reason) => window.alert(reason));
           }
           this.snackBar.open(message);
         });

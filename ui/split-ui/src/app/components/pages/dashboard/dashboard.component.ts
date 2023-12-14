@@ -1,7 +1,7 @@
 import {CommonModule} from '@angular/common';
-import {afterRender, AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 
-import {RoutePaths} from '../../../app.routes';
+import {rebaseRoutePath, RoutePath} from '../../../app.routes';
 import {AuthService} from '../../../services/auth/auth.service';
 import {SyncService} from '../../../services/sync/sync.service';
 import {CardWithLinkComponent} from '../../lib/card-with-link/card-with-link.component';
@@ -15,16 +15,17 @@ import {CardWithLinkComponent} from '../../lib/card-with-link/card-with-link.com
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
   userFirstName: string = '';
-  protected readonly RoutePaths = RoutePaths;
+  protected readonly RoutePaths = RoutePath;
+  protected readonly rebaseRoutePath = rebaseRoutePath;
 
   constructor(
     private syncService: SyncService,
     private authService: AuthService,
     private changeDetector: ChangeDetectorRef,
   ) {
-    afterRender(() => {
-      syncService.sync();
-    });
+    // afterRender(() => {
+    //   syncService.sync();
+    // });
   }
 
   ngOnInit() {

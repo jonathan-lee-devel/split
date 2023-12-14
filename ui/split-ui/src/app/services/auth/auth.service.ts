@@ -1,11 +1,10 @@
 import {isPlatformServer} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
-import {Inject, Injectable, NgZone, PLATFORM_ID, signal, ViewChild} from '@angular/core';
+import {Inject, Injectable, NgZone, PLATFORM_ID, signal} from '@angular/core';
 import {Router} from '@angular/router';
 
 import {environment} from '../../../environments/environment';
-import {AppComponent} from '../../app.component';
-import {RoutePaths} from '../../app.routes';
+import {RoutePath} from '../../app.routes';
 import {AuthenticationRequestDto} from '../../dtos/auth/AuthenticationRequestDto';
 import {LoginDto} from '../../dtos/auth/LoginDto';
 import {TokensDto} from '../../dtos/auth/TokensDto';
@@ -20,7 +19,6 @@ export class AuthService {
   public static readonly INITIAL_USER: UserDto = {email: '', firstName: '', lastName: ''};
   isLoggedIn = signal<boolean>(false);
   currentUserInfo = signal<UserDto>(AuthService.INITIAL_USER);
-  @ViewChild(AppComponent, {static: true}) appComponent: AppComponent | undefined;
   private readonly USER_DATA_KEY = 'user-data';
   private readonly ACCESS_TOKEN_KEY: string = 'access-token';
   private readonly REFRESH_TOKEN_KEY: string = 'refresh-token';
@@ -69,13 +67,12 @@ export class AuthService {
     sessionStorage.removeItem(this.ACCESS_TOKEN_KEY);
     this.isLoggedIn.set(false);
     this.currentUserInfo.set(AuthService.INITIAL_USER);
-    this.appComponent?.ngAfterViewInit();
-    this.router.navigate([`/${RoutePaths.LOGIN}`])
+    this.router.navigate([`/${RoutePath.LOGIN}`])
         .catch((reason) => window.alert(reason));
   }
 
   doGoogleLogin() {
-    this.router.navigate([`/${RoutePaths.GOOGLE_LOGIN_IN_PROGRESS}`])
+    this.router.navigate([`/${RoutePath.GOOGLE_LOGIN_IN_PROGRESS}`])
         .catch((reason) => window.alert(reason));
   }
 
@@ -101,7 +98,7 @@ export class AuthService {
               this.isLoggedIn.set(true);
               sessionStorage.setItem(this.USER_DATA_KEY, JSON.stringify(userInfo));
               this.currentUserInfo.set(userInfo);
-              this.router.navigate([`/${RoutePaths.DASHBOARD}`], {replaceUrl: true})
+              this.router.navigate([`/${RoutePath.DASHBOARD}`], {replaceUrl: true})
                   .catch((reason) => window.alert(reason));
             });
           });
