@@ -4,7 +4,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
 import {catchError, Observable} from 'rxjs';
 
-import {RoutePath} from '../../app.routes';
+import {rebaseRoutePath, RoutePath} from '../../app.routes';
 import {HttpStatus} from '../../common/enums/HttpStatus';
 import {LoadingService} from '../../services/loading/loading.service';
 
@@ -18,8 +18,6 @@ export class ErrorInterceptor implements HttpInterceptor {
   ) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    request = request.clone({withCredentials: true});
-
     return next.handle(request)
         .pipe(catchError((err) => this.handleError(err)));
   }
@@ -63,7 +61,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     if (error.status === HttpStatus.UNAUTHORIZED) {
       this.snackBar.open( 'Invalid Login Credentials');
-      this.ngZoneRedirect(`/${RoutePath.LOGIN}`);
+      this.ngZoneRedirect(rebaseRoutePath(RoutePath.LOGIN));
     }
 
     if (error.status === HttpStatus.FORBIDDEN) {
@@ -71,7 +69,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     }
 
     if (error.status === HttpStatus.NOT_FOUND) {
-      this.ngZoneRedirect(`/${RoutePath.ERROR_NOT_FOUND}`);
+      this.ngZoneRedirect(rebaseRoutePath(RoutePath.ERROR_NOT_FOUND));
     }
 
     if (error.status === HttpStatus.CONFLICT) {
@@ -79,7 +77,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     }
 
     if (error.status === HttpStatus.INTERNAL_SERVER_ERROR) {
-      this.ngZoneRedirect(`/${RoutePath.SERVER_ERROR}`);
+      this.ngZoneRedirect(rebaseRoutePath(RoutePath.SERVER_ERROR));
     }
 
     throw error;
