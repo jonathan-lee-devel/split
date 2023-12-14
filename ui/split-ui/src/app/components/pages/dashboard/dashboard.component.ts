@@ -3,7 +3,7 @@ import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core
 
 import {rebaseRoutePath, RoutePath} from '../../../app.routes';
 import {AuthService} from '../../../services/auth/auth.service';
-import {SyncService} from '../../../services/sync/sync.service';
+import {ServerClientSyncService} from '../../../services/server-client-sync/server-client-sync.service';
 import {CardWithLinkComponent} from '../../lib/card-with-link/card-with-link.component';
 
 @Component({
@@ -19,12 +19,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   protected readonly rebaseRoutePath = rebaseRoutePath;
 
   constructor(
-    private syncService: SyncService,
+    private syncService: ServerClientSyncService,
     private authService: AuthService,
     private changeDetector: ChangeDetectorRef,
   ) {
     // afterRender(() => {
-    //   syncService.sync();
+    //   syncService.server-client-sync();
     // });
   }
 

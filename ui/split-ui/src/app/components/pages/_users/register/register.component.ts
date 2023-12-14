@@ -1,12 +1,11 @@
 import {CommonModule, NgOptimizedImage} from '@angular/common';
-import {afterRender, Component} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {first} from 'rxjs';
 
 import {AuthService} from '../../../../services/auth/auth.service';
 import {RegisterService} from '../../../../services/register/register.service';
-import {SyncService} from '../../../../services/sync/sync.service';
 
 @Component({
   selector: 'app-auth',
@@ -25,14 +24,9 @@ export class RegisterComponent {
   protected readonly first = first;
 
   constructor(
-      syncService: SyncService,
     private authService: AuthService,
     private registerService: RegisterService,
-  ) {
-    afterRender(() => {
-      syncService.sync();
-    });
-  }
+  ) {}
 
   doGoogleLogin() {
     this.authService.doGoogleLogin();

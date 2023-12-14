@@ -14,7 +14,7 @@ import {AuthService} from '../../../services/auth/auth.service';
   styleUrl: './navbar.component.scss',
 })
 export class NavbarComponent {
-  isLoggedIn: Signal<boolean> = this.authService.isLoggedIn.asReadonly();
+  isLoggedIn_: Signal<boolean> = this.authService.isLoggedIn_;
 
   constructor(
     private authService: AuthService,

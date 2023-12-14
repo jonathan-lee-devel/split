@@ -3,7 +3,7 @@ import {afterRender, Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
 import {AuthService} from '../../../../services/auth/auth.service';
-import {SyncService} from '../../../../services/sync/sync.service';
+import {ServerClientSyncService} from '../../../../services/server-client-sync/server-client-sync.service';
 import {LoadingSpinnerComponent} from '../../../lib/loading-spinner/loading-spinner.component';
 import {SuccessCheckmarkComponent} from '../../../lib/success-checkmark/success-checkmark.component';
 
@@ -16,7 +16,7 @@ import {SuccessCheckmarkComponent} from '../../../lib/success-checkmark/success-
 })
 export class GoogleLoginSuccessComponent implements OnInit {
   constructor(
-      private syncService: SyncService,
+      private syncService: ServerClientSyncService,
       private authService: AuthService,
       private route: ActivatedRoute,
   ) {

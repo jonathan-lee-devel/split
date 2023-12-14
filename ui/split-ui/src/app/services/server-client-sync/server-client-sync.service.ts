@@ -6,7 +6,7 @@ import {AuthService} from '../auth/auth.service';
 @Injectable({
   providedIn: 'root',
 })
-export class SyncService {
+export class ServerClientSyncService {
   constructor(
         @Inject(PLATFORM_ID) private platformId: NonNullable<unknown>,
         private authService: AuthService,

@@ -6,7 +6,6 @@ import {ActivatedRoute, Params, RouterLink} from '@angular/router';
 
 import {AuthService} from '../../../../services/auth/auth.service';
 import {CookiesNoticeService} from '../../../../services/cookies-notice/cookies-notice.service';
-import {SyncService} from '../../../../services/sync/sync.service';
 
 @Component({
   selector: 'app-login',
@@ -29,14 +28,12 @@ export class LoginComponent implements OnInit {
   password: string = '';
 
   constructor(
-      syncService: SyncService,
       cookiesNoticeService: CookiesNoticeService,
     private authService: AuthService,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
   ) {
     afterRender(() => {
-      syncService.sync();
       cookiesNoticeService.triggerIfNotAccepted();
     });
   }

@@ -1,10 +1,10 @@
 import {CommonModule, NgOptimizedImage} from '@angular/common';
-import {afterRender, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
 import {CookiesNoticeService} from '../../../services/cookies-notice/cookies-notice.service';
-import {SyncService} from '../../../services/sync/sync.service';
+import {ServerClientSyncService} from '../../../services/server-client-sync/server-client-sync.service';
 
 @Component({
   selector: 'app-landing-page',
@@ -15,13 +15,9 @@ import {SyncService} from '../../../services/sync/sync.service';
 })
 export class LandingPageComponent implements OnInit {
   constructor(
-      private syncService: SyncService,
-      private cookiesNoticeService: CookiesNoticeService,
-  ) {
-    afterRender(() => {
-      this.syncService.sync();
-    });
-  }
+    private syncService: ServerClientSyncService,
+    private cookiesNoticeService: CookiesNoticeService,
+  ) {}
 
   ngOnInit() {
     if (this.syncService.isClientSide()) {

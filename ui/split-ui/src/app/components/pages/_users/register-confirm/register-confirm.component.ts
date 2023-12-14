@@ -1,9 +1,8 @@
 import {CommonModule} from '@angular/common';
-import {afterRender, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
 import {RegisterService} from '../../../../services/register/register.service';
-import {SyncService} from '../../../../services/sync/sync.service';
 
 @Component({
   selector: 'app-auth-confirm',
@@ -16,13 +15,9 @@ export class RegisterConfirmComponent implements OnInit {
   tokenValue: string = '';
 
   constructor(
-      syncService: SyncService,
-        private route: ActivatedRoute,
-        private registerService: RegisterService,
+    private route: ActivatedRoute,
+    private registerService: RegisterService,
   ) {
-    afterRender(() => {
-      syncService.sync();
-    });
   }
 
   ngOnInit() {

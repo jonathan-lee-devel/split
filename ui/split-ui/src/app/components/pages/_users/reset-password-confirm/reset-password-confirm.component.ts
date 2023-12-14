@@ -1,10 +1,9 @@
 import {CommonModule, NgOptimizedImage} from '@angular/common';
-import {afterRender, Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 
 import {PasswordService} from '../../../../services/password/password.service';
-import {SyncService} from '../../../../services/sync/sync.service';
 
 @Component({
   selector: 'app-reset-password-confirm',
@@ -13,21 +12,19 @@ import {SyncService} from '../../../../services/sync/sync.service';
   templateUrl: './reset-password-confirm.component.html',
   styleUrl: './reset-password-confirm.component.scss',
 })
-export class ResetPasswordConfirmComponent {
+export class ResetPasswordConfirmComponent implements OnInit {
   tokenValue: string = '';
   password: string = '';
   confirmPassword: string = '';
 
   constructor(
-      syncService: SyncService,
-      private route: ActivatedRoute,
-      private passwordService: PasswordService,
-  ) {
-    afterRender(() => {
-      syncService.sync();
-      this.route.params.subscribe((params) => {
-        this.tokenValue = params['tokenValue'];
-      });
+    private route: ActivatedRoute,
+    private passwordService: PasswordService,
+  ) {}
+
+  ngOnInit() {
+    this.route.params.subscribe((params) => {
+      this.tokenValue = params['tokenValue'];
     });
   }
 

@@ -17,8 +17,10 @@ import {UsersService} from '../users/users.service';
 })
 export class AuthService {
   public static readonly INITIAL_USER: UserDto = {email: '', firstName: '', lastName: ''};
-  isLoggedIn = signal<boolean>(false);
-  currentUserInfo = signal<UserDto>(AuthService.INITIAL_USER);
+  private isLoggedIn = signal<boolean>(false);
+  public isLoggedIn_ = this.isLoggedIn.asReadonly();
+  private currentUserInfo = signal<UserDto>(AuthService.INITIAL_USER);
+  public currentUserInfo_ = this.currentUserInfo.asReadonly();
   private readonly USER_DATA_KEY = 'user-data';
   private readonly ACCESS_TOKEN_KEY: string = 'access-token';
   private readonly REFRESH_TOKEN_KEY: string = 'refresh-token';

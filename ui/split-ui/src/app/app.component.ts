@@ -4,7 +4,7 @@ import {NavigationEnd, Router, RouterOutlet} from '@angular/router';
 import {filter} from 'rxjs';
 
 import {NavbarComponent} from './components/lib/navbar/navbar.component';
-import {SyncService} from './services/sync/sync.service';
+import {ServerClientSyncService} from './services/server-client-sync/server-client-sync.service';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +18,7 @@ export class AppComponent {
   private readonly REFRESH_EVENT_ID = 1;
 
   constructor(
-      syncService: SyncService,
+      syncService: ServerClientSyncService,
     private router: Router,
   ) {
     afterRender(() => {

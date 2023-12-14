@@ -3,11 +3,11 @@ import {CanActivateFn, Router, UrlSegment} from '@angular/router';
 
 import {RoutePath} from '../app.routes';
 import {AuthService} from '../services/auth/auth.service';
-import {SyncService} from '../services/sync/sync.service';
+import {ServerClientSyncService} from '../services/server-client-sync/server-client-sync.service';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const authGuard: CanActivateFn = (route, state) => {
-  if (inject(SyncService).isServerSide()) {
+  if (inject(ServerClientSyncService).isServerSide()) {
     return false;
   }
   if (!inject(AuthService).isAuthenticated()) {

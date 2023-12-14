@@ -1,10 +1,9 @@
 import {CommonModule, NgOptimizedImage} from '@angular/common';
-import {afterRender, Component} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 
 import {PasswordService} from '../../../../services/password/password.service';
-import {SyncService} from '../../../../services/sync/sync.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -17,13 +16,8 @@ export class ResetPasswordComponent {
   email: string = '';
 
   constructor(
-      syncService: SyncService,
-        private passwordService: PasswordService,
-  ) {
-    afterRender(() => {
-      syncService.sync();
-    });
-  }
+    private passwordService: PasswordService,
+  ) {}
 
   doSendPasswordResetRequest() {
     this.passwordService.sendPasswordResetRequest(this.email);
