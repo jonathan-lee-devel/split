@@ -117,7 +117,7 @@ module.exports = function(grunt) {
   function updateChartValues(chartPath, version, isStage) {
     const chart = grunt.file.readYAML(chartPath);
 
-    chart['ui']['image']['tag'] = (isStage) ? `stage-${version}`: `${version}`;
+    chart['ui']['image']['tag'] = (isStage) ? `stage-${version}` : `${version}`;
     chart['microUsers']['image']['tag'] = `${version}`;
     chart['microProperties']['image']['tag'] = `${version}`;
     chart['microExpenses']['image']['tag'] = `${version}`;
@@ -149,7 +149,22 @@ module.exports = function(grunt) {
     updateChartValues('./deployment/values/production-values.yaml', bumpVersionMajor(getVersion()), false);
   });
 
-  grunt.registerTask('bump-patch', ['prompt:patch', 'update-staging-values:patch', 'update-production-values:patch', 'bump:patch']);
-  grunt.registerTask('bump-minor', ['prompt:minor', 'update-staging-values:minor', 'update-production-values:minor', 'bump:minor']);
-  grunt.registerTask('bump-major', ['prompt:major', 'update-staging-values:major', 'update-production-values:major', 'bump:major']);
+  grunt.registerTask('bump-patch', [
+    'prompt:patch',
+    'update-staging-values:patch',
+    'update-production-values:patch',
+    'bump:patch',
+  ]);
+  grunt.registerTask('bump-minor', [
+    'prompt:minor',
+    'update-staging-values:minor',
+    'update-production-values:minor',
+    'bump:minor',
+  ]);
+  grunt.registerTask('bump-major', [
+    'prompt:major',
+    'update-staging-values:major',
+    'update-production-values:major',
+    'bump:major',
+  ]);
 };
