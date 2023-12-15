@@ -1,1 +1,5 @@
-lerna run fix-lint
+if git diff --cached --quiet -- "**/*.ts"; then
+    echo "Unchanged"
+else
+    lerna run fix-lint
+fi
