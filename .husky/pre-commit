@@ -1,5 +1,5 @@
 if git diff --cached --quiet -- "**/*.ts"; then
-    echo "Unchanged"
+    echo "No TypeScript files have changed, skipping linting!"
 else
     lerna run fix-lint
 fi
