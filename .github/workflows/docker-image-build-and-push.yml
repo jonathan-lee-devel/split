@@ -148,3 +148,5 @@ jobs:
         run: cd deployment && helm dependency build && helm upgrade split-direct-staging . --values ./values/staging-values.yaml
       - name: Delete Pods to Ensure Latest
         run: kubectl delete --all pods --namespace=split-staging
+      - name: Await Pods to Ready State
+        run: kubectl wait -n split-production --for=condition=ready pod -l app=split-direct-production --timeout=600s
