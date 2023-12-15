@@ -97,6 +97,7 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.scope }}:${{ steps.package-version.outputs.current-version}}
 
   deploy-to-production:
+    needs: [build-and-push-services, build-and-push-ui-production]
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
