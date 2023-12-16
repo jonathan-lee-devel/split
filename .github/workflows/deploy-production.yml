@@ -34,7 +34,7 @@ jobs:
         env:
           RELEASE_TAG: ${{ inputs.releaseTag }}
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: yarn
@@ -82,7 +82,7 @@ jobs:
         env:
           RELEASE_TAG: ${{ inputs.releaseTag }}
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: yarn
