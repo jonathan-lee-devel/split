@@ -125,26 +125,18 @@ jobs:
           fi
         env:
           RELEASE_TAG: ${{ inputs.releaseTag }}
-
       - name: Install kubectl
         uses: azure/setup-kubectl@v3.0
         with:
           version: 'v1.27.0' # default is latest stable
         id: install
-
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-1
-
       - name: Update Kubeconfig
         run: aws eks update-kubeconfig --name jonathanlee-io-cluster
-
       - name: Run Helm Upgrade
-        run: cd deployment && helm dependency build && helm upgrade split-direct-production . --values ./values/production-values.yaml
-      - name: Delete Pods to Ensure Latest
-        run: kubectl delete --all pods --namespace=split-production
-      - name: Await Pods to Ready State
-        run: kubectl wait -n split-production --for=condition=ready pod -l app=split-direct-production --timeout=600s
+        run: cd deployment && helm dependency build && helm upgrade split-direct-production . --install --wait --timeout 5m0s --values ./values/production-values.yaml
