@@ -6,9 +6,10 @@ metadata:
   labels:
     app: {{ template "split.fullname" . }}
     chart: {{ template "split.chart" . }}
-    component: "{{ .Values.microUsers.fullname }}"
+    component: "{{ .Values.microUsers.name }}"
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+    date: "{{ now | unixEpoch }}"
 spec:
   selector:
     matchLabels:

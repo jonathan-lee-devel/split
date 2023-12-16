@@ -9,6 +9,7 @@ metadata:
     component: "{{ .Values.microExpenses.name }}"
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+    date: "{{ now | unixEpoch }}"
 spec:
   selector:
     matchLabels:
