@@ -1,4 +1,4 @@
-name: 'Docker Image Build & Push (Deploy to Staging)'
+name: 'Verify & Deploy to Staging'
 
 on:
   push:
@@ -6,12 +6,71 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+  pull-requests: read
+
 jobs:
-  lint:
+  snyk:
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
     runs-on: ubuntu-22.04
     strategy:
       matrix:
         node-version: [ 20.x ]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: yarn
+          cache-dependency-path: '**/yarn.lock'
+      - name: Set up Snyk CLI to check for security issues
+        uses: snyk/actions/setup@806182742461562b67788a64410098c9d9b96adb
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: Snyk Auth
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}
+      - name: Snyk Code test
+        run: snyk code test -d --sarif > snyk-code.sarif || true
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: snyk-code.sarif
+
+  codeql-analyze:
+    needs: [snyk]
+    name: Analyze
+    runs-on: ubuntu-22.04
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'typescript' ]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: ${{ matrix.language }}
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+
+  lint:
+    needs: [codeql-analyze]
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [20.x]
     name: Lerna Fix-Lint using Node v${{ matrix.node-version }}
     steps:
       - name: Checkout
@@ -25,12 +84,12 @@ jobs:
       - run: yarn install
       - run: yarn lerna run fix-lint
 
-  build-and-test:
+  build:
     needs: [lint]
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        node-version: [ 20.x ]
+        node-version: [20.x]
     name: Lerna Build & Test using Node v${{ matrix.node-version }}
     steps:
       - name: Checkout
@@ -45,8 +104,65 @@ jobs:
       - run: yarn lerna run build
       - run: yarn lerna run test
 
-  build-and-push-services:
+  build-and-test:
+    needs: [build]
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [20.x]
+    name: Lerna Build & Test using Node v${{ matrix.node-version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: yarn
+          cache-dependency-path: '**/yarn.lock'
+      - run: yarn install
+      - run: yarn lerna run build
+      - run: yarn lerna run test
+
+  sonarcloud-analysis:
     needs: [build-and-test]
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: yarn
+          cache-dependency-path: '**/yarn.lock'
+      - name: Install Dependencies
+        run: yarn install
+      - name: Build Packages and Services
+        run: yarn lerna run build
+      - name: Run Tests
+        run: yarn lerna run test
+      - name: Aggregate Coverage
+        run: ./coverage.sh
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args:
+            -Dsonar.projectKey=jonathan-lee-devel_split
+            -Dsonar.organization=jonathan-lee-devel
+            -Dsonar.sources=packages/split-auth,packages/split-constants,packages/split-observability,services/split-micro-users/src,services/split-micro-properties/src,services/split-micro-expenses/src
+            -Dsonar.tests=services/split-micro-users/src,services/split-micro-properties/src,services/split-micro-expenses/src
+            -Dsonar.inclusions=**
+            -Dsonar.exclusions=**/*.spec.ts,**/index.ts,**/src/app.ts,**/src/routes.ts,**/src/server.ts,**/src/middleware/request-middleware.ts,**/src/logger.ts,**/src/lib/**.ts,**/src/models/**/**.ts
+            -Dsonar.test.inclusions=src/**/*.spec.ts,src/**/*.spec.tsx,src/**/*.test.ts,src/**/*.test.tsx
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov/lcov.info
+            -Dsonar.qualitygate.wait=true
+
+  build-and-push-services:
+    needs: [sonarcloud-analysis]
     runs-on: ubuntu-22.04
     strategy:
       matrix:
@@ -88,7 +204,7 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.scope }}:${{ steps.package-version.outputs.current-version}}
 
   build-and-push-ui-production:
-    needs: [build-and-test]
+    needs: [sonarcloud-analysis]
     runs-on: ubuntu-22.04
     strategy:
       matrix:
@@ -127,7 +243,7 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.scope }}:${{ steps.package-version.outputs.current-version}}
 
   build-and-push-ui-staging:
-    needs: [build-and-test]
+    needs: [sonarcloud-analysis]
     runs-on: ubuntu-22.04
     strategy:
       matrix:
