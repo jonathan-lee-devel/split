@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        node-version: [ 20.x ]
+        node-version: [20.x]
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
@@ -35,7 +35,7 @@ jobs:
       - name: Snyk Auth
         run: snyk auth ${{ secrets.SNYK_TOKEN }}
       - name: Snyk Code test
-        run: snyk code test -d --sarif > snyk-code.sarif || true
+        run: snyk code test -d --sarif > snyk-code.sarif
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
         with:
@@ -52,7 +52,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'typescript' ]
+        language: ['typescript']
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
