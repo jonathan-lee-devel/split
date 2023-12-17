@@ -1,4 +1,4 @@
-FROM --platform=linux/x86_64 node:lts
+FROM --platform=linux/x86_64 node:21.3-bullseye-slim
 
 WORKDIR /app
 
