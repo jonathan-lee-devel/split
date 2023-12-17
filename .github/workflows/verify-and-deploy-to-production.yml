@@ -16,6 +16,7 @@ jobs:
       security-events: write
       actions: read
     runs-on: ubuntu-22.04
+    name: Snyk Code Test
     strategy:
       matrix:
         node-version: [20.x]
@@ -120,7 +121,7 @@ jobs:
     strategy:
       matrix:
         node-version: [20.x]
-    name: Lerna Build & Test using Node v${{ matrix.node-version }}
+    name: Lerna Build using Node v${{ matrix.node-version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -177,6 +178,7 @@ jobs:
   sonarcloud-analysis:
     needs: [build-and-test]
     runs-on: ubuntu-22.04
+    name: SonarCloud Analysis and Quality Gate
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -230,7 +232,7 @@ jobs:
           - split-micro-users
           - split-micro-properties
           - split-micro-expenses
-    name: Lerna Build ${{ matrix.scope }} using Node v${{ matrix.node-version }}
+    name: Docker Push after Lerna Build ${{ matrix.scope }} using Node v${{ matrix.node-version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -279,7 +281,7 @@ jobs:
       matrix:
         node-version: [ 20.x ]
         scope: [split-ui]
-    name: Lerna Build ${{ matrix.scope }} using Node v${{ matrix.node-version }}
+    name: Docker Push after Lerna Build ${{ matrix.scope }} using Node v${{ matrix.node-version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -323,6 +325,7 @@ jobs:
 
   deploy-to-production:
     needs: [build-and-push-services, build-and-push-ui-staging, build-and-push-ui-production]
+    name: Deploy to Production
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
