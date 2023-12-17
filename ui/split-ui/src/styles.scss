@@ -25,14 +25,6 @@ $split-ui-theme: mat.define-light-theme((
   )
 ));
 
-$split-ui-theme: mat.define-dark-theme((
-  color: (
-    primary: $split-ui-dark-primary,
-    accent: $split-ui-accent,
-    warn: $split-ui-warn,
-  )
-));
-
 @include mat.all-component-themes($split-ui-theme);
 
 @import 'themes';
