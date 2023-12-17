@@ -4,7 +4,7 @@
 <div class="px-4 pt-6">
   <div class="grid grid-cols-1 my-4 xl:grid-cols-2 xl:gap-4">
   </div>
-  <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+  <div class="p-4 rounded-lg shadow-sm bg-[#133247]">
     <!-- Card header -->
     <div class="items-center justify-between lg:flex">
       <div class="mb-4 lg:mb-0">
@@ -13,70 +13,58 @@
       </div>
     </div>
     <!-- Table -->
-    <div class="flex flex-col mt-6">
-      <div class="overflow-x-auto rounded-lg">
-        <div class="inline-block min-w-full align-middle">
-          <div class="overflow-hidden shadow sm:rounded-lg">
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
-              <thead class="bg-gray-50 dark:bg-gray-700">
-              <tr>
-                <th class="p-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-white"
-                    scope="col">
-                  Name
-                </th>
-                <th class="p-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-white"
-                    scope="col">
-                  Tenant Status
-                </th>
-                <th class="p-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-white"
-                    scope="col">
-                  Administrator Status
-                </th>
-                <th class="p-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-white"
-                    scope="col">
-                  Action
-                </th>
-              </tr>
-              </thead>
-              <tbody class="bg-white dark:bg-gray-800">
-                @if (isLoadingMap_().get(propertiesWhereInvolvedLoading)) {
-                  <tr>
-                    <td class="p-4 text-sm font-normal text-gray-900 whitespace-nowrap dark:text-white">
-                      <app-loading-spinner class="flex justify-center"/>
-                    </td>
-                    <td class="p-4 text-sm font-semibold text-gray-900 whitespace-nowrap dark:text-white">
-                      <app-loading-spinner class="flex justify-center"/>
-                    </td>
-                    <td class="p-4 text-sm font-semibold text-gray-500 whitespace-nowrap dark:text-gray-400">
-                      <app-loading-spinner class="flex justify-center"/>
-                    </td>
-                    <td class="p-4 text-sm font-semibold text-gray-500 whitespace-nowrap dark:text-gray-400">
-                      <app-loading-spinner class="flex justify-center"/>
-                    </td>
-                  </tr>
-                }
-                @for (property of properties; track $index) {
-                  <tr>
-                    <td class="p-4 text-sm font-normal text-gray-900 whitespace-nowrap dark:text-white">
-                      {{ property.name }}
-                    </td>
-                    <td class="p-4 text-sm font-normal text-gray-900 whitespace-nowrap dark:text-white">
-                      {{ (property.tenantEmails.includes(currentUser.email)) ? '✓' : '𐄂' }}
-                    </td>
-                    <td class="p-4 text-sm font-normal text-gray-900 whitespace-nowrap dark:text-white">
-                      {{ (property.administratorEmails.includes(currentUser.email)) ? '✓' : '𐄂' }}
-                    </td>
-                    <td class="p-4 text-sm font-normal text-gray-900 whitespace-nowrap dark:text-white">
-                      <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                         routerLink="/properties/dashboard/{{property.id}}">Manage</a>
-                    </td>
-                  </tr>
-                }
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
+    <table class="table table-dark table-hover min-w-full divide-y">
+      <thead>
+      <tr>
+        <th class="p-4 text-white uppercase" scope="col">
+          Name
+        </th>
+        <th class="p-4 text-white uppercase" scope="col">
+          Tenant Status
+        </th>
+        <th class="p-4 text-white uppercase" scope="col">
+          Administrator Status
+        </th>
+        <th class="p-4 text-white uppercase" scope="col">
+          Action
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+        @if (isLoadingMap_().get(propertiesWhereInvolvedLoading)) {
+          <tr>
+            <td>
+              <app-loading-spinner class="flex justify-center"/>
+            </td>
+            <td>
+              <app-loading-spinner class="flex justify-center"/>
+            </td>
+            <td>
+              <app-loading-spinner class="flex justify-center"/>
+            </td>
+            <td>
+              <app-loading-spinner class="flex justify-center"/>
+            </td>
+          </tr>
+        }
+        @for (property of properties; track $index) {
+          <tr>
+            <td class="p-4 text-white">
+              {{ property.name }}
+            </td>
+            <td class="p-4 text-white">
+              {{ (property.tenantEmails.includes(currentUser.email)) ? '✓' : '𐄂' }}
+            </td>
+            <td class="p-4 text-white">
+              {{ (property.administratorEmails.includes(currentUser.email)) ? '✓' : '𐄂' }}
+            </td>
+            <td class="p-4 text-white">
+              <a class="btn btn-primary text-white font-bold py-2 px-4"
+                 routerLink="/properties/dashboard/{{property.id}}">Manage</a>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
   </div>
 </div>

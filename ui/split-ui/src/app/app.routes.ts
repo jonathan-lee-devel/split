@@ -1,5 +1,6 @@
 import {Routes} from '@angular/router';
 
+import {PropertiesCreateComponent} from './components/pages/_properties/properties-create/properties-create.component';
 import {PropertiesManageComponent} from './components/pages/_properties/properties-manage/properties-manage.component';
 import {GoogleLoginProcessingComponent} from './components/pages/_users/google-login-processing/google-login-processing.component';
 import {GoogleLoginSuccessComponent} from './components/pages/_users/google-login-success/google-login-success.component';
@@ -103,6 +104,12 @@ export const routes: Routes = [
     path: RoutePath.PROPERTIES_MANAGE,
     component: PropertiesManageComponent,
     title: 'Split | Manage Properties',
+    canActivate: [authGuard],
+  },
+  {
+    path: RoutePath.PROPERTIES_CREATE,
+    component: PropertiesCreateComponent,
+    title: 'Split | Create Property',
     canActivate: [authGuard],
   },
 ];
