@@ -12,7 +12,7 @@
   <div class="flex justify-center cards-container mt-3">
     @for (property of properties;track $index) {
       <app-card-with-link
-        [cardBodyText]="property.administratorEmails.includes(currentUser.email) ? 'You are an Administrator Here' : 'You are only a Tenant Here'"
+        [cardBodyText]="property.administratorEmails.includes(currentUser.email) ? 'You are an Administrator Here' : 'You are a Tenant Here'"
         [cardButtonTargetLink]="rebaseRoutePath(RoutePath.PROPERTIES_MANAGE)"
         [cardButtonText]="property.administratorEmails.includes(currentUser.email) ? 'Manage' : 'View'"
         [cardHeaderText]="'Navigation'"
