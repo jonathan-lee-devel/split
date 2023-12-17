@@ -349,7 +349,3 @@ jobs:
         run: aws eks update-kubeconfig --name jonathanlee-io-cluster
       - name: Run Helm Upgrade
         run: cd deployment && helm dependency build && helm upgrade split-direct-production . --install --wait --timeout 10m0s --values ./values/production-values.yaml
-      - name: Delete Pods to Ensure Latest
-        run: kubectl delete --all pods --namespace=split-production
-      - name: Await Pods to Ready State
-        run: kubectl wait -n split-production --for=condition=ready pod -l app=split-direct-production --timeout=600s
