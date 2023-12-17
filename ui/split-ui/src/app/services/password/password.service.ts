@@ -18,7 +18,7 @@ export class PasswordService {
   ) { }
 
   public sendPasswordResetRequest(email: string): void {
-    this.httpClient.post<PasswordResetDto>(`${environment.RAW_API_URL}/password/reset`, {email})
+    this.httpClient.post<PasswordResetDto>(`${environment.MAIN_API_URL}/password/reset`, {email})
         .subscribe((passwordResetDto) => {
           let message: string;
           switch (passwordResetDto.status) {
@@ -33,7 +33,7 @@ export class PasswordService {
   }
 
   confirmPasswordReset(tokenValue: string, password: string, confirmPassword: string) {
-    this.httpClient.post<PasswordResetDto>(`${environment.RAW_API_URL}/password/reset/confirm`, {
+    this.httpClient.post<PasswordResetDto>(`${environment.MAIN_API_URL}/password/reset/confirm`, {
       tokenValue,
       password,
       confirmPassword,

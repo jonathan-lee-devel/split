@@ -38,7 +38,7 @@ export class RegisterService {
   }
 
   doConfirmRegister(tokenValue: string) {
-    this.httpClient.post<RegisterDto>(`${environment.RAW_API_URL}/register/confirm`, {tokenValue})
+    this.httpClient.post<RegisterDto>(`${environment.MAIN_API_URL}/register/confirm`, {tokenValue})
         .subscribe((registerDto) => {
           let message: string;
           let shouldRedirect = false;
