@@ -126,7 +126,7 @@ jobs:
 
   sonarcloud-analysis:
     needs: [snyk, codeql-analyze]
-    name: SonarCloud Analysis and Quality Gate
+    name: SonarCloud Analysis and Quality Gate using Node v${{ matrix.node-version }}
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
