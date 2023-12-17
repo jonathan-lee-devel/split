@@ -15,7 +15,7 @@ jobs:
     name: Lerna Fix-Lint using Node v${{ matrix.node-version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
@@ -33,7 +33,7 @@ jobs:
     name: Lerna Build using Node v${{ matrix.node-version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
@@ -51,7 +51,7 @@ jobs:
     name: Lerna Build (Stage) using Node v${{ matrix.node-version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
@@ -69,7 +69,7 @@ jobs:
     name: Lerna Build & Test using Node v${{ matrix.node-version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
