@@ -18,6 +18,5 @@ export const appConfig: ApplicationConfig = {
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     provideAnimations(),
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}},
-    provideAnimations(),
   ],
 };
