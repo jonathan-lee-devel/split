@@ -1,4 +1,5 @@
 import {JWT_AUTHENTICATION_STRATEGY} from '@split-common/split-constants';
+import {defaultRateLimiter} from '@split-common/split-service-config';
 import {Router} from 'express';
 import passport from 'passport';
 
@@ -12,11 +13,11 @@ const router = Router();
 router.get('/', indexHealthCheckHandler);
 
 // Registration Endpoints
-router.post('/users/register', registerHandler);
-router.post('/users/login', loginHandler);
-router.post('/users/token-code', getTokenFromTokenHoldHandler);
+router.post('/users/register', defaultRateLimiter, registerHandler);
+router.post('/users/login', defaultRateLimiter, loginHandler);
+router.post('/users/token-code', defaultRateLimiter, getTokenFromTokenHoldHandler);
 
 // Protected Routes Example
-router.get('/users/profile', passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), getProfileHandler as any);
+router.get('/users/profile', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), getProfileHandler as any);
 
 export default router;

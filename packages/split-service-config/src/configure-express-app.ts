@@ -7,6 +7,8 @@ import winston from 'winston';
 import {makeLogResponseTime} from '@split-common/split-observability';
 import {makeErrorResponseHandler, notFoundCallback} from '@split-common/split-http';
 import {makeLoginSuccessTokenHoldCallback, TokenHoldModel, UserModel} from '@split-common/split-auth';
+import {makeRateLimiter} from './rate-limiter';
+import {DEFAULT_RATE_LIMIT_PER_WINDOW, DEFAULT_RATE_LIMIT_WINDOW_MS} from '@split-common/split-constants/dist/rate-limit';
 
 /**
  * Configure the Express application with specified middleware and routes.
@@ -17,6 +19,8 @@ import {makeLoginSuccessTokenHoldCallback, TokenHoldModel, UserModel} from '@spl
  * @param {string} jwtSecret - The secret key used for generating JWT.
  * @param {string} frontEndUrl - The URL of the frontend.
  * @param {passport.PassportStatic} [passport] - The passport instance for authentication (optional).
+ * @param {number} [passportRateLimitWindowMs] = Rate limit window for passport requests in milliseconds
+ * @param {number} [passportRateLimitPerWindow] - Rate limit requests per window for passport requests
  *
  * @return {Express} The configured Express application.
  */
@@ -27,6 +31,8 @@ export const configureExpressApp = (
     jwtSecret: string,
     frontEndUrl: string,
     passport?: passport.PassportStatic,
+    passportRateLimitWindowMs?: number,
+    passportRateLimitPerWindow?: number,
 ): Express => {
   const app: Express = express();
 
@@ -38,9 +44,14 @@ export const configureExpressApp = (
   app.use(express.urlencoded({extended: false}));
   app.use(routes);
   if (passport) {
-    app.get('/users/auth/google', passport.authenticate('google', {scope: ['email', 'profile']}));
+    const passportRateLimiter = makeRateLimiter(
+        passportRateLimitWindowMs ?? DEFAULT_RATE_LIMIT_WINDOW_MS,
+        passportRateLimitPerWindow ?? DEFAULT_RATE_LIMIT_PER_WINDOW,
+    );
+    app.get('/users/auth/google', passportRateLimiter, passport.authenticate('google', {scope: ['email', 'profile']}));
     app.get(
         '/users/auth/google/redirect',
+        passportRateLimiter,
         passport.authenticate('google', {
           failureRedirect: frontEndUrl,
           session: false,

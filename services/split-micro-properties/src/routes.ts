@@ -1,4 +1,5 @@
 import {JWT_AUTHENTICATION_STRATEGY} from '@split-common/split-constants';
+import {defaultRateLimiter} from '@split-common/split-service-config';
 import {Router} from 'express';
 import passport from 'passport';
 
@@ -11,6 +12,6 @@ const router = Router();
 router.get('/', indexHealthCheckHandler);
 
 // Protected Routes
-router.post('/properties', passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), createPropertyHandler as any);
+router.post('/properties', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), createPropertyHandler as any);
 
 export default router;
