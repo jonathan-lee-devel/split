@@ -1,70 +1,36 @@
-<h1
-  class="flex justify-center mb-4 mt-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-  Manage Properties</h1>
-<div class="px-4 pt-6">
-  <div class="grid grid-cols-1 my-4 xl:grid-cols-2 xl:gap-4">
-  </div>
-  <div class="p-4 rounded-lg shadow-sm bg-[#133247]">
-    <!-- Card header -->
-    <div class="items-center justify-between lg:flex">
-      <div class="mb-4 lg:mb-0">
-        <h3 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">Properties</h3>
-        <span class="text-base font-normal text-gray-500 dark:text-gray-400">This is a list of properties where you are currently involved</span>
-      </div>
-    </div>
-    <!-- Table -->
-    <table class="table table-dark table-hover min-w-full divide-y">
-      <thead>
-      <tr>
-        <th class="p-4 text-white uppercase" scope="col">
-          Name
-        </th>
-        <th class="p-4 text-white uppercase" scope="col">
-          Tenant Status
-        </th>
-        <th class="p-4 text-white uppercase" scope="col">
-          Administrator Status
-        </th>
-        <th class="p-4 text-white uppercase" scope="col">
-          Action
-        </th>
-      </tr>
-      </thead>
-      <tbody>
-        @if (isLoadingMap_().get(propertiesWhereInvolvedLoading)) {
-          <tr>
-            <td>
-              <app-loading-spinner class="flex justify-center"/>
-            </td>
-            <td>
-              <app-loading-spinner class="flex justify-center"/>
-            </td>
-            <td>
-              <app-loading-spinner class="flex justify-center"/>
-            </td>
-            <td>
-              <app-loading-spinner class="flex justify-center"/>
-            </td>
-          </tr>
-        }
-        @for (property of properties; track $index) {
-          <tr>
-            <td class="p-4 text-white">
-              {{ property.name }}
-            </td>
-            <td class="p-4 text-white">
-              {{ (property.tenantEmails.includes(currentUser.email)) ? '✓' : '𐄂' }}
-            </td>
-            <td class="p-4 text-white">
-              {{ (property.administratorEmails.includes(currentUser.email)) ? '✓' : '𐄂' }}
-            </td>
-            <td class="p-4 text-white">
-              <a class="btn btn-primary text-white font-bold py-2 px-4"
-                 routerLink="/properties/dashboard/{{property.id}}">Manage</a>
-            </td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  </div>
+<div class="mt-5 text-center">
+  <h1
+    class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+    Manage your Properties</h1>
 </div>
+@if (isLoadingMap_().get(propertiesWhereInvolvedLoading)) {
+  <div class="flex justify-center">
+    <mat-spinner />
+  </div>
+} @else {
+  @if (properties.length > 0) {
+  <div class="flex justify-center cards-container mt-3">
+    @for (property of properties;track $index) {
+      <app-card-with-link
+        [cardBodyText]="property.administratorEmails.includes(currentUser.email) ? 'You are an Administrator Here' : 'You are only a Tenant Here'"
+        [cardButtonTargetLink]="rebaseRoutePath(RoutePath.PROPERTIES_MANAGE)"
+        [cardButtonText]="property.administratorEmails.includes(currentUser.email) ? 'Manage' : 'View'"
+        [cardHeaderText]="'Navigation'"
+        [cardTitle]="property.name"
+        class="properties-card min-w-full animate__animated animate__bounceInUp animate__faster"
+      />
+    }
+  </div>
+  } @else {
+    <div class="flex mt-3">
+      <app-card-with-link
+        [cardBodyText]="'Click below to create your own'"
+        [cardButtonTargetLink]="rebaseRoutePath(RoutePath.PROPERTIES_CREATE)"
+        [cardButtonText]="'Create Property'"
+        [cardHeaderText]="'Navigation'"
+        [cardTitle]="'You are not currently involved with any properties'"
+        class="properties-card min-w-full animate__animated animate__bounceInUp animate__faster"
+        />
+    </div>
+  }
+}

@@ -17,6 +17,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   userFirstName: string = '';
   protected readonly RoutePaths = RoutePath;
   protected readonly rebaseRoutePath = rebaseRoutePath;
+  protected readonly RoutePath = RoutePath;
 
   constructor(
     private syncService: ServerClientSyncService,

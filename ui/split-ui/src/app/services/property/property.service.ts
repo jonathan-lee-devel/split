@@ -17,9 +17,25 @@ export class PropertyService {
   public getPropertiesWhereInvolved(): Observable<PropertyDto[]> {
     return of([{
       id: '1',
-      name: 'Test',
+      name: '12 Penny Lane',
       tenantEmails: ['jonathan.lee.devel@gmail.com'],
       administratorEmails: ['jonathan.lee.devel@gmail.com'],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      id: '2',
+      name: 'Whitshire House',
+      tenantEmails: [],
+      administratorEmails: ['jonathan.lee.devel@gmail.com'],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      id: '3',
+      name: '42 Evergreen Terrace',
+      tenantEmails: ['jonathan.lee.devel@gmail.com'],
+      administratorEmails: [],
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     }]);
