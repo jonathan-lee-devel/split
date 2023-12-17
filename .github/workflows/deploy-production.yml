@@ -127,9 +127,6 @@ jobs:
           RELEASE_TAG: ${{ inputs.releaseTag }}
       - name: Install kubectl
         uses: azure/setup-kubectl@v3.0
-        with:
-          version: 'v1.27.0' # default is latest stable
-        id: install
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
