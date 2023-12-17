@@ -28,9 +28,12 @@
     "grunt-prompt": "^1.3.3",
     "husky": "^8.0.3",
     "js-yaml": "^4.1.0",
-    "lerna": "^8.0.0",
+    "lerna": "^8.0.1",
     "nyc": "^15.1.0",
     "prepush-if-changed": "^1.0.8"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "resolutions": {
+    "lodash": "^4.17.12"
+  }
 }
