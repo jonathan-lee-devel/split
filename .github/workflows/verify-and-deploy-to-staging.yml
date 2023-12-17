@@ -43,7 +43,7 @@ jobs:
 
   codeql-analyze:
     needs: [snyk]
-    name: Analyze
+    name: CodeQL Analyze
     runs-on: ubuntu-22.04
     permissions:
       actions: read
@@ -282,7 +282,7 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.scope }}:stage-${{ steps.package-version.outputs.current-version}}
 
   deploy-to-staging:
-    needs: [build-and-push-services, build-and-push-ui-staging]
+    needs: [build-and-push-services, build-and-push-ui-staging, build-and-push-ui-production]
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout code
@@ -298,7 +298,7 @@ jobs:
       - name: Update Kubeconfig
         run: aws eks update-kubeconfig --name jonathanlee-io-cluster
       - name: Run Helm Upgrade
-        run: cd deployment && helm dependency build && helm upgrade split-direct-staging . --install --wait --timeout 5m0s --values ./values/staging-values.yaml
+        run: cd deployment && helm dependency build && helm upgrade split-direct-staging . --install --wait --timeout 10m0s --values ./values/staging-values.yaml
       - name: Delete Pods to Ensure Latest
         run: kubectl delete --all pods --namespace=split-staging
       - name: Await Pods to Ready State
