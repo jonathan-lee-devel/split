@@ -1,6 +1,6 @@
 {
   "name": "@split-common/split-service-config",
-  "version": "0.2.67",
+  "version": "0.2.68",
   "description": "Auth config for use within Split services",
   "keywords": [
     "Split",
