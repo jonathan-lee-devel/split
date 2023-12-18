@@ -22,10 +22,10 @@ import {makeRateLimiter} from './rate-limiter';
  * @param {string} jwtSecret - The secret key used for generating JWT.
  * @param {string} frontEndUrl - The URL of the frontend.
  * @param {passport.PassportStatic} [passport] - The passport instance for authentication (optional).
- * @param {number} [passportRateLimitWindowMs] = Rate limit window for passport requests in milliseconds
- * @param {number} [passportRateLimitPerWindow] - Rate limit requests per window for passport requests
  * @param {Model<User>} [User] - User model used to initialize Google verification callback for users service
  * @param {Model<TokenHold>} [TokenHold] - Token hold model used to initialize Google redirect callback for users service
+ * @param {number} [passportRateLimitWindowMs] = Rate limit window for passport requests in milliseconds
+ * @param {number} [passportRateLimitPerWindow] - Rate limit requests per window for passport requests
  *
  * @return {Express} The configured Express application.
  */
@@ -36,10 +36,10 @@ export const configureExpressApp = (
     jwtSecret: string,
     frontEndUrl: string,
     passport?: passport.PassportStatic,
-    passportRateLimitWindowMs?: number,
-    passportRateLimitPerWindow?: number,
     User?: Model<User>,
     TokenHold?: Model<TokenHold>,
+    passportRateLimitWindowMs?: number,
+    passportRateLimitPerWindow?: number,
 ): Express => {
   const app: Express = express();
 

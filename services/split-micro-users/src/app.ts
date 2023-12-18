@@ -1,5 +1,4 @@
 import {configurePassport} from '@split-common/split-auth';
-import {DEFAULT_RATE_LIMIT_PER_WINDOW, DEFAULT_RATE_LIMIT_WINDOW_MS} from '@split-common/split-constants/dist/rate-limit';
 import {configureExpressApp} from '@split-common/split-service-config';
 import passport from 'passport';
 
@@ -26,8 +25,6 @@ const app = configureExpressApp(
     environment.JWT_SECRET,
     environment.FRONT_END_URL,
     passport,
-    DEFAULT_RATE_LIMIT_WINDOW_MS,
-    DEFAULT_RATE_LIMIT_PER_WINDOW,
     UserModel,
     TokenHoldModel,
 );
