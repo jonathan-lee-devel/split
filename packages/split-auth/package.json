@@ -22,7 +22,7 @@
   "scripts": {
     "test": "echo 'No tests required for constants' && exit 0",
     "build": "tsc",
-    "fix-lint": "echo 'No linting required for constants' && exit 0"
+    "fix-lint": "eslint src --ext .ts --fix"
   },
   "bugs": {
     "url": "https://github.com/jonathan-lee-devel/split/issues"

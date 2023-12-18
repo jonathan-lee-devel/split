@@ -1,6 +1,7 @@
 import nodemailer, {Transporter} from 'nodemailer';
-import {environment} from './environment';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
+
+import {environment} from './environment';
 
 /**
  * Creates a transporter configuration object for sending emails.

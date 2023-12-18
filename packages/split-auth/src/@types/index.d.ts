@@ -1,4 +1,5 @@
 import * as core from 'express-serve-static-core';
+
 import {User} from '../src/models/users/User';
 
 declare module 'express' {

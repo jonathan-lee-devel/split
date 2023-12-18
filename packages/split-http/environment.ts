@@ -1,5 +1,5 @@
-import {z} from 'zod';
 import {loadDotEnv} from '@split-common/split-env';
+import {z} from 'zod';
 
 // Define environment variables schema
 const environmentSchema = z.object({

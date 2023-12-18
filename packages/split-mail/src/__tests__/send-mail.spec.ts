@@ -1,6 +1,7 @@
 import {expect} from '@jest/globals';
-import {makeSendMail} from '../send-mail';
+
 import {EmailSendAttempt} from '../models';
+import {makeSendMail} from '../send-mail';
 
 describe('Send Mail Util Unit Tests', () => {
   it('When make send mail Then defined function', async () => {

@@ -1,6 +1,7 @@
-import winston from 'winston';
 import crypto from 'crypto';
+
 import {DEFAULT_ID_LENGTH} from '@split-common/split-constants';
+import winston from 'winston';
 
 export type GenerateIdFunction = (idLength?: number) => Promise<string>;
 

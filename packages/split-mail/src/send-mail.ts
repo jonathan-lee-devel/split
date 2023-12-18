@@ -1,10 +1,11 @@
-import winston from 'winston';
+import {GenerateIdFunction} from '@split-common/split-auth';
+import {Model} from 'mongoose';
 import {Transporter} from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
-import {Model} from 'mongoose';
-import {GenerateIdFunction} from '@split-common/split-auth';
-import {EmailSendAttempt} from './models';
+import winston from 'winston';
+
 import {Environment} from './environment';
+import {EmailSendAttempt} from './models';
 
 export type SendMailFunction = (
   addressTo: string,

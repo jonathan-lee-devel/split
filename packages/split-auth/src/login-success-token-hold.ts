@@ -1,11 +1,13 @@
-import {AuthenticatedRequest, Response} from 'express';
 import crypto from 'crypto';
+
+import {DEFAULT_TOKEN_HOLD_EXPIRY_TIME_MINUTES, DEFAULT_TOKEN_SIZE} from '@split-common/split-constants';
+import {HttpStatus} from '@split-common/split-http';
+import addMinutes from 'date-fns/addMinutes';
+import {AuthenticatedRequest, Response} from 'express';
 import jwt from 'jsonwebtoken';
 import {Model} from 'mongoose';
 import winston from 'winston';
-import addMinutes from 'date-fns/addMinutes';
-import {DEFAULT_TOKEN_HOLD_EXPIRY_TIME_MINUTES, DEFAULT_TOKEN_SIZE} from '@split-common/split-constants';
-import {HttpStatus} from '@split-common/split-http';
+
 import {TokenHold, User} from './models';
 
 /**

@@ -1,7 +1,8 @@
-import passport from 'passport';
-import {ExtractJwt, Strategy, VerifiedCallback} from 'passport-jwt';
-import passportGoogle from 'passport-google-oauth20';
 import {Model} from 'mongoose';
+import passport from 'passport';
+import passportGoogle from 'passport-google-oauth20';
+import {ExtractJwt, Strategy, VerifiedCallback} from 'passport-jwt';
+
 import {User} from './models';
 
 const JwtStrategy = Strategy;

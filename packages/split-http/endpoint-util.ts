@@ -1,5 +1,6 @@
 import {AuthenticatedRequest, NextFunction, Request, Response} from 'express';
 import {SafeParseError, SafeParseSuccess} from 'zod';
+
 import {HttpStatus} from './enums';
 import logger from './logger';
 
