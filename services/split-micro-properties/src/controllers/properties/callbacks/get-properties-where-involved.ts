@@ -21,6 +21,5 @@ export const makeGetPropertiesWhereInvolvedCallback = (
             {administratorEmails: requestingUserEmail},
             {tenantEmails: requestingUserEmail},
           ]}).exec())
-            .map((property) => property.toJSON({transform})),
-    );
+            .map((property) => property.toJSON({transform})));
   }) as any;

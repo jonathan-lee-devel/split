@@ -1,0 +1,2 @@
+export const MIN_PROPERTY_NAME_LENGTH = 2;
+export const MAX_PROPERTY_NAME_LENGTH = 50;

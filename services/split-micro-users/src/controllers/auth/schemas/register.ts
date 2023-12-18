@@ -1,11 +1,12 @@
+import {MAX_NAME_LENGTH, MAX_PASSWORD_LENGTH, MIN_NAME_LENGTH, MIN_PASSWORD_LENGTH} from '@split-common/split-constants';
 import {z} from 'zod';
 
 export const RegisterRequestBodySchema = z.object({
   email: z.string().email(),
-  firstName: z.string(),
-  lastName: z.string(),
-  password: z.string(),
-  confirmPassword: z.string(),
+  firstName: z.string().min(MIN_NAME_LENGTH).max(MAX_NAME_LENGTH),
+  lastName: z.string().min(MIN_NAME_LENGTH).max(MAX_NAME_LENGTH),
+  password: z.string().min(MIN_PASSWORD_LENGTH).max(MAX_PASSWORD_LENGTH),
+  confirmPassword: z.string().min(MIN_PASSWORD_LENGTH).max(MAX_PASSWORD_LENGTH),
   acceptTermsAndConditions: z.boolean(),
 });
 
