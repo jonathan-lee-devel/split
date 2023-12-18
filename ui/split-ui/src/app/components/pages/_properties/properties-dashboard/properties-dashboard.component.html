@@ -1,0 +1,22 @@
+<section class="container flex justify-center mt-10">
+  <div class="card border-dark-subtle text-center mb-10 bg-[#133247] animate__animated animate__zoomInDown animate__faster"
+       style="width: 36rem;">
+    <div class="card-body">
+      <div class="flex justify-center text-center items-center pt-10">
+        <h1 class="text-white text-4xl underline">Manage Property</h1>
+      </div>
+      <div class="flex justify-center items-center mt-2.5 mb-3.5">
+        @if (isLoadingMap_().get(propertyDashboardByIdLoadingKey)) {
+          <mat-spinner />
+        } @else {
+          <div>
+          <h4 class="text-white text-3xl">{{property.name}}</h4>
+          </div>
+        }
+      </div>
+      <div class="flex justify-center items-center mt-2.5 mb-3.5">
+        <a [routerLink]="rebaseRoutePath(RoutePath.PROPERTIES_MANAGE)" class="btn btn-primary">Back to Properties</a>
+      </div>
+    </div>
+  </div>
+</section>

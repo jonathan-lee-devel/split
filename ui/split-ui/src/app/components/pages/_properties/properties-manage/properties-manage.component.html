@@ -13,7 +13,7 @@
     @for (property of properties;track $index) {
       <app-card-with-link
         [cardBodyText]="property.administratorEmails.includes(currentUser.email) ? 'You are an Administrator Here' : 'You are a Tenant Here'"
-        [cardButtonTargetLink]="rebaseRoutePath(RoutePath.PROPERTIES_MANAGE)"
+        [cardButtonTargetLink]="rebaseRoutePathAsString(RoutePath.PROPERTIES_DASHBOARD_ID.valueOf().replace(':propertyId', property.id))"
         [cardButtonText]="property.administratorEmails.includes(currentUser.email) ? 'Manage' : 'View'"
         [cardHeaderText]="'Navigation'"
         [cardTitle]="property.name"

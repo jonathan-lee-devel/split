@@ -4,7 +4,7 @@ import {Router} from 'express';
 import passport from 'passport';
 
 import {indexHealthCheckHandler} from './controllers/health';
-import {createPropertyHandler, getPropertiesWhereInvolvedHandler} from './controllers/properties';
+import {createPropertyHandler, getPropertiesWhereInvolvedHandler, getPropertyByIdHandler} from './controllers/properties';
 
 const router = Router();
 
@@ -13,6 +13,7 @@ router.get('/', indexHealthCheckHandler);
 
 // Protected Routes
 router.post('/properties', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), createPropertyHandler as any);
+router.get('/properties/id/:propertyId', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), getPropertyByIdHandler as any);
 router.get('/properties/where-involved', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), getPropertiesWhereInvolvedHandler as any);
 
 export default router;

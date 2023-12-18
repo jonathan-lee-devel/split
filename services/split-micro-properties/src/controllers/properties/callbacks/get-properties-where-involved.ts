@@ -19,7 +19,7 @@ export const makeGetPropertiesWhereInvolvedCallback = (
         {administratorEmails: requestingUserEmail},
         {tenantEmails: requestingUserEmail},
       ],
-    });
+    }).exec();
 
     const transformedProperties: PropertyDto[] = [];
     for (const property of propertiesWhereInvolved) {

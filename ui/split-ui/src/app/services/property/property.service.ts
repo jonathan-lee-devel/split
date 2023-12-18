@@ -14,6 +14,10 @@ export class PropertyService {
       private httpClient: HttpClient,
   ) { }
 
+  public getPropertyById(propertyId: string): Observable<PropertyDto> {
+    return this.httpClient.get<PropertyDto>(`${environment.PROPERTIES_SERVICE_BASE_URL}/id/${propertyId}`);
+  }
+
   public getPropertiesWhereInvolved(): Observable<PropertyDto[]> {
     return this.httpClient.get<PropertyDto[]>(`${environment.PROPERTIES_SERVICE_BASE_URL}/where-involved`);
   }

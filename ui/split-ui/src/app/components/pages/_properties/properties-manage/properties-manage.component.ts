@@ -3,7 +3,7 @@ import {Component, OnInit, Signal} from '@angular/core';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {RouterLink} from '@angular/router';
 
-import {rebaseRoutePath, RoutePath} from '../../../../app.routes';
+import {rebaseRoutePath, rebaseRoutePathAsString, RoutePath} from '../../../../app.routes';
 import {UserDto} from '../../../../dtos/auth/UserDto';
 import {PropertyDto} from '../../../../dtos/properties/PropertyDto';
 import {AuthService} from '../../../../services/auth/auth.service';
@@ -26,6 +26,7 @@ export class PropertiesManageComponent implements OnInit {
   readonly propertiesWhereInvolvedLoading = 'properties-where-involved-loading';
   protected readonly rebaseRoutePath = rebaseRoutePath;
   protected readonly RoutePath = RoutePath;
+  protected readonly rebaseRoutePathAsString = rebaseRoutePathAsString;
 
   constructor(
     private loadingService: LoadingService,
@@ -63,7 +64,7 @@ export class PropertiesManageComponent implements OnInit {
                   return 0;
                 });
             this.loadingService.onLoadingFinished(this.propertiesWhereInvolvedLoading);
-          }, 2000);
+          }, 1000);
         });
   }
 }

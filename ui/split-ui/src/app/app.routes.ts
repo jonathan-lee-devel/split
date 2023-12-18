@@ -1,6 +1,7 @@
 import {Routes} from '@angular/router';
 
 import {PropertiesCreateComponent} from './components/pages/_properties/properties-create/properties-create.component';
+import {PropertiesDashboardComponent} from './components/pages/_properties/properties-dashboard/properties-dashboard.component';
 import {PropertiesManageComponent} from './components/pages/_properties/properties-manage/properties-manage.component';
 import {GoogleLoginProcessingComponent} from './components/pages/_users/google-login-processing/google-login-processing.component';
 import {GoogleLoginSuccessComponent} from './components/pages/_users/google-login-success/google-login-success.component';
@@ -37,9 +38,11 @@ export enum RoutePath {
   /* PROPERTY ROUTES */
   PROPERTIES_MANAGE = 'properties/manage',
   PROPERTIES_CREATE = 'properties/create',
+  PROPERTIES_DASHBOARD_ID = 'properties/dashboard/:propertyId',
 }
 
 export const rebaseRoutePath = (routePath: RoutePath) => `/${routePath}`;
+export const rebaseRoutePathAsString = (routePathAsString: string) => `/${routePathAsString}`;
 
 export const routes: Routes = [
   {
@@ -110,6 +113,12 @@ export const routes: Routes = [
     path: RoutePath.PROPERTIES_CREATE,
     component: PropertiesCreateComponent,
     title: 'Split | Create Property',
+    canActivate: [authGuard],
+  },
+  {
+    path: RoutePath.PROPERTIES_DASHBOARD_ID,
+    component: PropertiesDashboardComponent,
+    title: 'Split | Property Dashboard',
     canActivate: [authGuard],
   },
 ];
