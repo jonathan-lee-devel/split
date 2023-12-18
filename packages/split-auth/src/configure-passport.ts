@@ -1,7 +1,8 @@
 import passport from 'passport';
 import {ExtractJwt, Strategy, VerifiedCallback} from 'passport-jwt';
 import passportGoogle from 'passport-google-oauth20';
-import {UserModel} from './models';
+import {Model} from 'mongoose';
+import {User} from './models';
 
 const JwtStrategy = Strategy;
 const GoogleStrategy = passportGoogle.Strategy;
@@ -14,6 +15,7 @@ const GoogleStrategy = passportGoogle.Strategy;
  * @param {string} googleClientSecret - The Google client secret for OAuth 2.0 authentication.
  * @param {string} googleCallbackUrl - The URL where the user will be redirected after authentication.
  * @param {string} jwtSecret - The secret key used for JWT authentication.
+ * @param {Model<User>} User - Optional user mongoose model for initializing verification callback
  *
  * @return {Promise<passport.PassportStatic>} A Promise that resolves to the configured Passport instance.
  */
@@ -23,13 +25,22 @@ export const configurePassport = async (
     googleClientSecret: string,
     googleCallbackUrl: string,
     jwtSecret: string,
+    User?: Model<User>,
 ): Promise<passport.PassportStatic> => {
-  return configurePassportGoogleStrategy(
-      configurePassportJwtStrategy(passport, jwtSecret),
-      googleClientId,
-      googleClientSecret,
-      googleCallbackUrl,
-  );
+  return (User) ?
+    configurePassportGoogleStrategy(
+        configurePassportJwtStrategy(passport, jwtSecret),
+        googleClientId,
+        googleClientSecret,
+        googleCallbackUrl,
+        User,
+    ) :
+    configurePassportGoogleStrategy(
+        configurePassportJwtStrategy(passport, jwtSecret),
+        googleClientId,
+        googleClientSecret,
+        googleCallbackUrl,
+    );
 };
 
 /**
@@ -62,6 +73,7 @@ const configurePassportJwtStrategy = (
  * @param {string} googleClientId - The Client ID provided by Google.
  * @param {string} googleClientSecret - The Client Secret provided by Google.
  * @param {string} googleCallbackUrl - The Callback URL for the Google authentication.
+ * @param {Model<User>} User - Optional user mongoose model for initializing verification callback
  * @return {passport.PassportStatic} - The configured Passport object.
  */
 const configurePassportGoogleStrategy = (
@@ -69,6 +81,7 @@ const configurePassportGoogleStrategy = (
     googleClientId: string,
     googleClientSecret: string,
     googleCallbackUrl: string,
+    User?: Model<User>,
 ): passport.PassportStatic => {
   passport.use('google', new GoogleStrategy(
       {
@@ -83,7 +96,11 @@ const configurePassportGoogleStrategy = (
           profile: passportGoogle.Profile,
           done: passportGoogle.VerifyCallback,
       ) => {
-        const existingUser = await UserModel.findOne({email: profile.emails?.[0].value}).exec();
+        if (!User) {
+          done(null);
+          return;
+        }
+        const existingUser = await User.findOne({email: profile.emails?.[0].value}).exec();
         if (existingUser?.emailVerified) {
           if (existingUser.googleId === profile.id) {
             done(null, existingUser);
@@ -99,7 +116,7 @@ const configurePassportGoogleStrategy = (
         if (displayNameSplit.length !== 2) {
           displayNameSplit = [profile.displayName, (profile.username) ? profile.username : '<lastName>'];
         }
-        const newUser = await UserModel.create({
+        const newUser = await User.create({
           email: profile.emails?.[0].value,
           googleId: profile.id,
           password: undefined,

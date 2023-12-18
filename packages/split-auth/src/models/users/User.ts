@@ -1,4 +1,4 @@
-import {model, Schema} from 'mongoose';
+import {Schema} from 'mongoose';
 
 export interface User {
   email: string;
@@ -9,7 +9,7 @@ export interface User {
   googleId: string | undefined;
 }
 
-const schema = new Schema<User>({
+export const userModelSchema = new Schema<User>({
   email: {type: String, required: true, unique: true},
   firstName: {type: String, required: true, unique: false},
   lastName: {type: String, required: true, unique: false},
@@ -17,5 +17,3 @@ const schema = new Schema<User>({
   emailVerified: {type: Boolean, required: true, unique: false},
   googleId: {type: String, required: false, unique: true},
 }, {timestamps: true});
-
-export const UserModel = model<User>('User', schema);

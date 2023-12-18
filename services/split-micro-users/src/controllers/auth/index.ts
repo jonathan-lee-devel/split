@@ -1,4 +1,3 @@
-import {TokenHoldModel, UserModel} from '@split-common/split-auth';
 import {returnAnonymouslyBasedOnSafeParseResult} from '@split-common/split-http';
 
 import {makeGetTokenFromTokenHoldCallback} from './callbacks/get-token-from-token-hold';
@@ -12,6 +11,7 @@ import {LoginRequestBodySchema, LoginRequestQuerySchema} from './schemas/login';
 import {RegisterRequestBodySchema, RegisterRequestQuerySchema} from './schemas/register';
 import {environment} from '../../environment';
 import logger from '../../logger';
+import {TokenHoldModel, UserModel} from '../../models';
 
 export const registerHandler = makeMakeRegisterEndpoint(returnAnonymouslyBasedOnSafeParseResult)(
     RegisterRequestBodySchema,

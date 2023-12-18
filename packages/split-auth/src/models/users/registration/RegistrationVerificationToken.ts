@@ -1,4 +1,4 @@
-import {model, Schema} from 'mongoose';
+import {Schema} from 'mongoose';
 
 export interface RegistrationVerificationToken {
   value: string;
@@ -6,10 +6,8 @@ export interface RegistrationVerificationToken {
   userEmail: string;
 }
 
-const schema = new Schema<RegistrationVerificationToken>({
+export const registrationVerificationTokenModelSchema = new Schema<RegistrationVerificationToken>({
   value: {type: String, required: true, unique: true},
   expiryDate: {type: Date, required: true, unique: false},
   userEmail: {type: String, required: true, unique: true},
 }, {timestamps: true});
-
-export const RegistrationVerificationTokenModel = model<RegistrationVerificationToken>('RegistrationVerificationToken', schema);

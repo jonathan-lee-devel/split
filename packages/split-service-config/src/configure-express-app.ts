@@ -1,14 +1,17 @@
-import express, {Express, Router} from 'express';
-import helmet from 'helmet';
+import {makeLoginSuccessTokenHoldCallback, TokenHold, User} from '@split-common/split-auth';
+import {DEFAULT_RATE_LIMIT_PER_WINDOW, DEFAULT_RATE_LIMIT_WINDOW_MS} from '@split-common/split-constants/dist/rate-limit';
+import {makeErrorResponseHandler, notFoundCallback} from '@split-common/split-http';
+import {makeLogResponseTime} from '@split-common/split-observability';
 import compression from 'compression';
 import cors from 'cors';
+import express, {Express, Router} from 'express';
+import helmet from 'helmet';
+import {Model} from 'mongoose';
 import passport from 'passport';
 import winston from 'winston';
-import {makeLogResponseTime} from '@split-common/split-observability';
-import {makeErrorResponseHandler, notFoundCallback} from '@split-common/split-http';
-import {makeLoginSuccessTokenHoldCallback, TokenHoldModel, UserModel} from '@split-common/split-auth';
+
 import {makeRateLimiter} from './rate-limiter';
-import {DEFAULT_RATE_LIMIT_PER_WINDOW, DEFAULT_RATE_LIMIT_WINDOW_MS} from '@split-common/split-constants/dist/rate-limit';
+
 
 /**
  * Configure the Express application with specified middleware and routes.
@@ -21,6 +24,8 @@ import {DEFAULT_RATE_LIMIT_PER_WINDOW, DEFAULT_RATE_LIMIT_WINDOW_MS} from '@spli
  * @param {passport.PassportStatic} [passport] - The passport instance for authentication (optional).
  * @param {number} [passportRateLimitWindowMs] = Rate limit window for passport requests in milliseconds
  * @param {number} [passportRateLimitPerWindow] - Rate limit requests per window for passport requests
+ * @param {Model<User>} [User] - User model used to initialize Google verification callback for users service
+ * @param {Model<TokenHold>} [TokenHold] - Token hold model used to initialize Google redirect callback for users service
  *
  * @return {Express} The configured Express application.
  */
@@ -33,6 +38,8 @@ export const configureExpressApp = (
     passport?: passport.PassportStatic,
     passportRateLimitWindowMs?: number,
     passportRateLimitPerWindow?: number,
+    User?: Model<User>,
+    TokenHold?: Model<TokenHold>,
 ): Express => {
   const app: Express = express();
 
@@ -43,7 +50,7 @@ export const configureExpressApp = (
   app.use(express.json());
   app.use(express.urlencoded({extended: false}));
   app.use(routes);
-  if (passport) {
+  if (passport && User && TokenHold) { // Routes specific to the users service for handling login with Google
     const passportRateLimiter = makeRateLimiter(
         passportRateLimitWindowMs ?? DEFAULT_RATE_LIMIT_WINDOW_MS,
         passportRateLimitPerWindow ?? DEFAULT_RATE_LIMIT_PER_WINDOW,
@@ -60,8 +67,8 @@ export const configureExpressApp = (
           logger,
           jwtSecret,
           frontEndUrl,
-          TokenHoldModel,
-          UserModel,
+          TokenHold,
+          User,
       ) as any,
     );
   }

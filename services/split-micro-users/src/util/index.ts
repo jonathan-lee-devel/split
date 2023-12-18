@@ -1,9 +1,4 @@
-import {
-  makeGenerateId,
-  PasswordResetVerificationTokenModel,
-  RegistrationVerificationTokenModel,
-  UserModel,
-} from '@split-common/split-auth';
+import {makeGenerateId} from '@split-common/split-auth';
 import {EmailSendAttemptModel, makeSendMail, transporterConfig} from '@split-common/split-mail';
 
 import {makeEncodePassword} from './password/encode-password';
@@ -13,6 +8,7 @@ import {makeGenerateRegistrationVerificationToken} from './registration/generate
 import {makeHandleExistingUser} from './registration/handle-existing-user';
 import {environment} from '../environment';
 import logger from '../logger';
+import {PasswordResetVerificationTokenModel, RegistrationVerificationTokenModel, UserModel} from '../models';
 
 const transporter = transporterConfig();
 

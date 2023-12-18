@@ -1,4 +1,4 @@
-import {model, Schema} from 'mongoose';
+import {Schema} from 'mongoose';
 
 export interface PasswordResetVerificationToken {
   value: string;
@@ -6,10 +6,8 @@ export interface PasswordResetVerificationToken {
   userEmail: string;
 }
 
-const schema = new Schema<PasswordResetVerificationToken>({
+export const passwordResetVerificationTokenModelSchema = new Schema<PasswordResetVerificationToken>({
   value: {type: String, required: true, unique: true},
   expiryDate: {type: Date, required: true, unique: false},
   userEmail: {type: String, required: true, unique: true},
 }, {timestamps: true});
-
-export const PasswordResetVerificationTokenModel = model<PasswordResetVerificationToken>('PasswordResetVerificationToken', schema);
