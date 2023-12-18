@@ -1,18 +1,19 @@
 import {AuthenticatedEndpointCallback, HttpStatus, wrapTryCatchAuthenticated} from '@split-common/split-http';
+import {ModelTransformFunction} from '@split-common/split-service-config';
 import {Model} from 'mongoose';
 import winston from 'winston';
 
-import {PropertyDto} from '../../../dtos';
 import {Property} from '../../../models';
 import {GetPropertiesWhereInvolvedRequestBody, GetPropertiesWhereInvolvedRequestQuery} from '../schemas/get-properties-where-involved';
 
 export const makeGetPropertiesWhereInvolvedCallback = (
     logger: winston.Logger,
     Property: Model<Property>,
+    transform: ModelTransformFunction,
 ): AuthenticatedEndpointCallback<GetPropertiesWhereInvolvedRequestBody, GetPropertiesWhereInvolvedRequestQuery> =>
   wrapTryCatchAuthenticated<GetPropertiesWhereInvolvedRequestBody, GetPropertiesWhereInvolvedRequestQuery>(async (req, res) => {
     const requestingUserEmail = req.user.email;
-    logger.info(`Request from <${requestingUserEmail}> to get properties where involved.`);
+    logger.info(`Request from <${requestingUserEmail}> to get properties where involved`);
 
     const propertiesWhereInvolved = await Property.find({
       $or: [
@@ -21,21 +22,7 @@ export const makeGetPropertiesWhereInvolvedCallback = (
       ],
     }).exec();
 
-    const transformedProperties: PropertyDto[] = [];
-    for (const property of propertiesWhereInvolved) {
-      transformedProperties.push({
-        id: (await property).id,
-        name: (await property).name,
-        administratorEmails: (await property).administratorEmails,
-        tenantEmails: (await property).tenantEmails,
-        createdByEmail: (await property).createdByEmail,
-        // Using mongoose timestamps
-        // @ts-ignore
-        createdAt: (await property).createdAt,
-        // @ts-ignore
-        updatedAt: (await property).updatedAt,
-      });
-    }
-
-    return res.status(HttpStatus.OK).json(transformedProperties);
+    return res.status(HttpStatus.OK).json(
+        propertiesWhereInvolved.map((property) => property.toJSON({transform})),
+    );
   }) as any;

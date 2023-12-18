@@ -32,5 +32,5 @@ export const getPropertyByIdHandler = makeMakeGetPropertyByIdEndpoint(returnBase
 export const getPropertiesWhereInvolvedHandler = makeMakeGetPropertiesWhereInvolvedEndpoint(returnBasedOnAuthenticationAndSafeParseResult)(
     GetPropertiesWhereInvolvedRequestBodySchema,
     GetPropertiesWhereInvolvedRequestQuerySchema,
-    makeGetPropertiesWhereInvolvedCallback(logger, PropertyModel),
+    makeGetPropertiesWhereInvolvedCallback(logger, PropertyModel, defaultModelTransform),
 );
