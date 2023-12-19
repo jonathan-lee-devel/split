@@ -48,7 +48,7 @@ spec:
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
-                  name: split-micro-properties-database-url
+                  name: split-micro-expenses-database-url
                   key: DATABASE_URL
             - name: PORT
               valueFrom:
