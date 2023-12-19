@@ -2,10 +2,6 @@ import {createLogger, format, Logger, transports} from 'winston';
 
 import ConsoleLoggerTransport from './winston-console-transport';
 
-// const {combine, timestamp, json, errors} = format;
-// const errorsFormat = errors({stack: true});
-
-
 /**
  * Creates an application logger instance.
  *
