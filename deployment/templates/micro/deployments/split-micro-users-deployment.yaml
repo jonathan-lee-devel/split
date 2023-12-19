@@ -90,6 +90,11 @@ spec:
                 secretKeyRef:
                   name: split-micro-jwt-secret
                   key: JWT_SECRET
+            - name: DATADOG_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: split-datadog-api-key
+                  key: DATADOG_API_KEY
           ports:
             - containerPort: {{ .Values.microUsers.port }}
           resources: {}

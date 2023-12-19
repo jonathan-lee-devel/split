@@ -15,6 +15,7 @@ const environmentVariables = z.object({
   GOOGLE_CLIENT_SECRET: z.string(),
   GOOGLE_CALLBACK_URL: z.string(),
   JWT_SECRET: z.string(),
+  DATADOG_API_KEY: z.string(),
 });
 
 export const environment = environmentVariables.parse(process.env);

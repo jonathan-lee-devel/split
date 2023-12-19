@@ -3,6 +3,10 @@ replicaCount: 1
 environment:
   name: staging
   hostPrefix: staging.
+datadog:
+  logs:
+    enabled: true
+    containerCollectAll: true
 ui:
   name: ui
   image:
