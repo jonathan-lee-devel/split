@@ -1,5 +1,6 @@
 import {User} from '@split-common/split-auth';
 import {AnonymousEndpointCallback, HttpStatus, wrapTryCatchAnonymous} from '@split-common/split-http';
+import {RabbitMQConnection} from '@split-common/split-service-config/dist/rabbitmq-connection';
 import {Model} from 'mongoose';
 import winston from 'winston';
 
@@ -9,6 +10,7 @@ import {RegisterRequestBody, RegisterRequestQuery} from '../schemas/register';
 export const makeRegisterCallback = (
     logger: winston.Logger,
     User: Model<User>,
+    rabbitMQConnection: Promise<RabbitMQConnection>,
 ): AnonymousEndpointCallback<RegisterRequestBody, RegisterRequestQuery> =>
   wrapTryCatchAnonymous<RegisterRequestBody, RegisterRequestQuery>(
       async (req, res) => {
@@ -45,5 +47,6 @@ export const makeRegisterCallback = (
           });
         }
         logger.info(`Registration process initiated for user: <${email}>`);
+        await (await rabbitMQConnection).sendData('mail-to-send', {email: 'jonathan.lee.devel@gmail.com'});
         return res.status(HttpStatus.OK).json({status: 'AWAITING_EMAIL_VERIFICATION'});
       }) as any;

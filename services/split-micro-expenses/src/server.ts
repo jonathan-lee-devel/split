@@ -24,5 +24,5 @@ safeMongooseConnection.connect((mongoUrl) => {
 });
 
 // Close the Mongoose connection, when receiving SIGINT
-process.on('SIGINT', makeOnProcessInterruptSignal(logger, safeMongooseConnection));
+process.on('SIGINT', makeOnProcessInterruptSignal(logger, {safeMongooseConnection, rabbitMQConnection: undefined}));
 

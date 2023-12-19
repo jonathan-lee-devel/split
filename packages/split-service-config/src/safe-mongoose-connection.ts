@@ -1,6 +1,7 @@
+import util from 'util';
+
 import mongoose, {ConnectOptions} from 'mongoose';
 import winston from 'winston';
-import util from 'util';
 
 /** Callback for establishing or re-establishing mongo connection */
 export type IOnConnectedCallback = (mongoUrl: string) => void;
@@ -151,21 +152,4 @@ export const makeDefaultSafeMongooseConnectionOptions = (
     }),
     onConnectionRetry: (mongoUrl) => logger.info(`Retrying to MongoDB at ${mongoUrl}`),
   };
-};
-
-export const makeOnProcessInterruptSignal = (logger: winston.Logger, safeMongooseConnection: SafeMongooseConnection) => async () => {
-  console.log('\n'); /* eslint-disable-line */
-  logger.info('Gracefully shutting down');
-  logger.info('Closing the MongoDB connection');
-  try {
-    await safeMongooseConnection.close(true);
-    logger.info('Mongo connection closed successfully');
-  } catch (err) {
-    logger.log({
-      level: 'error',
-      message: 'Error shutting closing mongo connection',
-      error: err,
-    });
-  }
-  process.exit(0);
 };

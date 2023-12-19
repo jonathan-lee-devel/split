@@ -4,7 +4,6 @@ import {Transporter} from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import winston from 'winston';
 
-import {Environment} from './environment';
 import {EmailSendAttempt} from './models';
 
 export type SendMailFunction = (
@@ -17,16 +16,16 @@ export type SendMailFunction = (
  * Send an email using the specified environment, logger, EmailSendAttempt model,
  * generateId function, and transporter.
  *
- * @param {Environment} environment - The environment configuration.
  * @param {winston.Logger} logger - The logger instance.
+ * @param {string} emailUser - The e-mail the e-mails are coming from
  * @param {Model<EmailSendAttempt>} EmailSendAttempt - The Mongoose model for EmailSendAttempt documents.
  * @param {GenerateIdFunction} generateId - The function to generate a unique ID.
  * @param {Transporter<SMTPTransport.SentMessageInfo>} transporter - The email transporter.
  * @return {SendMailFunction} - The function to send the email.
  */
 export const makeSendMail = (
-    environment: Environment,
     logger: winston.Logger,
+    emailUser: string,
     EmailSendAttempt: Model<EmailSendAttempt>,
     generateId: GenerateIdFunction,
     transporter: Transporter<SMTPTransport.SentMessageInfo>,
@@ -35,7 +34,7 @@ export const makeSendMail = (
     subject: string,
     html: string,
 ): Promise<void> => {
-  const from = `Split.Direct <${environment.EMAIL_USER}>`;
+  const from = `Split.Direct <${emailUser}>`;
   const emailSendAttempt: EmailSendAttempt = {
     id: await generateId(),
     from,

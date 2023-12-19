@@ -19,7 +19,7 @@ configurePassport(
 const app = configureExpressApp(
     logger,
     routes,
-    'EXPENSES',
+    'MAIL',
     environment.JWT_SECRET,
     environment.FRONT_END_URL,
 );
