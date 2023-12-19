@@ -4,12 +4,13 @@ import {EmailSendAttempt} from '../models';
 import {makeSendMail} from '../send-mail';
 
 describe('Send Mail Util Unit Tests', () => {
+  const emailUser = 'test@example.com';
   it('When make send mail Then defined function', async () => {
     const sendMail = makeSendMail(
         // @ts-ignore
         {},
+        emailUser,
         // @ts-ignore
-        {},
         {},
         () => undefined,
         {},
@@ -24,9 +25,9 @@ describe('Send Mail Util Unit Tests', () => {
     const id = '12345';
     const sendMail = makeSendMail(
         // @ts-ignore
-        {EMAIL_USER: emailUser},
-        // @ts-ignore
         {info: () => {}, error: () => {}},
+        // @ts-ignore
+        emailUser,
         {create: async (doc: any) => {
           emailSendAttempt.id = doc.id;
           emailSendAttempt.from = doc.from;
@@ -56,11 +57,11 @@ describe('Send Mail Util Unit Tests', () => {
     const errorMessages: string[] = [];
     const sendMail = makeSendMail(
         // @ts-ignore
-        {EMAIL_USER: emailUser},
-        // @ts-ignore
         {info: () => {}, error: (errMessage: any) => {
           errorMessages.push(errMessage);
         }},
+        emailUser,
+        // @ts-ignore
         {create: async (doc: any) => {
           emailSendAttempt.id = doc.id;
           emailSendAttempt.from = doc.from;
@@ -92,12 +93,12 @@ describe('Send Mail Util Unit Tests', () => {
     let isSaveCalled = false;
     const sendMail = makeSendMail(
         // @ts-ignore
-        {EMAIL_USER: emailUser},
-        // @ts-ignore
         {info: (message) => {
           loggedInfoMessages.push(message);
           // @ts-ignore
         }, error: () => {}},
+        emailUser,
+        // @ts-ignore
         {create: async (doc: any) => {
           emailSendAttempt.id = doc.id;
           emailSendAttempt.from = doc.from;
@@ -139,13 +140,13 @@ describe('Send Mail Util Unit Tests', () => {
     let isSaveCalled = false;
     const sendMail = makeSendMail(
         // @ts-ignore
-        {EMAIL_USER: emailUser},
-        // @ts-ignore
         {info: () => {
           // @ts-ignore
         }, error: (message) => {
           loggedErrorMessages.push(message);
         }},
+        emailUser,
+        // @ts-ignore
         {create: async (doc: any) => {
           emailSendAttempt.id = doc.id;
           emailSendAttempt.from = doc.from;
