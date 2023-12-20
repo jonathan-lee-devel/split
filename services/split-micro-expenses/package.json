@@ -1,6 +1,6 @@
 {
   "name": "@split-micro/split-micro-expenses",
-  "version": "0.2.76",
+  "version": "0.2.77",
   "description": "Microservice for handling properties",
   "repository": "https://github.com/jonathan-lee-devel/split.git",
   "author": "Jonathan Lee <jonathan.lee.devel@gmail.com>",
