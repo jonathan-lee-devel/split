@@ -2,7 +2,9 @@ applicationName: split-direct
 replicaCount: 1
 environment:
   name: production
-  hostPrefix: null
+  hostPrefix:
+rabbitmq:
+  namespace: split-production
 ui:
   name: ui
   image:
@@ -28,6 +30,13 @@ microExpenses:
   name: micro-expenses
   image:
     repository: jonathanleedev/split-micro-expenses
+    tag: 0.2.73
+    pullPolicy: Always
+  port: 3000
+microMail:
+  name: micro-mail
+  image:
+    repository: jonathanleedev/split-micro-mail
     tag: 0.2.73
     pullPolicy: Always
   port: 3000

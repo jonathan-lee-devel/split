@@ -3,10 +3,8 @@ replicaCount: 1
 environment:
   name: staging
   hostPrefix: staging.
-datadog:
-  logs:
-    enabled: true
-    containerCollectAll: true
+rabbitmq:
+  namespace: split-staging
 ui:
   name: ui
   image:
@@ -32,6 +30,13 @@ microExpenses:
   name: micro-expenses
   image:
     repository: jonathanleedev/split-micro-expenses
+    tag: 0.2.73
+    pullPolicy: Always
+  port: 3000
+microMail:
+  name: micro-mail
+  image:
+    repository: jonathanleedev/split-micro-mail
     tag: 0.2.73
     pullPolicy: Always
   port: 3000

@@ -7,14 +7,14 @@ COPY ./package.json .
 COPY ./yarn.lock .
 COPY ./lerna.json .
 COPY ./packages ./packages
-COPY ./services/split-micro-users ./services/split-micro-users
+COPY ./services/split-micro-mail ./services/split-micro-mail
 
 RUN yarn install
 
 RUN yarn lerna run --scope "@split-common/*" build
-RUN yarn lerna run --scope "@split-micro/split-micro-users" build
+RUN yarn lerna run --scope "@split-micro/split-micro-mail" build
 
-WORKDIR /app/services/split-micro-users
+WORKDIR /app/services/split-micro-mail
 
 # Expose port 3000
 EXPOSE 3000

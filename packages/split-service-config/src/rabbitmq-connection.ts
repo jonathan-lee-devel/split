@@ -1,4 +1,4 @@
-import {VALID_QUEUE_NAMES_TYPE} from '@split-common/split-constants';
+import {VALID_QUEUE_NAME} from '@split-common/split-constants';
 import amqp, {ConsumeMessage} from 'amqplib';
 import winston from 'winston';
 
@@ -30,12 +30,12 @@ export class RabbitMQConnection {
     }
   }
 
-  public async sendData(queueName: VALID_QUEUE_NAMES_TYPE, data: unknown) {
+  public async sendData(queueName: VALID_QUEUE_NAME, data: unknown) {
     await this.channel?.assertQueue(queueName);
     await this.channel?.sendToQueue(queueName, Buffer.from(JSON.stringify(data)));
   }
 
-  public async startConsumingData(queueName: VALID_QUEUE_NAMES_TYPE, onMessage: onMessageCallback) {
+  public async startConsumingData(queueName: VALID_QUEUE_NAME, onMessage: onMessageCallback) {
     await this.channel?.assertQueue(queueName);
     await this.channel?.consume(queueName, onMessage);
   }
