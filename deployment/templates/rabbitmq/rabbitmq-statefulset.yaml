@@ -5,7 +5,7 @@ metadata:
   name: rabbitmq
 spec:
   serviceName: rabbitmq
-  replicas: 1
+  replicas: {{ .Values.rabbitmq.replicas }}
   selector:
     matchLabels:
       app: rabbitmq

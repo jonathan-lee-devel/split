@@ -5,6 +5,7 @@ environment:
   hostPrefix: staging.
 rabbitmq:
   namespace: split-staging
+  replicas: 3
 ui:
   name: ui
   image:

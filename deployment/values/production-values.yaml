@@ -5,6 +5,7 @@ environment:
   hostPrefix:
 rabbitmq:
   namespace: split-production
+  replicas: 3
 ui:
   name: ui
   image:
