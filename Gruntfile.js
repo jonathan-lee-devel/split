@@ -51,6 +51,7 @@ module.exports = function(grunt) {
           'services/split-micro-users/package.json',
           'services/split-micro-properties/package.json',
           'services/split-micro-expenses/package.json',
+          'services/split-micro-mail/package.json',
           'ui/split-ui/package.json',
         ],
         updateConfigs: [],
@@ -82,6 +83,7 @@ module.exports = function(grunt) {
           'services/split-micro-users/dist',
           'services/split-micro-properties/dist',
           'services/split-micro-expenses/dist',
+          'services/split-micro-mail/dist',
           'ui/split-ui/dist',
         ],
       },
@@ -121,6 +123,7 @@ module.exports = function(grunt) {
     chart['microUsers']['image']['tag'] = `${version}`;
     chart['microProperties']['image']['tag'] = `${version}`;
     chart['microExpenses']['image']['tag'] = `${version}`;
+    chart['microMail']['image']['tag'] = `${version}`;
 
     grunt.file.write(chartPath, YAML.dump(chart));
   }
