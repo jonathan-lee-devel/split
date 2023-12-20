@@ -43,7 +43,7 @@ safeMongooseConnection.connect((mongoUrl) => {
           }
           const data = JSON.parse(message.content.toString('utf-8'));
           logger.info(`Consumed data.email: ${data.email}`);
-          await rabbitMQConnection.getChannel()?.ack(message);
+          rabbitMQConnection.getChannel()?.ack(message);
           await sendMail(data.email, 'Split Test', '<h1>Hello from RabbitMQ</h1>');
         }).then(() => {
       logger.info(`Starting to process data from RabbitMQ queue`);
