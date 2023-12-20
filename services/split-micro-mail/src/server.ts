@@ -36,16 +36,16 @@ safeMongooseConnection.connect((mongoUrl) => {
     serve();
     logger.info(`Connected to RabbitMQ at ${environment.RABBITMQ_URL}`);
     rabbitMQConnection.startConsumingData(
-      (environment.NODE_ENV === 'staging') ? 'mail-to-send-staging': 'mail-to-send',
-      async (message) => {
-        if (!message) {
-          return;
-        }
-        const data = JSON.parse(message.content.toString('utf-8'));
-        logger.info(`Consumed data.email: ${data.email}`);
-        await rabbitMQConnection.getChannel()?.ack(message);
-        await sendMail(data.email, 'Split Test', '<h1>Hello from RabbitMQ</h1>');
-      }).then(() => {
+        'mail-to-send',
+        async (message) => {
+          if (!message) {
+            return;
+          }
+          const data = JSON.parse(message.content.toString('utf-8'));
+          logger.info(`Consumed data.email: ${data.email}`);
+          await rabbitMQConnection.getChannel()?.ack(message);
+          await sendMail(data.email, 'Split Test', '<h1>Hello from RabbitMQ</h1>');
+        }).then(() => {
       logger.info(`Starting to process data from RabbitMQ queue`);
     }).catch((err) => {
       logger.error(`Error occurred while consuming RabbitMQ data: ${err}`);
