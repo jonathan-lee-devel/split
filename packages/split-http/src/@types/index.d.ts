@@ -1,6 +1,6 @@
+import {User} from '@split-common/split-auth';
 import * as core from 'express-serve-static-core';
 
-import {User} from '../src/models/users/User';
 
 declare module 'express' {
   export interface AuthenticatedRequest<

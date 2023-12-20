@@ -13,7 +13,7 @@
   "types": "dist/index.d.ts",
   "type": "commonjs",
   "files": [
-    "dist/*"
+    "./src/*"
   ],
   "repository": {
     "type": "git",
@@ -22,7 +22,7 @@
   "scripts": {
     "test": "echo 'No tests required for constants' && exit 0",
     "build": "tsc",
-    "fix-lint": "eslint . --ext .ts --fix"
+    "fix-lint": "eslint src --ext .ts --fix"
   },
   "bugs": {
     "url": "https://github.com/jonathan-lee-devel/split/issues"
@@ -34,6 +34,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
+    "@split-common/split-env": "*",
     "winston": "^3.11.0",
     "winston-transport": "^4.6.0"
   }

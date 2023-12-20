@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "@split-common/split-constants": "*",
+    "@split-common/split-http": "*",
     "winston": "^3.11.0"
   }
 }
