@@ -1,13 +1,14 @@
-import {CommonModule} from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 
 import {RegisterService} from '../../../../services/register/register.service';
 
 @Component({
   selector: 'app-auth-confirm',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, NgOptimizedImage, ReactiveFormsModule, RouterLink],
   templateUrl: './register-confirm.component.html',
   styleUrl: './register-confirm.component.scss',
 })

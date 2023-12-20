@@ -1,11 +1,21 @@
-<div class="flex justify-center">
-    <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 pt-5 mt-5">
-        <div class="flex flex-col items-center pb-10">
-            <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white pt-5">Registration Confirmation</h5>
-            <span class="text-sm text-gray-500 dark:text-gray-400">Click the button below to confirm registration.</span>
-            <div class="flex mt-4 space-x-3 md:mt-6">
-                <button (click)="doConfirmRegister()" class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Confirm</button>
-            </div>
-        </div>
+<section class="container flex justify-center mt-10">
+  <div class="card border-dark-subtle text-center mb-10 bg-[#133247] animate__animated animate__zoomInDown animate__faster"
+       style="width: 36rem;">
+    <div class="card-body">
+      <div class="flex justify-center text-center items-center pt-10">
+        <a class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white" href="#">
+          <img [ngSrc]="'favicon.ico'" alt="logo" class="w-8 h-8 mr-2" height="32" priority width="32">
+          Split
+        </a>
+      </div>
+      <div class="flex justify-center items-center mt-2.5 mb-3.5">
+        <form (ngSubmit)="doConfirmRegister()">
+          <div class="flex justify-center mt-3">
+            <button class="flex items-center px-4 py-2 border border-slate-200 rounded-lg text-white" type="submit">Confirm Registration
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
-</div>
+  </div>
+</section>
