@@ -13,8 +13,8 @@ spec:
   ports:
     - name: http
       protocol: TCP
-      port: {{ .Values.microProperties.port }}
-      targetPort: {{ .Values.microProperties.port }}
+      port: {{ .Values.microMail.port }}
+      targetPort: {{ .Values.microMail.port }}
   selector:
     app: {{ template "split.fullname" . }}
     component: "{{ .Values.microMail.name }}"

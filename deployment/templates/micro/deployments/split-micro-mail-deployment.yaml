@@ -32,8 +32,8 @@ spec:
         runAsUser: 1000
       containers:
         - name: {{ template "split.fullname" . }}-api
-          image: "{{ .Values.microProperties.image.repository }}:{{ .Values.microProperties.image.tag }}"
-          imagePullPolicy: "{{ .Values.microProperties.image.pullPolicy }}"
+          image: "{{ .Values.microMail.image.repository }}:{{ .Values.microMail.image.tag }}"
+          imagePullPolicy: "{{ .Values.microMail.image.pullPolicy }}"
           env:
             - name: NODE_ENV
               valueFrom:
@@ -95,12 +95,17 @@ spec:
                 secretKeyRef:
                   name: split-datadog-api-key
                   key: DATADOG_API_KEY
+            - name: RABBITMQ_URL
+              valueFrom:
+                secretKeyRef:
+                  name: split-rabbitmq-url
+                  key: RABBITMQ_URL
           ports:
-            - containerPort: {{ .Values.microProperties.port }}
+            - containerPort: {{ .Values.microMail.port }}
           resources: {}
           livenessProbe:
             httpGet:
-              port: {{ .Values.microProperties.port }}
+              port: {{ .Values.microMail.port }}
               path: /
             initialDelaySeconds: 3
             periodSeconds: 3
