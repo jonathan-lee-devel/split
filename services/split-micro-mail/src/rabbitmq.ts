@@ -9,12 +9,15 @@ export const makeConsumeSendMailMessage = (
     sendMail: SendMailFunction,
     rabbitMQConnection: RabbitMQConnection<MailToSendMessage>,
 ): MessageQueueConsumer =>
-  async (message: ConsumeMessage | null) => {
+  (message: ConsumeMessage | null) => {
     if (!message) {
       return;
     }
     const data: MailToSendMessage = JSON.parse(message.content.toString('utf-8'));
     logger.info(`Consumed data from mail-to-send-queue with email: ${data.toEmail}`);
     rabbitMQConnection.getChannel()?.ack(message);
-    await sendMail(data.toEmail, data.subject, data.html);
+    sendMail(data.toEmail, data.subject, data.html)
+        .catch((err) => {
+          logger.error(`Error occurred while sending mail: ${err}`);
+        });
   };

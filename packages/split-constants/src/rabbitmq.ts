@@ -2,7 +2,7 @@ import {ConsumeMessage} from 'amqplib';
 
 export type VALID_QUEUE_NAME = 'mail-to-send';
 
-export type MessageQueueConsumer = (message: ConsumeMessage | null) => Promise<void>;
+export type MessageQueueConsumer = (message: ConsumeMessage | null) => void;
 
 export interface MailToSendMessage {
   toEmail: string;

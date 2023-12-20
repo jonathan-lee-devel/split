@@ -1,3 +1,4 @@
+import {MailToSendMessage} from '@split-common/split-constants';
 import {
   makeDefaultSafeMongooseConnectionOptions,
   makeOnProcessInterruptSignal,
@@ -22,7 +23,7 @@ const safeMongooseConnection = new SafeMongooseConnection(
     ),
 );
 
-export const rabbitMQConnection = new RabbitMQConnection(
+export const rabbitMQConnection = new RabbitMQConnection<MailToSendMessage>(
     logger,
     environment.RABBITMQ_URL,
 );
