@@ -28,6 +28,7 @@ describe('Send Mail Util Unit Tests', () => {
         {info: () => {}, error: () => {}},
         // @ts-ignore
         emailUser,
+        // @ts-ignore
         {create: async (doc: any) => {
           emailSendAttempt.id = doc.id;
           emailSendAttempt.from = doc.from;
@@ -162,7 +163,7 @@ describe('Send Mail Util Unit Tests', () => {
           };
         }},
         () => id,
-        {sendMail: async (mailOptions) => {
+        {sendMail: async (_: unknown) => {
           return {
             accepted: [],
           };
