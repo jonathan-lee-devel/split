@@ -65,6 +65,21 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
 
+  helm-lint:
+    needs: [snyk, codeql-analyze]
+    name: Helm Lint
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        values: [staging, production]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v3.0
+      - name: Run Helm Lint on ${{ matrix.values }}
+        run: cd deployment && helm lint --values ./values/${{ matrix.values }}-values.yaml
+
   lint:
     needs: [snyk, codeql-analyze]
     runs-on: ubuntu-22.04
@@ -163,7 +178,7 @@ jobs:
             -Dsonar.qualitygate.wait=true
 
   build-and-push-services:
-    needs: [lint, build, build-and-test, sonarcloud-analysis]
+    needs: [helm-lint, lint, build, build-and-test, sonarcloud-analysis]
     runs-on: ubuntu-22.04
     strategy:
       matrix:
@@ -206,7 +221,7 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.scope }}:${{ steps.package-version.outputs.current-version}}
 
   build-and-push-ui-production:
-    needs: [lint, build, build-and-test, sonarcloud-analysis]
+    needs: [helm-lint, lint, build, build-and-test, sonarcloud-analysis]
     runs-on: ubuntu-22.04
     strategy:
       matrix:
@@ -245,7 +260,7 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.scope }}:${{ steps.package-version.outputs.current-version}}
 
   build-and-push-ui-staging:
-    needs: [lint, build, build-and-test, sonarcloud-analysis]
+    needs: [helm-lint, lint, build, build-and-test, sonarcloud-analysis]
     runs-on: ubuntu-22.04
     strategy:
       matrix:
