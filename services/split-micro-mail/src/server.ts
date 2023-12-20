@@ -9,8 +9,8 @@ import {
 import app from './app';
 import {environment} from './environment';
 import logger from './logger';
-
-import {consumeSendMailMessage} from './index';
+import {sendMail} from './mail';
+import {makeConsumeSendMailMessage} from './rabbitmq';
 
 const PORT = environment.PORT;
 
@@ -37,7 +37,11 @@ safeMongooseConnection.connect((mongoUrl) => {
   rabbitMQConnection.connectQueue().then(() => {
     serve();
     logger.info(`Connected to RabbitMQ at ${environment.RABBITMQ_URL}`);
-    rabbitMQConnection.startConsumingData('mail-to-send', consumeSendMailMessage)
+    rabbitMQConnection.startConsumingData('mail-to-send', makeConsumeSendMailMessage(
+        logger,
+        sendMail,
+        rabbitMQConnection,
+    ))
         .then(() => {
           logger.info(`Starting to process data from RabbitMQ queue`);
         }).catch(async (err) => {

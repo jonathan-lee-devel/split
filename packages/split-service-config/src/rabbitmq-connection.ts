@@ -1,9 +1,7 @@
-import {VALID_QUEUE_NAME} from '@split-common/split-constants';
-import amqp, {ConsumeMessage} from 'amqplib';
+import {MessageQueueConsumer, VALID_QUEUE_NAME} from '@split-common/split-constants';
+import amqp from 'amqplib';
 import {Promise} from 'mongoose';
 import winston from 'winston';
-
-export type onMessageCallback = (message: ConsumeMessage | null) => void;
 
 export class RabbitMQConnection<TMessage> {
   private connection: amqp.Connection | undefined;
@@ -42,9 +40,13 @@ export class RabbitMQConnection<TMessage> {
     await this.channel?.sendToQueue(queueName, Buffer.from(JSON.stringify(data)));
   }
 
-  public async startConsumingData(queueName: VALID_QUEUE_NAME, onMessage: onMessageCallback) {
-    await this.channel?.assertQueue(queueName);
-    await this.channel?.consume(queueName, onMessage);
+  public async startConsumingData(queueName: VALID_QUEUE_NAME, messageConsumer: MessageQueueConsumer) {
+    try {
+      await this.channel?.assertQueue(queueName);
+      await this.channel?.consume(queueName, messageConsumer);
+    } catch (err) {
+      this.logger.error(`Error while asserting queue: ${queueName} and consuming: ${err}`);
+    }
   }
 
   public getChannel() {

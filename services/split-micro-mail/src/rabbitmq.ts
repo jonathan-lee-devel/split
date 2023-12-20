@@ -8,16 +8,19 @@ export const makeConsumeSendMailMessage = (
     logger: winston.Logger,
     sendMail: SendMailFunction,
     rabbitMQConnection: RabbitMQConnection<MailToSendMessage>,
-): MessageQueueConsumer =>
-  (message: ConsumeMessage | null) => {
-    if (!message) {
-      return;
-    }
-    const data: MailToSendMessage = JSON.parse(message.content.toString('utf-8'));
-    logger.info(`Consumed data from mail-to-send-queue with email: ${data.toEmail}`);
+): MessageQueueConsumer => (message: ConsumeMessage | null) => {
+  if (!message) {
+    return;
+  }
+  const data: MailToSendMessage = JSON.parse(message.content.toString('utf-8'));
+  logger.info(`Consumed data from mail-to-send-queue with email: ${data.toEmail}`);
+  try {
     rabbitMQConnection.getChannel()?.ack(message);
-    sendMail(data.toEmail, data.subject, data.html)
-        .catch((err) => {
-          logger.error(`Error occurred while sending mail: ${err}`);
-        });
-  };
+  } catch (err) {
+    logger.error(`Error while ack-ing message for channel: ${rabbitMQConnection.getChannel()}`);
+  }
+  sendMail(data.toEmail, data.subject, data.html)
+      .catch((err) => {
+        logger.error(`Error occurred while sending mail: ${err}`);
+      });
+};
