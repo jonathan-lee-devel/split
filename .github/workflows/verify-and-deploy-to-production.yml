@@ -217,8 +217,8 @@ jobs:
           args:
             -Dsonar.projectKey=jonathan-lee-devel_split
             -Dsonar.organization=jonathan-lee-devel
-            -Dsonar.sources=packages/split-auth,packages/split-constants,packages/split-observability,services/split-micro-users/src,services/split-micro-properties/src,services/split-micro-expenses/src
-            -Dsonar.tests=services/split-micro-users/src,services/split-micro-properties/src,services/split-micro-expenses/src
+            -Dsonar.sources=packages/split-auth,packages/split-constants,packages/split-observability,services/split-micro-users/src,services/split-micro-properties/src,services/split-micro-expenses/src,services/split-micro-mail/src
+            -Dsonar.tests=services/split-micro-users/src,services/split-micro-properties/src,services/split-micro-expenses/src,services/split-micro-mail/src
             -Dsonar.inclusions=**
             -Dsonar.exclusions=**/*.spec.ts,**/index.ts,**/src/app.ts,**/src/routes.ts,**/src/server.ts,**/src/middleware/request-middleware.ts,**/src/logger.ts,**/src/lib/**.ts,**/src/models/**/**.ts
             -Dsonar.test.inclusions=src/**/*.spec.ts,src/**/*.spec.tsx,src/**/*.test.ts,src/**/*.test.tsx
@@ -235,6 +235,7 @@ jobs:
           - split-micro-users
           - split-micro-properties
           - split-micro-expenses
+          - split-micro-mail
     name: Docker Push after Lerna Build ${{ matrix.scope }} using Node v${{ matrix.node-version }}
     steps:
       - name: Checkout
