@@ -12,9 +12,9 @@ import {RegisterRequestBodySchema, RegisterRequestQuerySchema} from './schemas/r
 import {environment} from '../../environment';
 import logger from '../../logger';
 import {TokenHoldModel, UserModel} from '../../models';
-import {makeRabbitMQConnection} from '../../rabbitmq';
+import {makeMailToSendRabbitMQConnection} from '../../rabbitmq';
 
-const rabbitMQConnection = makeRabbitMQConnection(logger, environment.RABBITMQ_URL);
+const rabbitMQConnection = makeMailToSendRabbitMQConnection(logger, environment.RABBITMQ_URL);
 
 export const registerHandler = makeMakeRegisterEndpoint(returnAnonymouslyBasedOnSafeParseResult)(
     RegisterRequestBodySchema,

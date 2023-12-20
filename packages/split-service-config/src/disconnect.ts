@@ -5,7 +5,7 @@ import {SafeMongooseConnection} from './safe-mongoose-connection';
 
 export interface ConnectionContainer {
   safeMongooseConnection: SafeMongooseConnection | undefined;
-  rabbitMQConnection: RabbitMQConnection | undefined;
+  rabbitMQConnection: RabbitMQConnection<unknown> | undefined;
 }
 
 export const makeOnProcessInterruptSignal = (logger: winston.Logger, connectionContainer: ConnectionContainer) => async () => {

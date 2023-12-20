@@ -5,7 +5,7 @@ import winston from 'winston';
 
 export type onMessageCallback = (message: ConsumeMessage | null) => void;
 
-export class RabbitMQConnection {
+export class RabbitMQConnection<TMessage> {
   private connection: amqp.Connection | undefined;
   private channel: amqp.Channel | undefined;
 
@@ -37,7 +37,7 @@ export class RabbitMQConnection {
     }
   }
 
-  public async sendData(queueName: VALID_QUEUE_NAME, data: unknown) {
+  public async sendData(queueName: VALID_QUEUE_NAME, data: TMessage) {
     await this.channel?.assertQueue(queueName);
     await this.channel?.sendToQueue(queueName, Buffer.from(JSON.stringify(data)));
   }

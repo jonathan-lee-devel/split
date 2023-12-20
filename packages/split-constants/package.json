@@ -28,6 +28,7 @@
     "url": "https://github.com/jonathan-lee-devel/split/issues"
   },
   "devDependencies": {
+    "@types/amqplib": "^0.10.4",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-import": "^2.29.1",
     "typescript": "^5.3.3"
