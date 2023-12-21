@@ -3,12 +3,6 @@ kind: StatefulSet
 metadata:
   namespace: {{ .Values.rabbitmq.namespace }}
   name: rabbitmq
-  labels:
-    app: {{ template "split.fullname" . }}
-    chart: {{ template "split.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
-    date: "{{ now | unixEpoch }}"
 spec:
   serviceName: rabbitmq
   replicas: {{ .Values.rabbitmq.replicas }}
@@ -35,7 +29,7 @@ spec:
               mountPath: /etc/rabbitmq/
       containers:
         - name: rabbitmq
-          image: rabbitmq:3.8-management
+          image: rabbitmq:3.12.10-management
           ports:
             - containerPort: 4369
               name: discovery
