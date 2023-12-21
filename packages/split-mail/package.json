@@ -22,14 +22,15 @@
   "scripts": {
     "build": "tsc",
     "test": "jest",
-    "fix-lint": "eslint src --ext .ts --fix"
+    "fix-lint": "eslint src --ext .ts --fix",
+    "update-dependencies": "ncu -u"
   },
   "bugs": {
     "url": "https://github.com/jonathan-lee-devel/split/issues"
   },
   "devDependencies": {
     "@types/jest": "^29.5.11",
-    "eslint": "^8.55.0",
+    "eslint": "^8.56.0",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-import": "^2.29.1",
     "jest": "^29.7.0",

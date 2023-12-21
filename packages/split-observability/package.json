@@ -22,13 +22,14 @@
   "scripts": {
     "test": "echo 'No tests required for constants' && exit 0",
     "build": "tsc",
-    "fix-lint": "eslint src --ext .ts --fix"
+    "fix-lint": "eslint src --ext .ts --fix",
+    "update-dependencies": "ncu -u"
   },
   "bugs": {
     "url": "https://github.com/jonathan-lee-devel/split/issues"
   },
   "devDependencies": {
-    "eslint": "^8.55.0",
+    "eslint": "^8.56.0",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-import": "^2.29.1",
     "typescript": "^5.3.3"
