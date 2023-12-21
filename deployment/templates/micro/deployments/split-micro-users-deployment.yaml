@@ -48,7 +48,7 @@ spec:
             - name: PORT
               valueFrom:
                 secretKeyRef:
-                  name: split-micro-users-port
+                  name: split-micro-port
                   key: PORT
             - name: FRONT_END_URL
               valueFrom:
