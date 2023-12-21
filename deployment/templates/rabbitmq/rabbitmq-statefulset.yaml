@@ -2,19 +2,19 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   namespace: {{ .Values.rabbitmq.namespace }}
-  name: {{ .Values.applicationName }}-rabbitmq
+  name: {{ template "split.fullname" . }}-rabbitmq
 spec:
-  serviceName: {{ .Values.applicationName }}-rabbitmq
+  serviceName: {{ template "split.fullname" . }}-rabbitmq
   replicas: {{ .Values.rabbitmq.replicas }}
   selector:
     matchLabels:
-      app: {{ .Values.applicationName }}-rabbitmq
+      app: {{ template "split.fullname" . }}-rabbitmq
   template:
     metadata:
       labels:
-        app: {{ .Values.applicationName }}-rabbitmq
+        app: {{ template "split.fullname" . }}-rabbitmq
     spec:
-      serviceAccountName: {{ .Values.applicationName }}-rabbitmq
+      serviceAccountName: {{ template "split.fullname" . }}-rabbitmq
       initContainers:
         - name: config
           image: busybox
@@ -28,7 +28,7 @@ spec:
             - name: plugins-file
               mountPath: /etc/rabbitmq/
       containers:
-        - name: {{ .Values.applicationName }}-rabbitmq
+        - name: {{ template "split.fullname" . }}-rabbitmq
           image: rabbitmq:3.12.10-management
           ports:
             - containerPort: 4369
@@ -73,7 +73,7 @@ spec:
           emptyDir: {}
         - name: config
           configMap:
-            name: {{ .Values.applicationName }}-rabbitmq-config
+            name: {{ template "split.fullname" . }}-rabbitmq-config
             defaultMode: 0755
   volumeClaimTemplates:
     - metadata:
@@ -89,7 +89,7 @@ apiVersion: v1
 kind: Service
 metadata:
   namespace: {{ .Values.rabbitmq.namespace }}
-  name: {{ .Values.applicationName }}-rabbitmq
+  name: {{ template "split.fullname" . }}-rabbitmq
 spec:
   clusterIP: None
   ports:
@@ -103,4 +103,4 @@ spec:
       targetPort: 15672
       name: ui
   selector:
-    app: {{ .Values.applicationName }}-rabbitmq
+    app: {{ template "split.fullname" . }}-rabbitmq

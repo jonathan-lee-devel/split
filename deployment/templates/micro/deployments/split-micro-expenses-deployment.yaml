@@ -40,11 +40,6 @@ spec:
                 secretKeyRef:
                   name: split-node-env
                   key: NODE_ENV
-            - name: SESSION_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: split-session-secret
-                  key: SESSION_SECRET
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
