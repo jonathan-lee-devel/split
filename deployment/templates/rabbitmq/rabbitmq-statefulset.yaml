@@ -67,6 +67,8 @@ spec:
             - name: plugins-file
               mountPath: /etc/rabbitmq/
       volumes:
+        - name: data
+          emptyDir: {}
         - name: config-file
           emptyDir: {}
         - name: plugins-file
@@ -75,15 +77,6 @@ spec:
           configMap:
             name: rabbitmq-config
             defaultMode: 0755
-  volumeClaimTemplates:
-    - metadata:
-        name: data
-      spec:
-        accessModes: [ "ReadWriteMany" ]
-        storageClassName: "gp2"
-        resources:
-          requests:
-            storage: 50Mi
 ---
 apiVersion: v1
 kind: Service
