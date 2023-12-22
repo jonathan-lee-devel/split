@@ -1,33 +1,49 @@
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
-// Plus imports for other components in your app.
 
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
 @include mat.core();
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'themes';
 
 $split-ui-primary: mat.define-palette(mat.$indigo-palette);
 $split-ui-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
 $split-ui-warn: mat.define-palette(mat.$red-palette);
 $split-ui-dark-primary: mat.define-palette(mat.$blue-gray-palette, A200);
+$split-typography-level: mat.define-typography-level(
+  $font-family: Inter,
+  $font-weight: 600,
+  $font-size: 1rem,
+  $line-height: 1,
+  $letter-spacing: normal,
+);
+$h1-typography-level: mat.define-typography-level(
+  $font-family: Inter,
+  $font-weight: 700,
+  $font-size: 1.25rem,
+  $line-height: 1,
+  $letter-spacing: normal,
+);
+$split-ui-typography: mat.define-typography-config(
+  $font-family: 'Inter',
+  $body-1: $split-typography-level,
+  $body-2: $split-typography-level,
+  $headline-1: $h1-typography-level,
+);
 
 $split-ui-theme: mat.define-light-theme((
   color: (
     primary: $split-ui-primary,
     accent: $split-ui-accent,
     warn: $split-ui-warn,
-  )
+  ),
+  typography: $split-ui-typography,
 ));
 
 @include mat.all-component-themes($split-ui-theme);
+@include mat.typography-hierarchy($split-ui-typography);
 
-@import 'themes';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 html, body {
   height: 100%;
@@ -35,9 +51,6 @@ html, body {
 
 body {
   margin: 0;
-  font-family: Inter, serif;
+  font-family: Inter, serif !important;
   background-color: var(--body-content-background-color);
 }
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
