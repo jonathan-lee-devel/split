@@ -9,4 +9,4 @@ COPY ./node_modules /app/node_modules
 
 # Expose port 4000
 EXPOSE 4000
-CMD ["dist/split-ui/server/server.mjs"]
+CMD ["dist/split-ui/server/main.server.mjs"]
