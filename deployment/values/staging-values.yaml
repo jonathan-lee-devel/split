@@ -9,10 +9,10 @@ rabbitmq:
 ui:
   name: ui
   image:
-    repository: jonathanleedev/split-ui
+    repository: jonathanleedev/split-ui-spa
     tag: stage-0.2.78
     pullPolicy: Always
-  port: 4000
+  port: 80
 microUsers:
   name: micro-users
   image:

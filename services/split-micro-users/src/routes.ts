@@ -13,11 +13,11 @@ const router = Router();
 router.get('/', indexHealthCheckHandler);
 
 // Registration Endpoints
-router.post('/users/register', defaultRateLimiter, registerHandler);
-router.post('/users/login', defaultRateLimiter, loginHandler);
-router.post('/users/token-code', defaultRateLimiter, getTokenFromTokenHoldHandler);
+router.post('/register', defaultRateLimiter, registerHandler);
+router.post('/login', defaultRateLimiter, loginHandler);
+router.post('/token-code', defaultRateLimiter, getTokenFromTokenHoldHandler);
 
 // Protected Routes Example
-router.get('/users/profile', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), getProfileHandler as any);
+router.get('/profile', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), getProfileHandler as any);
 
 export default router;

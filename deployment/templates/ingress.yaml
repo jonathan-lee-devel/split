@@ -22,22 +22,22 @@ spec:
                 name: {{ .Values.applicationName }}-micro-users-service
                 port:
                   number: {{ .Values.microUsers.port }}
-            pathType: Prefix
-            path: /users
+            path: /users/?(.*)
+            pathType: ImplementationSpecific
           - backend:
               service:
                 name: split-direct-micro-properties-service
                 port:
                   number: {{ .Values.microProperties.port }}
-            pathType: Prefix
-            path: /properties
+            path: /properties/?(.*)
+            pathType: ImplementationSpecific
           - backend:
               service:
                 name: split-direct-micro-expenses-service
                 port:
                   number: {{ .Values.microExpenses.port }}
-            pathType: Prefix
-            path: /expenses
+            path: /expenses/?(.*)
+            pathType: ImplementationSpecific
     - host: {{ .Values.environment.hostPrefix }}split.direct
       http:
         paths:
