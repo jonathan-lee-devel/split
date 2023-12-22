@@ -1,0 +1,21 @@
+<section class="container flex justify-center mt-10">
+  <div class="card border-dark-subtle text-center mb-10 bg-[#133247] animate__animated animate__zoomInDown animate__faster"
+       style="width: 36rem;">
+    <div class="card-body">
+      <div class="flex justify-center text-center items-center pt-10">
+        <a class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white" href="#">
+          <img [ngSrc]="'favicon.ico'" alt="logo" class="w-8 h-8 mr-2" height="32" priority width="32">
+          Split
+        </a>
+      </div>
+      <div class="flex justify-center items-center mt-2.5 mb-3.5">
+        <form (ngSubmit)="doConfirmRegister()">
+          <div class="flex justify-center mt-3">
+            <button class="flex items-center px-4 py-2 border border-slate-200 rounded-lg text-white" type="submit">Confirm Registration
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

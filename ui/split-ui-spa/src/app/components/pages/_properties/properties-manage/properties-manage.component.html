@@ -1,0 +1,36 @@
+<div class="mt-5 text-center">
+  <h1
+    class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+    Manage your Properties</h1>
+</div>
+@if (isLoadingMap_().get(propertiesWhereInvolvedLoading)) {
+  <div class="flex justify-center">
+    <mat-spinner />
+  </div>
+} @else {
+  @if (properties.length > 0) {
+  <div class="flex justify-center cards-container mt-3">
+    @for (property of properties;track $index) {
+      <app-card-with-link
+        [cardBodyText]="property.administratorEmails.includes(currentUser.email) ? 'You are an Administrator Here' : 'You are a Tenant Here'"
+        [cardButtonTargetLink]="rebaseRoutePathAsString(RoutePath.PROPERTIES_DASHBOARD_ID.valueOf().replace(':propertyId', property.id))"
+        [cardButtonText]="property.administratorEmails.includes(currentUser.email) ? 'Manage' : 'View'"
+        [cardHeaderText]="'Navigation'"
+        [cardTitle]="property.name"
+        class="properties-card min-w-full animate__animated animate__bounceInUp animate__faster"
+      />
+    }
+  </div>
+  } @else {
+    <div class="flex mt-3">
+      <app-card-with-link
+        [cardBodyText]="'Click below to create your own'"
+        [cardButtonTargetLink]="rebaseRoutePath(RoutePath.PROPERTIES_CREATE)"
+        [cardButtonText]="'Create Property'"
+        [cardHeaderText]="'Navigation'"
+        [cardTitle]="'You are not currently involved with any properties'"
+        class="properties-card min-w-full animate__animated animate__bounceInUp animate__faster"
+        />
+    </div>
+  }
+}
