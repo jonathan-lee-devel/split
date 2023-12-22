@@ -36,6 +36,6 @@ describe('AppComponent', () => {
   it(`should have the 'Split UI SPA' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('split-ui-spa');
+    expect(app.title).toEqual('Split');
   });
 });

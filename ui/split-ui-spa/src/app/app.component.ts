@@ -1,8 +1,10 @@
 import {CommonModule} from '@angular/common';
-import {Component} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
+import {afterRender, Component} from '@angular/core';
+import {NavigationEnd, Router, RouterOutlet} from '@angular/router';
+import {filter} from 'rxjs';
 
 import {NavbarComponent} from './components/lib/navbar/navbar.component';
+import {ServerClientSyncService} from './services/server-client-sync/server-client-sync.service';
 
 @Component({
   selector: 'app-root',
@@ -12,5 +14,23 @@ import {NavbarComponent} from './components/lib/navbar/navbar.component';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'split-ui-spa';
+  title = 'Split';
+  private readonly REFRESH_EVENT_ID = 1;
+
+  constructor(
+      syncService: ServerClientSyncService,
+    private router: Router,
+  ) {
+    afterRender(() => {
+      this.router.events
+          .pipe(
+              filter((routerEvent): routerEvent is NavigationEnd => routerEvent instanceof NavigationEnd),
+          )
+          .subscribe((event) => {
+            if (event.id === this.REFRESH_EVENT_ID && event.url === event.urlAfterRedirects) {
+              syncService.sync();
+            }
+          });
+    });
+  }
 }

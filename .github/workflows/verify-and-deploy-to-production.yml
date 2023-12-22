@@ -298,8 +298,8 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        node-version: [ 20.x ]
-        scope: [split-ui]
+        node-version: [20.x]
+        scope: [split-ui-spa]
     name: Docker Push after Lerna Build ${{ matrix.scope }} using Node v${{ matrix.node-version }}
     steps:
       - name: Checkout
@@ -343,12 +343,12 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.scope }}:${{ steps.package-version.outputs.current-version}}
 
   build-and-push-ui-staging:
-    needs: [ lint, build, build-and-test, sonarcloud-analysis ]
+    needs: [lint, build, build-and-test, sonarcloud-analysis]
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        node-version: [ 20.x ]
-        scope: [ split-ui ]
+        node-version: [20.x]
+        scope: [split-ui-spa]
     name: Lerna Build ${{ matrix.scope }}-staging using Node v${{ matrix.node-version }}
     steps:
       - name: Checkout
