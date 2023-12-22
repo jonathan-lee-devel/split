@@ -226,7 +226,7 @@ jobs:
     strategy:
       matrix:
         node-version: [20.x]
-        scope: [split-ui]
+        scope: [split-ui, split-ui-spa]
     name: Lerna Build ${{ matrix.scope }} using Node v${{ matrix.node-version }}
     steps:
       - name: Checkout
@@ -265,7 +265,7 @@ jobs:
     strategy:
       matrix:
         node-version: [20.x]
-        scope: [split-ui]
+        scope: [split-ui, split-ui-spa]
     name: Lerna Build ${{ matrix.scope }}-staging using Node v${{ matrix.node-version }}
     steps:
       - name: Checkout
