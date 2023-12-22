@@ -10,12 +10,12 @@ import {getProfileHandler} from './controllers/profile';
 const router = Router();
 
 // Health Check Routes
-router.get('/', indexHealthCheckHandler);
+router.get('/', indexHealthCheckHandler as any);
 
 // Registration Endpoints
-router.post('/register', defaultRateLimiter, registerHandler);
-router.post('/login', defaultRateLimiter, loginHandler);
-router.post('/token-code', defaultRateLimiter, getTokenFromTokenHoldHandler);
+router.post('/register', defaultRateLimiter, registerHandler as any);
+router.post('/login', defaultRateLimiter, loginHandler as any);
+router.post('/token-code', defaultRateLimiter, getTokenFromTokenHoldHandler as any);
 
 // Protected Routes Example
 router.get('/profile', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), getProfileHandler as any);

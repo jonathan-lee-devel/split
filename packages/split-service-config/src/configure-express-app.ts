@@ -55,9 +55,9 @@ export const configureExpressApp = (
         passportRateLimitWindowMs ?? DEFAULT_RATE_LIMIT_WINDOW_MS,
         passportRateLimitPerWindow ?? DEFAULT_RATE_LIMIT_PER_WINDOW,
     );
-    app.get('/users/auth/google', passportRateLimiter, passport.authenticate('google', {scope: ['email', 'profile']}));
+    app.get('/auth/google', passportRateLimiter, passport.authenticate('google', {scope: ['email', 'profile']}));
     app.get(
-        '/users/auth/google/redirect',
+        '/auth/google/redirect',
         passportRateLimiter,
         passport.authenticate('google', {
           failureRedirect: frontEndUrl,
