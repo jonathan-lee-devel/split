@@ -1,4 +1,3 @@
-# Start production image build
 FROM --platform=linux/x86_64 nginx:1.25.3-alpine
 
 WORKDIR /app
