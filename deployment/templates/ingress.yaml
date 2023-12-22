@@ -41,8 +41,8 @@ spec:
     - host: {{ .Values.environment.hostPrefix }}split.direct
       http:
         paths:
-          - path: /
-            pathType: Prefix
+          - path: /?(.*)
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: {{ .Values.applicationName }}-ui-service
