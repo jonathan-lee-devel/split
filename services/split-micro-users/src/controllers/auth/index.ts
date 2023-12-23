@@ -17,12 +17,7 @@ import {environment} from '../../environment';
 import logger from '../../logger';
 import {RegistrationVerificationTokenModel, TokenHoldModel, UserModel} from '../../models';
 import {makeMailToSendRabbitMQConnection} from '../../rabbitmq';
-import {
-  encodePassword,
-  generatePasswordResetVerificationToken,
-  generateRegistrationVerificationToken,
-  handleExistingUser,
-} from '../../util';
+import {encodePassword, generateRegistrationVerificationToken, handleExistingUser} from '../../util';
 
 const rabbitMQConnection = makeMailToSendRabbitMQConnection<MailToSendMessage>(logger, environment.RABBITMQ_URL);
 
@@ -33,7 +28,6 @@ export const registerUserHandler = makeMakeRegisterUserEndpoint(returnAnonymousl
         logger,
         handleExistingUser,
         generateRegistrationVerificationToken,
-        generatePasswordResetVerificationToken,
         encodePassword,
         UserModel,
         rabbitMQConnection,

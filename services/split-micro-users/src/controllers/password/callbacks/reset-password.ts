@@ -25,12 +25,6 @@ export const makeResetPasswordCallback = (
       return res.status(HttpStatus.OK).json({status: PasswordResetStatus[PasswordResetStatus.AWAITING_EMAIL_VERIFICATION]});
     }
 
-    const passwordResetVerificationToken = await PasswordResetVerificationToken.findOne({userEmail: email}).exec();
-    if (!passwordResetVerificationToken) {
-      logger.error(`Password reset verification token does not exist for user: <${email}>`);
-      return res.status(HttpStatus.OK).json({status: PasswordResetStatus[PasswordResetStatus.AWAITING_EMAIL_VERIFICATION]});
-    }
-
     await PasswordResetVerificationToken.deleteOne({userEmail: email}).exec();
     const newPasswordResetVerificationToken = await generatePasswordResetVerificationToken(email);
 

@@ -8,7 +8,7 @@ describe('Register Callback Unit Tests', () => {
     // @ts-ignore
     const registerUserCallback = makeRegisterUserCallback({}, {},
         () => {}, () => {},
-        () => {}, {}, {}, {});
+        () => {}, {}, {});
     expect(registerUserCallback).toBeInstanceOf(Function);
   });
 });

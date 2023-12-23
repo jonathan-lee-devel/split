@@ -7,7 +7,6 @@ import winston from 'winston';
 
 import {Environment} from '../../../environment';
 import {EncodePasswordFunction} from '../../../util/password/encode-password';
-import {GeneratePasswordResetVerificationTokenFunction} from '../../../util/password/generate-password-reset-verification-token';
 import {GenerateRegistrationVerificationTokenFunction} from '../../../util/registration/generate-registration-verification-token';
 import {HandleExistingUserFunction} from '../../../util/registration/handle-existing-user';
 import {RegisterRequestBody, RegisterRequestQuery} from '../schemas/register';
@@ -16,7 +15,6 @@ export const makeRegisterUserCallback = (
     logger: winston.Logger,
     handleExistingUser: HandleExistingUserFunction,
     generateRegistrationVerificationToken: GenerateRegistrationVerificationTokenFunction,
-    generatePasswordResetVerificationToken: GeneratePasswordResetVerificationTokenFunction,
     encodePassword: EncodePasswordFunction,
     User: Model<User>,
     rabbitMQConnection: Promise<RabbitMQConnection<MailToSendMessage>>,
@@ -53,7 +51,7 @@ export const makeRegisterUserCallback = (
     }
 
     const registrationVerificationToken = await generateRegistrationVerificationToken(email);
-    if (!registrationVerificationToken || !await generatePasswordResetVerificationToken(email)) {
+    if (!registrationVerificationToken) {
       logger.error(`Error generating verification token for new user with e-mail: <${email}>`);
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).send();
     }
