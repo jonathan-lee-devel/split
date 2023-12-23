@@ -46,7 +46,8 @@ export const makeSendMail = (
     isSentSuccessfully: false,
   };
   const emailSendAttemptModel = await EmailSendAttempt.create(emailSendAttempt);
-  logger.info(`Attempting to send e-mail to: <${to}> with attempt ID: ${emailSendAttempt.id}`);
+  logger.info(`nodeEnv = ${nodeEnv}`);
+  logger.info(`Attempting to send e-mail from: <${from}> to: <${to}> with attempt ID: ${emailSendAttempt.id}`);
   let response: SMTPTransport.SentMessageInfo | null = null;
   try {
     response = await transporter.sendMail(
