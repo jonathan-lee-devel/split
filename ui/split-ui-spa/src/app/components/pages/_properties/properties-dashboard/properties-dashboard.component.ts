@@ -52,4 +52,8 @@ export class PropertiesDashboardComponent implements OnInit {
               });
         });
   }
+
+  doDeleteProperty() {
+    this.propertyService.openDeletePropertyDialog(this.propertyId, this.property.name);
+  }
 }
