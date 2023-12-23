@@ -4,11 +4,13 @@ import {EmailSendAttempt} from '../models';
 import {makeSendMail} from '../send-mail';
 
 describe('Send Mail Util Unit Tests', () => {
+  const nodeEnv = 'test';
   const emailUser = 'test@example.com';
   it('When make send mail Then defined function', async () => {
     const sendMail = makeSendMail(
         // @ts-ignore
         {},
+        nodeEnv,
         emailUser,
         // @ts-ignore
         {},
@@ -26,6 +28,7 @@ describe('Send Mail Util Unit Tests', () => {
     const sendMail = makeSendMail(
         // @ts-ignore
         {info: () => {}, error: () => {}},
+        nodeEnv,
         // @ts-ignore
         emailUser,
         // @ts-ignore
@@ -61,6 +64,7 @@ describe('Send Mail Util Unit Tests', () => {
         {info: () => {}, error: (errMessage: any) => {
           errorMessages.push(errMessage);
         }},
+        nodeEnv,
         emailUser,
         // @ts-ignore
         {create: async (doc: any) => {
@@ -98,6 +102,7 @@ describe('Send Mail Util Unit Tests', () => {
           loggedInfoMessages.push(message);
           // @ts-ignore
         }, error: () => {}},
+        nodeEnv,
         emailUser,
         // @ts-ignore
         {create: async (doc: any) => {
@@ -146,6 +151,7 @@ describe('Send Mail Util Unit Tests', () => {
         }, error: (message) => {
           loggedErrorMessages.push(message);
         }},
+        nodeEnv,
         emailUser,
         // @ts-ignore
         {create: async (doc: any) => {
