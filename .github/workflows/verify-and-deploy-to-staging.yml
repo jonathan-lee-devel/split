@@ -325,6 +325,7 @@ jobs:
   cypress-run:
     needs: [deploy-to-staging]
     runs-on: ubuntu-22.04
+    name: Cypress Run E2E Tests
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -333,5 +334,4 @@ jobs:
         with:
           working-directory: ./ui/split-ui-spa
           record: false
-          build: lerna run build
           wait-on: https://staging.split.direct
