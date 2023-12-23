@@ -36,7 +36,7 @@ export const makeSendMail = (
     subject: string,
     html: string,
 ): Promise<void> => {
-  const from = `${nodeEnv === 'staging' ? 'Split.Direct (Staging)' : 'Split.Direct'} <${emailUser}>`;
+  const from = `${nodeEnv === 'staging' ? 'Split.Direct.Staging' : 'Split.Direct'} <${emailUser}>`;
   const emailSendAttempt: EmailSendAttempt = {
     id: await generateId(),
     from,
@@ -46,7 +46,6 @@ export const makeSendMail = (
     isSentSuccessfully: false,
   };
   const emailSendAttemptModel = await EmailSendAttempt.create(emailSendAttempt);
-  logger.info(`nodeEnv = ${nodeEnv}`);
   logger.info(`Attempting to send e-mail from: <${from}> to: <${to}> with attempt ID: ${emailSendAttempt.id}`);
   let response: SMTPTransport.SentMessageInfo | null = null;
   try {

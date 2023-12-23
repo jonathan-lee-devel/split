@@ -135,9 +135,8 @@ describe('Send Mail Util Unit Tests', () => {
     await sendMail(to, subject, html);
 
     expect(emailSendAttempt).toStrictEqual({id, from: `Split.Direct <${emailUser}>`, to, subject, html, isSentSuccessfully});
-    expect(loggedInfoMessages[0]).toStrictEqual(`nodeEnv = ${nodeEnv}`);
-    expect(loggedInfoMessages[1]).toStrictEqual(`Attempting to send e-mail from: <${emailSendAttempt.from}> to: <${to}> with attempt ID: ${emailSendAttempt.id}`);
-    expect(loggedInfoMessages[2]).toStrictEqual(`Successfully sent e-mail from: <${emailSendAttempt.from}> to: <${to}> with attempt ID: ${emailSendAttempt.id}`);
+    expect(loggedInfoMessages[0]).toStrictEqual(`Attempting to send e-mail from: <${emailSendAttempt.from}> to: <${to}> with attempt ID: ${emailSendAttempt.id}`);
+    expect(loggedInfoMessages[1]).toStrictEqual(`Successfully sent e-mail from: <${emailSendAttempt.from}> to: <${to}> with attempt ID: ${emailSendAttempt.id}`);
     expect(isSaveCalled).toBeTruthy();
   });
   it('When send mail And not accepted Then correct message logged', async () => {
