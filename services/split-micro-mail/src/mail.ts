@@ -6,6 +6,7 @@ import logger from './logger';
 
 export const sendMail = makeSendMail(
     logger,
+    environment.NODE_ENV,
     environment.EMAIL_USER,
     EmailSendAttemptModel,
     makeGenerateId(logger),

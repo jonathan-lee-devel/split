@@ -17,6 +17,7 @@ export type SendMailFunction = (
  * generateId function, and transporter.
  *
  * @param {winston.Logger} logger - The logger instance.
+ * @param {string} nodeEnv - Environment in which the sending service is running
  * @param {string} emailUser - The e-mail the e-mails are coming from
  * @param {Model<EmailSendAttempt>} EmailSendAttempt - The Mongoose model for EmailSendAttempt documents.
  * @param {GenerateIdFunction} generateId - The function to generate a unique ID.
@@ -25,6 +26,7 @@ export type SendMailFunction = (
  */
 export const makeSendMail = (
     logger: winston.Logger,
+    nodeEnv: string,
     emailUser: string,
     EmailSendAttempt: Model<EmailSendAttempt>,
     generateId: GenerateIdFunction,
@@ -34,7 +36,7 @@ export const makeSendMail = (
     subject: string,
     html: string,
 ): Promise<void> => {
-  const from = `Split.Direct <${emailUser}>`;
+  const from = `${nodeEnv === 'staging' ? 'Split.Direct (Staging)' : 'Split.Direct'} <${emailUser}>`;
   const emailSendAttempt: EmailSendAttempt = {
     id: await generateId(),
     from,
