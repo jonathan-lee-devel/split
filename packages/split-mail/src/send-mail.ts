@@ -66,7 +66,7 @@ export const makeSendMail = (
     return;
   }
   if (response.accepted.includes(to)) {
-    logger.info(`Successfully sent e-mail to: <${to}> with attempt ID: ${emailSendAttempt.id}`);
+    logger.info(`Successfully sent e-mail from: <${from}> to: <${to}> with attempt ID: ${emailSendAttempt.id}`);
     emailSendAttemptModel.isSentSuccessfully = true;
     await emailSendAttemptModel.save();
     return;
