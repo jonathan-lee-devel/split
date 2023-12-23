@@ -1,6 +1,9 @@
+import {expect} from '@jest/globals';
+import {PasswordResetStatus} from '@split-common/split-constants';
+import {HttpStatus} from '@split-common/split-http';
+
 import {makeConfirmPasswordResetCallback} from '../confirm-password-reset';
-import {HttpStatus} from '../../../../lib/enums/HttpStatus';
-import {PasswordResetStatus} from '../../../../lib/enums/password/PasswordResetStatus';
+
 
 describe('Confirm Password Reset Callback Unit Tests', () => {
   const tokenValue = '12345';
@@ -8,6 +11,7 @@ describe('Confirm Password Reset Callback Unit Tests', () => {
     const confirmPasswordReset = makeConfirmPasswordResetCallback(
         // @ts-ignore
         {},
+        // @ts-ignore
         {},
         {},
         () => {},
@@ -21,6 +25,7 @@ describe('Confirm Password Reset Callback Unit Tests', () => {
         // @ts-ignore
         {},
         {
+          // @ts-ignore
           findOne: () => {
             return {
               exec: () => undefined,
@@ -58,6 +63,7 @@ describe('Confirm Password Reset Callback Unit Tests', () => {
           },
         },
         {
+          // @ts-ignore
           findOne: () => {
             return {
               exec: () => {
@@ -100,6 +106,7 @@ describe('Confirm Password Reset Callback Unit Tests', () => {
         // @ts-ignore
         {},
         {
+          // @ts-ignore
           findOne: () => {
             return {
               exec: () => {
@@ -145,6 +152,7 @@ describe('Confirm Password Reset Callback Unit Tests', () => {
         // @ts-ignore
         {},
         {
+          // @ts-ignore
           findOne: () => {
             return {
               exec: () => {
@@ -194,6 +202,7 @@ describe('Confirm Password Reset Callback Unit Tests', () => {
         // @ts-ignore
         {},
         {
+          // @ts-ignore
           findOne: () => {
             return {
               exec: () => {

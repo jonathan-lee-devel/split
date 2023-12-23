@@ -1,17 +1,23 @@
+import {expect} from '@jest/globals';
+import {MailToSendMessage, PASSWORD_RESET_EMAIL_SUBJECT, PasswordResetStatus} from '@split-common/split-constants';
+import {HttpStatus} from '@split-common/split-http';
+import {RabbitMQConnection} from '@split-common/split-service-config';
+
 import {makeResetPasswordCallback} from '../reset-password';
-import {HttpStatus} from '../../../../lib/enums/HttpStatus';
-import {PasswordResetStatus} from '../../../../lib/enums/password/PasswordResetStatus';
-import {PASSWORD_RESET_EMAIL_SUBJECT} from '../../../../constants/password/password';
+
 
 describe('Reset Password Callback Unit Tests', () => {
   it('When make reset password Then defined function', async () => {
     const resetPassword = makeResetPasswordCallback(
         // @ts-ignore
         {},
+        // @ts-ignore
         {},
         {},
-        () => {},
-        () => {},
+        () => {
+        },
+        () => {
+        },
         {},
     );
 
@@ -22,16 +28,22 @@ describe('Reset Password Callback Unit Tests', () => {
     const resetPassword = makeResetPasswordCallback(
         // @ts-ignore
         {},
-        {findOne: () => {
-          return {
-            exec: () => {
-              return undefined;
-            },
-          };
-        }},
+        // @ts-ignore
+        {
+          // @ts-ignore
+          findOne: () => {
+            return {
+              exec: () => {
+                return undefined;
+              },
+            };
+          },
+        },
         {},
-        () => {},
-        () => {},
+        () => {
+        },
+        () => {
+        },
         {},
     );
 
@@ -41,45 +53,63 @@ describe('Reset Password Callback Unit Tests', () => {
     await resetPassword(
         // @ts-ignore
         {body: {email}},
-        {status: (code) => {
-          returnedStatus = code;
-          return {
-            json: (body) => {
-              returnedBody = body;
-            },
-          };
-        }});
+        {
+          status: (code) => {
+            returnedStatus = code;
+            return {
+              json: (body) => {
+                returnedBody = body;
+              },
+            };
+          },
+        });
 
     expect(returnedStatus).toStrictEqual(HttpStatus.OK);
     expect(returnedBody).toStrictEqual({status: PasswordResetStatus[PasswordResetStatus.AWAITING_EMAIL_VERIFICATION]});
   });
   it('When reset password And token not found Then message logged and correct status', async () => {
     let loggedMessage: string | undefined;
+    const rabbitMQConnectionPromise = new Promise<RabbitMQConnection<MailToSendMessage>>((resolve) => {
+      // @ts-ignore
+      resolve({
+        sendData: async () => {
+        },
+      });
+    });
+    const tokenValue = '12345';
     const resetPassword = makeResetPasswordCallback(
         // @ts-ignore
         {
-          // @ts-ignore
+        // @ts-ignore
           error: (message) => {
             loggedMessage = message;
           },
         },
-        {findOne: () => {
-          return {
-            exec: () => {
-              return {};
-            },
-          };
-        }},
-        {findOne: () => {
-          return {
-            exec: () => {
-              return undefined;
-            },
-          };
-        }},
-        () => {},
-        () => {},
-        {},
+        // @ts-ignore
+        {
+          // @ts-ignore
+          findOne: () => {
+            return {
+              exec: () => {
+                return {};
+              },
+            };
+          },
+        },
+        {
+          findOne: () => {
+            return {
+              exec: () => {
+                return undefined;
+              },
+            };
+          },
+        },
+        () => tokenValue,
+        rabbitMQConnectionPromise,
+        {
+          FRONT_END_URL: 'http://localhost:4200',
+        },
     );
 
     const email = 'test@example.com';
@@ -88,14 +118,16 @@ describe('Reset Password Callback Unit Tests', () => {
     await resetPassword(
         // @ts-ignore
         {body: {email}},
-        {status: (code) => {
-          returnedStatus = code;
-          return {
-            json: (body) => {
-              returnedBody = body;
-            },
-          };
-        }});
+        {
+          status: (code) => {
+            returnedStatus = code;
+            return {
+              json: (body) => {
+                returnedBody = body;
+              },
+            };
+          },
+        });
 
     expect(returnedStatus).toStrictEqual(HttpStatus.OK);
     expect(returnedBody).toStrictEqual({status: PasswordResetStatus[PasswordResetStatus.AWAITING_EMAIL_VERIFICATION]});
@@ -104,45 +136,58 @@ describe('Reset Password Callback Unit Tests', () => {
   it('When reset password Then e-mail sent and correct status', async () => {
     let isTokenDeleted = false;
     const tokenValue = '12345';
+    let sentQueueName: string | undefined;
     let sentTo: string | undefined;
     let sentSubject: string | undefined;
     let sentHtml: string | undefined;
     const frontEndUrl = 'http://localhost:4200';
+    const rabbitMQConnectionPromise = new Promise<RabbitMQConnection<MailToSendMessage>>((resolve) => {
+      // @ts-ignore
+      resolve({
+        sendData: async (queueName: string, data: MailToSendMessage) => {
+          sentQueueName = queueName;
+          sentTo = data.toEmail;
+          sentSubject = data.subject;
+          sentHtml = data.html;
+        },
+      });
+    });
     const resetPassword = makeResetPasswordCallback(
         // @ts-ignore
+        {},
+        // @ts-ignore
         {
+          // @ts-ignore
+          findOne: () => {
+            return {
+              exec: () => {
+                return {};
+              },
+            };
+          },
         },
-        {findOne: () => {
-          return {
-            exec: () => {
-              return {};
-            },
-          };
-        }},
-        {findOne: () => {
-          return {
-            exec: () => {
-              return {};
-            },
-          };
-        },
-        deleteOne: () => {
-          isTokenDeleted = true;
-          return {
-            exec: () => {},
-          };
-        },
+        {
+          findOne: () => {
+            return {
+              exec: () => {
+                return {};
+              },
+            };
+          },
+          deleteOne: () => {
+            isTokenDeleted = true;
+            return {
+              exec: () => {
+              },
+            };
+          },
         },
         () => {
           return {
             value: tokenValue,
           };
         },
-        async (addressTo, subject, html) => {
-          sentTo = addressTo;
-          sentSubject = subject;
-          sentHtml = html;
-        },
+        rabbitMQConnectionPromise,
         {
           FRONT_END_URL: frontEndUrl,
         },
@@ -152,20 +197,23 @@ describe('Reset Password Callback Unit Tests', () => {
     let returnedStatus: number | undefined;
     let returnedBody: any;
     await resetPassword(
-        // @ts-ignore
+    // @ts-ignore
         {body: {email}},
-        {status: (code) => {
-          returnedStatus = code;
-          return {
-            json: (body) => {
-              returnedBody = body;
-            },
-          };
-        }});
+        {
+          status: (code) => {
+            returnedStatus = code;
+            return {
+              json: (body) => {
+                returnedBody = body;
+              },
+            };
+          },
+        });
 
     expect(returnedStatus).toStrictEqual(HttpStatus.OK);
     expect(returnedBody).toStrictEqual({status: PasswordResetStatus[PasswordResetStatus.AWAITING_EMAIL_VERIFICATION]});
     expect(isTokenDeleted).toBeTruthy();
+    expect(sentQueueName).toStrictEqual('mail-to-send');
     expect(sentTo).toStrictEqual(email);
     expect(sentSubject).toStrictEqual(PASSWORD_RESET_EMAIL_SUBJECT);
     expect(sentHtml).toStrictEqual(`<h4>Please click the following link to reset your password: <a href="${frontEndUrl}/reset-password/confirm/${tokenValue}">Reset Password</a></h4>`);
@@ -174,43 +222,56 @@ describe('Reset Password Callback Unit Tests', () => {
     let isTokenDeleted = false;
     const tokenValue = '12345';
     let loggedMessage: string | undefined;
+    const rabbitMQConnectionPromise = new Promise<RabbitMQConnection<MailToSendMessage>>((resolve) => {
+      // @ts-ignore
+      resolve({
+        sendData: async () => {
+          throw new Error('Test Error');
+        },
+      });
+    });
+
     const resetPassword = makeResetPasswordCallback(
-        // @ts-ignore
+    // @ts-ignore
         {
           // @ts-ignore
           error: (message) => {
             loggedMessage = message;
           },
         },
-        {findOne: () => {
-          return {
-            exec: () => {
-              return {};
-            },
-          };
-        }},
-        {findOne: () => {
-          return {
-            exec: () => {
-              return {};
-            },
-          };
+        // @ts-ignore
+        {
+          // @ts-ignore
+          findOne: () => {
+            return {
+              exec: () => {
+                return {};
+              },
+            };
+          },
         },
-        deleteOne: () => {
-          isTokenDeleted = true;
-          return {
-            exec: () => {},
-          };
-        },
+        {
+          findOne: () => {
+            return {
+              exec: () => {
+                return {};
+              },
+            };
+          },
+          deleteOne: () => {
+            isTokenDeleted = true;
+            return {
+              exec: () => {
+              },
+            };
+          },
         },
         () => {
           return {
             value: tokenValue,
           };
         },
-        async () => {
-          throw new Error('Test Error');
-        },
+        rabbitMQConnectionPromise,
         {},
     );
 
@@ -218,20 +279,23 @@ describe('Reset Password Callback Unit Tests', () => {
     let returnedStatus: number | undefined;
     let returnedBody: any;
     await resetPassword(
-        // @ts-ignore
+    // @ts-ignore
         {body: {email}},
-        {status: (code) => {
-          returnedStatus = code;
-          return {
-            json: (body) => {
-              returnedBody = body;
-            },
-          };
-        }});
+        {
+          status: (code) => {
+            returnedStatus = code;
+            return {
+              json: (body) => {
+                returnedBody = body;
+              },
+            };
+          },
+        });
 
     expect(returnedStatus).toStrictEqual(HttpStatus.OK);
     expect(returnedBody).toStrictEqual({status: PasswordResetStatus[PasswordResetStatus.AWAITING_EMAIL_VERIFICATION]});
     expect(isTokenDeleted).toBeTruthy();
-    expect(loggedMessage).toStrictEqual(`An error has occurred while sending mail: Error: Test Error`);
+    expect(loggedMessage).toStrictEqual(`Error while trying to send e-mail to queue: Error: Test Error`);
   });
-});
+})
+;

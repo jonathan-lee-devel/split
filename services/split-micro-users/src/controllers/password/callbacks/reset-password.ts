@@ -34,11 +34,15 @@ export const makeResetPasswordCallback = (
     await PasswordResetVerificationToken.deleteOne({userEmail: email}).exec();
     const newPasswordResetVerificationToken = await generatePasswordResetVerificationToken(email);
 
-    await (await rabbitMQConnection).sendData('mail-to-send', {
-      toEmail: email,
-      subject: PASSWORD_RESET_EMAIL_SUBJECT,
-      html: `<h4>Please click the following link to reset your password: <a href="${environment.FRONT_END_URL}/reset-password/confirm/${newPasswordResetVerificationToken.value}">Reset Password</a></h4>`,
-    });
+    try {
+      await (await rabbitMQConnection).sendData('mail-to-send', {
+        toEmail: email,
+        subject: PASSWORD_RESET_EMAIL_SUBJECT,
+        html: `<h4>Please click the following link to reset your password: <a href="${environment.FRONT_END_URL}/reset-password/confirm/${newPasswordResetVerificationToken.value}">Reset Password</a></h4>`,
+      });
+    } catch (err) {
+      logger.error(`Error while trying to send e-mail to queue: ${err}`);
+    }
 
     return res.status(HttpStatus.OK).json({status: PasswordResetStatus[PasswordResetStatus.AWAITING_EMAIL_VERIFICATION]});
   }) as any;
