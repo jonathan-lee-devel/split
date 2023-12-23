@@ -1,8 +1,8 @@
 import {z} from 'zod';
 
-export const GetPropertiesByIdRequestBodySchema = z.object({});
+export const GetPropertyByIdRequestBodySchema = z.object({});
 
-export type GetPropertiesByIdRequestBody = z.infer<typeof GetPropertiesByIdRequestBodySchema>;
+export type GetPropertyByIdRequestBody = z.infer<typeof GetPropertyByIdRequestBodySchema>;
 
 export const GetPropertyByIdRequestQuerySchema = z.object({});
 
