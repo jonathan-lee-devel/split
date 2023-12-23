@@ -4,6 +4,8 @@
 deployment/charts
 k8s/
 
+ui/split-ui-spa/cypress/videos
+
 # Created by https://www.toptal.com/developers/gitignore/api/node
 # Edit at https://www.toptal.com/developers/gitignore?templates=node
 

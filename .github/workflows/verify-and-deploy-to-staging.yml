@@ -321,3 +321,17 @@ jobs:
         run: kubectl delete pods --namespace=split-staging -l app=split-direct-staging
       - name: Await Pods to Ready State
         run: kubectl wait -n split-staging --for=condition=ready pod -l app=split-direct-staging --timeout=600s
+
+  cypress-run:
+    needs: [deploy-to-staging]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Cypress Run
+        uses: cypress-io/github-action@v5
+        with:
+          working-directory: ./ui/split-ui-spa
+          record: false
+          build: lerna run build
+          wait-on: https://staging.split.direct

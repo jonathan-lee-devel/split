@@ -10,6 +10,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test --browsers ChromeHeadless --watch=false",
     "fix-lint": "eslint src --ext .ts --fix",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
     "update-dependencies": "ncu -u"
   },
   "private": true,
@@ -42,6 +44,7 @@
     "@typescript-eslint/eslint-plugin": "^6.15.0",
     "@typescript-eslint/parser": "^6.15.0",
     "autoprefixer": "^10.4.16",
+    "cypress": "^13.6.1",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-html": "^7.1.0",
     "eslint-plugin-import": "^2.29.1",
