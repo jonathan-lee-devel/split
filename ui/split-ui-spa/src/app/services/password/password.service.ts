@@ -4,7 +4,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
 
 import {environment} from '../../../environments/environment';
-import {RoutePath} from '../../app.routes';
+import {rebaseRoutePath, RoutePath} from '../../app.routes';
 import {PasswordResetDto} from '../../dtos/password/PasswordResetDto';
 
 @Injectable({
@@ -18,22 +18,27 @@ export class PasswordService {
   ) { }
 
   public sendPasswordResetRequest(email: string): void {
-    this.httpClient.post<PasswordResetDto>(`${environment.MAIN_API_URL}/password/reset`, {email})
+    this.httpClient.post<PasswordResetDto>(`${environment.USERS_SERVICE_BASE_URL}/password/reset`, {email})
         .subscribe((passwordResetDto) => {
           let message: string;
+          let shouldRedirect = false;
           switch (passwordResetDto.status) {
             case 'AWAITING_EMAIL_VERIFICATION':
               message = 'Please check your e-mail inbox for further instructions';
+              shouldRedirect = true;
               break;
             default:
               message = 'An unknown error has occurred';
           }
           this.snackBar.open(message);
+          if (shouldRedirect) {
+            this.router.navigate([rebaseRoutePath(RoutePath.LOGIN)]).catch((reason) => window.alert(reason));
+          }
         });
   }
 
   confirmPasswordReset(tokenValue: string, password: string, confirmPassword: string) {
-    this.httpClient.post<PasswordResetDto>(`${environment.MAIN_API_URL}/password/reset/confirm`, {
+    this.httpClient.post<PasswordResetDto>(`${environment.USERS_SERVICE_BASE_URL}/password/reset/confirm`, {
       tokenValue,
       password,
       confirmPassword,

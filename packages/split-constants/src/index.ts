@@ -4,3 +4,6 @@ export * from './registration';
 export * from './token';
 export * from './property';
 export * from './rabbitmq';
+export * from './enums/registration/RegistrationStatus';
+export * from './enums/password/PasswordResetStatus';
+export * from './enums/organization/OrganizationInvitationStatus';
