@@ -6,7 +6,7 @@ import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 
 import {environment} from '../../../environments/environment';
-import {rebaseRoutePath, rebaseRoutePathAsString, RoutePath} from '../../app.routes';
+import {rebaseRoutePath, RoutePath} from '../../app.routes';
 import {ConfirmActionDialogComponent} from '../../components/lib/dialogs/confirm-action-dialog/confirm-action-dialog.component';
 import {ConfirmDeleteDialogComponent} from '../../components/lib/dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import {PropertyCreateRequestDto} from '../../dtos/properties/PropertyCreateRequestDto';
@@ -73,14 +73,13 @@ export class PropertyService {
         enterAnimationDuration: 500,
       });
       dialogRef.componentInstance.entityId = propertyId;
-      dialogRef.componentInstance.prompt = `Are you sure you want to toggle ${combinedEmail} administrator status for property: ${propertyName}?`;
+      dialogRef.componentInstance.prompt = `Are you sure you want to toggle administrator status for: ${combinedEmail} on property: ${propertyName}?`;
       dialogRef.componentInstance.data = {emailToToggle: combinedEmail};
       dialogRef.componentInstance.onConfirmCallback = (propertyId, data: unknown) => {
         // @ts-expect-error emailToToggle is known in this case to be a part of the data
         this.togglePropertyAdministratorStatus(propertyId, (data && data.emailToToggle) ? data.emailToToggle : '')
             .subscribe((property) => {
               resolve(property);
-              this.router.navigate([rebaseRoutePathAsString(RoutePath.PROPERTIES_DASHBOARD_ID.replace(':propertyId', property.id))]).catch((reason) => window.alert(reason));
               // @ts-expect-error emailToToggle is known in this case to be a part of the data
               this.matSnackBar.open(`Property: ${property.name} has toggled administrator status for: ${data.emailToToggle}`, 'Ok', {
                 duration: 5000,
