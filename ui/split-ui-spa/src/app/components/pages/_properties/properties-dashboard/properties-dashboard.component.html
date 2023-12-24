@@ -1,26 +1,71 @@
 <section class="container flex justify-center mt-10">
-  <div class="card border-dark-subtle text-center mb-10 bg-[#133247] animate__animated animate__zoomInDown animate__faster"
-       style="width: 36rem;">
+  <div
+    class="card border-dark-subtle text-center mb-10 bg-[#133247] animate__animated animate__zoomInDown animate__faster"
+    style="width: 36rem;">
     <div class="card-body">
       <div class="flex justify-center text-center items-center pt-10">
         <h1 class="text-white text-4xl underline">Manage Property</h1>
       </div>
-      <div class="flex justify-center items-center mt-2.5 mb-3.5">
-        @if (isLoadingMap_().get(propertyDashboardByIdLoadingKey)) {
-          <mat-spinner />
-        } @else {
-          <div>
-          <p class="text-white text-3xl">{{property.name}}</p>
+      @if (isLoadingMap_().get(propertyDashboardByIdLoadingKey)) {
+        <div class="flex justify-center items-center mt-2.5 mb-3.5">
+          <mat-spinner/>
+        </div>
+      } @else {
+        <div class="justify-center items-center mt-2.5 mb-3.5 grid grid-cols-1">
+          <div class="row flex justify-center">
+            <p class="text-white text-3xl">{{ property.name }}</p>
           </div>
-        }
-      </div>
+          <div class="row mt-5 flex justify-center">
+            <div class="relative overflow-x-auto">
+              <table class="w-full text-sm text-left rtl:text-right text-gray-500 bg-blue-600">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
+                <tr>
+                  <th scope="col" class="px-6 py-3">
+                    E-mail
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                    Administrator Status
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                    Tenant status
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                    Manage
+                  </th>
+                </tr>
+                </thead>
+                <tbody>
+                  @for (combinedEmail of combinedEmails;track $index) {
+                    <tr class="bg-gray-800 border-b">
+                      <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">
+                        {{ combinedEmail }}
+                      </th>
+                      <td class="px-6 py-4">
+                        {{ property.administratorEmails.includes(combinedEmail) ? '✅' : '❌' }}
+                      </td>
+                      <td class="px-6 py-4">
+                        {{ property.tenantEmails.includes(combinedEmail) ? '✅' : '❌' }}
+                      </td>
+                      <td class="px-6 py-4">
+                        <button class="flex items-center px-4 py-2 bg-blue-700 border border-slate-200 rounded-lg text-white">Manage
+                        </button>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      }
       @if (!isLoadingMap_().get(propertyDashboardByIdLoadingKey)) {
         <div class="flex justify-center items-center mt-2.5 mb-3.5">
           <button (click)="doDeleteProperty()" class="btn btn-danger">Delete Property</button>
         </div>
       }
       <div class="flex justify-center items-center mt-2.5 mb-3.5">
-        <a [routerLink]="rebaseRoutePath(RoutePath.PROPERTIES_MANAGE)" class="btn btn-primary">Back to Properties</a>
+        <a [routerLink]="rebaseRoutePath(RoutePath.PROPERTIES_MANAGE)" class="btn btn-primary">Back to
+          Properties</a>
       </div>
     </div>
   </div>
