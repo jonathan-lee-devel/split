@@ -1,31 +1,32 @@
 <div class="mt-5 text-center">
-    <p class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-        Welcome to the Dashboard</p>
-    <h1 class="text-3xl text-white mat-h1">{{userFirstName}}</h1>
+  <p
+    class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+    Welcome to the Dashboard</p>
+  <h1 class="text-3xl text-white mat-h1">{{ userFirstName }}</h1>
 </div>
-<div class="flex justify-center dashboard-container mt-3">
-    <app-card-with-link
-            [cardBodyText]="'Manage your existing Properties'"
-            [cardButtonTargetLink]="rebaseRoutePath(RoutePath.PROPERTIES_MANAGE)"
-            [cardButtonText]="'Manage Properties'"
-            [cardHeaderText]="navigationTitle"
-            [cardTitle]="'Manage Properties'"
-            class="dashboard-card min-w-full animate__animated animate__bounceInUp animate__faster"
-    />
-    <app-card-with-link
-            [cardBodyText]="'Create a new Property'"
-            [cardButtonTargetLink]="rebaseRoutePath(RoutePath.PROPERTIES_CREATE)"
-            [cardButtonText]="'Create Property'"
-            [cardHeaderText]="navigationTitle"
-            [cardTitle]="'Create Property'"
-            class="dashboard-card min-w-full animate__animated animate__bounceInUp animate__fast"
-    />
-    <app-card-with-link
-            [cardBodyText]="'Manage your user Account'"
-            [cardButtonTargetLink]="rebaseRoutePath(RoutePath.ACCOUNT_MANAGE)"
-            [cardButtonText]="'Manage Account'"
-            [cardHeaderText]="navigationTitle"
-            [cardTitle]="'Manage Account'"
-            class="dashboard-card min-w-full animate__animated animate__bounceInUp"
-    />
+<div class="grid grid-cols-1 justify-center mt-3">
+  <app-card-with-link
+    [cardBodyText]="'Manage your existing Properties'"
+    [cardButtonTargetLink]="rebaseRoutePath(RoutePath.PROPERTIES_MANAGE)"
+    [cardButtonText]="'Manage Properties'"
+    [cardHeaderText]="navigationTitle"
+    [cardTitle]="'Manage Properties'"
+    class="dashboard-card min-w-full animate__animated animate__bounceInUp animate__faster"
+  />
+  <app-card-with-link
+    [cardBodyText]="'Create a new Property'"
+    [cardButtonTargetLink]="rebaseRoutePath(RoutePath.PROPERTIES_CREATE)"
+    [cardButtonText]="'Create Property'"
+    [cardHeaderText]="navigationTitle"
+    [cardTitle]="'Create Property'"
+    class="dashboard-card min-w-full animate__animated animate__bounceInUp animate__fast"
+  />
+  <app-card-with-link
+    [cardBodyText]="'Manage your user Account'"
+    [cardButtonTargetLink]="rebaseRoutePath(RoutePath.ACCOUNT_MANAGE)"
+    [cardButtonText]="'Manage Account'"
+    [cardHeaderText]="navigationTitle"
+    [cardTitle]="'Manage Account'"
+    class="dashboard-card min-w-full animate__animated animate__bounceInUp"
+  />
 </div>

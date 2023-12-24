@@ -29,9 +29,14 @@
                   <th scope="col" class="px-6 py-3">
                     Tenant status
                   </th>
-                  <th scope="col" class="px-6 py-3">
-                    Manage
-                  </th>
+                  @if (property.administratorEmails.includes(currentUser.email)) {
+                    <th scope="col" class="px-6 py-3">
+                      Manage (Administrator)
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                      Manage (Tenant)
+                    </th>
+                  }
                 </tr>
                 </thead>
                 <tbody>
@@ -46,10 +51,20 @@
                       <td class="px-6 py-4">
                         {{ property.tenantEmails.includes(combinedEmail) ? '✅' : '❌' }}
                       </td>
-                      <td class="px-6 py-4">
-                        <button class="flex items-center px-4 py-2 bg-blue-700 border border-slate-200 rounded-lg text-white">Manage
-                        </button>
-                      </td>
+                      @if (property.administratorEmails.includes(currentUser.email)) {
+                        <td class="px-6 py-4">
+                          <button (click)="toggleAdministrator(combinedEmail)"
+                            class="flex items-center px-4 py-2 bg-blue-700 border border-slate-200 rounded-lg text-white">
+                            {{ property.administratorEmails.includes(combinedEmail) ? 'Remove Privileges' : 'Make Administrator' }}
+                          </button>
+                        </td>
+                        <td class="px-6 py-4">
+                          <button (click)="toggleTenant(combinedEmail)"
+                            class="flex items-center px-4 py-2 bg-blue-700 border border-slate-200 rounded-lg text-white">
+                            {{ property.tenantEmails.includes(combinedEmail) ? 'Remove Tenant' : 'Make Tenant' }}
+                          </button>
+                        </td>
+                      }
                     </tr>
                   }
                 </tbody>

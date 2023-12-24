@@ -9,7 +9,7 @@
   </div>
 } @else {
   @if (properties.length > 0) {
-  <div class="flex justify-center cards-container mt-3">
+  <div class="grid grid-cols-1 justify-center mt-3">
     @for (property of properties;track $index) {
       <app-card-with-link
         [cardBodyText]="property.administratorEmails.includes(currentUser.email) ? 'You are an Administrator Here' : 'You are a Tenant Here'"

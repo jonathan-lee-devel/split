@@ -6,7 +6,9 @@ import {ActivatedRoute, RouterLink} from '@angular/router';
 import {tap} from 'rxjs';
 
 import {rebaseRoutePath, RoutePath} from '../../../../app.routes';
+import {UserDto} from '../../../../dtos/auth/UserDto';
 import {initialPropertyDto, PropertyDto} from '../../../../dtos/properties/PropertyDto';
+import {AuthService} from '../../../../services/auth/auth.service';
 import {LoadingService} from '../../../../services/loading/loading.service';
 import {PropertyService} from '../../../../services/property/property.service';
 
@@ -29,6 +31,7 @@ export class PropertiesDashboardComponent implements OnInit {
   propertyId: string = '';
   property: PropertyDto = initialPropertyDto;
   combinedEmails: Set<string> = new Set<string>();
+  currentUser: UserDto = AuthService.INITIAL_USER;
   readonly propertyDashboardByIdLoadingKey = 'property-dashboard-by-id-loading-key';
   protected readonly RoutePath = RoutePath;
   protected readonly rebaseRoutePath = rebaseRoutePath;
@@ -36,6 +39,7 @@ export class PropertiesDashboardComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private loadingService: LoadingService,
+    private authService: AuthService,
     private propertyService: PropertyService,
   ) {
     this.isLoadingMap_ = this.loadingService.isLoadingMap_;
@@ -46,6 +50,7 @@ export class PropertiesDashboardComponent implements OnInit {
         .subscribe((params) => {
           this.propertyId = params['propertyId'];
           this.loadingService.onLoadingStart(this.propertyDashboardByIdLoadingKey);
+          this.currentUser = this.authService.getCurrentUserInfo();
           this.propertyService.getPropertyById(this.propertyId)
               .pipe(
                   tap((property) => {
@@ -68,5 +73,13 @@ export class PropertiesDashboardComponent implements OnInit {
 
   doDeleteProperty() {
     this.propertyService.openDeletePropertyDialog(this.propertyId, this.property.name);
+  }
+
+  toggleAdministrator(combinedEmail: string) {
+    window.alert(`Toggling admin for: ${combinedEmail}`);
+  }
+
+  toggleTenant(combinedEmail: string) {
+    window.alert(`Toggling tenant for: ${combinedEmail}`);
   }
 }
