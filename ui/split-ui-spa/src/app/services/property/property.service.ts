@@ -47,6 +47,10 @@ export class PropertyService {
     return this.httpClient.patch<PropertyDto>(`${environment.PROPERTIES_SERVICE_BASE_URL}/id/${propertyId}/toggle-property-admin`, {emailToToggle});
   }
 
+  public togglePropertyTenantStatus(propertyId: string, emailToToggle: string): Observable<PropertyDto> {
+    return this.httpClient.patch<PropertyDto>(`${environment.PROPERTIES_SERVICE_BASE_URL}/id/${propertyId}/toggle-property-tenant`, {emailToToggle});
+  }
+
   public openDeletePropertyDialog(propertyId: string, propertyName: string) {
     const dialogRef = this.confirmDeleteDialog.open(ConfirmDeleteDialogComponent, {
       disableClose: false,
@@ -66,26 +70,90 @@ export class PropertyService {
     };
   }
 
-  async openTogglePropertyAdminDialog(propertyId: string, propertyName: string, combinedEmail: string): Promise<PropertyDto> {
+  async openTogglePropertyAdminDialog(property: PropertyDto, combinedEmail: string): Promise<PropertyDto> {
     return new Promise<PropertyDto>((resolve) => {
       const dialogRef = this.confirmActionDialog.open(ConfirmActionDialogComponent, {
         disableClose: false,
         enterAnimationDuration: 500,
       });
-      dialogRef.componentInstance.entityId = propertyId;
-      dialogRef.componentInstance.prompt = `Are you sure you want to toggle administrator status for: ${combinedEmail} on property: ${propertyName}?`;
+      dialogRef.componentInstance.entityId = property.id;
+      dialogRef.componentInstance.prompt = this.getPromptForToggleAdministrator(property, combinedEmail);
       dialogRef.componentInstance.data = {emailToToggle: combinedEmail};
       dialogRef.componentInstance.onConfirmCallback = (propertyId, data: unknown) => {
         // @ts-expect-error emailToToggle is known in this case to be a part of the data
         this.togglePropertyAdministratorStatus(propertyId, (data && data.emailToToggle) ? data.emailToToggle : '')
-            .subscribe((property) => {
-              resolve(property);
-              // @ts-expect-error emailToToggle is known in this case to be a part of the data
-              this.matSnackBar.open(`Property: ${property.name} has toggled administrator status for: ${data.emailToToggle}`, 'Ok', {
+            .subscribe((updatedProperty) => {
+              resolve(updatedProperty);
+              this.matSnackBar.open(this.getSnackBarMessageForToggleAdministratorStatus(property, updatedProperty, combinedEmail), 'Ok', {
                 duration: 5000,
               });
             });
       };
     });
+  }
+
+  async openTogglePropertyTenantDialog(property: PropertyDto, combinedEmail: string): Promise<PropertyDto> {
+    return new Promise<PropertyDto>((resolve) => {
+      const dialogRef = this.confirmActionDialog.open(ConfirmActionDialogComponent, {
+        disableClose: false,
+        enterAnimationDuration: 500,
+      });
+      dialogRef.componentInstance.entityId = property.id;
+      dialogRef.componentInstance.prompt = this.getPromptForToggleTenant(property, combinedEmail);
+      dialogRef.componentInstance.data = {emailToToggle: combinedEmail};
+      dialogRef.componentInstance.onConfirmCallback = (propertyId, data: unknown) => {
+        // @ts-expect-error emailToToggle is known in this case to be a part of the data
+        this.togglePropertyTenantStatus(propertyId, (data && data.emailToToggle) ? data.emailToToggle : '')
+            .subscribe((updatedProperty) => {
+              resolve(updatedProperty);
+              this.matSnackBar.open(this.getSnackBarMessageForToggleTenantStatus(property, updatedProperty, combinedEmail), 'Ok', {
+                duration: 5000,
+              });
+            });
+      };
+    });
+  }
+
+  private getSnackBarMessageForToggleAdministratorStatus(
+      originalProperty: PropertyDto,
+      updatedProperty: PropertyDto,
+      combinedEmail: string,
+  ) {
+    const removedAdministrators = originalProperty.administratorEmails
+        .filter((administratorEmail) =>
+          updatedProperty.administratorEmails.indexOf(administratorEmail) < 0);
+    return (removedAdministrators.length >= 1) ?
+      `${removedAdministrators[0]} has been removed as an administrator of property: ${updatedProperty.name}` :
+      `${combinedEmail} has been added as an administrator of property: ${updatedProperty.name}`;
+  }
+
+  private getSnackBarMessageForToggleTenantStatus(
+      originalProperty: PropertyDto,
+      updatedProperty: PropertyDto,
+      combinedEmail: string,
+  ) {
+    const removedTenants = originalProperty.tenantEmails
+        .filter((tenantEmail) =>
+          updatedProperty.tenantEmails.indexOf(tenantEmail) < 0);
+    return (removedTenants.length >= 1) ?
+      `${removedTenants[0]} has been removed as a tenant from the property: ${updatedProperty.name}` :
+      `${combinedEmail} has been added as a tenant to the property: ${updatedProperty.name}`;
+  }
+
+  private getPromptForToggleAdministrator(property: PropertyDto, combinedEmail: string) {
+    return property.administratorEmails.includes(combinedEmail) ?
+      `Do you want to remove ${combinedEmail} as an administrator of property: ${property.name}?` :
+      `Do you want to add ${combinedEmail} as an administrator of property: ${property.name}?`;
+  }
+
+  private getPromptForToggleTenant(property: PropertyDto, combinedEmail: string) {
+    if (property.administratorEmails.includes(combinedEmail) &&
+    property.tenantEmails.includes(combinedEmail)) {
+      return `Do you want to remove ${combinedEmail} as a tenant of property: ${property.name}?`;
+    } else if (!property.administratorEmails.includes(combinedEmail) &&
+    property.tenantEmails.includes(combinedEmail)) {
+      return `Do you want to completely remove ${combinedEmail} from property: ${property.name}?`;
+    }
+    return `Do you want to add ${combinedEmail} as tenant of property: ${property.name}?`;
   }
 }

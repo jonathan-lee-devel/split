@@ -10,6 +10,7 @@ import {
   getPropertiesWhereInvolvedHandler,
   getPropertyByIdHandler,
   togglePropertyAdministratorStatusHandler,
+  togglePropertyTenantStatusHandler,
 } from './controllers/properties';
 
 const router = Router();
@@ -23,5 +24,6 @@ router.get('/id/:propertyId', defaultRateLimiter, passport.authenticate(JWT_AUTH
 router.get('/where-involved', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), getPropertiesWhereInvolvedHandler as any);
 router.delete('/id/:propertyId', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), deletePropertyByIdHandler as any);
 router.patch('/id/:propertyId/toggle-property-admin', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), togglePropertyAdministratorStatusHandler as any);
+router.patch('/id/:propertyId/toggle-property-tenant', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), togglePropertyTenantStatusHandler as any);
 
 export default router;

@@ -7,11 +7,13 @@ import {makeDeletePropertyByIdCallback} from './callbacks/delete-property-by-id'
 import {makeGetPropertiesWhereInvolvedCallback} from './callbacks/get-properties-where-involved';
 import {makeGetPropertyByIdCallback} from './callbacks/get-property-by-id';
 import {makeTogglePropertyAdministratorStatusCallback} from './callbacks/toggle-property-administrator-status';
+import {makeTogglePropertyTenantStatusCallback} from './callbacks/toggle-property-tenant-status';
 import {makeMakeCreatePropertyEndpoint} from './endpoints/create-property';
 import {makeMakeDeletePropertyByIdEndpoint} from './endpoints/delete-property-by-id';
 import {makeMakeGetPropertiesWhereInvolvedEndpoint} from './endpoints/get-properties-where-involved';
 import {makeMakeGetPropertyByIdEndpoint} from './endpoints/get-property-by-id';
 import {makeMakeTogglePropertyAdministratorStatusEndpoint} from './endpoints/toggle-property-administrator-status';
+import {makeMakeTogglePropertyTenantStatusEndpoint} from './endpoints/toggle-property-tenant-status';
 import {CreatePropertyRequestBodySchema, CreatePropertyRequestQuerySchema} from './schemas/create-property';
 import {DeletePropertyByIdRequestBodySchema, DeletePropertyByIdRequestQuerySchema} from './schemas/delete-property-by-id';
 import {
@@ -23,6 +25,10 @@ import {
   TogglePropertyAdministratorStatusRequestBodySchema,
   TogglePropertyAdministratorStatusRequestQuerySchema,
 } from './schemas/toggle-property-administrator-status';
+import {
+  TogglePropertyTenantStatusRequestBodySchema,
+  TogglePropertyTenantStatusRequestQuerySchema,
+} from './schemas/toggle-property-tenant-status';
 import logger from '../../logger';
 import {PropertyModel} from '../../models';
 
@@ -55,4 +61,11 @@ export const togglePropertyAdministratorStatusHandler =
       TogglePropertyAdministratorStatusRequestBodySchema,
       TogglePropertyAdministratorStatusRequestQuerySchema,
       makeTogglePropertyAdministratorStatusCallback(logger, PropertyModel, defaultModelTransform),
+  );
+
+export const togglePropertyTenantStatusHandler =
+  makeMakeTogglePropertyTenantStatusEndpoint(returnBasedOnAuthenticationAndSafeParseResult)(
+      TogglePropertyTenantStatusRequestBodySchema,
+      TogglePropertyTenantStatusRequestQuerySchema,
+      makeTogglePropertyTenantStatusCallback(logger, PropertyModel, defaultModelTransform),
   );

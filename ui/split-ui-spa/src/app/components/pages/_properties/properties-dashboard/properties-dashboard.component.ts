@@ -54,12 +54,7 @@ export class PropertiesDashboardComponent implements OnInit {
           this.propertyService.getPropertyById(this.propertyId)
               .pipe(
                   tap((property) => {
-                    property.administratorEmails.forEach((administratorEmail) => {
-                      this.combinedEmails.add(administratorEmail);
-                    });
-                    property.tenantEmails.forEach((tenantEmail) => {
-                      this.combinedEmails.add(tenantEmail);
-                    });
+                    this.updateCombinedEmails(property);
                   }),
               ).subscribe((property) => {
                 setTimeout(() => {
@@ -76,13 +71,27 @@ export class PropertiesDashboardComponent implements OnInit {
   }
 
   toggleAdministrator(combinedEmail: string) {
-    this.propertyService.openTogglePropertyAdminDialog(this.propertyId, this.property.name, combinedEmail)
+    this.propertyService.openTogglePropertyAdminDialog(this.property, combinedEmail)
         .then((property) => {
           this.property = property;
         });
   }
 
   toggleTenant(combinedEmail: string) {
-    window.alert(`Toggling tenant for: ${combinedEmail}`);
+    this.propertyService.openTogglePropertyTenantDialog(this.property, combinedEmail)
+        .then((property) => {
+          this.property = property;
+          this.updateCombinedEmails(this.property);
+        });
+  }
+
+  private updateCombinedEmails(property: PropertyDto) {
+    this.combinedEmails.clear();
+    property.administratorEmails.forEach((administratorEmail) => {
+      this.combinedEmails.add(administratorEmail);
+    });
+    property.tenantEmails.forEach((tenantEmails) => {
+      this.combinedEmails.add(tenantEmails);
+    });
   }
 }
