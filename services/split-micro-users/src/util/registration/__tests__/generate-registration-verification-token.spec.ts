@@ -35,6 +35,7 @@ describe('Generate Registration Verification Token Unit Tests', () => {
             registrationVerificationToken.value = doc.value;
             registrationVerificationToken.userEmail = doc.userEmail;
             registrationVerificationToken.expiryDate = doc.expiryDate;
+            return registrationVerificationToken;
           },
         },
     );

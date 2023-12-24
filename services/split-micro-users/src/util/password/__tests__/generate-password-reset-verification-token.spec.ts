@@ -35,6 +35,7 @@ describe('Generate Password Reset Verification Token Unit Tests', () => {
             passwordResetVerificationToken.value = doc.value;
             passwordResetVerificationToken.userEmail = doc.userEmail;
             passwordResetVerificationToken.expiryDate = doc.expiryDate;
+            return passwordResetVerificationToken;
           },
         },
     );
