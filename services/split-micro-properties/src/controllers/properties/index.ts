@@ -6,10 +6,12 @@ import {makeCreatePropertyCallback} from './callbacks/create-property';
 import {makeDeletePropertyByIdCallback} from './callbacks/delete-property-by-id';
 import {makeGetPropertiesWhereInvolvedCallback} from './callbacks/get-properties-where-involved';
 import {makeGetPropertyByIdCallback} from './callbacks/get-property-by-id';
+import {makeTogglePropertyAdministratorStatusCallback} from './callbacks/toggle-property-administrator-status';
 import {makeMakeCreatePropertyEndpoint} from './endpoints/create-property';
 import {makeMakeDeletePropertyByIdEndpoint} from './endpoints/delete-property-by-id';
 import {makeMakeGetPropertiesWhereInvolvedEndpoint} from './endpoints/get-properties-where-involved';
 import {makeMakeGetPropertyByIdEndpoint} from './endpoints/get-property-by-id';
+import {makeMakeTogglePropertyAdministratorStatusEndpoint} from './endpoints/toggle-property-administrator-status';
 import {CreatePropertyRequestBodySchema, CreatePropertyRequestQuerySchema} from './schemas/create-property';
 import {DeletePropertyByIdRequestBodySchema, DeletePropertyByIdRequestQuerySchema} from './schemas/delete-property-by-id';
 import {
@@ -17,6 +19,10 @@ import {
   GetPropertiesWhereInvolvedRequestQuerySchema,
 } from './schemas/get-properties-where-involved';
 import {GetPropertyByIdRequestBodySchema, GetPropertyByIdRequestQuerySchema} from './schemas/get-property-by-id';
+import {
+  TogglePropertyAdministratorStatusRequestBodySchema,
+  TogglePropertyAdministratorStatusRequestQuerySchema,
+} from './schemas/toggle-property-administrator-status';
 import logger from '../../logger';
 import {PropertyModel} from '../../models';
 
@@ -43,3 +49,10 @@ export const deletePropertyByIdHandler = makeMakeDeletePropertyByIdEndpoint(retu
     DeletePropertyByIdRequestQuerySchema,
     makeDeletePropertyByIdCallback(logger, PropertyModel, defaultModelTransform),
 );
+
+export const togglePropertyAdministratorStatusHandler =
+  makeMakeTogglePropertyAdministratorStatusEndpoint(returnBasedOnAuthenticationAndSafeParseResult)(
+      TogglePropertyAdministratorStatusRequestBodySchema,
+      TogglePropertyAdministratorStatusRequestQuerySchema,
+      makeTogglePropertyAdministratorStatusCallback(logger, PropertyModel, defaultModelTransform),
+  );
