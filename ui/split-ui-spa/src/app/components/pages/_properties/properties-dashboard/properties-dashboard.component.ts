@@ -76,7 +76,10 @@ export class PropertiesDashboardComponent implements OnInit {
   }
 
   toggleAdministrator(combinedEmail: string) {
-    this.propertyService.openTogglePropertyAdminDialog(this.propertyId, this.property.name, combinedEmail);
+    this.propertyService.openTogglePropertyAdminDialog(this.propertyId, this.property.name, combinedEmail)
+        .then((property) => {
+          this.property = property;
+        });
   }
 
   toggleTenant(combinedEmail: string) {

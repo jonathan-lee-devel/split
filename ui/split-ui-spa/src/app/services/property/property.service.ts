@@ -24,7 +24,8 @@ export class PropertyService {
     private confirmActionDialog: MatDialog,
     private router: Router,
     private matSnackBar: MatSnackBar,
-  ) {}
+  ) {
+  }
 
   public getPropertyById(propertyId: string): Observable<PropertyDto> {
     return this.httpClient.get<PropertyDto>(`${environment.PROPERTIES_SERVICE_BASE_URL}/id/${propertyId}`);
@@ -65,25 +66,27 @@ export class PropertyService {
     };
   }
 
-  openTogglePropertyAdminDialog(propertyId: string, propertyName: string, combinedEmail: string) {
-    const dialogRef = this.confirmActionDialog.open(ConfirmActionDialogComponent, {
-      disableClose: false,
-      enterAnimationDuration: 500,
-    });
-    dialogRef.componentInstance.entityId = propertyId;
-    dialogRef.componentInstance.prompt = `Are you sure you want to toggle ${combinedEmail} administrator status for property: ${propertyName}?`;
-    dialogRef.componentInstance.data = {emailToToggle: combinedEmail};
-    dialogRef.componentInstance.onConfirmCallback = (propertyId, data: unknown) => {
-      // @ts-expect-error emailToToggle is known in this case to be a part of the data
-      this.togglePropertyAdministratorStatus(propertyId, (data && data.emailToToggle) ? data.emailToToggle : '')
-          .subscribe((property) => {
-            this.router.navigate([rebaseRoutePathAsString(RoutePath.PROPERTIES_DASHBOARD_ID.replace(':propertyId', property.id))]).catch((reason) => window.alert(reason));
-            location.reload(); // Refresh to reflect changes
-            // @ts-expect-error emailToToggle is known in this case to be a part of the data
-            this.matSnackBar.open(`Property: ${property.name} has toggled administrator status for: ${data.emailToToggle}`, 'Ok', {
-              duration: 5000,
+  async openTogglePropertyAdminDialog(propertyId: string, propertyName: string, combinedEmail: string): Promise<PropertyDto> {
+    return new Promise<PropertyDto>((resolve) => {
+      const dialogRef = this.confirmActionDialog.open(ConfirmActionDialogComponent, {
+        disableClose: false,
+        enterAnimationDuration: 500,
+      });
+      dialogRef.componentInstance.entityId = propertyId;
+      dialogRef.componentInstance.prompt = `Are you sure you want to toggle ${combinedEmail} administrator status for property: ${propertyName}?`;
+      dialogRef.componentInstance.data = {emailToToggle: combinedEmail};
+      dialogRef.componentInstance.onConfirmCallback = (propertyId, data: unknown) => {
+        // @ts-expect-error emailToToggle is known in this case to be a part of the data
+        this.togglePropertyAdministratorStatus(propertyId, (data && data.emailToToggle) ? data.emailToToggle : '')
+            .subscribe((property) => {
+              resolve(property);
+              this.router.navigate([rebaseRoutePathAsString(RoutePath.PROPERTIES_DASHBOARD_ID.replace(':propertyId', property.id))]).catch((reason) => window.alert(reason));
+              // @ts-expect-error emailToToggle is known in this case to be a part of the data
+              this.matSnackBar.open(`Property: ${property.name} has toggled administrator status for: ${data.emailToToggle}`, 'Ok', {
+                duration: 5000,
+              });
             });
-          });
-    };
+      };
+    });
   }
 }
