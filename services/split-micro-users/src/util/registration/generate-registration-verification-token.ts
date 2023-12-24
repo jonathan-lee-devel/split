@@ -21,18 +21,13 @@ export const makeGenerateRegistrationVerificationToken = (
     tokenSize,
     expiryTimeMinutes,
 ) => {
-  if (!tokenSize) {
-    tokenSize = DEFAULT_TOKEN_SIZE;
-  }
-  if (!expiryTimeMinutes) {
-    expiryTimeMinutes = DEFAULT_TOKEN_EXPIRY_TIME_MINUTES;
-  }
-  const registrationVerificationToken: RegistrationVerificationToken = {
+  tokenSize = tokenSize ?? DEFAULT_TOKEN_SIZE;
+  expiryTimeMinutes = expiryTimeMinutes ?? DEFAULT_TOKEN_EXPIRY_TIME_MINUTES;
+  const registrationVerificationToken = await RegistrationVerificationToken.create({
     value: randomBytes(tokenSize / 2).toString(DEFAULT_TOKEN_BUFFER_ENCODING),
     expiryDate: addMinutes(new Date(), expiryTimeMinutes),
     userEmail,
-  };
-  await RegistrationVerificationToken.create(registrationVerificationToken);
+  });
 
   logger.info(`Generated registration verification token for user with e-mail: <${userEmail}>`);
   return registrationVerificationToken;

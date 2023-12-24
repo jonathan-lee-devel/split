@@ -20,18 +20,13 @@ export const makeGeneratePasswordResetVerificationToken = (
     tokenSize,
     expiryTimeMinutes,
 ) => {
-  if (!tokenSize) {
-    tokenSize = DEFAULT_TOKEN_SIZE;
-  }
-  if (!expiryTimeMinutes) {
-    expiryTimeMinutes = DEFAULT_TOKEN_EXPIRY_TIME_MINUTES;
-  }
-  const passwordResetVerificationToken: PasswordResetVerificationToken = {
+  tokenSize = tokenSize ?? DEFAULT_TOKEN_SIZE;
+  expiryTimeMinutes = expiryTimeMinutes ?? DEFAULT_TOKEN_EXPIRY_TIME_MINUTES;
+  const passwordResetVerificationToken = await PasswordResetVerificationToken.create({
     value: randomBytes(tokenSize / 2).toString(DEFAULT_TOKEN_BUFFER_ENCODING),
     expiryDate: addMinutes(new Date(), expiryTimeMinutes),
     userEmail,
-  };
-  await PasswordResetVerificationToken.create(passwordResetVerificationToken);
+  });
 
   logger.info(`Generated password reset verification token for user with e-mail: <${userEmail}>`);
   return passwordResetVerificationToken;
