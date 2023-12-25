@@ -3,7 +3,7 @@ import {Component, OnInit, Signal} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {tap} from 'rxjs';
+import {delay, tap} from 'rxjs';
 
 import {rebaseRoutePath, rebaseRoutePathAsString, RoutePath} from '../../../../app.routes';
 import {UserDto} from '../../../../dtos/auth/UserDto';
@@ -55,14 +55,13 @@ export class PropertiesDashboardComponent implements OnInit {
           this.currentUser = this.authService.getCurrentUserInfo();
           this.propertyService.getPropertyById(this.propertyId)
               .pipe(
+                  delay(1000),
                   tap((property) => {
                     this.updateCombinedEmails(property);
                   }),
               ).subscribe((property) => {
-                setTimeout(() => {
-                  this.property = property;
-                  this.loadingService.onLoadingFinished(this.propertyDashboardByIdLoadingKey);
-                }, 1000);
+                this.property = property;
+                this.loadingService.onLoadingFinished(this.propertyDashboardByIdLoadingKey);
               });
         },
         );

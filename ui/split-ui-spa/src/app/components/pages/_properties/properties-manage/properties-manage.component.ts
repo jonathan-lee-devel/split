@@ -2,6 +2,7 @@ import {CommonModule} from '@angular/common';
 import {Component, OnInit, Signal} from '@angular/core';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {RouterLink} from '@angular/router';
+import {delay} from 'rxjs';
 
 import {rebaseRoutePath, rebaseRoutePathAsString, RoutePath} from '../../../../app.routes';
 import {UserDto} from '../../../../dtos/auth/UserDto';
@@ -40,31 +41,32 @@ export class PropertiesManageComponent implements OnInit {
     this.loadingService.onLoadingStart(this.propertiesWhereInvolvedLoading);
     this.currentUser = this.authService.getCurrentUserInfo();
     this.propertyService.getPropertiesWhereInvolved()
+        .pipe(
+            delay(1000),
+        )
         .subscribe((properties) => {
-          setTimeout(() => {
-            this.properties = properties
-                .sort((property, otherProperty) => {
-                  if (property.administratorEmails.includes(this.currentUser.email) &&
+          this.properties = properties
+              .sort((property, otherProperty) => {
+                if (property.administratorEmails.includes(this.currentUser.email) &&
                     property.tenantEmails.includes(this.currentUser.email) &&
                     !otherProperty.administratorEmails.includes(this.currentUser.email)) {
-                    return 2;
-                  }
+                  return 2;
+                }
 
-                  if (property.administratorEmails.includes(this.currentUser.email) &&
+                if (property.administratorEmails.includes(this.currentUser.email) &&
                 !otherProperty.administratorEmails.includes(this.currentUser.email)) {
-                    return 1;
-                  }
+                  return 1;
+                }
 
-                  if (otherProperty.administratorEmails.includes(this.currentUser.email) &&
+                if (otherProperty.administratorEmails.includes(this.currentUser.email) &&
                 otherProperty.tenantEmails.includes(this.currentUser.email) &&
                 !property.tenantEmails.includes(this.currentUser.email)) {
-                    return -1;
-                  }
+                  return -1;
+                }
 
-                  return 0;
-                });
-            this.loadingService.onLoadingFinished(this.propertiesWhereInvolvedLoading);
-          }, 1000);
+                return 0;
+              });
+          this.loadingService.onLoadingFinished(this.propertiesWhereInvolvedLoading);
         });
   }
 }

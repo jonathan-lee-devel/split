@@ -1,6 +1,7 @@
 import {CommonModule} from '@angular/common';
 import {afterRender, Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {delay} from 'rxjs';
 
 import {AuthService} from '../../../../services/auth/auth.service';
 import {ServerClientSyncService} from '../../../../services/server-client-sync/server-client-sync.service';
@@ -27,11 +28,12 @@ export class GoogleLoginSuccessComponent implements OnInit {
 
   ngOnInit() {
     if (this.syncService.isClientSide()) {
-      this.route.queryParams.subscribe((params) => {
-        setTimeout(() => {
-          this.authService.onSuccessfulGoogleLogin(params['tokenCode']);
-        }, 2500);
-      });
+      this.route.queryParams
+          .pipe(
+              delay(2500),
+          ).subscribe((params) => {
+            this.authService.onSuccessfulGoogleLogin(params['tokenCode']);
+          });
     }
   }
 }

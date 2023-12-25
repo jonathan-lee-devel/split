@@ -4,6 +4,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {delay} from 'rxjs';
 
 import {rebaseRoutePath, rebaseRoutePathAsString, RoutePath} from '../../../../app.routes';
 import {PropertyDto} from '../../../../dtos/properties/PropertyDto';
@@ -49,11 +50,12 @@ export class PropertiesInviteTenantsComponent implements OnInit {
           this.propertyId = params['propertyId'];
           this.loadingService.onLoadingStart(this.propertyDashboardInviteTenantsLoadingKey);
           this.propertyService.getPropertyById(this.propertyId)
+              .pipe(
+                  delay(1000),
+              )
               .subscribe((property) => {
-                setTimeout(() => {
-                  this.property = property;
-                  this.loadingService.onLoadingFinished(this.propertyDashboardInviteTenantsLoadingKey);
-                }, 1000);
+                this.property = property;
+                this.loadingService.onLoadingFinished(this.propertyDashboardInviteTenantsLoadingKey);
               });
         },
         );
