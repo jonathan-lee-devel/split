@@ -6,6 +6,7 @@ export interface Property {
     name: string;
     administratorEmails: Array<string>;
     tenantEmails: Array<string>;
+    acceptedInvitationEmails: Array<string>;
 }
 
 const schema = new Schema<Property>({
@@ -14,6 +15,7 @@ const schema = new Schema<Property>({
   name: {type: String, required: true, unique: false},
   administratorEmails: {},
   tenantEmails: {},
+  acceptedInvitationEmails: {},
 }, {timestamps: true});
 
 export const PropertyModel = model<Property>('Property', schema);

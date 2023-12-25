@@ -1,7 +1,8 @@
 import {makeGenerateId} from '@split-common/split-auth';
-import {returnBasedOnAuthenticationAndSafeParseResult} from '@split-common/split-http';
+import {returnAnonymouslyBasedOnSafeParseResult, returnBasedOnAuthenticationAndSafeParseResult} from '@split-common/split-http';
 import {defaultModelTransform} from '@split-common/split-service-config';
 
+import {makeAcceptTenantInvitationToPropertyCallback} from './callbacks/accept-tenant-invitation-to-property';
 import {makeCreatePropertyCallback} from './callbacks/create-property';
 import {makeDeletePropertyByIdCallback} from './callbacks/delete-property-by-id';
 import {makeGetPropertiesWhereInvolvedCallback} from './callbacks/get-properties-where-involved';
@@ -9,6 +10,7 @@ import {makeGetPropertyByIdCallback} from './callbacks/get-property-by-id';
 import {makeInviteTenantToPropertyCallback} from './callbacks/invite-tenant-to-property';
 import {makeTogglePropertyAdministratorStatusCallback} from './callbacks/toggle-property-administrator-status';
 import {makeTogglePropertyTenantStatusCallback} from './callbacks/toggle-property-tenant-status';
+import {makeMakeAcceptTenantInvitationToPropertyEndpoint} from './endpoints/accept-tenant-invitation-to-property';
 import {makeMakeCreatePropertyEndpoint} from './endpoints/create-property';
 import {makeMakeDeletePropertyByIdEndpoint} from './endpoints/delete-property-by-id';
 import {makeMakeGetPropertiesWhereInvolvedEndpoint} from './endpoints/get-properties-where-involved';
@@ -16,6 +18,10 @@ import {makeMakeGetPropertyByIdEndpoint} from './endpoints/get-property-by-id';
 import {makeMakeInviteTenantToPropertyEndpoint} from './endpoints/invite-tenant-to-property';
 import {makeMakeTogglePropertyAdministratorStatusEndpoint} from './endpoints/toggle-property-administrator-status';
 import {makeMakeTogglePropertyTenantStatusEndpoint} from './endpoints/toggle-property-tenant-status';
+import {
+  AcceptTenantInvitationToPropertyRequestBodySchema,
+  AcceptTenantInvitationToPropertyRequestQuerySchema,
+} from './schemas/accept-tenant-invitation-to-property';
 import {CreatePropertyRequestBodySchema, CreatePropertyRequestQuerySchema} from './schemas/create-property';
 import {DeletePropertyByIdRequestBodySchema, DeletePropertyByIdRequestQuerySchema} from './schemas/delete-property-by-id';
 import {
@@ -35,6 +41,7 @@ import {
 import {environment} from '../../environment';
 import logger from '../../logger';
 import {PropertyModel} from '../../models';
+import {PropertyInvitationVerificationTokenModel} from '../../models/property/PropertyInvitationVerificationToken';
 import {makeMailToSendRabbitMQConnection} from '../../rabbitmq';
 import {generatePropertyInvitationVerificationToken} from '../../util';
 
@@ -88,8 +95,21 @@ export const inviteTenantToPropertyHandler = makeMakeInviteTenantToPropertyEndpo
         logger,
         PropertyModel,
         environment.FRONT_END_URL,
+        PropertyInvitationVerificationTokenModel,
         generatePropertyInvitationVerificationToken,
         rabbitMQConnectionPromise,
         defaultModelTransform,
     ),
 );
+
+export const acceptTenantInvitationToPropertyHandler =
+  makeMakeAcceptTenantInvitationToPropertyEndpoint(returnAnonymouslyBasedOnSafeParseResult)(
+      AcceptTenantInvitationToPropertyRequestBodySchema,
+      AcceptTenantInvitationToPropertyRequestQuerySchema,
+      makeAcceptTenantInvitationToPropertyCallback(
+          logger,
+          PropertyModel,
+          PropertyInvitationVerificationTokenModel,
+          defaultModelTransform,
+      ),
+  );

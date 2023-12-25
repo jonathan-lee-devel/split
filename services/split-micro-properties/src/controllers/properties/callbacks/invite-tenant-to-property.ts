@@ -1,10 +1,12 @@
 import {MailToSendMessage} from '@split-common/split-constants';
 import {AuthenticatedEndpointCallback, HttpStatus, wrapTryCatchAuthenticated} from '@split-common/split-http';
 import {ModelTransformFunction, RabbitMQConnection} from '@split-common/split-service-config';
+import {isAfter} from 'date-fns/isAfter';
 import {Model} from 'mongoose';
 import winston from 'winston';
 
 import {Property} from '../../../models';
+import {PropertyInvitationVerificationToken} from '../../../models/property/PropertyInvitationVerificationToken';
 import {GeneratePropertyInvitationVerificationTokenFunction} from '../../../util/property/generate-property-invitation-verification-token';
 import {InviteTenantToPropertyRequestBody, InviteTenantToPropertyRequestQuery} from '../schemas/invite-tenant-to-property';
 
@@ -12,6 +14,7 @@ export const makeInviteTenantToPropertyCallback = (
     logger: winston.Logger,
     Property: Model<Property>,
     frontEndUrl: string,
+    PropertyInvitationVerificationToken: Model<PropertyInvitationVerificationToken>,
     generatePropertyInvitationVerificationToken: GeneratePropertyInvitationVerificationTokenFunction,
     rabbitMQConnection: Promise<RabbitMQConnection<MailToSendMessage>>,
     transform: ModelTransformFunction,
@@ -34,8 +37,13 @@ export const makeInviteTenantToPropertyCallback = (
       return res.status(HttpStatus.FORBIDDEN).send();
     }
 
-    if (property.tenantEmails.includes(emailToInvite)) {
-      return res.status(HttpStatus.BAD_REQUEST).json({error: `${emailToInvite} is already a tenant in property with ID: ${propertyId}`});
+    if (property.acceptedInvitationEmails.includes(emailToInvite)) {
+      return res.status(HttpStatus.BAD_REQUEST).json({error: `${emailToInvite} has already accepted invitation to property: ${property.name}`});
+    }
+
+    const existingToken = await PropertyInvitationVerificationToken.findOne({propertyId: propertyId, userEmail: emailToInvite}).exec();
+    if (existingToken && (existingToken.isAccepted || (isAfter(existingToken.expiryDate, new Date())))) {
+      return res.status(HttpStatus.BAD_REQUEST).json({error: `${emailToInvite} already has a non-expired or accepted invitation to property with ID: ${property.id}`});
     }
 
     property.tenantEmails.push(emailToInvite);
@@ -46,7 +54,7 @@ export const makeInviteTenantToPropertyCallback = (
     await (await rabbitMQConnection).sendData('mail-to-send', {
       toEmail: emailToInvite,
       subject: `Split Property: ${property.name} Invitation`,
-      html: `<h3>Click the following link to accept the invitation: <a href="${frontEndUrl}/properties/invitations/accept/${token.value}">Accept</a></h3>`,
+      html: `<h3>Click the following link to accept the invitation: <a href="${frontEndUrl}/properties/${property.id}/invitations/accept/${token.value}">Accept</a></h3>`,
     });
 
     return res.status(HttpStatus.OK).json(property.toJSON({transform}));

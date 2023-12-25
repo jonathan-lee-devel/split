@@ -51,6 +51,10 @@ export class PropertyService {
     return this.httpClient.patch<PropertyDto>(`${environment.PROPERTIES_SERVICE_BASE_URL}/id/${propertyId}/toggle-property-tenant`, {emailToToggle});
   }
 
+  public acceptPropertyInvitation(propertyId: string, tokenValue: string): Observable<PropertyDto> {
+    return this.httpClient.patch<PropertyDto>(`${environment.PROPERTIES_SERVICE_BASE_URL}/id/${propertyId}/accept-invitation`, {tokenValue});
+  }
+
   public openDeletePropertyDialog(propertyId: string, propertyName: string) {
     const dialogRef = this.confirmDeleteDialog.open(ConfirmDeleteDialogComponent, {
       disableClose: false,

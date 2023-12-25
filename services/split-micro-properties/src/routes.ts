@@ -5,6 +5,7 @@ import passport from 'passport';
 
 import {indexHealthCheckHandler} from './controllers/health';
 import {
+  acceptTenantInvitationToPropertyHandler,
   createPropertyHandler,
   deletePropertyByIdHandler,
   getPropertiesWhereInvolvedHandler,
@@ -18,6 +19,9 @@ const router = Router();
 
 // Health Check Routes
 router.get('/', indexHealthCheckHandler);
+
+// Anonymous Routes
+router.patch('/id/:propertyId/accept-invitation', defaultRateLimiter, acceptTenantInvitationToPropertyHandler as any);
 
 // Protected Routes
 router.post('/', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), createPropertyHandler as any);

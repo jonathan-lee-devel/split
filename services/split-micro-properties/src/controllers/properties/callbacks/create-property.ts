@@ -24,6 +24,7 @@ export const makeCreatePropertyCallback = (
       name,
       administratorEmails: [requestingUserEmail],
       tenantEmails,
+      acceptedInvitationEmails: [requestingUserEmail],
     });
 
     return res.status(HttpStatus.CREATED).json(property.toJSON({transform}));

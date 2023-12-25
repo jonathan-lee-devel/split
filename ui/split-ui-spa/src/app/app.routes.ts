@@ -1,5 +1,8 @@
 import {Routes} from '@angular/router';
 
+import {
+  PropertiesAcceptInvitationComponent,
+} from './components/pages/_properties/properties-accept-invitation/properties-accept-invitation.component';
 import {PropertiesCreateComponent} from './components/pages/_properties/properties-create/properties-create.component';
 import {PropertiesDashboardComponent} from './components/pages/_properties/properties-dashboard/properties-dashboard.component';
 import {PropertiesManageComponent} from './components/pages/_properties/properties-manage/properties-manage.component';
@@ -36,6 +39,7 @@ export enum RoutePath {
   /* ACCOUNT ROUTES */
   ACCOUNT_MANAGE = 'account/manage',
   /* PROPERTY ROUTES */
+  PROPERTIES_INVITATIONS_ACCEPT_ID_TOKEN_VALUE = 'properties/:propertyId/invitations/accept/:tokenValue',
   PROPERTIES_MANAGE = 'properties/manage',
   PROPERTIES_CREATE = 'properties/create',
   PROPERTIES_DASHBOARD_ID = 'properties/dashboard/:propertyId',
@@ -103,6 +107,11 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   /* PROPERTY ROUTES */
+  {
+    path: RoutePath.PROPERTIES_INVITATIONS_ACCEPT_ID_TOKEN_VALUE,
+    component: PropertiesAcceptInvitationComponent,
+    title: 'Split | Accept Invitation',
+  },
   {
     path: RoutePath.PROPERTIES_MANAGE,
     component: PropertiesManageComponent,

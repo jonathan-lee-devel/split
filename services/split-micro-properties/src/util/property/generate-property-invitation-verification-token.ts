@@ -30,6 +30,7 @@ export const makeGeneratePropertyInvitationVerificationToken = (
     propertyId,
     expiryDate: addDays(new Date(), expiryTimeDays),
     userEmail,
+    isAccepted: false,
   });
 
   logger.info(`Generated property invitation verification token for user e-mail: <${userEmail}> and property ID: ${propertyId}`);
