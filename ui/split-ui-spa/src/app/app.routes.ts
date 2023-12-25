@@ -5,6 +5,9 @@ import {
 } from './components/pages/_properties/properties-accept-invitation/properties-accept-invitation.component';
 import {PropertiesCreateComponent} from './components/pages/_properties/properties-create/properties-create.component';
 import {PropertiesDashboardComponent} from './components/pages/_properties/properties-dashboard/properties-dashboard.component';
+import {
+  PropertiesInviteTenantsComponent,
+} from './components/pages/_properties/properties-invite-tenants/properties-invite-tenants.component';
 import {PropertiesManageComponent} from './components/pages/_properties/properties-manage/properties-manage.component';
 import {GoogleLoginProcessingComponent} from './components/pages/_users/google-login-processing/google-login-processing.component';
 import {GoogleLoginSuccessComponent} from './components/pages/_users/google-login-success/google-login-success.component';
@@ -43,6 +46,7 @@ export enum RoutePath {
   PROPERTIES_MANAGE = 'properties/manage',
   PROPERTIES_CREATE = 'properties/create',
   PROPERTIES_DASHBOARD_ID = 'properties/dashboard/:propertyId',
+  PROPERTIES_DASHBOARD_ID_INVITE_TENANTS = 'properties/dashboard/:propertyId/invite-tenants',
 }
 
 export const rebaseRoutePath = (routePath: RoutePath) => `/${routePath}`;
@@ -128,6 +132,12 @@ export const routes: Routes = [
     path: RoutePath.PROPERTIES_DASHBOARD_ID,
     component: PropertiesDashboardComponent,
     title: 'Split | Property Dashboard',
+    canActivate: [authGuard],
+  },
+  {
+    path: RoutePath.PROPERTIES_DASHBOARD_ID_INVITE_TENANTS,
+    component: PropertiesInviteTenantsComponent,
+    title: 'Split | Invite Tenants',
     canActivate: [authGuard],
   },
 ];

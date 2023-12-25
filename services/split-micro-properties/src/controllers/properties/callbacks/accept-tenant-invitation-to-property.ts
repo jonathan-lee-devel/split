@@ -30,12 +30,12 @@ export const makeAcceptTenantInvitationToPropertyCallback = (
       return res.status(HttpStatus.BAD_REQUEST).json({error: `No token found for that value`});
     }
 
-    if (isAfter(new Date(), token.expiryDate)) {
-      return res.status(HttpStatus.BAD_REQUEST).json({error: `This token is expired, you will need to be re-invited`});
-    }
-
     if (token.isAccepted) {
       return res.status(HttpStatus.BAD_REQUEST).json({error: `This invitation has already been accepted`});
+    }
+
+    if (isAfter(new Date(), token.expiryDate)) {
+      return res.status(HttpStatus.BAD_REQUEST).json({error: `This token is expired, you will need to be re-invited`});
     }
 
     const property = await Property.findOne({id: token.propertyId}).exec();

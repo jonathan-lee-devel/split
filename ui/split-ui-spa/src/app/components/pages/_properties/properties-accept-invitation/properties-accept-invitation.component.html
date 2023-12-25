@@ -8,6 +8,19 @@
           Split
         </a>
       </div>
+      @if (property) {
+        <div class="flex justify-center items-center mt-2.5 mb-3.5">
+          <div class="row">
+            <p class="text-white">Welcome to {{property.name}}</p>
+          </div>
+        </div>
+        <div class="flex justify-center items-center mt-2.5 mb-3.5">
+            <div class="flex justify-center mt-3">
+              <button (click)="goToProperty()" class="flex items-center px-4 py-2 border border-slate-200 rounded-lg text-white" type="submit">Go to Property
+              </button>
+            </div>
+        </div>
+      }
       <div class="flex justify-center items-center mt-2.5 mb-3.5">
         <form (ngSubmit)="doAcceptInvitation()">
           <div class="flex justify-center mt-3">

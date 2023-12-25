@@ -1,0 +1,43 @@
+<section class="container flex justify-center mt-10">
+  <div
+    class="card border-dark-subtle text-center mb-10 bg-[#133247] animate__animated animate__zoomInDown animate__faster"
+    style="width: 36rem;">
+    <div class="card-body">
+      <div class="flex justify-center text-center items-center pt-10">
+        <a class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white" href="#">
+          <img [ngSrc]="'favicon.ico'" alt="logo" class="w-8 h-8 mr-2" height="32" priority width="32">
+          Split
+        </a>
+      </div>
+      @if (isLoadingMap_().get(propertyDashboardInviteTenantsLoadingKey) && !property) {
+        <div class="flex justify-center items-center mt-2.5 mb-3.5">
+          <mat-spinner/>
+        </div>
+      } @else {
+        <div class="flex justify-center items-center mt-2.5 mb-3.5">
+          <p class="text-white">{{ property ? property.name : ''}}</p>
+        </div>
+        <div class="flex justify-center items-center mt-2.5 mb-3.5">
+          <form (ngSubmit)="doInviteTenant()">
+            <div class="row mt-2 mx-2">
+              <label class="form-label text-white" for="emailInput">E-mail Address:</label>
+              <input [(ngModel)]="email" class="form-control" id="emailInput" name="email"
+                     placeholder="user@example.com" type="email"/>
+            </div>
+            <div class="flex justify-center mt-3">
+              <button class="flex items-center px-4 py-2 border border-slate-200 rounded-lg text-white" type="submit">
+                Invite Tenant
+              </button>
+            </div>
+            <div class="flex justify-center items-center mt-2.5 mb-3.5">
+              <a
+                [routerLink]="rebaseRoutePathAsString(RoutePath.PROPERTIES_DASHBOARD_ID.replace(':propertyId', propertyId))"
+                class="btn btn-primary mt-2.5">Back to
+                Property</a>
+            </div>
+          </form>
+        </div>
+      }
+    </div>
+  </div>
+</section>

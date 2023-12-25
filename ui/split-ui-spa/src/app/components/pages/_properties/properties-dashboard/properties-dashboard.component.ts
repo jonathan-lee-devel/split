@@ -2,10 +2,10 @@ import {AsyncPipe, NgOptimizedImage} from '@angular/common';
 import {Component, OnInit, Signal} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {tap} from 'rxjs';
 
-import {rebaseRoutePath, RoutePath} from '../../../../app.routes';
+import {rebaseRoutePath, rebaseRoutePathAsString, RoutePath} from '../../../../app.routes';
 import {UserDto} from '../../../../dtos/auth/UserDto';
 import {initialPropertyDto, PropertyDto} from '../../../../dtos/properties/PropertyDto';
 import {AuthService} from '../../../../services/auth/auth.service';
@@ -35,6 +35,8 @@ export class PropertiesDashboardComponent implements OnInit {
   readonly propertyDashboardByIdLoadingKey = 'property-dashboard-by-id-loading-key';
   protected readonly RoutePath = RoutePath;
   protected readonly rebaseRoutePath = rebaseRoutePath;
+  protected readonly rebaseRoutePathAsString = rebaseRoutePathAsString;
+  protected readonly Router = Router;
 
   constructor(
     private route: ActivatedRoute,

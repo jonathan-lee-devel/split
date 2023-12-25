@@ -73,7 +73,10 @@
           </div>
         </div>
       }
-      @if (!isLoadingMap_().get(propertyDashboardByIdLoadingKey)) {
+      @if (!isLoadingMap_().get(propertyDashboardByIdLoadingKey) && property.administratorEmails.includes(currentUser.email)) {
+        <div class="flex justify-center items-center mt-2.5 mb-3.5">
+          <a [routerLink]="rebaseRoutePathAsString(RoutePath.PROPERTIES_DASHBOARD_ID_INVITE_TENANTS.replace(':propertyId', propertyId))" class="btn btn-warning">Invite Tenants</a>
+        </div>
         <div class="flex justify-center items-center mt-2.5 mb-3.5">
           <button (click)="doDeleteProperty()" class="btn btn-danger">Delete Property</button>
         </div>

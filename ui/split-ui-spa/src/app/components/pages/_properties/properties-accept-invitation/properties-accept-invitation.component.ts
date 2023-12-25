@@ -5,7 +5,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {rebaseRoutePathAsString, RoutePath} from '../../../../app.routes';
-import {AuthService} from '../../../../services/auth/auth.service';
+import {PropertyDto} from '../../../../dtos/properties/PropertyDto';
 import {PropertyService} from '../../../../services/property/property.service';
 
 @Component({
@@ -22,12 +22,12 @@ import {PropertyService} from '../../../../services/property/property.service';
 export class PropertiesAcceptInvitationComponent implements OnInit {
   propertyId: string = '';
   tokenValue: string = '';
+  property: PropertyDto | undefined;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private propertyService: PropertyService,
-    private authService: AuthService,
     private matSnackBar: MatSnackBar,
   ) {}
 
@@ -41,11 +41,18 @@ export class PropertiesAcceptInvitationComponent implements OnInit {
   doAcceptInvitation() {
     this.propertyService.acceptPropertyInvitation(this.propertyId, this.tokenValue)
         .subscribe((property) => {
+          this.property = property;
           this.matSnackBar.open(`Accepted invitation to property: ${property.name}!`, 'Ok', {
             duration: 5000,
           });
-          this.router.navigate([rebaseRoutePathAsString(RoutePath.PROPERTIES_DASHBOARD_ID.replace(':propertyId', property.id))])
-              .catch((reason) => window.alert(reason));
         });
+  }
+
+  goToProperty() {
+    if (!this.property || !this.property.id) {
+      return;
+    }
+    this.router.navigate([rebaseRoutePathAsString(RoutePath.PROPERTIES_DASHBOARD_ID.replace(':propertyId', this.property.id))])
+        .catch((reason) => window.alert(reason));
   }
 }
