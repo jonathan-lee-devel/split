@@ -24,5 +24,6 @@ export const makeHandleExistingUser = (
     await PasswordResetVerificationToken.deleteOne({userEmail: email});
     return false;
   }
-  return true;
+  // Allow user to register if already registered with Google
+  return !(existingUser && existingUser.emailVerified && existingUser.googleId && !existingUser.password);
 };

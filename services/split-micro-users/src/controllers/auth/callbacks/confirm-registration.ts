@@ -24,7 +24,7 @@ export const makeConfirmRegistrationCallback = (
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({status: RegistrationStatus[RegistrationStatus.FAILURE]});
     }
 
-    if (user.emailVerified) {
+    if (user.emailVerified && !user.googleId) {
       logger.error(`User found for registration verification token with userEmail: <${registrationVerificationToken.userEmail}> already verified`);
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({status: RegistrationStatus[RegistrationStatus.FAILURE]});
     }
