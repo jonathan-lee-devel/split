@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit {
         .subscribe((queryParams: Params) => {
           if (queryParams['next']) {
             this.snackBar.open('You must be logged in to view that resource');
+            this.authService.setNext(queryParams['next']);
           }
         });
   }

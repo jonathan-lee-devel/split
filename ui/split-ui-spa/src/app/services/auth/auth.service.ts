@@ -4,7 +4,7 @@ import {Inject, Injectable, NgZone, PLATFORM_ID, signal} from '@angular/core';
 import {Router} from '@angular/router';
 
 import {environment} from '../../../environments/environment';
-import {RoutePath} from '../../app.routes';
+import {rebaseRoutePathAsString, RoutePath} from '../../app.routes';
 import {AuthenticationRequestDto} from '../../dtos/auth/AuthenticationRequestDto';
 import {LoginDto} from '../../dtos/auth/LoginDto';
 import {TokensDto} from '../../dtos/auth/TokensDto';
@@ -24,6 +24,7 @@ export class AuthService {
   private readonly USER_DATA_KEY = 'user-data';
   private readonly ACCESS_TOKEN_KEY: string = 'access-token';
   private readonly REFRESH_TOKEN_KEY: string = 'refresh-token';
+  private readonly NEXT_PARAMETER: string = 'next-param';
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: NonNullable<unknown>,
@@ -33,6 +34,10 @@ export class AuthService {
     private usersService: UsersService,
     private profileService: ProfileService,
   ) {
+  }
+
+  public setNext(next: string) {
+    sessionStorage.setItem(this.NEXT_PARAMETER, next);
   }
 
   triggerOnServerReload() {
@@ -85,6 +90,12 @@ export class AuthService {
         });
   }
 
+  private getAndResetNext() {
+    const next = sessionStorage.getItem(this.NEXT_PARAMETER);
+    sessionStorage.removeItem(this.NEXT_PARAMETER);
+    return next;
+  }
+
   private getToken(key: string) {
     const token = sessionStorage.getItem(key);
     return (token) ? token : '';
@@ -100,8 +111,14 @@ export class AuthService {
               this.isLoggedIn.set(true);
               sessionStorage.setItem(this.USER_DATA_KEY, JSON.stringify(userInfo));
               this.currentUserInfo.set(userInfo);
-              this.router.navigate([`/${RoutePath.DASHBOARD}`], {replaceUrl: true})
-                  .catch((reason) => window.alert(reason));
+              const next = this.getAndResetNext();
+              if (next) {
+                this.router.navigate([rebaseRoutePathAsString(decodeURIComponent(next))], {replaceUrl: true})
+                    .catch((reason) => window.alert(reason));
+              } else {
+                this.router.navigate([`/${RoutePath.DASHBOARD}`], {replaceUrl: true})
+                    .catch((reason) => window.alert(reason));
+              }
             });
           });
     }
