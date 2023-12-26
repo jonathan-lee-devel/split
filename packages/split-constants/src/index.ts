@@ -3,6 +3,7 @@ export * from './password';
 export * from './registration';
 export * from './token';
 export * from './property';
+export * from './expense';
 export * from './rabbitmq';
 export * from './enums/registration/RegistrationStatus';
 export * from './enums/password/PasswordResetStatus';
