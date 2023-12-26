@@ -10,6 +10,7 @@ import {CreateExpenseRequestBodySchema, CreateExpenseRequestQuerySchema} from '.
 import {GetExpenseByIdRequestBodySchema, GetExpenseByIdRequestQuerySchema} from './schemas/get-expense-by-id';
 import logger from '../../logger';
 import {ExpenseModel} from '../../models';
+import {getPropertyById} from '../../util';
 
 export const createExpenseHandler = makeMakeCreateExpenseEndpoint(returnBasedOnAuthenticationAndSafeParseResult)(
     CreateExpenseRequestBodySchema,
@@ -17,6 +18,7 @@ export const createExpenseHandler = makeMakeCreateExpenseEndpoint(returnBasedOnA
     makeCreateExpenseCallback(
         logger,
         makeGenerateId(logger),
+        getPropertyById,
         ExpenseModel,
         defaultModelTransform,
     ),
@@ -28,6 +30,7 @@ export const getExpenseByIdHandler = makeMakeGetExpenseByIdEndpoint(returnBasedO
     makeGetExpenseByIdCallback(
         logger,
         ExpenseModel,
+        getPropertyById,
         defaultModelTransform,
     ),
 );

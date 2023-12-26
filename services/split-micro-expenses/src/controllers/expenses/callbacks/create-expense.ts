@@ -6,11 +6,13 @@ import {Model} from 'mongoose';
 import winston from 'winston';
 
 import {Expense} from '../../../models';
+import {GetPropertyByIdFunction} from '../../../util/property/get-property-by-id';
 import {CreateExpenseRequestBody, CreateExpenseRequestQuery} from '../schemas/create-expense';
 
 export const makeCreateExpenseCallback = (
     logger: winston.Logger,
     generateId: GenerateIdFunction,
+    getPropertyById: GetPropertyByIdFunction,
     Expense: Model<Expense>,
     transform: ModelTransformFunction,
 ): AuthenticatedEndpointCallback<CreateExpenseRequestBody, CreateExpenseRequestQuery> =>
@@ -23,6 +25,19 @@ export const makeCreateExpenseCallback = (
       Dinero({amount, currency: currencyCode as Currency});
     } catch (err) {
       return res.status(HttpStatus.BAD_REQUEST).json({error: `Invalid amount or currency code provided`});
+    }
+
+    const associatedPropertyResponse = await getPropertyById(propertyId, req.headers);
+    if (!associatedPropertyResponse.property) {
+      if (associatedPropertyResponse.status === HttpStatus.NOT_FOUND) {
+        return res.status(HttpStatus.BAD_REQUEST).json({error: `Property with ID: ${propertyId} not found`});
+      } else if (associatedPropertyResponse.status === HttpStatus.FORBIDDEN) {
+        return res.status(HttpStatus.FORBIDDEN).send();
+      }
+    }
+
+    if (!associatedPropertyResponse.property?.administratorEmails.includes(requestingUserEmail)) {
+      return res.status(HttpStatus.FORBIDDEN).send();
     }
 
     const expense = await Expense.create({
