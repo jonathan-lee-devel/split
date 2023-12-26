@@ -33,8 +33,10 @@ export const makeGetPropertyById = (logger: winston.Logger, propertyServiceBaseU
       if (isAxiosError(err)) {
         const axiosError: AxiosError = err as AxiosError;
         logger.error(`Axios error occurred: ${err} with status: ${(axiosError?.response?.status) ? axiosError.response.status : undefined}`);
-        if (axiosError.response && (axiosError.response.status === HttpStatus.FORBIDDEN ||
-          axiosError.response.status === HttpStatus.NOT_FOUND)) {
+        if (axiosError.response && (
+          axiosError.response.status === HttpStatus.FORBIDDEN ||
+          axiosError.response.status === HttpStatus.NOT_FOUND)
+        ) {
           return {status: axiosError.response.status};
         }
       } else {
