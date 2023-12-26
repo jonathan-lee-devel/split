@@ -22,8 +22,7 @@ export const makeCreateExpenseCallback = (
     logger.info(`Request from <${requestingUserEmail}> to create property with name ${name}`);
 
     try {
-      const dineroValue = Dinero({amount, currency: currencyCode as Currency});
-      logger.info(`dineroValue = ${JSON.stringify(dineroValue.toJSON())}`);
+      Dinero({amount, currency: currencyCode as Currency});
     } catch (err) {
       return res.status(HttpStatus.BAD_REQUEST).json({error: `Invalid amount or currency code provided`});
     }
