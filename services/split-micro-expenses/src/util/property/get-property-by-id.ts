@@ -28,9 +28,6 @@ export const makeGetPropertyById = (logger: winston.Logger, propertyServiceBaseU
           },
       );
 
-      logger.silly(`data = ${JSON.stringify(data)}`);
-      logger.silly(`status = ${status}`);
-
       return (status === HttpStatus.OK) ? {status, property: data} : {status};
     } catch (err) {
       if (isAxiosError(err)) {
