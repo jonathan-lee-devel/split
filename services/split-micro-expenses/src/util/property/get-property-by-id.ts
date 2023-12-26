@@ -10,10 +10,10 @@ export interface GetPropertyByIdResponse {
   property?: PropertyDto;
 }
 
-export type GetPropertyByIdFunction = (propertyId: string, headers: any) => Promise<GetPropertyByIdResponse>;
+export type GetPropertyByIdFunction = (propertyId: string, authorizationHeaderValue: string) => Promise<GetPropertyByIdResponse>;
 
 export const makeGetPropertyById = (logger: winston.Logger, propertyServiceBaseUrl: string): GetPropertyByIdFunction =>
-  async (propertyId: string, headers: any) => {
+  async (propertyId: string, authorizationHeaderValue: string) => {
     try {
       const url = `${propertyServiceBaseUrl}/id/${propertyId}`;
       logger.info(`Making GET request to: ${url}`);
@@ -21,7 +21,7 @@ export const makeGetPropertyById = (logger: winston.Logger, propertyServiceBaseU
           url,
           {
             headers: {
-              ...headers,
+              'authorization': authorizationHeaderValue,
               'x-micro-communications': 'micro-expenses',
             },
             timeout: DEFAULT_REQUEST_TIMEOUT_MS,
@@ -31,8 +31,8 @@ export const makeGetPropertyById = (logger: winston.Logger, propertyServiceBaseU
       return (status === HttpStatus.OK) ? {status, property: data} : {status};
     } catch (err) {
       if (isAxiosError(err)) {
-        logger.error(`Axios error occurred: ${err}`);
         const axiosError: AxiosError = err as AxiosError;
+        logger.error(`Axios error occurred: ${err} with status: ${(axiosError.response && axiosError.response.status) ? axiosError.response.status : undefined}`);
         if (axiosError.response && (axiosError.response.status === HttpStatus.FORBIDDEN || axiosError.status === HttpStatus.NOT_FOUND)) {
           return {status: axiosError.response.status};
         }

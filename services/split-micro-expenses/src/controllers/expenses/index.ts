@@ -8,9 +8,11 @@ import {makeMakeCreateExpenseEndpoint} from './endpoints/create-expense';
 import {makeMakeGetExpenseByIdEndpoint} from './endpoints/get-expense-by-id';
 import {CreateExpenseRequestBodySchema, CreateExpenseRequestQuerySchema} from './schemas/create-expense';
 import {GetExpenseByIdRequestBodySchema, GetExpenseByIdRequestQuerySchema} from './schemas/get-expense-by-id';
+import {environment} from '../../environment';
 import logger from '../../logger';
 import {ExpenseModel} from '../../models';
-import {getPropertyById} from '../../util';
+import {makeGetPropertyById} from '../../util/property/get-property-by-id';
+import {getPropertiesServiceBaseUrlFromNodeEnv} from '../../util/property/get-property-service-base-url';
 
 export const createExpenseHandler = makeMakeCreateExpenseEndpoint(returnBasedOnAuthenticationAndSafeParseResult)(
     CreateExpenseRequestBodySchema,
@@ -18,7 +20,7 @@ export const createExpenseHandler = makeMakeCreateExpenseEndpoint(returnBasedOnA
     makeCreateExpenseCallback(
         logger,
         makeGenerateId(logger),
-        getPropertyById,
+        makeGetPropertyById(logger, getPropertiesServiceBaseUrlFromNodeEnv(environment.NODE_ENV)),
         ExpenseModel,
         defaultModelTransform,
     ),
@@ -30,7 +32,7 @@ export const getExpenseByIdHandler = makeMakeGetExpenseByIdEndpoint(returnBasedO
     makeGetExpenseByIdCallback(
         logger,
         ExpenseModel,
-        getPropertyById,
+        makeGetPropertyById(logger, getPropertiesServiceBaseUrlFromNodeEnv(environment.NODE_ENV)),
         defaultModelTransform,
     ),
 );

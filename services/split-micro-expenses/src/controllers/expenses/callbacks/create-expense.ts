@@ -22,21 +22,17 @@ export const makeCreateExpenseCallback = (
     logger.info(`Request from <${requestingUserEmail}> to create property with name ${name}`);
 
     try {
-      Dinero({amount, currency: currencyCode as Currency});
+      const dineroValue = Dinero({amount, currency: currencyCode as Currency});
+      logger.info(`dineroValue = ${JSON.stringify(dineroValue.toJSON())}`);
     } catch (err) {
       return res.status(HttpStatus.BAD_REQUEST).json({error: `Invalid amount or currency code provided`});
     }
 
-    const associatedPropertyResponse = await getPropertyById(propertyId, req.headers);
+    const associatedPropertyResponse = await getPropertyById(propertyId, String(req.headers['authorization']));
     if (!associatedPropertyResponse.property) {
-      if (associatedPropertyResponse.status === HttpStatus.NOT_FOUND) {
-        return res.status(HttpStatus.BAD_REQUEST).json({error: `Property with ID: ${propertyId} not found`});
-      } else if (associatedPropertyResponse.status === HttpStatus.FORBIDDEN) {
-        return res.status(HttpStatus.FORBIDDEN).send();
-      }
+      return res.status(associatedPropertyResponse.status).send();
     }
-
-    if (!associatedPropertyResponse.property?.administratorEmails.includes(requestingUserEmail)) {
+    if (!associatedPropertyResponse.property.administratorEmails.includes(requestingUserEmail)) {
       return res.status(HttpStatus.FORBIDDEN).send();
     }
 

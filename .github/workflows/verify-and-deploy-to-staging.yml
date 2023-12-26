@@ -318,7 +318,7 @@ jobs:
       - name: Run Helm Upgrade
         run: cd deployment && helm dependency build && helm upgrade split-direct-staging . --install --wait --timeout 10m0s --values ./values/staging-values.yaml
       - name: Delete UI & Microservice Pods to Ensure Latest
-        run: kubectl delete pods --namespace=split-staging -l app=split-direct-staging
+        run: kubectl delete pods --namespace=split-staging -l app=split-direct-staging  --timeout 10m0s
       - name: Await Pods to Ready State
         run: kubectl wait -n split-staging --for=condition=ready pod -l app=split-direct-staging --timeout=600s
 

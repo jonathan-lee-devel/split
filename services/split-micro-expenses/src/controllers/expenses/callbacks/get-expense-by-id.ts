@@ -23,7 +23,7 @@ export const makeGetExpenseByIdCallback = (
       return res.status(HttpStatus.NOT_FOUND).send();
     }
 
-    const associatedPropertyResponse = await getPropertyById(expense.propertyId, req.headers);
+    const associatedPropertyResponse = await getPropertyById(expense.propertyId, String(req.headers['authorization']));
     if (!associatedPropertyResponse.property) {
       return res.status(associatedPropertyResponse.status).send();
     }
