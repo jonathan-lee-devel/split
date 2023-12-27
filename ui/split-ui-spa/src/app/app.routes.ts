@@ -1,5 +1,6 @@
 import {Routes} from '@angular/router';
 
+import {ExpensesCreateComponent} from './components/pages/_properties/_expenses/expenses-create/expenses-create.component';
 import {
   PropertiesAcceptInvitationComponent,
 } from './components/pages/_properties/properties-accept-invitation/properties-accept-invitation.component';
@@ -47,6 +48,8 @@ export enum RoutePath {
   PROPERTIES_CREATE = 'properties/create',
   PROPERTIES_DASHBOARD_ID = 'properties/dashboard/:propertyId',
   PROPERTIES_DASHBOARD_ID_INVITE_TENANTS = 'properties/dashboard/:propertyId/invite-tenants',
+  /* EXPENSE ROUTES */
+  EXPENSES_CREATE = 'properties/dashboard/:propertyId/expenses/create',
 }
 
 export const rebaseRoutePath = (routePath: RoutePath) => `/${routePath}`;
@@ -138,6 +141,12 @@ export const routes: Routes = [
     path: RoutePath.PROPERTIES_DASHBOARD_ID_INVITE_TENANTS,
     component: PropertiesInviteTenantsComponent,
     title: 'Split | Invite Tenants',
+    canActivate: [authGuard],
+  },
+  {
+    path: RoutePath.EXPENSES_CREATE,
+    component: ExpensesCreateComponent,
+    title: 'Split | Create Expense',
     canActivate: [authGuard],
   },
 ];

@@ -87,6 +87,7 @@ export class PropertiesDashboardComponent implements OnInit {
   }
 
   private updateCombinedEmails(property: PropertyDto) {
+    console.log(JSON.stringify(property));
     this.combinedEmails.clear();
     property.administratorEmails.forEach((administratorEmail) => {
       this.combinedEmails.add(administratorEmail);
