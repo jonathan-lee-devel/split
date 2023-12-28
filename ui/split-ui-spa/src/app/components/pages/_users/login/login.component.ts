@@ -1,11 +1,14 @@
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {afterRender, Component, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute, Params, RouterLink} from '@angular/router';
 
+import {environment} from '../../../../../environments/environment';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {CookiesNoticeService} from '../../../../services/cookies-notice/cookies-notice.service';
+import {LoadingService} from '../../../../services/loading/loading.service';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +22,7 @@ import {CookiesNoticeService} from '../../../../services/cookies-notice/cookies-
     RouterLink,
     NgOptimizedImage,
     NgOptimizedImage,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -26,9 +30,12 @@ import {CookiesNoticeService} from '../../../../services/cookies-notice/cookies-
 export class LoginComponent implements OnInit {
   email: string = '';
   password: string = '';
+  isLoadingMap_ = this.loadingService.isLoadingMap_;
+  protected readonly isJwtLoginLoadingKey = 'is-jwt-login-loading-key';
 
   constructor(
       cookiesNoticeService: CookiesNoticeService,
+    private loadingService: LoadingService,
     private authService: AuthService,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
@@ -49,7 +56,15 @@ export class LoginComponent implements OnInit {
   }
 
   doLogin() {
-    this.authService.doLogin({email: this.email, password: this.password});
+    this.loadingService.onLoadingStart(this.isJwtLoginLoadingKey);
+    setTimeout(() => {
+      this.authService.doLogin({email: this.email, password: this.password})
+          .then((successFlag) => {
+            if (successFlag) {
+              this.loadingService.onLoadingFinished(this.isJwtLoginLoadingKey);
+            }
+          });
+    }, environment.SIMULATED_LOADING_DELAY_MS);
   }
 
   doGoogleLogin() {

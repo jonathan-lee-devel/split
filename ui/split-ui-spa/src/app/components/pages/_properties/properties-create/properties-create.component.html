@@ -15,8 +15,12 @@
             <input [(ngModel)]="name" class="form-control" id="nameInput" name="name" placeholder="Property Name" type="text"/>
           </div>
           <div class="flex justify-center mt-3">
-            <button class="flex items-center px-4 py-2 border border-slate-200 rounded-lg text-white" type="submit">Create
-            </button>
+            @if (!isLoadingMap_().get(isPropertyCreateLoadingKey)) {
+              <button class="flex items-center px-4 py-2 border border-slate-200 rounded-lg text-white" type="submit">Create
+              </button>
+            } @else {
+              <mat-spinner diameter="20" />
+            }
           </div>
         </form>
       </div>

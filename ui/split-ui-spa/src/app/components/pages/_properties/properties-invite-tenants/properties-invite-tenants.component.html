@@ -25,9 +25,12 @@
                      placeholder="user@example.com" type="email"/>
             </div>
             <div class="flex justify-center mt-3">
-              <button class="flex items-center px-4 py-2 border border-slate-200 rounded-lg text-white" type="submit">
-                Invite Tenant
-              </button>
+              @if (!isLoadingMap_().get(isTenantInviteLoadingKey)) {
+                <button class="flex items-center px-4 py-2 border border-slate-200 rounded-lg text-white" type="submit">Invite Tenant
+                </button>
+              } @else {
+                <mat-spinner diameter="20" />
+              }
             </div>
             <div class="flex justify-center items-center mt-2.5 mb-3.5">
               <a

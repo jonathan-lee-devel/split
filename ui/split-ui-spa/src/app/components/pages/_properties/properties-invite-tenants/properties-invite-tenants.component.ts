@@ -6,6 +6,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {delay} from 'rxjs';
 
+import {environment} from '../../../../../environments/environment';
 import {rebaseRoutePath, rebaseRoutePathAsString, RoutePath} from '../../../../app.routes';
 import {PropertyDto} from '../../../../dtos/properties/PropertyDto';
 import {LoadingService} from '../../../../services/loading/loading.service';
@@ -33,6 +34,7 @@ export class PropertiesInviteTenantsComponent implements OnInit {
   protected readonly RoutePath = RoutePath;
   protected readonly rebaseRoutePathAsString = rebaseRoutePathAsString;
   protected readonly propertyDashboardInviteTenantsLoadingKey: string = 'property-dashboard-invite-tenants';
+  protected readonly isTenantInviteLoadingKey: string = 'is-tenant-invite-loading-key';
 
   constructor(
     private route: ActivatedRoute,
@@ -51,9 +53,8 @@ export class PropertiesInviteTenantsComponent implements OnInit {
           this.loadingService.onLoadingStart(this.propertyDashboardInviteTenantsLoadingKey);
           this.propertyService.getPropertyById(this.propertyId)
               .pipe(
-                  delay(1000),
-              )
-              .subscribe((property) => {
+                  delay(environment.SIMULATED_LOADING_DELAY_MS),
+              ).subscribe((property) => {
                 this.property = property;
                 this.loadingService.onLoadingFinished(this.propertyDashboardInviteTenantsLoadingKey);
               });
@@ -62,11 +63,15 @@ export class PropertiesInviteTenantsComponent implements OnInit {
   }
 
   doInviteTenant() {
+    this.loadingService.onLoadingStart(this.isTenantInviteLoadingKey);
     this.propertyService.inviteTenantToProperty(this.propertyId, this.email)
-        .subscribe((property) => {
+        .pipe(
+            delay(environment.SIMULATED_LOADING_DELAY_MS),
+        ).subscribe((property) => {
           this.matSnackBar.open(`Successfully invited: ${this.email} to property: ${property.name}!`, 'Ok', {
             duration: 5000,
           });
+          this.loadingService.onLoadingFinished(this.isTenantInviteLoadingKey);
           this.router.navigate([rebaseRoutePathAsString(RoutePath.PROPERTIES_DASHBOARD_ID.replace(':propertyId', property.id))])
               .catch((reason) => window.alert(reason));
         });

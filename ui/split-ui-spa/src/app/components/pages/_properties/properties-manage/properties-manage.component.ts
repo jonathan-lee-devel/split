@@ -4,6 +4,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {RouterLink} from '@angular/router';
 import {delay} from 'rxjs';
 
+import {environment} from '../../../../../environments/environment';
 import {rebaseRoutePath, rebaseRoutePathAsString, RoutePath} from '../../../../app.routes';
 import {UserDto} from '../../../../dtos/auth/UserDto';
 import {PropertyDto} from '../../../../dtos/properties/PropertyDto';
@@ -42,9 +43,8 @@ export class PropertiesManageComponent implements OnInit {
     this.currentUser = this.authService.getCurrentUserInfo();
     this.propertyService.getPropertiesWhereInvolved()
         .pipe(
-            delay(1000),
-        )
-        .subscribe((properties) => {
+            delay(environment.SIMULATED_LOADING_DELAY_MS),
+        ).subscribe((properties) => {
           this.properties = properties
               .sort((property, otherProperty) => {
                 if (property.administratorEmails.includes(this.currentUser.email) &&

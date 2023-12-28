@@ -5,6 +5,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {delay, tap} from 'rxjs';
 
+import {environment} from '../../../../../environments/environment';
 import {rebaseRoutePath, rebaseRoutePathAsString, RoutePath} from '../../../../app.routes';
 import {UserDto} from '../../../../dtos/auth/UserDto';
 import {initialPropertyDto, PropertyDto} from '../../../../dtos/properties/PropertyDto';
@@ -55,7 +56,7 @@ export class PropertiesDashboardComponent implements OnInit {
           this.currentUser = this.authService.getCurrentUserInfo();
           this.propertyService.getPropertyById(this.propertyId)
               .pipe(
-                  delay(1000),
+                  delay(environment.SIMULATED_LOADING_DELAY_MS),
                   tap((property) => {
                     this.updateCombinedEmails(property);
                   }),

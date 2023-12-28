@@ -62,11 +62,14 @@ export class AuthService {
     return this.getCurrentAccessToken() !== '';
   }
 
-  doLogin(authenticationRequest: AuthenticationRequestDto) {
-    this.httpClient.post<LoginDto>(`${environment.USERS_SERVICE_BASE_URL}/login`, authenticationRequest)
-        .subscribe((loginDto) => {
-          this.onSuccessfulLogin({accessToken: loginDto.token, refreshToken: loginDto.refreshToken});
-        });
+  async doLogin(authenticationRequest: AuthenticationRequestDto): Promise<boolean> {
+    return new Promise<boolean>((resolve) => {
+      this.httpClient.post<LoginDto>(`${environment.USERS_SERVICE_BASE_URL}/login`, authenticationRequest)
+          .subscribe((loginDto) => {
+            this.onSuccessfulLogin({accessToken: loginDto.token, refreshToken: loginDto.refreshToken});
+            resolve(true);
+          });
+    });
   }
 
   doLogout() {

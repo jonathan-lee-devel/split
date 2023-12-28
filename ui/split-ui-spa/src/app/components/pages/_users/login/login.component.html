@@ -33,8 +33,12 @@
                    placeholder="Password" type="password"/>
           </div>
           <div class="flex justify-center mt-3">
-            <button class="flex items-center px-4 py-2 border border-slate-200 rounded-lg text-white" type="submit">Login
-            </button>
+            @if (!isLoadingMap_().get(isJwtLoginLoadingKey)) {
+              <button class="flex items-center px-4 py-2 border border-slate-200 rounded-lg text-white" type="submit">Login
+              </button>
+            } @else {
+              <mat-spinner diameter="20" />
+            }
           </div>
           <div class="mt-3.5">
             <p class="text-sm font-light text-gray-500 dark:text-gray-400">
