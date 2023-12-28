@@ -21,9 +21,13 @@ export const makeCreateExpenseCallback = (
     const {propertyId, name, amount, currencyCode} = req.body;
     logger.info(`Request from <${requestingUserEmail}> to create property with name ${name}`);
 
+    let dineroAmount: Dinero.Dinero | undefined;
     try {
-      Dinero({amount, currency: currencyCode as Currency});
+      const roundedAmount = Number(amount.toFixed(2));
+      const roundedAmountAsInt = Math.trunc(roundedAmount * 100.00);
+      dineroAmount = Dinero({amount: roundedAmountAsInt, currency: currencyCode as Currency});
     } catch (err) {
+      logger.error(`Error while creating Dinero: ${err}`);
       return res.status(HttpStatus.BAD_REQUEST).json({error: `Invalid amount or currency code provided`});
     }
 
@@ -39,7 +43,7 @@ export const makeCreateExpenseCallback = (
       id: await generateId(),
       propertyId,
       name,
-      amount,
+      amount: dineroAmount.getAmount(),
       currencyCode,
       createdByEmail: requestingUserEmail,
     });
