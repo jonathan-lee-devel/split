@@ -7,6 +7,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute, Router} from '@angular/router';
 
+import {environment} from '../../../../../../environments/environment';
 import {rebaseRoutePathAsString, RoutePath} from '../../../../../app.routes';
 import {ExpenseService} from '../../../../../services/expense/expense.service';
 import {Currency, CURRENCY_CODES} from '../../../../../types/currency';
@@ -56,7 +57,7 @@ export class ExpensesCreateComponent implements OnInit {
       this.router.navigate([rebaseRoutePathAsString(RoutePath.PROPERTIES_DASHBOARD_ID.replace(':propertyId', expense.propertyId))])
           .catch((reason) => window.alert(reason));
       this.matSnackBar.open(`Expense: ${expense.name} created successfully!`, 'Ok', {
-        duration: 5000,
+        duration: environment.SNACKBAR_DURATION_MS,
       });
     });
   }

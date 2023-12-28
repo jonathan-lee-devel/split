@@ -72,7 +72,7 @@ export class PropertyService {
           .subscribe((property) => {
             this.router.navigate([rebaseRoutePath(RoutePath.PROPERTIES_MANAGE)]).catch((reason) => window.alert(reason));
             this.matSnackBar.open(`Property: ${property.name} deleted successfully!`, 'Ok', {
-              duration: 5000,
+              duration: environment.SNACKBAR_DURATION_MS,
             });
           });
     };
@@ -93,7 +93,7 @@ export class PropertyService {
             .subscribe((updatedProperty) => {
               resolve(updatedProperty);
               this.matSnackBar.open(this.getSnackBarMessageForToggleAdministratorStatus(property, updatedProperty, combinedEmail), 'Ok', {
-                duration: 5000,
+                duration: environment.SNACKBAR_DURATION_MS,
               });
             });
       };
@@ -115,7 +115,7 @@ export class PropertyService {
             .subscribe((updatedProperty) => {
               resolve(updatedProperty);
               this.matSnackBar.open(this.getSnackBarMessageForToggleTenantStatus(property, updatedProperty, combinedEmail), 'Ok', {
-                duration: 5000,
+                duration: environment.SNACKBAR_DURATION_MS,
               });
             });
       };

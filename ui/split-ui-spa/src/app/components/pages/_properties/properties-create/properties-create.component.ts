@@ -54,7 +54,7 @@ export class PropertiesCreateComponent implements OnInit {
       this.matSnackBar.open(
           `Property with name '${property.name}' created successfully`,
           'OK',
-          {duration: 5000},
+          {duration: environment.SNACKBAR_DURATION_MS},
       );
       this.loadingService.onLoadingFinished(this.isPropertyCreateLoadingKey);
       this.router.navigate([`${rebaseRoutePath(RoutePath.DASHBOARD)}`])

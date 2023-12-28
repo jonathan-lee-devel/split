@@ -4,6 +4,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute, Router} from '@angular/router';
 
+import {environment} from '../../../../../environments/environment';
 import {rebaseRoutePathAsString, RoutePath} from '../../../../app.routes';
 import {PropertyDto} from '../../../../dtos/properties/PropertyDto';
 import {PropertyService} from '../../../../services/property/property.service';
@@ -43,7 +44,7 @@ export class PropertiesAcceptInvitationComponent implements OnInit {
         .subscribe((property) => {
           this.property = property;
           this.matSnackBar.open(`Accepted invitation to property: ${property.name}!`, 'Ok', {
-            duration: 5000,
+            duration: environment.SNACKBAR_DURATION_MS,
           });
         });
   }

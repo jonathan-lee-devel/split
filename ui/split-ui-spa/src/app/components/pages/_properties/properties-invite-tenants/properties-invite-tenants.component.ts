@@ -69,7 +69,7 @@ export class PropertiesInviteTenantsComponent implements OnInit {
             delay(environment.SIMULATED_LOADING_DELAY_MS),
         ).subscribe((property) => {
           this.matSnackBar.open(`Successfully invited: ${this.email} to property: ${property.name}!`, 'Ok', {
-            duration: 5000,
+            duration: environment.SNACKBAR_DURATION_MS,
           });
           this.loadingService.onLoadingFinished(this.isTenantInviteLoadingKey);
           this.router.navigate([rebaseRoutePathAsString(RoutePath.PROPERTIES_DASHBOARD_ID.replace(':propertyId', property.id))])
