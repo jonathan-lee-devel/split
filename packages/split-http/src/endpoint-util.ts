@@ -44,14 +44,9 @@ const returnBasedOnSafeParseResult = <TBody, TQuery>(
     endpointInformation.callback(endpointInformation.req as any, endpointInformation.res);
 };
 
-export const controllerReturnBasedOnSafeParseResult = async <TBody, TQuery, TData>(
+export const executeAnonymousController = async <TBody, TQuery, TData>(
   controllerEndpointInformation: ControllerEndpointInformation<TBody, TQuery, TData>,
-) => {
-  if (!(controllerEndpointInformation.req as AuthenticatedRequest).user ||
-    !(controllerEndpointInformation.req as AuthenticatedRequest).user.email ||
-    !(controllerEndpointInformation.req as AuthenticatedRequest).user.emailVerified) {
-    return controllerEndpointInformation.res.status(HttpStatus.UNAUTHORIZED).send();
-  }
+)=> {
   if (!controllerEndpointInformation.bodyParseResult.success) {
     return controllerEndpointInformation.res.status(HttpStatus.BAD_REQUEST).json(controllerEndpointInformation.bodyParseResult.error);
   } else if (!controllerEndpointInformation.queryParseResult.success) {
@@ -59,15 +54,29 @@ export const controllerReturnBasedOnSafeParseResult = async <TBody, TQuery, TDat
   }
 
   const statusDataContainer = await controllerEndpointInformation.useCase(
-      (controllerEndpointInformation.req as AuthenticatedRequest).user.email as string,
-      controllerEndpointInformation.req.body as TBody,
-      controllerEndpointInformation.req.query as TQuery,
+    (controllerEndpointInformation.req as AuthenticatedRequest).user.email as string,
+    controllerEndpointInformation.req.body as TBody,
+    controllerEndpointInformation.req.query as TQuery,
   );
 
   return controllerEndpointInformation.res.status(statusDataContainer.status).json(statusDataContainer.data);
 };
 
-export type ControllerReturnBasedOnSafeParseResultFunction = typeof controllerReturnBasedOnSafeParseResult;
+export type ExecuteAnonymousControllerFunction = typeof executeAnonymousController;
+
+export const executeAuthenticatedController = async <TBody, TQuery, TData>(
+  controllerEndpointInformation: ControllerEndpointInformation<TBody, TQuery, TData>,
+) => {
+  if (!(controllerEndpointInformation.req as AuthenticatedRequest).user ||
+    !(controllerEndpointInformation.req as AuthenticatedRequest).user.email ||
+    !(controllerEndpointInformation.req as AuthenticatedRequest).user.emailVerified) {
+    return controllerEndpointInformation.res.status(HttpStatus.UNAUTHORIZED).send();
+  }
+
+  return executeAnonymousController(controllerEndpointInformation);
+};
+
+export type ExecuteAuthenticatedControllerFunction = typeof executeAuthenticatedController;
 
 export type AnonymousEndpointCallback<TBody, TQuery> = (
   req: Request<any, any, TBody, TQuery>,

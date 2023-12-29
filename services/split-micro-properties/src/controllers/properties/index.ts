@@ -1,6 +1,6 @@
 import {makeGenerateId} from '@split-common/split-auth';
 import {
-  controllerReturnBasedOnSafeParseResult,
+  executeAuthenticatedController,
   returnAnonymouslyBasedOnSafeParseResult,
   returnBasedOnAuthenticationAndSafeParseResult,
 } from '@split-common/split-http';
@@ -54,7 +54,8 @@ const rabbitMQConnectionPromise = makeMailToSendRabbitMQConnection(
 );
 
 export const createPropertyHandler = makeCreatePropertyController(
-    controllerReturnBasedOnSafeParseResult,
+    logger,
+    executeAuthenticatedController,
     makeCreatePropertyUseCase(logger, new PropertyEntity(PropertyModel, defaultModelTransform), makeGenerateId(logger)),
 );
 

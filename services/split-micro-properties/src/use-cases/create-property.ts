@@ -14,6 +14,8 @@ export const makeCreatePropertyUseCase = (
     const {name, tenantEmails} = body;
     logger.info(`Request from <${requestingUserEmail}> to create property with name ${name}`);
 
+    throw new Error('Test');
+
     const property = await PropertyEntity.createAndReturnTransformed({
       id: await generateId(),
       createdByEmail: requestingUserEmail,

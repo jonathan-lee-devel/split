@@ -1,13 +1,13 @@
 import {MAX_PROPERTY_NAME_LENGTH, MIN_PROPERTY_NAME_LENGTH} from '@split-common/split-constants';
 import {z} from 'zod';
 
-export const CreatePropertyRequestBodySchema = z.object({
+export const createPropertyRequestBodySchema = z.object({
   name: z.string().min(MIN_PROPERTY_NAME_LENGTH).max(MAX_PROPERTY_NAME_LENGTH),
   tenantEmails: z.array(z.string().email()),
 });
 
-export type CreatePropertyRequestBody = z.infer<typeof CreatePropertyRequestBodySchema>;
+export type CreatePropertyRequestBody = z.infer<typeof createPropertyRequestBodySchema>;
 
-export const CreatePropertyRequestQuerySchema = z.object({});
+export const createPropertyRequestQuerySchema = z.object({});
 
-export type CreatePropertyRequestQuery = z.infer<typeof CreatePropertyRequestQuerySchema>;
+export type CreatePropertyRequestQuery = z.infer<typeof createPropertyRequestQuerySchema>;
