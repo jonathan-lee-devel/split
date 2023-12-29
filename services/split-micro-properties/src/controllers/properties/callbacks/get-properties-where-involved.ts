@@ -3,8 +3,11 @@ import {ModelTransformFunction} from '@split-common/split-service-config';
 import {Model} from 'mongoose';
 import winston from 'winston';
 
-import {Property} from '../../../models';
-import {GetPropertiesWhereInvolvedRequestBody, GetPropertiesWhereInvolvedRequestQuery} from '../schemas/get-properties-where-involved';
+import {Property} from '../../../entities/PropertyEntity';
+import {
+  GetPropertiesWhereInvolvedRequestBody,
+  GetPropertiesWhereInvolvedRequestQuery,
+} from '../../../schemas/get-properties-where-involved';
 
 export const makeGetPropertiesWhereInvolvedCallback = (
     logger: winston.Logger,

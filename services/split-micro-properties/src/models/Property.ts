@@ -1,13 +1,6 @@
 import {model, Schema} from 'mongoose';
 
-export interface Property {
-    id: string;
-    createdByEmail: string;
-    name: string;
-    administratorEmails: Array<string>;
-    tenantEmails: Array<string>;
-    acceptedInvitationEmails: Array<string>;
-}
+import {Property} from '../entities/PropertyEntity';
 
 const schema = new Schema<Property>({
   id: {type: String, required: true, unique: true},

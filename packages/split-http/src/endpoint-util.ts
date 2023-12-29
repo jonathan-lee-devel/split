@@ -13,6 +13,14 @@ export interface EndpointInformation<TBody, TQuery> {
   next?: NextFunction;
 }
 
+export interface ControllerEndpointInformation<TBody, TQuery, TData> {
+  bodyParseResult: SafeParseSuccess<TBody> | SafeParseError<TBody>;
+  queryParseResult: SafeParseSuccess<TQuery> | SafeParseError<TQuery>;
+  useCase: AuthenticatedEndpointUseCase<TBody, TQuery, TData>,
+  req: Request | AuthenticatedRequest;
+  res: Response;
+}
+
 /**
  * Returns the result based on the safe parse result of the given endpoint information.
  * If the body parse result is not successful, it returns a JSON response with the body parse error and a Bad Request status code.
@@ -36,6 +44,31 @@ const returnBasedOnSafeParseResult = <TBody, TQuery>(
     endpointInformation.callback(endpointInformation.req as any, endpointInformation.res);
 };
 
+export const controllerReturnBasedOnSafeParseResult = async <TBody, TQuery, TData>(
+  controllerEndpointInformation: ControllerEndpointInformation<TBody, TQuery, TData>,
+) => {
+  if (!(controllerEndpointInformation.req as AuthenticatedRequest).user ||
+    !(controllerEndpointInformation.req as AuthenticatedRequest).user.email ||
+    !(controllerEndpointInformation.req as AuthenticatedRequest).user.emailVerified) {
+    return controllerEndpointInformation.res.status(HttpStatus.UNAUTHORIZED).send();
+  }
+  if (!controllerEndpointInformation.bodyParseResult.success) {
+    return controllerEndpointInformation.res.status(HttpStatus.BAD_REQUEST).json(controllerEndpointInformation.bodyParseResult.error);
+  } else if (!controllerEndpointInformation.queryParseResult.success) {
+    return controllerEndpointInformation.res.status(HttpStatus.BAD_REQUEST).json(controllerEndpointInformation.queryParseResult.error);
+  }
+
+  const statusDataContainer = await controllerEndpointInformation.useCase(
+      (controllerEndpointInformation.req as AuthenticatedRequest).user.email as string,
+      controllerEndpointInformation.req.body as TBody,
+      controllerEndpointInformation.req.query as TQuery,
+  );
+
+  return controllerEndpointInformation.res.status(statusDataContainer.status).json(statusDataContainer.data);
+};
+
+export type ControllerReturnBasedOnSafeParseResultFunction = typeof controllerReturnBasedOnSafeParseResult;
+
 export type AnonymousEndpointCallback<TBody, TQuery> = (
   req: Request<any, any, TBody, TQuery>,
   res: Response,
@@ -55,6 +88,17 @@ export type AuthenticatedEndpointCallback<TBody, TQuery> = (
   res: Response,
   next?: NextFunction,
 ) => Promise<Response<any, Record<string, any>>> | undefined;
+
+export type StatusDataContainer<TData> = {
+  data: TData;
+  status: HttpStatus;
+}
+
+export type AuthenticatedEndpointUseCase<TBody, TQuery, TData> = (
+  requestingUserEmail: string,
+  body: TBody,
+  query: TQuery,
+) => Promise<StatusDataContainer<TData | null | undefined>>;
 
 export type ReturnBasedOnAuthenticationAndSafeParseResultFunction<TBody, TQuery> = (
   endpointInformation: EndpointInformation<TBody, TQuery>,

@@ -5,10 +5,10 @@ import {isAfter} from 'date-fns/isAfter';
 import {Model} from 'mongoose';
 import winston from 'winston';
 
-import {Property} from '../../../models';
-import {PropertyInvitationVerificationToken} from '../../../models/property/PropertyInvitationVerificationToken';
+import {Property} from '../../../entities/PropertyEntity';
+import {PropertyInvitationVerificationToken} from '../../../models';
+import {InviteTenantToPropertyRequestBody, InviteTenantToPropertyRequestQuery} from '../../../schemas/invite-tenant-to-property';
 import {GeneratePropertyInvitationVerificationTokenFunction} from '../../../util/property/generate-property-invitation-verification-token';
-import {InviteTenantToPropertyRequestBody, InviteTenantToPropertyRequestQuery} from '../schemas/invite-tenant-to-property';
 
 export const makeInviteTenantToPropertyCallback = (
     logger: winston.Logger,

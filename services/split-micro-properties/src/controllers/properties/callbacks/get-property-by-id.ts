@@ -4,8 +4,8 @@ import {ModelTransformFunction} from '@split-common/split-service-config';
 import {Model} from 'mongoose';
 import winston from 'winston';
 
-import {Property} from '../../../models';
-import {GetPropertyByIdRequestBody, GetPropertyByIdRequestQuery} from '../schemas/get-property-by-id';
+import {Property} from '../../../entities/PropertyEntity';
+import {GetPropertyByIdRequestBody, GetPropertyByIdRequestQuery} from '../../../schemas/get-property-by-id';
 
 export const makeGetPropertyByIdCallback = (
     logger: winston.Logger,

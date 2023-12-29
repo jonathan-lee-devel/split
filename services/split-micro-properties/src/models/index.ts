@@ -1,1 +1,2 @@
-export * from './property/Property';
+export * from './Property';
+export * from './PropertyInvitationVerificationToken';

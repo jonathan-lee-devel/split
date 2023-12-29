@@ -3,8 +3,8 @@ import {ModelTransformFunction} from '@split-common/split-service-config';
 import {Model} from 'mongoose';
 import winston from 'winston';
 
-import {Property} from '../../../models';
-import {DeletePropertyByIdRequestBody, DeletePropertyByIdRequestQuery} from '../schemas/delete-property-by-id';
+import {Property} from '../../../entities/PropertyEntity';
+import {DeletePropertyByIdRequestBody, DeletePropertyByIdRequestQuery} from '../../../schemas/delete-property-by-id';
 
 export const makeDeletePropertyByIdCallback = (
     logger: winston.Logger,

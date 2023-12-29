@@ -3,11 +3,11 @@ import {ModelTransformFunction} from '@split-common/split-service-config';
 import {Model} from 'mongoose';
 import winston from 'winston';
 
-import {Property} from '../../../models';
+import {Property} from '../../../entities/PropertyEntity';
 import {
   TogglePropertyAdministratorStatusRequestBody,
   TogglePropertyAdministratorStatusRequestQuery,
-} from '../schemas/toggle-property-administrator-status';
+} from '../../../schemas/toggle-property-administrator-status';
 
 export const makeTogglePropertyAdministratorStatusCallback = (
     logger: winston.Logger,

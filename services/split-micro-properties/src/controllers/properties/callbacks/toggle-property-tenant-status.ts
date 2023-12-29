@@ -3,8 +3,11 @@ import {ModelTransformFunction} from '@split-common/split-service-config';
 import {Model} from 'mongoose';
 import winston from 'winston';
 
-import {Property} from '../../../models';
-import {TogglePropertyTenantStatusRequestBody, TogglePropertyTenantStatusRequestQuery} from '../schemas/toggle-property-tenant-status';
+import {Property} from '../../../entities/PropertyEntity';
+import {
+  TogglePropertyTenantStatusRequestBody,
+  TogglePropertyTenantStatusRequestQuery,
+} from '../../../schemas/toggle-property-tenant-status';
 
 export const makeTogglePropertyTenantStatusCallback = (
     logger: winston.Logger,

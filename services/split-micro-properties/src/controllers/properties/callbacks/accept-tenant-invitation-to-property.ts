@@ -4,12 +4,12 @@ import {isAfter} from 'date-fns/isAfter';
 import {Model} from 'mongoose';
 import winston from 'winston';
 
-import {Property} from '../../../models';
-import {PropertyInvitationVerificationToken} from '../../../models/property/PropertyInvitationVerificationToken';
+import {Property} from '../../../entities/PropertyEntity';
+import {PropertyInvitationVerificationToken} from '../../../models';
 import {
   AcceptTenantInvitationToPropertyRequestBody,
   AcceptTenantInvitationToPropertyRequestQuery,
-} from '../schemas/accept-tenant-invitation-to-property';
+} from '../../../schemas/accept-tenant-invitation-to-property';
 
 export const makeAcceptTenantInvitationToPropertyCallback = (
     logger: winston.Logger,
