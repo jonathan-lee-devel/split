@@ -4,10 +4,13 @@ import {defaultModelTransform} from '@split-common/split-service-config';
 
 import {makeCreateExpenseCallback} from './callbacks/create-expense';
 import {makeGetExpenseByIdCallback} from './callbacks/get-expense-by-id';
+import {makeGetExpensesForPropertyCallback} from './callbacks/get-expenses-for-property';
 import {makeMakeCreateExpenseEndpoint} from './endpoints/create-expense';
 import {makeMakeGetExpenseByIdEndpoint} from './endpoints/get-expense-by-id';
+import {makeMakeGetExpensesForPropertyEndpoint} from './endpoints/get-expenses-for-property';
 import {CreateExpenseRequestBodySchema, CreateExpenseRequestQuerySchema} from './schemas/create-expense';
 import {GetExpenseByIdRequestBodySchema, GetExpenseByIdRequestQuerySchema} from './schemas/get-expense-by-id';
+import {GetExpensesForPropertyRequestBodySchema, GetExpensesForPropertyRequestQuerySchema} from './schemas/get-expenses-for-property';
 import {environment} from '../../environment';
 import logger from '../../logger';
 import {ExpenseModel} from '../../models';
@@ -30,6 +33,17 @@ export const getExpenseByIdHandler = makeMakeGetExpenseByIdEndpoint(returnBasedO
     GetExpenseByIdRequestBodySchema,
     GetExpenseByIdRequestQuerySchema,
     makeGetExpenseByIdCallback(
+        logger,
+        ExpenseModel,
+        makeGetPropertyById(logger, getPropertiesServiceBaseUrlFromNodeEnv(environment.NODE_ENV)),
+        defaultModelTransform,
+    ),
+);
+
+export const getExpensesForPropertyHandler = makeMakeGetExpensesForPropertyEndpoint(returnBasedOnAuthenticationAndSafeParseResult)(
+    GetExpensesForPropertyRequestBodySchema,
+    GetExpensesForPropertyRequestQuerySchema,
+    makeGetExpensesForPropertyCallback(
         logger,
         ExpenseModel,
         makeGetPropertyById(logger, getPropertiesServiceBaseUrlFromNodeEnv(environment.NODE_ENV)),
