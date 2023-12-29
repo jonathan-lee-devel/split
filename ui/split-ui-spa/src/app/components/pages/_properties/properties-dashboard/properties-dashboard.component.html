@@ -86,13 +86,16 @@
                   </th>
                   @if (property.administratorEmails.includes(currentUser.email)) {
                     <th scope="col" class="px-6 py-3">
-                      Manage (Administrator)
+                      Update
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                      Delete
                     </th>
                   }
                 </tr>
                 </thead>
                 <tbody>
-                  @for (expense of propertyExpenses;track $index) {
+                  @for (expense of propertyExpenses;track propertyExpenses) {
                     <tr class="bg-gray-800 border-b">
                       <td class="px-6 py-4 font-medium text-white whitespace-nowrap">
                         {{ expense.name }}
@@ -106,7 +109,12 @@
                       @if (property.administratorEmails.includes(currentUser.email)) {
                         <td class="px-6 py-4">
                           <button class="flex items-center px-4 py-2 bg-blue-700 border border-slate-200 rounded-lg text-white">
-                            Manage Expense
+                            Update Expense
+                          </button>
+                        </td>
+                        <td class="px-6 py-4">
+                          <button (click)="doDeleteExpense(expense)" class="flex items-center px-4 py-2 bg-red-700 border border-slate-200 rounded-lg text-white">
+                            Delete Expense
                           </button>
                         </td>
                       }

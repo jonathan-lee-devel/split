@@ -99,6 +99,15 @@ export class PropertiesDashboardComponent implements OnInit {
         });
   }
 
+  doDeleteExpense(expense: ExpenseDto) {
+    this.expenseService.openDeleteExpenseDialog(expense.id, expense.name)
+        .then((successFlag) => {
+          if (successFlag) {
+            this.propertyExpenses.splice(this.propertyExpenses.indexOf(expense), 1);
+          }
+        });
+  }
+
   private updateCombinedEmails(property: PropertyDto) {
     console.log(JSON.stringify(property));
     this.combinedEmails.clear();
