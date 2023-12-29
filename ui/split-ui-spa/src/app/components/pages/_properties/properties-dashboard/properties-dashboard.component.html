@@ -5,7 +5,7 @@
       <div class="flex justify-center text-center items-center pt-10">
         <h1 class="text-white text-4xl underline">Manage Property</h1>
       </div>
-      @if (isLoadingMap_().get(propertyDashboardByIdLoadingKey)) {
+      @if (isLoadingMap_().get(propertyDashboardByIdLoadingKey) || isLoadingMap_().get(expensesForPropertyLoadingKey)) {
         <div class="flex justify-center items-center mt-2.5 mb-3.5">
           <mat-spinner/>
         </div>
@@ -41,9 +41,9 @@
                 <tbody>
                   @for (combinedEmail of combinedEmails;track $index) {
                     <tr class="bg-gray-800 border-b">
-                      <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">
+                      <td class="px-6 py-4 font-medium text-white whitespace-nowrap">
                         {{ combinedEmail }}
-                      </th>
+                      </td>
                       <td class="px-6 py-4">
                         {{ property.administratorEmails.includes(combinedEmail) ? '✅' : '❌' }}
                       </td>
@@ -61,6 +61,52 @@
                           <button (click)="toggleTenant(combinedEmail)"
                             class="flex items-center px-4 py-2 bg-blue-700 border border-slate-200 rounded-lg text-white">
                             {{ property.tenantEmails.includes(combinedEmail) ? 'Remove Tenant' : 'Make Tenant' }}
+                          </button>
+                        </td>
+                      }
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="row mt-5 flex justify-center">
+            <div class="relative overflow-x-auto">
+              <table class="w-full text-sm text-left rtl:text-right text-gray-500 bg-blue-600">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
+                <tr>
+                  <th scope="col" class="px-6 py-3">
+                    Name
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                    Currency
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                    Amount
+                  </th>
+                  @if (property.administratorEmails.includes(currentUser.email)) {
+                    <th scope="col" class="px-6 py-3">
+                      Manage (Administrator)
+                    </th>
+                  }
+                </tr>
+                </thead>
+                <tbody>
+                  @for (expense of propertyExpenses;track $index) {
+                    <tr class="bg-gray-800 border-b">
+                      <td class="px-6 py-4 font-medium text-white whitespace-nowrap">
+                        {{ expense.name }}
+                      </td>
+                      <td class="px-6 py-4 font-medium text-white whitespace-nowrap">
+                        {{ expense.currencyCode }}
+                      </td>
+                      <td class="px-6 py-4 font-medium text-white whitespace-nowrap">
+                        {{ expense.amount }}
+                      </td>
+                      @if (property.administratorEmails.includes(currentUser.email)) {
+                        <td class="px-6 py-4">
+                          <button class="flex items-center px-4 py-2 bg-blue-700 border border-slate-200 rounded-lg text-white">
+                            Manage Expense
                           </button>
                         </td>
                       }

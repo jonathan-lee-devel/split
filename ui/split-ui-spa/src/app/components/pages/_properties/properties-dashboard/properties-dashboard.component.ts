@@ -8,8 +8,10 @@ import {delay, tap} from 'rxjs';
 import {environment} from '../../../../../environments/environment';
 import {rebaseRoutePath, rebaseRoutePathAsString, RoutePath} from '../../../../app.routes';
 import {UserDto} from '../../../../dtos/auth/UserDto';
+import {ExpenseDto} from '../../../../dtos/expenses/ExpenseDto';
 import {initialPropertyDto, PropertyDto} from '../../../../dtos/properties/PropertyDto';
 import {AuthService} from '../../../../services/auth/auth.service';
+import {ExpenseService} from '../../../../services/expense/expense.service';
 import {LoadingService} from '../../../../services/loading/loading.service';
 import {PropertyService} from '../../../../services/property/property.service';
 
@@ -31,9 +33,11 @@ export class PropertiesDashboardComponent implements OnInit {
   isLoadingMap_: Signal<Map<string, boolean>>;
   propertyId: string = '';
   property: PropertyDto = initialPropertyDto;
+  propertyExpenses: ExpenseDto[] = [];
   combinedEmails: Set<string> = new Set<string>();
   currentUser: UserDto = AuthService.INITIAL_USER;
-  readonly propertyDashboardByIdLoadingKey = 'property-dashboard-by-id-loading-key';
+  protected readonly propertyDashboardByIdLoadingKey = 'property-dashboard-by-id-loading-key';
+  protected readonly expensesForPropertyLoadingKey = 'expenses-for-property-loading-key';
   protected readonly RoutePath = RoutePath;
   protected readonly rebaseRoutePath = rebaseRoutePath;
   protected readonly rebaseRoutePathAsString = rebaseRoutePathAsString;
@@ -44,6 +48,7 @@ export class PropertiesDashboardComponent implements OnInit {
     private loadingService: LoadingService,
     private authService: AuthService,
     private propertyService: PropertyService,
+    private expenseService: ExpenseService,
   ) {
     this.isLoadingMap_ = this.loadingService.isLoadingMap_;
   }
@@ -64,8 +69,15 @@ export class PropertiesDashboardComponent implements OnInit {
                 this.property = property;
                 this.loadingService.onLoadingFinished(this.propertyDashboardByIdLoadingKey);
               });
-        },
-        );
+          this.loadingService.onLoadingStart(this.expensesForPropertyLoadingKey);
+          this.expenseService.getExpensesForProperty(this.propertyId)
+              .pipe(
+                  delay(environment.SIMULATED_LOADING_DELAY_MS),
+              ).subscribe((expenses) => {
+                this.propertyExpenses = expenses;
+                this.loadingService.onLoadingFinished(this.expensesForPropertyLoadingKey);
+              });
+        });
   }
 
   doDeleteProperty() {

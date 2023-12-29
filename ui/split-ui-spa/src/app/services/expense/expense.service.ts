@@ -15,4 +15,8 @@ export class ExpenseService {
   public createExpense(createExpenseRequestDto: CreateExpenseRequestDto): Observable<ExpenseDto> {
     return this.httpClient.post<ExpenseDto>(`${environment.EXPENSES_SERVICE_BASE_URL}/`, {...createExpenseRequestDto});
   }
+
+  public getExpensesForProperty(propertyId: string): Observable<ExpenseDto[]> {
+    return this.httpClient.get<ExpenseDto[]>(`${environment.EXPENSES_SERVICE_BASE_URL}/for-property/${propertyId}`);
+  }
 }
