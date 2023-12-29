@@ -1,9 +1,4 @@
-import {makeGenerateId} from '@split-common/split-auth';
-import {
-  executeAuthenticatedController,
-  returnAnonymouslyBasedOnSafeParseResult,
-  returnBasedOnAuthenticationAndSafeParseResult,
-} from '@split-common/split-http';
+import {returnAnonymouslyBasedOnSafeParseResult, returnBasedOnAuthenticationAndSafeParseResult} from '@split-common/split-http';
 import {defaultModelTransform} from '@split-common/split-service-config';
 
 import {makeAcceptTenantInvitationToPropertyCallback} from './callbacks/accept-tenant-invitation-to-property';
@@ -20,7 +15,6 @@ import {makeMakeGetPropertyByIdEndpoint} from './endpoints/get-property-by-id';
 import {makeMakeInviteTenantToPropertyEndpoint} from './endpoints/invite-tenant-to-property';
 import {makeMakeTogglePropertyAdministratorStatusEndpoint} from './endpoints/toggle-property-administrator-status';
 import {makeMakeTogglePropertyTenantStatusEndpoint} from './endpoints/toggle-property-tenant-status';
-import {PropertyEntity} from '../../entities/PropertyEntity';
 import {environment} from '../../environment';
 import logger from '../../logger';
 import {PropertyInvitationVerificationTokenModel, PropertyModel} from '../../models';
@@ -44,19 +38,11 @@ import {
   TogglePropertyTenantStatusRequestBodySchema,
   TogglePropertyTenantStatusRequestQuerySchema,
 } from '../../schemas/toggle-property-tenant-status';
-import {makeCreatePropertyUseCase} from '../../use-cases/create-property';
 import {generatePropertyInvitationVerificationToken} from '../../util';
-import {makeCreatePropertyController} from '../create-property';
 
 const rabbitMQConnectionPromise = makeMailToSendRabbitMQConnection(
     logger,
     environment.RABBITMQ_URL,
-);
-
-export const createPropertyHandler = makeCreatePropertyController(
-    logger,
-    executeAuthenticatedController,
-    makeCreatePropertyUseCase(logger, new PropertyEntity(PropertyModel, defaultModelTransform), makeGenerateId(logger)),
 );
 
 export const getPropertyByIdHandler = makeMakeGetPropertyByIdEndpoint(returnBasedOnAuthenticationAndSafeParseResult)(

@@ -3,10 +3,9 @@ import {defaultRateLimiter} from '@split-common/split-service-config';
 import {Router} from 'express';
 import passport from 'passport';
 
-import {indexHealthCheckHandler} from './controllers/health';
+import {createPropertyHandler, indexHealthCheckHandler} from './controllers';
 import {
   acceptTenantInvitationToPropertyHandler,
-  createPropertyHandler,
   deletePropertyByIdHandler,
   getPropertiesWhereInvolvedHandler,
   getPropertyByIdHandler,

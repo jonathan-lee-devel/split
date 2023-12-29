@@ -10,11 +10,9 @@ export const makeCreatePropertyUseCase = (
     PropertyEntity: PropertyEntity,
     generateId: GenerateIdFunction,
 ): AuthenticatedEndpointUseCase<CreatePropertyRequestBody, CreatePropertyRequestQuery, Property> =>
-  async (requestingUserEmail, body, query) => {
+  async (requestingUserEmail, body) => {
     const {name, tenantEmails} = body;
     logger.info(`Request from <${requestingUserEmail}> to create property with name ${name}`);
-
-    throw new Error('Test');
 
     const property = await PropertyEntity.createAndReturnTransformed({
       id: await generateId(),
