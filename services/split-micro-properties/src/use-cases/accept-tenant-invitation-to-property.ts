@@ -47,6 +47,7 @@ export const makeAcceptTenantInvitationToPropertyUseCase = (
     acceptedEmails.add(token.userEmail);
     property.acceptedInvitationEmails = Array.from(acceptedEmails.values());
     const updatedProperty = await PropertyEntity.updateOneAndReturnTransformed(property);
+    token.isAccepted = true;
     await PropertyInvitationVerificationTokenEntity.updateOne(token);
     return {status: HttpStatus.OK, data: updatedProperty};
   };

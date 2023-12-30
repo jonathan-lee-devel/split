@@ -1,6 +1,6 @@
 {
   "name": "@split-ui/split-ui-spa",
-  "version": "0.3.13",
+  "version": "0.3.14",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
