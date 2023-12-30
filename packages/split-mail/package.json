@@ -1,6 +1,6 @@
 {
   "name": "@split-common/split-mail",
-  "version": "0.3.11",
+  "version": "0.3.12",
   "description": "Auth config for use within Split services",
   "keywords": [
     "Split",
