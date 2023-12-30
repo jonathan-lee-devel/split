@@ -1,6 +1,8 @@
 import {Entity, ModelTransformFunction} from '@split-common/split-service-config';
 import {Document, FilterQuery, Model, ObjectId} from 'mongoose';
 
+import {PropertyInvitationVerificationTokenDto} from '../dtos';
+
 export interface PropertyInvitationVerificationToken {
   id: string;
   value: string;
@@ -13,7 +15,8 @@ export interface PropertyInvitationVerificationToken {
 export class PropertyInvitationVerificationTokenEntity extends Entity<
   FilterQuery<PropertyInvitationVerificationToken>,
   Document<unknown, {}, PropertyInvitationVerificationToken> & PropertyInvitationVerificationToken & { _id: ObjectId; },
-  PropertyInvitationVerificationToken> {
+  PropertyInvitationVerificationToken,
+  PropertyInvitationVerificationTokenDto> {
   constructor(
     private readonly propertyInvitationVerificationTokenModel: Model<PropertyInvitationVerificationToken>,
     private readonly transform: ModelTransformFunction,
@@ -33,7 +36,8 @@ export class PropertyInvitationVerificationTokenEntity extends Entity<
       null;
   }
 
-  async getOneTransformed(filter: FilterQuery<PropertyInvitationVerificationToken>): Promise<PropertyInvitationVerificationToken | null> {
+  async getOneTransformed(filter: FilterQuery<PropertyInvitationVerificationToken>)
+    : Promise<PropertyInvitationVerificationTokenDto | null> {
     const resultingToken = await this.propertyInvitationVerificationTokenModel.findOne(filter).exec();
     return (resultingToken) ?
       resultingToken.toJSON({transform: this.transform}) :
@@ -50,7 +54,8 @@ export class PropertyInvitationVerificationTokenEntity extends Entity<
         ));
   }
 
-  async getManyTransformed(filter: FilterQuery<PropertyInvitationVerificationToken>): Promise<PropertyInvitationVerificationToken[]> {
+  async getManyTransformed(filter: FilterQuery<PropertyInvitationVerificationToken>)
+    : Promise<PropertyInvitationVerificationTokenDto[]> {
     const resultingTokens = await this.propertyInvitationVerificationTokenModel.find(filter).exec();
     return resultingTokens
         .map((resultingToken) => resultingToken.toJSON({transform: this.transform}));
@@ -63,7 +68,8 @@ export class PropertyInvitationVerificationTokenEntity extends Entity<
       null;
   }
 
-  async createAndReturnTransformed(entityData: PropertyInvitationVerificationToken): Promise<PropertyInvitationVerificationToken | null> {
+  async createAndReturnTransformed(entityData: PropertyInvitationVerificationToken)
+    : Promise<PropertyInvitationVerificationTokenDto | null> {
     const createdToken = await this.propertyInvitationVerificationTokenModel.create({...entityData});
     return (createdToken) ?
       createdToken.toJSON({transform: this.transform}) :
@@ -75,7 +81,7 @@ export class PropertyInvitationVerificationTokenEntity extends Entity<
   }
 
   async updateOneAndReturnTransformed(entityData: PropertyInvitationVerificationToken)
-    : Promise<PropertyInvitationVerificationToken | null> {
+    : Promise<PropertyInvitationVerificationTokenDto | null> {
     await this.updateTokenById(entityData);
     const updatedToken = await this.propertyInvitationVerificationTokenModel.findOne({id: entityData.id}).exec();
     return (updatedToken) ? updatedToken.toJSON({transform: this.transform}) : null;

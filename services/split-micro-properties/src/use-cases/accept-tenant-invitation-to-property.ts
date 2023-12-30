@@ -2,13 +2,13 @@ import {AnonymousEndpointUseCase, HttpStatus} from '@split-common/split-http';
 import {isAfter} from 'date-fns/isAfter';
 import winston from 'winston';
 
-import {Property, PropertyEntity} from '../entities/PropertyEntity';
-import {PropertyInvitationVerificationTokenEntity} from '../entities/PropertyInvitationVerificationTokenEntity';
+import {PropertyDto} from '../dtos';
+import {PropertyEntity, PropertyInvitationVerificationTokenEntity} from '../entities';
 import {
   AcceptTenantInvitationToPropertyRequestBody,
   AcceptTenantInvitationToPropertyRequestParams,
   AcceptTenantInvitationToPropertyRequestQuery,
-} from '../schemas/accept-tenant-invitation-to-property';
+} from '../schemas';
 
 export const makeAcceptTenantInvitationToPropertyUseCase = (
     logger: winston.Logger,
@@ -18,7 +18,7 @@ export const makeAcceptTenantInvitationToPropertyUseCase = (
   AcceptTenantInvitationToPropertyRequestBody,
   AcceptTenantInvitationToPropertyRequestParams,
   AcceptTenantInvitationToPropertyRequestQuery,
-  Property> =>
+  PropertyDto> =>
   async (body, params) => {
     const {tokenValue} = body;
     const {propertyId} = params;

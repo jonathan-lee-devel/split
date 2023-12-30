@@ -6,4 +6,5 @@ export interface PropertyDto extends Dto {
   name: string;
   administratorEmails: string[];
   tenantEmails: string[];
+  acceptedInvitationEmails: string[];
 }

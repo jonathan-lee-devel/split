@@ -1,4 +1,4 @@
-export abstract class Entity<TFilter, TBody, TData> {
+export abstract class Entity<TFilter, TBody, TData, TTransformed> {
   protected body: TBody | undefined;
 
   protected constructor(body?: TBody | undefined) {
@@ -7,19 +7,19 @@ export abstract class Entity<TFilter, TBody, TData> {
 
   public abstract getBodyTransformed(): Promise<TData | undefined>;
 
-  public abstract getOne(filter: TFilter): Promise<Entity<TFilter, TBody, TData> | null>;
+  public abstract getOne(filter: TFilter): Promise<Entity<TFilter, TBody, TData, TTransformed> | null>;
 
-  public abstract getOneTransformed(filter: TFilter): Promise<TData | null>;
+  public abstract getOneTransformed(filter: TFilter): Promise<TTransformed | null>;
 
-  public abstract getMany(filter: TFilter): Promise<Entity<TFilter, TBody, TData>[]>;
+  public abstract getMany(filter: TFilter): Promise<Entity<TFilter, TBody, TData, TTransformed>[]>;
 
-  public abstract getManyTransformed(filter: TFilter): Promise<TData[]>;
+  public abstract getManyTransformed(filter: TFilter): Promise<TTransformed[]>;
 
-  public abstract create(entityData: TData): Promise<Entity<TFilter, TBody, TData> | null>;
+  public abstract create(entityData: TData): Promise<Entity<TFilter, TBody, TData, TTransformed> | null>;
 
-  public abstract createAndReturnTransformed(entityData: TData): Promise<TData | null>;
+  public abstract createAndReturnTransformed(entityData: TData): Promise<TTransformed | null>;
 
   public abstract updateOne(entityData: TData): Promise<void>;
 
-  public abstract updateOneAndReturnTransformed(entityData: TData): Promise<TData | null>;
+  public abstract updateOneAndReturnTransformed(entityData: TData): Promise<TTransformed | null>;
 }

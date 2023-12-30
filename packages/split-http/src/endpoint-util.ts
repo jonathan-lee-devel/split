@@ -121,18 +121,18 @@ export type ErrorResponse = {
   error: string;
 }
 
-export type AuthenticatedEndpointUseCase<TBody, TParams, TQuery, TData> = (
+export type AuthenticatedEndpointUseCase<TBody, TParams, TQuery, TTransformed> = (
   requestingUserEmail: string,
   body: TBody,
   params: TParams,
   query: TQuery,
-) => Promise<StatusDataContainer<TData | ErrorResponse | null | undefined>>;
+) => Promise<StatusDataContainer<TTransformed | ErrorResponse | null | undefined>>;
 
-export type AnonymousEndpointUseCase<TBody, TParams, TQuery, TData> = (
+export type AnonymousEndpointUseCase<TBody, TParams, TQuery, TTransformed> = (
   body: TBody,
   params: TParams,
   query: TQuery,
-) => Promise<StatusDataContainer<TData | ErrorResponse | null | undefined>>;
+) => Promise<StatusDataContainer<TTransformed | ErrorResponse | null | undefined>>;
 
 export type ReturnBasedOnAuthenticationAndSafeParseResultFunction<TBody, TQuery> = (
   endpointInformation: EndpointInformation<TBody, TQuery>,

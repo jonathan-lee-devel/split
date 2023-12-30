@@ -1,6 +1,8 @@
 import {Entity, ModelTransformFunction} from '@split-common/split-service-config';
 import {Document, FilterQuery, Model, ObjectId} from 'mongoose';
 
+import {PropertyDto} from '../dtos';
+
 export interface Property {
   id: string;
   createdByEmail: string;
@@ -13,7 +15,8 @@ export interface Property {
 export class PropertyEntity extends Entity<
   FilterQuery<Property>,
   Document<unknown, {}, Property> & Property & { _id: ObjectId; },
-  Property> {
+  Property,
+  PropertyDto> {
   constructor(
       private readonly propertyModel: Model<Property>,
       private readonly transform: ModelTransformFunction,
@@ -22,8 +25,8 @@ export class PropertyEntity extends Entity<
     super(body);
   }
 
-  async getBodyTransformed(): Promise<Property | undefined> {
-    return (this.body) ? this.body.toJSON({transform: this.transform}) as any : undefined;
+  async getBodyTransformed(): Promise<PropertyDto | undefined> {
+    return (this.body) ? this.body.toJSON({transform: this.transform}) : undefined;
   }
 
   async getOne(filter: FilterQuery<Property>): Promise<PropertyEntity | null> {
@@ -31,7 +34,7 @@ export class PropertyEntity extends Entity<
     return (resultingProperty) ? new PropertyEntity(this.propertyModel, this.transform, resultingProperty as any) : null;
   }
 
-  async getOneTransformed(filter: FilterQuery<Property>): Promise<Property | null> {
+  async getOneTransformed(filter: FilterQuery<Property>): Promise<PropertyDto | null> {
     const resultingProperty = await this.propertyModel.findOne(filter).exec();
     return (resultingProperty) ? resultingProperty.toJSON({transform: this.transform}) : null;
   }
@@ -41,7 +44,7 @@ export class PropertyEntity extends Entity<
     return resultingProperties.map((resultingProperty) => new PropertyEntity(this.propertyModel, this.transform, resultingProperty as any));
   }
 
-  async getManyTransformed(filter: FilterQuery<Property>): Promise<Property[]> {
+  async getManyTransformed(filter: FilterQuery<Property>): Promise<PropertyDto[]> {
     const resultingProperties = await this.propertyModel.find(filter).exec();
     return resultingProperties.map((resultingProperty) => resultingProperty.toJSON({transform: this.transform}));
   }
@@ -51,7 +54,7 @@ export class PropertyEntity extends Entity<
     return (createdProperty) ? new PropertyEntity(this.propertyModel, this.transform, createdProperty as any) : null;
   }
 
-  async createAndReturnTransformed(entityData: Property): Promise<Property | null> {
+  async createAndReturnTransformed(entityData: Property): Promise<PropertyDto | null> {
     const createResult = await this.propertyModel.create({...entityData});
     return (createResult) ? createResult.toJSON({transform: this.transform}) : null;
   }
@@ -60,7 +63,7 @@ export class PropertyEntity extends Entity<
     await this.updatePropertyById(entityData);
   }
 
-  async updateOneAndReturnTransformed(entityData: Property): Promise<Property | null> {
+  async updateOneAndReturnTransformed(entityData: Property): Promise<PropertyDto | null> {
     await this.updatePropertyById(entityData);
     const updatedProperty = await this.propertyModel.findOne({id: entityData.id}).exec();
     return (updatedProperty) ? updatedProperty.toJSON({transform: this.transform}) : null;
