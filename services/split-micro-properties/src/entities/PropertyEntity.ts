@@ -1,6 +1,5 @@
 import {Entity, ModelTransformFunction} from '@split-common/split-service-config';
 import {Document, FilterQuery, Model, ObjectId} from 'mongoose';
-import {undefined} from 'zod';
 
 export interface Property {
   id: string;

@@ -4,8 +4,7 @@ import {defaultModelTransform} from '@split-common/split-service-config';
 import {makeAcceptTenantInvitationToPropertyUseCase} from './accept-tenant-invitation-to-property';
 import {makeCreatePropertyUseCase} from './create-property';
 import {makeIndexHealthCheckUseCase} from './index-health-check';
-import {PropertyEntity} from '../entities/PropertyEntity';
-import {PropertyInvitationVerificationTokenEntity} from '../entities/PropertyInvitationVerificationTokenEntity';
+import {PropertyEntity, PropertyInvitationVerificationTokenEntity} from '../entities';
 import logger from '../logger';
 import {PropertyInvitationVerificationTokenModel, PropertyModel} from '../models';
 

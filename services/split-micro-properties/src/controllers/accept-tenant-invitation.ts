@@ -2,14 +2,14 @@ import {AnonymousEndpointUseCase, ExecuteAnonymousControllerFunction, HttpStatus
 import {Request, Response} from 'express';
 import winston from 'winston';
 
-import {Property} from '../entities/PropertyEntity';
+import {Property} from '../entities';
 import {
   AcceptTenantInvitationToPropertyRequestBody,
   acceptTenantInvitationToPropertyRequestBodySchema,
   AcceptTenantInvitationToPropertyRequestParams,
   AcceptTenantInvitationToPropertyRequestQuery,
   acceptTenantInvitationToPropertyRequestQuerySchema,
-} from '../schemas/accept-tenant-invitation-to-property';
+} from '../schemas';
 
 export const makeAcceptTenantInvitationController = (
     logger: winston.Logger,

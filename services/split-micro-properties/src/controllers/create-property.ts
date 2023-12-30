@@ -2,14 +2,14 @@ import {AuthenticatedEndpointUseCase, ExecuteAuthenticatedControllerFunction, Ht
 import {Request, Response} from 'express';
 import winston from 'winston';
 
-import {Property} from '../entities/PropertyEntity';
+import {Property} from '../entities';
 import {
   CreatePropertyRequestBody,
   createPropertyRequestBodySchema,
   CreatePropertyRequestParams,
   CreatePropertyRequestQuery,
   createPropertyRequestQuerySchema,
-} from '../schemas/create-property';
+} from '../schemas';
 
 export const makeCreatePropertyController = (
     logger: winston.Logger,
