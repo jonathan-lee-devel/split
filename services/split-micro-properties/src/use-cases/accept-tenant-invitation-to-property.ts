@@ -1,9 +1,8 @@
-import {AnonymousEndpointUseCase, HttpStatus} from '@split-common/split-http';
-import {isAfter} from 'date-fns/isAfter';
+import {AnonymousEndpointUseCase, ErrorResponse, HttpStatus, nullToUndefined, StatusDataContainer} from '@split-common/split-http';
 import winston from 'winston';
 
-import {PropertyDAO, PropertyInvitationVerificationTokenDAO} from '../dao';
 import {PropertyDto} from '../dtos';
+import {PropertyInvitationTokenEntity} from '../entities';
 import {
   AcceptTenantInvitationToPropertyRequestBody,
   AcceptTenantInvitationToPropertyRequestParams,
@@ -12,8 +11,7 @@ import {
 
 export const makeAcceptTenantInvitationToPropertyUseCase = (
     logger: winston.Logger,
-    propertyDAO: PropertyDAO,
-    propertyInvitationVerificationTokenDAO: PropertyInvitationVerificationTokenDAO,
+    propertyInvitationTokenEntity: PropertyInvitationTokenEntity,
 ): AnonymousEndpointUseCase<
   AcceptTenantInvitationToPropertyRequestBody,
   AcceptTenantInvitationToPropertyRequestParams,
@@ -25,29 +23,12 @@ export const makeAcceptTenantInvitationToPropertyUseCase = (
 
     logger.info(`Request to accept tenant property invitation for token value: ${tokenValue} at property ID: ${propertyId}`);
 
-    const token = await propertyInvitationVerificationTokenDAO.getOneTransformed({value: tokenValue});
-    if (!token) {
-      return {status: HttpStatus.BAD_REQUEST, data: {error: `No token found for that value`}};
+    const tokenVerificationResponse = await propertyInvitationTokenEntity.verifyToken(tokenValue);
+    if (tokenVerificationResponse.status !== HttpStatus.OK) {
+      return tokenVerificationResponse as StatusDataContainer<ErrorResponse>;
     }
 
-    if (token.isAccepted) {
-      return {status: HttpStatus.BAD_REQUEST, data: {error: `This invitation has already been accepted`}};
-    }
-
-    if (isAfter(new Date(), token.expiryDate)) {
-      return {status: HttpStatus.BAD_REQUEST, data: {error: `This token is expired, you will need to be re-invited`}};
-    }
-
-    const property = await propertyDAO.getOneTransformed({id: token.propertyId});
-    if (!property) {
-      return {status: HttpStatus.BAD_REQUEST, data: {error: `No property found for that token value or property does not match path`}};
-    }
-
-    const acceptedEmails = new Set<string>(property.acceptedInvitationEmails);
-    acceptedEmails.add(token.userEmail);
-    property.acceptedInvitationEmails = Array.from(acceptedEmails.values());
-    const updatedProperty = await propertyDAO.updateOneAndReturnTransformed(property);
-    token.isAccepted = true;
-    await propertyInvitationVerificationTokenDAO.updateOne(token);
-    return {status: HttpStatus.OK, data: updatedProperty};
+    const {token, property} = tokenVerificationResponse.data;
+    const updatedProperty = await propertyInvitationTokenEntity.acceptValidInvitationToken(token!, property!);
+    return {status: (updatedProperty) ? HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR, data: nullToUndefined(updatedProperty)};
   };

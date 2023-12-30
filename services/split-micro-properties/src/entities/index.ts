@@ -1,7 +1,8 @@
 import {makeGenerateId} from '@split-common/split-auth';
 
 import {makePropertyEntity} from './property';
-import {makeDefaultPropertyDao} from '../dao';
+import {makePropertyInvitationTokenEntity} from './property-invitation-token';
+import {makeDefaultPropertyDao, makeDefaultPropertyInvitationVerificationTokenDao} from '../dao';
 import logger from '../logger';
 
 export const propertyEntity = makePropertyEntity(
@@ -10,3 +11,10 @@ export const propertyEntity = makePropertyEntity(
 );
 
 export type PropertyEntity = typeof propertyEntity;
+
+export const propertyInvitationTokenEntity = makePropertyInvitationTokenEntity(
+    makeDefaultPropertyDao(),
+    makeDefaultPropertyInvitationVerificationTokenDao(),
+);
+
+export type PropertyInvitationTokenEntity = typeof propertyInvitationTokenEntity;
