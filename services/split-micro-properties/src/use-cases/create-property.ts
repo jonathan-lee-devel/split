@@ -1,5 +1,5 @@
 import {GenerateIdFunction} from '@split-common/split-auth';
-import {AuthenticatedEndpointUseCase, HttpStatus} from '@split-common/split-http';
+import {AuthenticatedEndpointUseCase, HttpStatus, nullToUndefined} from '@split-common/split-http';
 import winston from 'winston';
 
 import {PropertyDto} from '../dtos';
@@ -28,5 +28,5 @@ export const makeCreatePropertyUseCase = (
       acceptedInvitationEmails: [requestingUserEmail],
     });
 
-    return {status: (property) ? HttpStatus.CREATED: HttpStatus.INTERNAL_SERVER_ERROR, data: property};
+    return {status: (property) ? HttpStatus.CREATED : HttpStatus.INTERNAL_SERVER_ERROR, data: nullToUndefined(property)};
   };
