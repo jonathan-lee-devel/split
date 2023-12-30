@@ -1,7 +1,6 @@
 import {AnonymousEndpointUseCase, HttpStatus} from '@split-common/split-http';
-import {undefined} from 'zod';
 
-import {IndexHealthCheckRequestBody, IndexHealthCheckRequestParams, IndexHealthCheckRequestQuery} from '../schemas/index-health-check';
+import {IndexHealthCheckRequestBody, IndexHealthCheckRequestParams, IndexHealthCheckRequestQuery} from '../schemas';
 
 export const makeIndexHealthCheckUseCase = (
 ): AnonymousEndpointUseCase<

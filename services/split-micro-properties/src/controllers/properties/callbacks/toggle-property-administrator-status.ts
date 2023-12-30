@@ -3,7 +3,7 @@ import {ModelTransformFunction} from '@split-common/split-service-config';
 import {Model} from 'mongoose';
 import winston from 'winston';
 
-import {Property} from '../../../entities/PropertyEntity';
+import {Property} from '../../../dao/PropertyDAO';
 import {
   TogglePropertyAdministratorStatusRequestBody,
   TogglePropertyAdministratorStatusRequestQuery,

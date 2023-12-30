@@ -1,6 +1,6 @@
 import {model, Schema} from 'mongoose';
 
-import {Property} from '../entities/PropertyEntity';
+import {Property} from '../dao/PropertyDAO';
 
 const schema = new Schema<Property>({
   id: {type: String, required: true, unique: true},

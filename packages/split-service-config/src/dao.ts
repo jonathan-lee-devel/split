@@ -1,4 +1,4 @@
-export abstract class Entity<TFilter, TBody, TData, TTransformed> {
+export abstract class DAO<TFilter, TBody, TData, TTransformed> {
   protected body: TBody | undefined;
 
   protected constructor(body?: TBody | undefined) {
@@ -7,15 +7,15 @@ export abstract class Entity<TFilter, TBody, TData, TTransformed> {
 
   public abstract getBodyTransformed(): Promise<TData | undefined>;
 
-  public abstract getOne(filter: TFilter): Promise<Entity<TFilter, TBody, TData, TTransformed> | null>;
+  public abstract getOne(filter: TFilter): Promise<DAO<TFilter, TBody, TData, TTransformed> | null>;
 
   public abstract getOneTransformed(filter: TFilter): Promise<TTransformed | null>;
 
-  public abstract getMany(filter: TFilter): Promise<Entity<TFilter, TBody, TData, TTransformed>[]>;
+  public abstract getMany(filter: TFilter): Promise<DAO<TFilter, TBody, TData, TTransformed>[]>;
 
   public abstract getManyTransformed(filter: TFilter): Promise<TTransformed[]>;
 
-  public abstract create(entityData: TData): Promise<Entity<TFilter, TBody, TData, TTransformed> | null>;
+  public abstract create(entityData: TData): Promise<DAO<TFilter, TBody, TData, TTransformed> | null>;
 
   public abstract createAndReturnTransformed(entityData: TData): Promise<TTransformed | null>;
 

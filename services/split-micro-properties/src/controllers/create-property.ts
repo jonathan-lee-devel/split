@@ -2,7 +2,7 @@ import {AuthenticatedEndpointUseCase, ExecuteAuthenticatedControllerFunction, Ht
 import {Request, Response} from 'express';
 import winston from 'winston';
 
-import {Property} from '../entities';
+import {Property} from '../dao';
 import {
   CreatePropertyRequestBody,
   createPropertyRequestBodySchema,

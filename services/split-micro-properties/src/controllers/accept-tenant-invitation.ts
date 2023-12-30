@@ -2,7 +2,7 @@ import {AnonymousEndpointUseCase, ExecuteAnonymousControllerFunction, HttpStatus
 import {Request, Response} from 'express';
 import winston from 'winston';
 
-import {Property} from '../entities';
+import {Property} from '../dao';
 import {
   AcceptTenantInvitationToPropertyRequestBody,
   acceptTenantInvitationToPropertyRequestBodySchema,

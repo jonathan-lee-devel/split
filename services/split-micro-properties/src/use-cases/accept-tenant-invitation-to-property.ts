@@ -2,8 +2,8 @@ import {AnonymousEndpointUseCase, HttpStatus} from '@split-common/split-http';
 import {isAfter} from 'date-fns/isAfter';
 import winston from 'winston';
 
+import {PropertyDAO, PropertyInvitationVerificationTokenDAO} from '../dao';
 import {PropertyDto} from '../dtos';
-import {PropertyEntity, PropertyInvitationVerificationTokenEntity} from '../entities';
 import {
   AcceptTenantInvitationToPropertyRequestBody,
   AcceptTenantInvitationToPropertyRequestParams,
@@ -12,8 +12,8 @@ import {
 
 export const makeAcceptTenantInvitationToPropertyUseCase = (
     logger: winston.Logger,
-    PropertyEntity: PropertyEntity,
-    PropertyInvitationVerificationTokenEntity: PropertyInvitationVerificationTokenEntity,
+    propertyDAO: PropertyDAO,
+    propertyInvitationVerificationTokenDAO: PropertyInvitationVerificationTokenDAO,
 ): AnonymousEndpointUseCase<
   AcceptTenantInvitationToPropertyRequestBody,
   AcceptTenantInvitationToPropertyRequestParams,
@@ -25,7 +25,7 @@ export const makeAcceptTenantInvitationToPropertyUseCase = (
 
     logger.info(`Request to accept tenant property invitation for token value: ${tokenValue} at property ID: ${propertyId}`);
 
-    const token = await PropertyInvitationVerificationTokenEntity.getOneTransformed({value: tokenValue});
+    const token = await propertyInvitationVerificationTokenDAO.getOneTransformed({value: tokenValue});
     if (!token) {
       return {status: HttpStatus.BAD_REQUEST, data: {error: `No token found for that value`}};
     }
@@ -38,7 +38,7 @@ export const makeAcceptTenantInvitationToPropertyUseCase = (
       return {status: HttpStatus.BAD_REQUEST, data: {error: `This token is expired, you will need to be re-invited`}};
     }
 
-    const property = await PropertyEntity.getOneTransformed({id: token.propertyId});
+    const property = await propertyDAO.getOneTransformed({id: token.propertyId});
     if (!property) {
       return {status: HttpStatus.BAD_REQUEST, data: {error: `No property found for that token value or property does not match path`}};
     }
@@ -46,8 +46,8 @@ export const makeAcceptTenantInvitationToPropertyUseCase = (
     const acceptedEmails = new Set<string>(property.acceptedInvitationEmails);
     acceptedEmails.add(token.userEmail);
     property.acceptedInvitationEmails = Array.from(acceptedEmails.values());
-    const updatedProperty = await PropertyEntity.updateOneAndReturnTransformed(property);
+    const updatedProperty = await propertyDAO.updateOneAndReturnTransformed(property);
     token.isAccepted = true;
-    await PropertyInvitationVerificationTokenEntity.updateOne(token);
+    await propertyInvitationVerificationTokenDAO.updateOne(token);
     return {status: HttpStatus.OK, data: updatedProperty};
   };

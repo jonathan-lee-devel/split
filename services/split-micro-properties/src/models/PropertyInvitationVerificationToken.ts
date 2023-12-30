@@ -1,6 +1,6 @@
 import {model, Schema} from 'mongoose';
 
-import {PropertyInvitationVerificationToken} from '../entities/PropertyInvitationVerificationTokenEntity';
+import {PropertyInvitationVerificationToken} from '../dao/PropertyInvitationVerificationTokenDAO';
 
 export const propertyInvitationVerificationTokenSchema = new Schema<PropertyInvitationVerificationToken>({
   id: {type: String, required: true, unique: true},

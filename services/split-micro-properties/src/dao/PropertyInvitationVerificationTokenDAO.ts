@@ -1,4 +1,4 @@
-import {Entity, ModelTransformFunction} from '@split-common/split-service-config';
+import {DAO, ModelTransformFunction} from '@split-common/split-service-config';
 import {Document, FilterQuery, Model, ObjectId} from 'mongoose';
 
 import {PropertyInvitationVerificationTokenDto} from '../dtos';
@@ -12,7 +12,7 @@ export interface PropertyInvitationVerificationToken {
   isAccepted: boolean;
 }
 
-export class PropertyInvitationVerificationTokenEntity extends Entity<
+export class PropertyInvitationVerificationTokenDAO extends DAO<
   FilterQuery<PropertyInvitationVerificationToken>,
   Document<unknown, {}, PropertyInvitationVerificationToken> & PropertyInvitationVerificationToken & { _id: ObjectId; },
   PropertyInvitationVerificationToken,
@@ -29,10 +29,10 @@ export class PropertyInvitationVerificationTokenEntity extends Entity<
     return (this.body) ? this.body.toJSON({transform: this.transform}) as any : undefined;
   }
 
-  async getOne(filter: FilterQuery<PropertyInvitationVerificationToken>): Promise<PropertyInvitationVerificationTokenEntity | null> {
+  async getOne(filter: FilterQuery<PropertyInvitationVerificationToken>): Promise<PropertyInvitationVerificationTokenDAO | null> {
     const resultingToken = await this.propertyInvitationVerificationTokenModel.findOne(filter).exec();
     return (resultingToken) ?
-      new PropertyInvitationVerificationTokenEntity(this.propertyInvitationVerificationTokenModel, this.transform, resultingToken as any) :
+      new PropertyInvitationVerificationTokenDAO(this.propertyInvitationVerificationTokenModel, this.transform, resultingToken as any) :
       null;
   }
 
@@ -44,10 +44,10 @@ export class PropertyInvitationVerificationTokenEntity extends Entity<
       null;
   }
 
-  async getMany(filter: FilterQuery<PropertyInvitationVerificationToken>): Promise<PropertyInvitationVerificationTokenEntity[]> {
+  async getMany(filter: FilterQuery<PropertyInvitationVerificationToken>): Promise<PropertyInvitationVerificationTokenDAO[]> {
     const resultingTokens = await this.propertyInvitationVerificationTokenModel.find(filter).exec();
     return resultingTokens
-        .map((resultingToken) => new PropertyInvitationVerificationTokenEntity(
+        .map((resultingToken) => new PropertyInvitationVerificationTokenDAO(
             this.propertyInvitationVerificationTokenModel,
             this.transform,
           resultingToken as any,
@@ -61,10 +61,10 @@ export class PropertyInvitationVerificationTokenEntity extends Entity<
         .map((resultingToken) => resultingToken.toJSON({transform: this.transform}));
   }
 
-  async create(entityData: PropertyInvitationVerificationToken): Promise<PropertyInvitationVerificationTokenEntity | null> {
+  async create(entityData: PropertyInvitationVerificationToken): Promise<PropertyInvitationVerificationTokenDAO | null> {
     const createdToken = await this.propertyInvitationVerificationTokenModel.create({...entityData});
     return (createdToken) ?
-      new PropertyInvitationVerificationTokenEntity(this.propertyInvitationVerificationTokenModel, this.transform, createdToken as any) :
+      new PropertyInvitationVerificationTokenDAO(this.propertyInvitationVerificationTokenModel, this.transform, createdToken as any) :
       null;
   }
 

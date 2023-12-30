@@ -5,8 +5,8 @@ import {isAfter} from 'date-fns/isAfter';
 import {Model} from 'mongoose';
 import winston from 'winston';
 
-import {Property} from '../../../entities/PropertyEntity';
-import {PropertyInvitationVerificationToken} from '../../../entities/PropertyInvitationVerificationTokenEntity';
+import {Property} from '../../../dao/PropertyDAO';
+import {PropertyInvitationVerificationToken} from '../../../dao/PropertyInvitationVerificationTokenDAO';
 import {InviteTenantToPropertyRequestBody, InviteTenantToPropertyRequestQuery} from '../../../schemas/invite-tenant-to-property';
 import {GeneratePropertyInvitationVerificationTokenFunction} from '../../../util/property/generate-property-invitation-verification-token';
 
