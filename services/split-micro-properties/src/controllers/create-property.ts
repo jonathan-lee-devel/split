@@ -7,6 +7,7 @@ import {
   CreatePropertyRequestBody,
   createPropertyRequestBodySchema,
   CreatePropertyRequestParams,
+  createPropertyRequestParamsSchema,
   CreatePropertyRequestQuery,
   createPropertyRequestQuerySchema,
 } from '../schemas';
@@ -26,6 +27,7 @@ export const makeCreatePropertyController = (
       res,
       useCase: createPropertyUseCase,
       bodyParseResult: createPropertyRequestBodySchema.safeParse(req.body),
+      paramsParseResult: createPropertyRequestParamsSchema.safeParse(req.params),
       queryParseResult: createPropertyRequestQuerySchema.safeParse(req.query),
     });
   } catch (err) {

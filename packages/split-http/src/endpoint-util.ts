@@ -15,6 +15,7 @@ export interface EndpointInformation<TBody, TQuery> {
 
 export interface ControllerEndpointInformation<TBody, TParams, TQuery, TData> {
   bodyParseResult: SafeParseSuccess<TBody> | SafeParseError<TBody>;
+  paramsParseResult: SafeParseSuccess<TParams> | SafeParseError<TParams>;
   queryParseResult: SafeParseSuccess<TQuery> | SafeParseError<TQuery>;
   useCase: AnonymousEndpointUseCase<TBody, TParams, TQuery, TData> | AuthenticatedEndpointUseCase<TBody, TParams, TQuery, TData>,
   req: Request | AuthenticatedRequest;
@@ -51,6 +52,8 @@ export const executeAnonymousController = async <TBody, TParams, TQuery, TData>(
     return controllerEndpointInformation.res.status(HttpStatus.BAD_REQUEST).json(controllerEndpointInformation.bodyParseResult.error);
   } else if (!controllerEndpointInformation.queryParseResult.success) {
     return controllerEndpointInformation.res.status(HttpStatus.BAD_REQUEST).json(controllerEndpointInformation.queryParseResult.error);
+  } else if (!controllerEndpointInformation.paramsParseResult.success) {
+    return controllerEndpointInformation.res.status(HttpStatus.BAD_REQUEST).json(controllerEndpointInformation.paramsParseResult.error);
   }
 
   let statusDataContainer: StatusDataContainer<TData | ErrorResponse | null | undefined>;

@@ -7,6 +7,7 @@ import {
   AcceptTenantInvitationToPropertyRequestBody,
   acceptTenantInvitationToPropertyRequestBodySchema,
   AcceptTenantInvitationToPropertyRequestParams,
+  acceptTenantInvitationToPropertyRequestParamsSchema,
   AcceptTenantInvitationToPropertyRequestQuery,
   acceptTenantInvitationToPropertyRequestQuerySchema,
 } from '../schemas';
@@ -26,6 +27,7 @@ export const makeAcceptTenantInvitationController = (
       res,
       useCase: acceptTenantInvitationUseCase,
       bodyParseResult: acceptTenantInvitationToPropertyRequestBodySchema.safeParse(req.body),
+      paramsParseResult: acceptTenantInvitationToPropertyRequestParamsSchema.safeParse(req.params),
       queryParseResult: acceptTenantInvitationToPropertyRequestQuerySchema.safeParse(req.query),
     });
   } catch (err) {

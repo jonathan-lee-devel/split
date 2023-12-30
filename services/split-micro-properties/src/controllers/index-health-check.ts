@@ -2,7 +2,7 @@ import {ExecuteAnonymousControllerFunction, HttpStatus} from '@split-common/spli
 import {Request, Response} from 'express';
 import winston from 'winston';
 
-import {indexHealthCheckRequestBodySchema, indexHealthCheckRequestQuerySchema} from '../schemas';
+import {indexHealthCheckRequestBodySchema, indexHealthCheckRequestParamsSchema, indexHealthCheckRequestQuerySchema} from '../schemas';
 import {indexHealthCheckUseCase} from '../use-cases';
 
 export const makeIndexHealthCheckController = (
@@ -15,6 +15,7 @@ export const makeIndexHealthCheckController = (
       res,
       useCase: indexHealthCheckUseCase,
       bodyParseResult: indexHealthCheckRequestBodySchema.safeParse(req.body),
+      paramsParseResult: indexHealthCheckRequestParamsSchema.safeParse(req.params),
       queryParseResult: indexHealthCheckRequestQuerySchema.safeParse(req.query),
     });
   } catch (err) {
