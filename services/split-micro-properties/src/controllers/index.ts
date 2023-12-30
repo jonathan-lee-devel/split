@@ -1,9 +1,10 @@
 import {executeAnonymousController, executeAuthenticatedController} from '@split-common/split-http';
 
+import {makeAcceptTenantInvitationController} from './accept-tenant-invitation';
 import {makeCreatePropertyController} from './create-property';
 import {makeIndexHealthCheckController} from './index-health-check';
 import logger from '../logger';
-import {createPropertyUseCase} from '../use-cases';
+import {acceptTenantInvitationUseCase, createPropertyUseCase} from '../use-cases';
 
 
 export const indexHealthCheckHandler = makeIndexHealthCheckController(
@@ -15,4 +16,10 @@ export const createPropertyHandler = makeCreatePropertyController(
     logger,
     executeAuthenticatedController,
     createPropertyUseCase,
+);
+
+export const acceptTenantInvitationHandler = makeAcceptTenantInvitationController(
+    logger,
+    executeAnonymousController,
+    acceptTenantInvitationUseCase,
 );

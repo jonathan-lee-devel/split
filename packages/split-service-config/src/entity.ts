@@ -5,9 +5,7 @@ export abstract class Entity<TFilter, TBody, TData> {
     this.body = body;
   }
 
-  public getBody(): TBody | undefined {
-    return this.body;
-  }
+  public abstract getBodyTransformed(): Promise<TData | undefined>;
 
   public abstract getOne(filter: TFilter): Promise<Entity<TFilter, TBody, TData> | null>;
 
@@ -20,4 +18,8 @@ export abstract class Entity<TFilter, TBody, TData> {
   public abstract create(entityData: TData): Promise<Entity<TFilter, TBody, TData> | null>;
 
   public abstract createAndReturnTransformed(entityData: TData): Promise<TData | null>;
+
+  public abstract updateOne(entityData: TData): Promise<void>;
+
+  public abstract updateOneAndReturnTransformed(entityData: TData): Promise<TData | null>;
 }

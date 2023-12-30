@@ -1,13 +1,9 @@
-import {AnonymousEndpointUseCase, ExecuteAnonymousControllerFunction, HttpStatus} from '@split-common/split-http';
+import {ExecuteAnonymousControllerFunction, HttpStatus} from '@split-common/split-http';
 import {Request, Response} from 'express';
 import winston from 'winston';
 
-import {
-  IndexHealthCheckRequestBody,
-  indexHealthCheckRequestBodySchema,
-  IndexHealthCheckRequestQuery,
-  indexHealthCheckRequestQuerySchema,
-} from '../schemas/index-health-check';
+import {indexHealthCheckRequestBodySchema, indexHealthCheckRequestQuerySchema} from '../schemas/index-health-check';
+import {indexHealthCheckUseCase} from '../use-cases';
 
 export const makeIndexHealthCheckController = (
     logger: winston.Logger,
@@ -17,9 +13,7 @@ export const makeIndexHealthCheckController = (
     await executeAnonymousController({
       req,
       res,
-      useCase: (async (body, query) => {
-        return {status: HttpStatus.OK, data: undefined};
-      }) as AnonymousEndpointUseCase<IndexHealthCheckRequestBody, IndexHealthCheckRequestQuery, undefined>,
+      useCase: indexHealthCheckUseCase,
       bodyParseResult: indexHealthCheckRequestBodySchema.safeParse(req.body),
       queryParseResult: indexHealthCheckRequestQuerySchema.safeParse(req.query),
     });

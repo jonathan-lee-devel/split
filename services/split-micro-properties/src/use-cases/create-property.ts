@@ -3,13 +3,18 @@ import {AuthenticatedEndpointUseCase, HttpStatus} from '@split-common/split-http
 import winston from 'winston';
 
 import {Property, PropertyEntity} from '../entities/PropertyEntity';
-import {CreatePropertyRequestBody, CreatePropertyRequestQuery} from '../schemas/create-property';
+import {CreatePropertyRequestBody, CreatePropertyRequestParams, CreatePropertyRequestQuery} from '../schemas/create-property';
 
 export const makeCreatePropertyUseCase = (
     logger: winston.Logger,
     PropertyEntity: PropertyEntity,
     generateId: GenerateIdFunction,
-): AuthenticatedEndpointUseCase<CreatePropertyRequestBody, CreatePropertyRequestQuery, Property> =>
+): AuthenticatedEndpointUseCase<
+  CreatePropertyRequestBody,
+  CreatePropertyRequestParams,
+  CreatePropertyRequestQuery,
+  Property
+> =>
   async (requestingUserEmail, body) => {
     const {name, tenantEmails} = body;
     logger.info(`Request from <${requestingUserEmail}> to create property with name ${name}`);

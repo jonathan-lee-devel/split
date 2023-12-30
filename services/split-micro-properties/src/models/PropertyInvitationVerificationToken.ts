@@ -1,14 +1,9 @@
 import {model, Schema} from 'mongoose';
 
-export interface PropertyInvitationVerificationToken {
-  value: string;
-  expiryDate: Date;
-  userEmail: string;
-  propertyId: string;
-  isAccepted: boolean;
-}
+import {PropertyInvitationVerificationToken} from '../entities/PropertyInvitationVerificationTokenEntity';
 
 export const propertyInvitationVerificationTokenSchema = new Schema<PropertyInvitationVerificationToken>({
+  id: {type: String, required: true, unique: true},
   value: {type: String, required: true, unique: true},
   expiryDate: {type: Date, required: true, unique: false},
   userEmail: {type: String, required: true, unique: false},

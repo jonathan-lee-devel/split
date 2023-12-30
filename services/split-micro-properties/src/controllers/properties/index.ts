@@ -1,14 +1,12 @@
-import {returnAnonymouslyBasedOnSafeParseResult, returnBasedOnAuthenticationAndSafeParseResult} from '@split-common/split-http';
+import {returnBasedOnAuthenticationAndSafeParseResult} from '@split-common/split-http';
 import {defaultModelTransform} from '@split-common/split-service-config';
 
-import {makeAcceptTenantInvitationToPropertyCallback} from './callbacks/accept-tenant-invitation-to-property';
 import {makeDeletePropertyByIdCallback} from './callbacks/delete-property-by-id';
 import {makeGetPropertiesWhereInvolvedCallback} from './callbacks/get-properties-where-involved';
 import {makeGetPropertyByIdCallback} from './callbacks/get-property-by-id';
 import {makeInviteTenantToPropertyCallback} from './callbacks/invite-tenant-to-property';
 import {makeTogglePropertyAdministratorStatusCallback} from './callbacks/toggle-property-administrator-status';
 import {makeTogglePropertyTenantStatusCallback} from './callbacks/toggle-property-tenant-status';
-import {makeMakeAcceptTenantInvitationToPropertyEndpoint} from './endpoints/accept-tenant-invitation-to-property';
 import {makeMakeDeletePropertyByIdEndpoint} from './endpoints/delete-property-by-id';
 import {makeMakeGetPropertiesWhereInvolvedEndpoint} from './endpoints/get-properties-where-involved';
 import {makeMakeGetPropertyByIdEndpoint} from './endpoints/get-property-by-id';
@@ -19,10 +17,6 @@ import {environment} from '../../environment';
 import logger from '../../logger';
 import {PropertyInvitationVerificationTokenModel, PropertyModel} from '../../models';
 import {makeMailToSendRabbitMQConnection} from '../../rabbitmq';
-import {
-  AcceptTenantInvitationToPropertyRequestBodySchema,
-  AcceptTenantInvitationToPropertyRequestQuerySchema,
-} from '../../schemas/accept-tenant-invitation-to-property';
 import {DeletePropertyByIdRequestBodySchema, DeletePropertyByIdRequestQuerySchema} from '../../schemas/delete-property-by-id';
 import {
   GetPropertiesWhereInvolvedRequestBodySchema,
@@ -90,15 +84,3 @@ export const inviteTenantToPropertyHandler = makeMakeInviteTenantToPropertyEndpo
         defaultModelTransform,
     ),
 );
-
-export const acceptTenantInvitationToPropertyHandler =
-  makeMakeAcceptTenantInvitationToPropertyEndpoint(returnAnonymouslyBasedOnSafeParseResult)(
-      AcceptTenantInvitationToPropertyRequestBodySchema,
-      AcceptTenantInvitationToPropertyRequestQuerySchema,
-      makeAcceptTenantInvitationToPropertyCallback(
-          logger,
-          PropertyModel,
-          PropertyInvitationVerificationTokenModel,
-          defaultModelTransform,
-      ),
-  );

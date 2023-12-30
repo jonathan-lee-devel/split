@@ -6,6 +6,7 @@ import {Property} from '../entities/PropertyEntity';
 import {
   CreatePropertyRequestBody,
   createPropertyRequestBodySchema,
+  CreatePropertyRequestParams,
   CreatePropertyRequestQuery,
   createPropertyRequestQuerySchema,
 } from '../schemas/create-property';
@@ -13,7 +14,11 @@ import {
 export const makeCreatePropertyController = (
     logger: winston.Logger,
     executeAuthenticatedController: ExecuteAuthenticatedControllerFunction,
-    createPropertyUseCase: AuthenticatedEndpointUseCase<CreatePropertyRequestBody, CreatePropertyRequestQuery, Property>,
+    createPropertyUseCase: AuthenticatedEndpointUseCase<
+      CreatePropertyRequestBody,
+      CreatePropertyRequestParams,
+      CreatePropertyRequestQuery,
+      Property>,
 ) => async (req: Request, res: Response) => {
   try {
     await executeAuthenticatedController({

@@ -3,9 +3,8 @@ import {defaultRateLimiter} from '@split-common/split-service-config';
 import {Router} from 'express';
 import passport from 'passport';
 
-import {createPropertyHandler, indexHealthCheckHandler} from './controllers';
+import {acceptTenantInvitationHandler, createPropertyHandler, indexHealthCheckHandler} from './controllers';
 import {
-  acceptTenantInvitationToPropertyHandler,
   deletePropertyByIdHandler,
   getPropertiesWhereInvolvedHandler,
   getPropertyByIdHandler,
@@ -20,7 +19,7 @@ const router = Router();
 router.get('/', indexHealthCheckHandler);
 
 // Anonymous Routes
-router.patch('/id/:propertyId/accept-invitation', defaultRateLimiter, acceptTenantInvitationToPropertyHandler as any);
+router.patch('/id/:propertyId/accept-invitation', defaultRateLimiter, acceptTenantInvitationHandler);
 
 // Protected Routes
 router.post('/', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), createPropertyHandler);

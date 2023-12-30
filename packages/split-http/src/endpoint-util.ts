@@ -13,10 +13,10 @@ export interface EndpointInformation<TBody, TQuery> {
   next?: NextFunction;
 }
 
-export interface ControllerEndpointInformation<TBody, TQuery, TData> {
+export interface ControllerEndpointInformation<TBody, TParams, TQuery, TData> {
   bodyParseResult: SafeParseSuccess<TBody> | SafeParseError<TBody>;
   queryParseResult: SafeParseSuccess<TQuery> | SafeParseError<TQuery>;
-  useCase: AnonymousEndpointUseCase<TBody, TQuery, TData> | AuthenticatedEndpointUseCase<TBody, TQuery, TData>,
+  useCase: AnonymousEndpointUseCase<TBody, TParams, TQuery, TData> | AuthenticatedEndpointUseCase<TBody, TParams, TQuery, TData>,
   req: Request | AuthenticatedRequest;
   res: Response;
 }
@@ -44,8 +44,8 @@ const returnBasedOnSafeParseResult = <TBody, TQuery>(
     endpointInformation.callback(endpointInformation.req as any, endpointInformation.res);
 };
 
-export const executeAnonymousController = async <TBody, TQuery, TData>(
-  controllerEndpointInformation: ControllerEndpointInformation<TBody, TQuery, TData>,
+export const executeAnonymousController = async <TBody, TParams, TQuery, TData>(
+  controllerEndpointInformation: ControllerEndpointInformation<TBody, TParams, TQuery, TData>,
 )=> {
   if (!controllerEndpointInformation.bodyParseResult.success) {
     return controllerEndpointInformation.res.status(HttpStatus.BAD_REQUEST).json(controllerEndpointInformation.bodyParseResult.error);
@@ -53,16 +53,19 @@ export const executeAnonymousController = async <TBody, TQuery, TData>(
     return controllerEndpointInformation.res.status(HttpStatus.BAD_REQUEST).json(controllerEndpointInformation.queryParseResult.error);
   }
 
-  let statusDataContainer: StatusDataContainer<TData | null | undefined>;
-  if (controllerEndpointInformation.req.user && controllerEndpointInformation.req.user.email) {
-    statusDataContainer = await (controllerEndpointInformation.useCase as AuthenticatedEndpointUseCase<TBody, TQuery, TData>)(
+  let statusDataContainer: StatusDataContainer<TData | ErrorResponse | null | undefined>;
+  if (controllerEndpointInformation.req.user &&
+    (controllerEndpointInformation.req as AuthenticatedRequest).user.email) {
+    statusDataContainer = await (controllerEndpointInformation.useCase as AuthenticatedEndpointUseCase<TBody, TParams, TQuery, TData>)(
       (controllerEndpointInformation.req as AuthenticatedRequest).user.email as string,
       controllerEndpointInformation.req.body as TBody,
+      controllerEndpointInformation.req.params as TParams,
       controllerEndpointInformation.req.query as TQuery,
     );
   } else {
-    statusDataContainer = await (controllerEndpointInformation.useCase as AnonymousEndpointUseCase<TBody, TQuery, TData>)(
+    statusDataContainer = await (controllerEndpointInformation.useCase as AnonymousEndpointUseCase<TBody, TParams, TQuery, TData>)(
       controllerEndpointInformation.req.body as TBody,
+      controllerEndpointInformation.req.params as TParams,
       controllerEndpointInformation.req.query as TQuery,
     );
   }
@@ -72,8 +75,8 @@ export const executeAnonymousController = async <TBody, TQuery, TData>(
 
 export type ExecuteAnonymousControllerFunction = typeof executeAnonymousController;
 
-export const executeAuthenticatedController = async <TBody, TQuery, TData>(
-  controllerEndpointInformation: ControllerEndpointInformation<TBody, TQuery, TData>,
+export const executeAuthenticatedController = async <TBody, TParams, TQuery, TData>(
+  controllerEndpointInformation: ControllerEndpointInformation<TBody, TParams, TQuery, TData>,
 ) => {
   if (!(controllerEndpointInformation.req as AuthenticatedRequest).user ||
     !(controllerEndpointInformation.req as AuthenticatedRequest).user.email ||
@@ -111,16 +114,22 @@ export type StatusDataContainer<TData> = {
   status: HttpStatus;
 }
 
-export type AuthenticatedEndpointUseCase<TBody, TQuery, TData> = (
+export type ErrorResponse = {
+  error: string;
+}
+
+export type AuthenticatedEndpointUseCase<TBody, TParams, TQuery, TData> = (
   requestingUserEmail: string,
   body: TBody,
+  params: TParams,
   query: TQuery,
-) => Promise<StatusDataContainer<TData | null | undefined>>;
+) => Promise<StatusDataContainer<TData | ErrorResponse | null | undefined>>;
 
-export type AnonymousEndpointUseCase<TBody, TQuery, TData> = (
+export type AnonymousEndpointUseCase<TBody, TParams, TQuery, TData> = (
   body: TBody,
+  params: TParams,
   query: TQuery,
-) => Promise<StatusDataContainer<TData | null | undefined>>;
+) => Promise<StatusDataContainer<TData | ErrorResponse | null | undefined>>;
 
 export type ReturnBasedOnAuthenticationAndSafeParseResultFunction<TBody, TQuery> = (
   endpointInformation: EndpointInformation<TBody, TQuery>,

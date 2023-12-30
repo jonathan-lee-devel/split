@@ -8,6 +8,10 @@ export const createPropertyRequestBodySchema = z.object({
 
 export type CreatePropertyRequestBody = z.infer<typeof createPropertyRequestBodySchema>;
 
+export const createPropertyRequestParamsSchema = z.object({});
+
+export type CreatePropertyRequestParams = z.infer<typeof createPropertyRequestParamsSchema>;
+
 export const createPropertyRequestQuerySchema = z.object({});
 
 export type CreatePropertyRequestQuery = z.infer<typeof createPropertyRequestQuerySchema>;
