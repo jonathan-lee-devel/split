@@ -2,9 +2,10 @@ import {executeAnonymousController, executeAuthenticatedController} from '@split
 
 import {makeAcceptTenantInvitationController} from './accept-tenant-invitation';
 import {makeCreatePropertyController} from './create-property';
+import {makeDeletePropertyByIdController} from './delete-property-by-id';
 import {makeIndexHealthCheckController} from './index-health-check';
 import logger from '../logger';
-import {acceptTenantInvitationUseCase, createPropertyUseCase} from '../use-cases';
+import {acceptTenantInvitationUseCase, createPropertyUseCase, deletePropertyByIdUseCase} from '../use-cases';
 
 
 export const indexHealthCheckHandler = makeIndexHealthCheckController(
@@ -22,4 +23,10 @@ export const acceptTenantInvitationHandler = makeAcceptTenantInvitationControlle
     logger,
     executeAnonymousController,
     acceptTenantInvitationUseCase,
+);
+
+export const deletePropertyByIdHandler = makeDeletePropertyByIdController(
+    logger,
+    executeAuthenticatedController,
+    deletePropertyByIdUseCase,
 );

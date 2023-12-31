@@ -3,9 +3,8 @@ import {defaultRateLimiter} from '@split-common/split-service-config';
 import {Router} from 'express';
 import passport from 'passport';
 
-import {acceptTenantInvitationHandler, createPropertyHandler, indexHealthCheckHandler} from './controllers';
+import {acceptTenantInvitationHandler, createPropertyHandler, deletePropertyByIdHandler, indexHealthCheckHandler} from './controllers';
 import {
-  deletePropertyByIdHandler,
   getPropertiesWhereInvolvedHandler,
   getPropertyByIdHandler,
   inviteTenantToPropertyHandler,
@@ -25,7 +24,7 @@ router.patch('/id/:propertyId/accept-invitation', defaultRateLimiter, acceptTena
 router.post('/', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), createPropertyHandler);
 router.get('/id/:propertyId', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), getPropertyByIdHandler as any);
 router.get('/where-involved', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), getPropertiesWhereInvolvedHandler as any);
-router.delete('/id/:propertyId', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), deletePropertyByIdHandler as any);
+router.delete('/id/:propertyId', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), deletePropertyByIdHandler);
 router.patch('/id/:propertyId/toggle-property-admin', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), togglePropertyAdministratorStatusHandler as any);
 router.patch('/id/:propertyId/toggle-property-tenant', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), togglePropertyTenantStatusHandler as any);
 router.patch('/id/:propertyId/invite-tenant', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), inviteTenantToPropertyHandler as any);
