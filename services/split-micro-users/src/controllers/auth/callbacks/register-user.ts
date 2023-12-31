@@ -21,15 +21,9 @@ export const makeRegisterUserCallback = (
     environment: Environment,
 ): AnonymousEndpointCallback<RegisterRequestBody, RegisterRequestQuery> =>
   wrapTryCatchAnonymous<RegisterRequestBody, RegisterRequestQuery>(async (req, res) => {
-    const {email, firstName, lastName, password, confirmPassword, acceptTermsAndConditions} = req.body;
+    const {email, firstName, lastName, password} = req.body;
     if (await handleExistingUser(email)) {
       return res.status(HttpStatus.CONFLICT).send();
-    }
-    if (!acceptTermsAndConditions) {
-      return res.status(HttpStatus.BAD_REQUEST).json({error: 'You must accept the terms and conditions'});
-    }
-    if (password !== confirmPassword) {
-      return res.status(HttpStatus.BAD_REQUEST).json({error: 'Passwords do not match'});
     }
 
     const newUser: User = {
