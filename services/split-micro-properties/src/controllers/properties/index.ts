@@ -17,7 +17,7 @@ import {environment} from '../../environment';
 import logger from '../../logger';
 import {PropertyInvitationVerificationTokenModel, PropertyModel} from '../../models';
 import {makeMailToSendRabbitMQConnection} from '../../rabbitmq';
-import {DeletePropertyByIdRequestBodySchema, DeletePropertyByIdRequestQuerySchema} from '../../schemas/delete-property-by-id';
+import {deletePropertyByIdRequestBodySchema, deletePropertyByIdRequestQuerySchema} from '../../schemas/delete-property-by-id';
 import {
   GetPropertiesWhereInvolvedRequestBodySchema,
   GetPropertiesWhereInvolvedRequestQuerySchema,
@@ -52,8 +52,8 @@ export const getPropertiesWhereInvolvedHandler = makeMakeGetPropertiesWhereInvol
 );
 
 export const deletePropertyByIdHandler = makeMakeDeletePropertyByIdEndpoint(returnBasedOnAuthenticationAndSafeParseResult)(
-    DeletePropertyByIdRequestBodySchema,
-    DeletePropertyByIdRequestQuerySchema,
+    deletePropertyByIdRequestBodySchema,
+    deletePropertyByIdRequestQuerySchema,
     makeDeletePropertyByIdCallback(logger, PropertyModel, defaultModelTransform),
 );
 

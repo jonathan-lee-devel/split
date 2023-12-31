@@ -12,20 +12,20 @@ export const makePropertyInvitationTokenEntity = (
     verifyToken: async (tokenValue: string) => {
       const token = await propertyInvitationTokenDAO.getOneTransformed({value: tokenValue});
       if (!token) {
-        return {status: HttpStatus.BAD_REQUEST, data: {error: `No token found for that value`}};
+        return {status: HttpStatus.BAD_REQUEST, error: `No token found for that value`};
       }
 
       if (token.isAccepted) {
-        return {status: HttpStatus.BAD_REQUEST, data: {error: `This invitation has already been accepted`}};
+        return {status: HttpStatus.BAD_REQUEST, error: `This invitation has already been accepted`};
       }
 
       if (isAfter(new Date(), token.expiryDate)) {
-        return {status: HttpStatus.BAD_REQUEST, data: {error: `This token is expired, you will need to be re-invited`}};
+        return {status: HttpStatus.BAD_REQUEST, error: `This token is expired, you will need to be re-invited`};
       }
 
       const property = await propertyDAO.getOneTransformed({id: token.propertyId});
       if (!property) {
-        return {status: HttpStatus.BAD_REQUEST, data: {error: `No property found for that token value or property does not match path`}};
+        return {status: HttpStatus.BAD_REQUEST, error: `No property found for that token value or property does not match path`};
       }
 
       return {status: HttpStatus.OK, data: {token, property}};
@@ -37,7 +37,9 @@ export const makePropertyInvitationTokenEntity = (
       const updatedProperty = await propertyDAO.updateOneAndReturnTransformed(property);
       token.isAccepted = true;
       await propertyInvitationTokenDAO.updateOne(token);
-      return updatedProperty;
+      return (updatedProperty) ?
+        {status: HttpStatus.OK, data: updatedProperty} :
+        {status: HttpStatus.INTERNAL_SERVER_ERROR, error: `Could not update property with ID: ${property.id}`};
     },
   };
 };

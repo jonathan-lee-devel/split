@@ -1,4 +1,4 @@
-import {AnonymousEndpointUseCase, ErrorResponse, HttpStatus, nullToUndefined, StatusDataContainer} from '@split-common/split-http';
+import {AnonymousEndpointUseCase, HttpStatus, StatusDataContainer} from '@split-common/split-http';
 import winston from 'winston';
 
 import {PropertyDto} from '../dtos';
@@ -25,10 +25,9 @@ export const makeAcceptTenantInvitationToPropertyUseCase = (
 
     const tokenVerificationResponse = await propertyInvitationTokenEntity.verifyToken(tokenValue);
     if (tokenVerificationResponse.status !== HttpStatus.OK) {
-      return tokenVerificationResponse as StatusDataContainer<ErrorResponse>;
+      return tokenVerificationResponse as StatusDataContainer<PropertyDto>; // Will contain status and error fields, data undefined
     }
 
-    const {token, property} = tokenVerificationResponse.data;
-    const updatedProperty = await propertyInvitationTokenEntity.acceptValidInvitationToken(token!, property!);
-    return {status: (updatedProperty) ? HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR, data: nullToUndefined(updatedProperty)};
+    const {token, property} = tokenVerificationResponse.data!; // Known to be defined as status is OK
+    return await propertyInvitationTokenEntity.acceptValidInvitationToken(token, property);
   };

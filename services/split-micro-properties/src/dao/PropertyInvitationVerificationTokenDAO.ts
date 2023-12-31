@@ -1,7 +1,8 @@
-import {DAO, ModelTransformFunction} from '@split-common/split-service-config';
+import {DAO, defaultModelTransform, ModelTransformFunction} from '@split-common/split-service-config';
 import {Document, FilterQuery, Model, ObjectId} from 'mongoose';
 
 import {PropertyInvitationVerificationTokenDto} from '../dtos';
+import {PropertyInvitationVerificationTokenModel} from '../models';
 
 export interface PropertyInvitationVerificationToken {
   id: string;
@@ -87,6 +88,14 @@ export class PropertyInvitationVerificationTokenDAO extends DAO<
     return (updatedToken) ? updatedToken.toJSON({transform: this.transform}) : null;
   }
 
+  async deleteOneById(entityId: string): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
+
+  async deleteOneByIdAndReturnTransformed(entityId: string): Promise<PropertyInvitationVerificationTokenDto | null> {
+    throw new Error('Method not implemented.');
+  }
+
   private async updateTokenById(entityData: PropertyInvitationVerificationToken): Promise<void> {
     await this.propertyInvitationVerificationTokenModel.updateOne({id: entityData.id}, {
       $set: {
@@ -99,3 +108,8 @@ export class PropertyInvitationVerificationTokenDAO extends DAO<
     }).exec();
   }
 }
+
+export const makeDefaultPropertyInvitationVerificationTokenDao = () => new PropertyInvitationVerificationTokenDAO(
+    PropertyInvitationVerificationTokenModel,
+    defaultModelTransform,
+);

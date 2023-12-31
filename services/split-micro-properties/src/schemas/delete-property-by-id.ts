@@ -1,9 +1,16 @@
+import {DEFAULT_ID_LENGTH} from '@split-common/split-constants';
 import {z} from 'zod';
 
-export const DeletePropertyByIdRequestBodySchema = z.object({});
+export const deletePropertyByIdRequestBodySchema = z.object({});
 
-export type DeletePropertyByIdRequestBody = z.infer<typeof DeletePropertyByIdRequestBodySchema>;
+export type DeletePropertyByIdRequestBody = z.infer<typeof deletePropertyByIdRequestBodySchema>;
 
-export const DeletePropertyByIdRequestQuerySchema = z.object({});
+export const deletePropertyByIdRequestParamsSchema = z.object({
+  propertyId: z.string().min(DEFAULT_ID_LENGTH).max(DEFAULT_ID_LENGTH),
+});
 
-export type DeletePropertyByIdRequestQuery = z.infer<typeof DeletePropertyByIdRequestQuerySchema>;
+export type DeletePropertyByIdRequestParams = z.infer<typeof deletePropertyByIdRequestParamsSchema>;
+
+export const deletePropertyByIdRequestQuerySchema = z.object({});
+
+export type DeletePropertyByIdRequestQuery = z.infer<typeof deletePropertyByIdRequestQuerySchema>;

@@ -1,4 +1,4 @@
-import {AuthenticatedEndpointUseCase, HttpStatus, nullToUndefined} from '@split-common/split-http';
+import {AuthenticatedEndpointUseCase} from '@split-common/split-http';
 import winston from 'winston';
 
 import {PropertyDto} from '../dtos';
@@ -17,7 +17,5 @@ export const makeCreatePropertyUseCase = (
     const {name, tenantEmails} = body;
     logger.info(`Request from <${requestingUserEmail}> to create property with name ${name}`);
 
-    const property = await propertyEntity.createNewProperty(requestingUserEmail, name, tenantEmails);
-
-    return {status: (property) ? HttpStatus.CREATED : HttpStatus.INTERNAL_SERVER_ERROR, data: nullToUndefined(property)};
+    return await propertyEntity.createNewProperty(requestingUserEmail, name, tenantEmails);
   };

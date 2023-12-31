@@ -1,15 +1,9 @@
-import {defaultModelTransform} from '@split-common/split-service-config';
-
-import {PropertyDAO} from './PropertyDAO';
-import {PropertyInvitationVerificationTokenDAO} from './PropertyInvitationVerificationTokenDAO';
-import {PropertyInvitationVerificationTokenModel, PropertyModel} from '../models';
+import {makeDefaultPropertyDao} from './PropertyDAO';
+import {makeDefaultPropertyInvitationVerificationTokenDao} from './PropertyInvitationVerificationTokenDAO';
 
 export * from './PropertyDAO';
 export * from './PropertyInvitationVerificationTokenDAO';
 
-export const makeDefaultPropertyDao = () => new PropertyDAO(PropertyModel, defaultModelTransform);
+export const defaultPropertyDao = makeDefaultPropertyDao();
 
-export const makeDefaultPropertyInvitationVerificationTokenDao = () => new PropertyInvitationVerificationTokenDAO(
-    PropertyInvitationVerificationTokenModel,
-    defaultModelTransform,
-);
+export const defaultPropertyInvitationTokenDao = makeDefaultPropertyInvitationVerificationTokenDao();

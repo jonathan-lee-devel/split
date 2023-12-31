@@ -22,4 +22,8 @@ export abstract class DAO<TFilter, TBody, TData, TTransformed> {
   public abstract updateOne(entityData: TData): Promise<void>;
 
   public abstract updateOneAndReturnTransformed(entityData: TData): Promise<TTransformed | null>;
+
+  public abstract deleteOneById(entityId: string): Promise<void>;
+
+  public abstract deleteOneByIdAndReturnTransformed(entityId: string): Promise<TTransformed | null>;
 }

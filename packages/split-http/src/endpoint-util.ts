@@ -113,8 +113,9 @@ export type AuthenticatedEndpointCallback<TBody, TQuery> = (
 ) => Promise<Response<any, Record<string, any>>> | undefined;
 
 export type StatusDataContainer<TData> = {
-  data: TData;
   status: HttpStatus;
+  data?: TData | undefined;
+  error?: string | undefined;
 }
 
 export type ErrorResponse = {
@@ -126,13 +127,13 @@ export type AuthenticatedEndpointUseCase<TBody, TParams, TQuery, TTransformed> =
   body: TBody,
   params: TParams,
   query: TQuery,
-) => Promise<StatusDataContainer<TTransformed | ErrorResponse | null | undefined>>;
+) => Promise<StatusDataContainer<TTransformed>>;
 
 export type AnonymousEndpointUseCase<TBody, TParams, TQuery, TTransformed> = (
   body: TBody,
   params: TParams,
   query: TQuery,
-) => Promise<StatusDataContainer<TTransformed | ErrorResponse | null | undefined>>;
+) => Promise<StatusDataContainer<TTransformed>>;
 
 export type ReturnBasedOnAuthenticationAndSafeParseResultFunction<TBody, TQuery> = (
   endpointInformation: EndpointInformation<TBody, TQuery>,

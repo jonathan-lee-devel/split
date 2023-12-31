@@ -1,7 +1,8 @@
-import {DAO, ModelTransformFunction} from '@split-common/split-service-config';
+import {DAO, defaultModelTransform, ModelTransformFunction} from '@split-common/split-service-config';
 import {Document, FilterQuery, Model, ObjectId} from 'mongoose';
 
 import {PropertyDto} from '../dtos';
+import {PropertyModel} from '../models';
 
 export interface Property {
   id: string;
@@ -69,6 +70,16 @@ export class PropertyDAO extends DAO<
     return (updatedProperty) ? updatedProperty.toJSON({transform: this.transform}) : null;
   }
 
+  async deleteOneById(entityId: string): Promise<void> {
+    await this.propertyModel.deleteOne({id: entityId}).exec();
+  }
+
+  async deleteOneByIdAndReturnTransformed(entityId: string): Promise<PropertyDto | null> {
+    const property = await this.propertyModel.findOne({id: entityId}).exec();
+    await this.propertyModel.deleteOne({id: entityId}).exec();
+    return (property) ? property.toJSON({transform: this.transform}) : null;
+  }
+
   private async updatePropertyById(entityData: Property): Promise<void> {
     await this.propertyModel.updateOne({id: entityData.id}, {
       $set: {
@@ -81,3 +92,5 @@ export class PropertyDAO extends DAO<
     }).exec();
   }
 }
+
+export const makeDefaultPropertyDao = () => new PropertyDAO(PropertyModel, defaultModelTransform);
