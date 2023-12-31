@@ -11,3 +11,7 @@ export type GetPropertiesWhereInvolvedRequestParams = z.infer<typeof getProperti
 export const getPropertiesWhereInvolvedRequestQuerySchema = z.object({});
 
 export type GetPropertiesWhereInvolvedRequestQuery = z.infer<typeof getPropertiesWhereInvolvedRequestQuerySchema>;
+
+export const getPropertiesWhereInvolvedRequestHeadersSchema = z.object({});
+
+export type GetPropertiesWhereInvolvedRequestHeaders = z.infer<typeof getPropertiesWhereInvolvedRequestHeadersSchema>;

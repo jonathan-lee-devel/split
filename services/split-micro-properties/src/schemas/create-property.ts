@@ -15,3 +15,7 @@ export type CreatePropertyRequestParams = z.infer<typeof createPropertyRequestPa
 export const createPropertyRequestQuerySchema = z.object({});
 
 export type CreatePropertyRequestQuery = z.infer<typeof createPropertyRequestQuerySchema>;
+
+export const createPropertyRequestHeadersSchema = z.object({});
+
+export type CreatePropertyRequestHeaders = z.infer<typeof createPropertyRequestHeadersSchema>;

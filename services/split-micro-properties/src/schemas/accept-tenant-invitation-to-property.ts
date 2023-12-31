@@ -16,3 +16,7 @@ export type AcceptTenantInvitationToPropertyRequestParams = z.infer<typeof accep
 export const acceptTenantInvitationToPropertyRequestQuerySchema = z.object({});
 
 export type AcceptTenantInvitationToPropertyRequestQuery = z.infer<typeof acceptTenantInvitationToPropertyRequestQuerySchema>;
+
+export const acceptTenantInvitationToPropertyRequestHeadersSchema = z.object({});
+
+export type AcceptTenantInvitationToPropertyRequestHeaders = z.infer<typeof acceptTenantInvitationToPropertyRequestHeadersSchema>;

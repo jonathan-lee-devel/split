@@ -5,6 +5,7 @@ import {PropertyDto} from '../dtos';
 import {PropertyEntity} from '../entities';
 import {
   TogglePropertyAdministratorStatusRequestBody,
+  TogglePropertyAdministratorStatusRequestHeaders,
   TogglePropertyAdministratorStatusRequestParams,
   TogglePropertyAdministratorStatusRequestQuery,
 } from '../schemas';
@@ -16,6 +17,7 @@ export const makeTogglePropertyAdministratorStatusController = (
   TogglePropertyAdministratorStatusRequestBody,
   TogglePropertyAdministratorStatusRequestParams,
   TogglePropertyAdministratorStatusRequestQuery,
+  TogglePropertyAdministratorStatusRequestHeaders,
   PropertyDto> =>
   async (requestingUserEmail, body, params) => {
     const {emailToToggle} = body;

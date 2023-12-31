@@ -16,3 +16,7 @@ export type TogglePropertyTenantStatusRequestParams = z.infer<typeof togglePrope
 export const togglePropertyTenantStatusRequestQuerySchema = z.object({});
 
 export type TogglePropertyTenantStatusRequestQuery = z.infer<typeof togglePropertyTenantStatusRequestQuerySchema>;
+
+export const togglePropertyTenantStatusRequestHeadersSchema = z.object({});
+
+export type TogglePropertyTenantStatusRequestHeaders = z.infer<typeof togglePropertyTenantStatusRequestHeadersSchema>;

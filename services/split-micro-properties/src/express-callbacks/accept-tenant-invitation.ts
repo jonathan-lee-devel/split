@@ -5,6 +5,8 @@ import {PropertyDto} from '../dtos';
 import {
   AcceptTenantInvitationToPropertyRequestBody,
   acceptTenantInvitationToPropertyRequestBodySchema,
+  AcceptTenantInvitationToPropertyRequestHeaders,
+  acceptTenantInvitationToPropertyRequestHeadersSchema,
   AcceptTenantInvitationToPropertyRequestParams,
   acceptTenantInvitationToPropertyRequestParamsSchema,
   AcceptTenantInvitationToPropertyRequestQuery,
@@ -18,6 +20,7 @@ export const makeAcceptTenantInvitationHandler = (
     AcceptTenantInvitationToPropertyRequestBody,
     AcceptTenantInvitationToPropertyRequestParams,
     AcceptTenantInvitationToPropertyRequestQuery,
+    AcceptTenantInvitationToPropertyRequestHeaders,
     PropertyDto>,
 ) => async (req: Request, res: Response) => {
   try {
@@ -28,6 +31,7 @@ export const makeAcceptTenantInvitationHandler = (
       bodyParseResult: acceptTenantInvitationToPropertyRequestBodySchema.safeParse(req.body),
       paramsParseResult: acceptTenantInvitationToPropertyRequestParamsSchema.safeParse(req.params),
       queryParseResult: acceptTenantInvitationToPropertyRequestQuerySchema.safeParse(req.query),
+      headersParseResult: acceptTenantInvitationToPropertyRequestHeadersSchema.safeParse(req.headers),
     });
   } catch (err) {
     handleUnhandledControllerError('acceptTenantInvitationController', err, res);

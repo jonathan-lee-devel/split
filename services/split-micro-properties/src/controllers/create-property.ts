@@ -3,7 +3,7 @@ import winston from 'winston';
 
 import {PropertyDto} from '../dtos';
 import {PropertyEntity} from '../entities';
-import {CreatePropertyRequestBody, CreatePropertyRequestParams, CreatePropertyRequestQuery} from '../schemas';
+import {CreatePropertyRequestBody, CreatePropertyRequestHeaders, CreatePropertyRequestParams, CreatePropertyRequestQuery} from '../schemas';
 
 export const makeCreatePropertyController = (
     logger: winston.Logger,
@@ -12,6 +12,7 @@ export const makeCreatePropertyController = (
   CreatePropertyRequestBody,
   CreatePropertyRequestParams,
   CreatePropertyRequestQuery,
+  CreatePropertyRequestHeaders,
   PropertyDto> =>
   async (requestingUserEmail, body) => {
     const {name, tenantEmails} = body;

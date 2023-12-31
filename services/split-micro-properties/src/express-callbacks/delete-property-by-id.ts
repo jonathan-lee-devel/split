@@ -9,6 +9,8 @@ import {PropertyDto} from '../dtos';
 import {
   DeletePropertyByIdRequestBody,
   deletePropertyByIdRequestBodySchema,
+  DeletePropertyByIdRequestHeaders,
+  deletePropertyByIdRequestHeadersSchema,
   DeletePropertyByIdRequestParams,
   deletePropertyByIdRequestParamsSchema,
   DeletePropertyByIdRequestQuery,
@@ -22,6 +24,7 @@ export const makeDeletePropertyByIdHandler = (
     DeletePropertyByIdRequestBody,
     DeletePropertyByIdRequestParams,
     DeletePropertyByIdRequestQuery,
+    DeletePropertyByIdRequestHeaders,
     PropertyDto>,
 ) => async (req: Request, res: Response) => {
   try {
@@ -32,6 +35,7 @@ export const makeDeletePropertyByIdHandler = (
       bodyParseResult: deletePropertyByIdRequestBodySchema.safeParse(req.body),
       paramsParseResult: deletePropertyByIdRequestParamsSchema.safeParse(req.params),
       queryParseResult: deletePropertyByIdRequestQuerySchema.safeParse(req.query),
+      headersParseResult: deletePropertyByIdRequestHeadersSchema.safeParse(req.headers),
     });
   } catch (err) {
     handleUnhandledControllerError('deletePropertyByIdController', err, res);

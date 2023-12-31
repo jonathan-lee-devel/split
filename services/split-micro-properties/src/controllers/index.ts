@@ -2,6 +2,7 @@ import {makeAcceptTenantInvitationToPropertyController} from './accept-tenant-in
 import {makeCreatePropertyController} from './create-property';
 import {makeDeletePropertyByIdController} from './delete-property-by-id';
 import {makeGetPropertiesWhereInvolvedController} from './get-properties-where-involved';
+import {makeGetPropertyByIdController} from './get-property-by-id';
 import {makeIndexHealthCheckController} from './index-health-check';
 import {makeTogglePropertyAdministratorStatusController} from './toggle-property-administrator-status';
 import {makeTogglePropertyTenantStatusController} from './toggle-property-tenant-status';
@@ -36,6 +37,11 @@ export const togglePropertyAdministratorStatusController = makeTogglePropertyAdm
 );
 
 export const togglePropertyTenantStatusController = makeTogglePropertyTenantStatusController(
+    logger,
+    propertyEntity,
+);
+
+export const getPropertyByIdController = makeGetPropertyByIdController(
     logger,
     propertyEntity,
 );

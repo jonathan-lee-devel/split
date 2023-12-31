@@ -16,3 +16,7 @@ export type TogglePropertyAdministratorStatusRequestParams = z.infer<typeof togg
 export const togglePropertyAdministratorStatusRequestQuerySchema = z.object({});
 
 export type TogglePropertyAdministratorStatusRequestQuery = z.infer<typeof togglePropertyAdministratorStatusRequestQuerySchema>;
+
+export const togglePropertyAdministratorStatusRequestHeadersSchema = z.object({});
+
+export type TogglePropertyAdministratorStatusRequestHeaders = z.infer<typeof togglePropertyAdministratorStatusRequestHeadersSchema>;

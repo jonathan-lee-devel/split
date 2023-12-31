@@ -3,7 +3,12 @@ import winston from 'winston';
 
 import {PropertyDto} from '../dtos';
 import {PropertyEntity} from '../entities';
-import {DeletePropertyByIdRequestBody, DeletePropertyByIdRequestParams, DeletePropertyByIdRequestQuery} from '../schemas';
+import {
+  DeletePropertyByIdRequestBody,
+  DeletePropertyByIdRequestHeaders,
+  DeletePropertyByIdRequestParams,
+  DeletePropertyByIdRequestQuery,
+} from '../schemas';
 
 export const makeDeletePropertyByIdController = (
     logger: winston.Logger,
@@ -12,6 +17,7 @@ export const makeDeletePropertyByIdController = (
   DeletePropertyByIdRequestBody,
   DeletePropertyByIdRequestParams,
   DeletePropertyByIdRequestQuery,
+  DeletePropertyByIdRequestHeaders,
   PropertyDto> =>
   async (requestingUserEmail, _body, params) => {
     const {propertyId} = params;

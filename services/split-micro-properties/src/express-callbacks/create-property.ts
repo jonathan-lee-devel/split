@@ -9,6 +9,8 @@ import {PropertyDto} from '../dtos';
 import {
   CreatePropertyRequestBody,
   createPropertyRequestBodySchema,
+  CreatePropertyRequestHeaders,
+  createPropertyRequestHeadersSchema,
   CreatePropertyRequestParams,
   createPropertyRequestParamsSchema,
   CreatePropertyRequestQuery,
@@ -22,6 +24,7 @@ export const makeCreatePropertyHandler = (
       CreatePropertyRequestBody,
       CreatePropertyRequestParams,
       CreatePropertyRequestQuery,
+      CreatePropertyRequestHeaders,
       PropertyDto>,
 ) => async (req: Request, res: Response) => {
   try {
@@ -32,6 +35,7 @@ export const makeCreatePropertyHandler = (
       bodyParseResult: createPropertyRequestBodySchema.safeParse(req.body),
       paramsParseResult: createPropertyRequestParamsSchema.safeParse(req.params),
       queryParseResult: createPropertyRequestQuerySchema.safeParse(req.query),
+      headersParseResult: createPropertyRequestHeadersSchema.safeParse(req.headers),
     });
   } catch (err) {
     handleUnhandledControllerError('createPropertyController', err, res);

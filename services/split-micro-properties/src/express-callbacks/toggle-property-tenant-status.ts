@@ -9,6 +9,8 @@ import {PropertyDto} from '../dtos';
 import {
   TogglePropertyTenantStatusRequestBody,
   togglePropertyTenantStatusRequestBodySchema,
+  TogglePropertyTenantStatusRequestHeaders,
+  togglePropertyTenantStatusRequestHeadersSchema,
   TogglePropertyTenantStatusRequestParams,
   togglePropertyTenantStatusRequestParamsSchema,
   TogglePropertyTenantStatusRequestQuery,
@@ -22,6 +24,7 @@ export const makeTogglePropertyTenantStatusHandler = (
       TogglePropertyTenantStatusRequestBody,
       TogglePropertyTenantStatusRequestParams,
       TogglePropertyTenantStatusRequestQuery,
+      TogglePropertyTenantStatusRequestHeaders,
       PropertyDto>,
 ) => async (req: Request, res: Response) => {
   try {
@@ -32,6 +35,7 @@ export const makeTogglePropertyTenantStatusHandler = (
       bodyParseResult: togglePropertyTenantStatusRequestBodySchema.safeParse(req.body),
       paramsParseResult: togglePropertyTenantStatusRequestParamsSchema.safeParse(req.params),
       queryParseResult: togglePropertyTenantStatusRequestQuerySchema.safeParse(req.query),
+      headersParseResult: togglePropertyTenantStatusRequestHeadersSchema.safeParse(req.headers),
     });
   } catch (err) {
     handleUnhandledControllerError('togglePropertyTenantStatusController', err, res);

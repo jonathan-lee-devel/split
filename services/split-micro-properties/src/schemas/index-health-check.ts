@@ -11,3 +11,7 @@ export type IndexHealthCheckRequestParams = z.infer<typeof indexHealthCheckReque
 export const indexHealthCheckRequestQuerySchema = z.object({});
 
 export type IndexHealthCheckRequestQuery = z.infer<typeof indexHealthCheckRequestQuerySchema>;
+
+export const indexHealthCheckRequestHeadersSchema = z.object({});
+
+export type IndexHealthCheckRequestHeaders = z.infer<typeof indexHealthCheckRequestHeadersSchema>;

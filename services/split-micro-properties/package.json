@@ -1,6 +1,6 @@
 {
   "name": "@split-micro/split-micro-properties",
-  "version": "0.3.18",
+  "version": "0.3.19",
   "description": "Microservice for handling properties",
   "repository": "https://github.com/jonathan-lee-devel/split.git",
   "author": "Jonathan Lee <jonathan.lee.devel@gmail.com>",

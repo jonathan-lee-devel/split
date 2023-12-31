@@ -5,6 +5,7 @@ import {PropertyDto} from '../dtos';
 import {PropertyInvitationTokenEntity} from '../entities';
 import {
   AcceptTenantInvitationToPropertyRequestBody,
+  AcceptTenantInvitationToPropertyRequestHeaders,
   AcceptTenantInvitationToPropertyRequestParams,
   AcceptTenantInvitationToPropertyRequestQuery,
 } from '../schemas';
@@ -16,6 +17,7 @@ export const makeAcceptTenantInvitationToPropertyController = (
   AcceptTenantInvitationToPropertyRequestBody,
   AcceptTenantInvitationToPropertyRequestParams,
   AcceptTenantInvitationToPropertyRequestQuery,
+  AcceptTenantInvitationToPropertyRequestHeaders,
   PropertyDto> =>
   async (body, params) => {
     const {tokenValue} = body;

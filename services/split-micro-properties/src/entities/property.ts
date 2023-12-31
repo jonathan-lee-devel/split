@@ -8,7 +8,7 @@ export const makePropertyEntity = (
     propertyDAO: PropertyDAO,
     generateId: GenerateIdFunction,
 ) => {
-  const getPropertyWithErrors = async (requestingUserEmail: string, propertyId: string) => {
+  const getPropertyForModificationWithErrors = async (requestingUserEmail: string, propertyId: string) => {
     const property = await propertyDAO.getOneTransformed({id: propertyId});
     if (!property) {
       return {status: HttpStatus.NOT_FOUND, error: `Property with ID: ${propertyId} not found`};
@@ -27,6 +27,7 @@ export const makePropertyEntity = (
       {status: HttpStatus.OK, data: updatedProperty} :
       {status: HttpStatus.INTERNAL_SERVER_ERROR, error: `Failed to update property with ID: ${propertyData.id}`};
   };
+
   return {
     createNewProperty: async (requestingUserEmail: string, name: string, tenantEmails: string[]) => {
       const createdProperty = await propertyDAO.createAndReturnTransformed({
@@ -65,7 +66,7 @@ export const makePropertyEntity = (
       };
     },
     togglePropertyAdministratorStatus: async (requestingUserEmail: string, propertyId: string, emailToToggle: string)=> {
-      const getPropertyResponse = await getPropertyWithErrors(requestingUserEmail, propertyId);
+      const getPropertyResponse = await getPropertyForModificationWithErrors(requestingUserEmail, propertyId);
       if (getPropertyResponse.status !== HttpStatus.OK) {
         return getPropertyResponse;
       }
@@ -88,7 +89,7 @@ export const makePropertyEntity = (
       return updatePropertyWithErrors(property);
     },
     togglePropertyTenantStatus: async (requestingUserEmail: string, propertyId: string, emailToToggle: string) => {
-      const getPropertyResponse = await getPropertyWithErrors(requestingUserEmail, propertyId);
+      const getPropertyResponse = await getPropertyForModificationWithErrors(requestingUserEmail, propertyId);
       if (getPropertyResponse.status !== HttpStatus.OK) {
         return getPropertyResponse;
       }
@@ -106,6 +107,19 @@ export const makePropertyEntity = (
       }
 
       return updatePropertyWithErrors(property);
+    },
+    getPropertyById: async (requestingUserEmail: string, propertyId: string) => {
+      const property = await propertyDAO.getOneTransformed({id: propertyId});
+      if (!property) {
+        return {status: HttpStatus.NOT_FOUND, error: `Property with ID: ${propertyId} not found`};
+      }
+
+      if (!property.administratorEmails.includes(requestingUserEmail) &&
+        !property.tenantEmails.includes(requestingUserEmail)) {
+        return {status: HttpStatus.FORBIDDEN, error: `${requestingUserEmail} is not permitted to view property with ID: ${propertyId}`};
+      }
+
+      return {status: HttpStatus.OK, data: property};
     },
   };
 };

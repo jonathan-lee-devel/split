@@ -10,8 +10,8 @@ import logger from '../../logger';
 import {PropertyInvitationVerificationTokenModel, PropertyModel} from '../../models';
 import {makeMailToSendRabbitMQConnection} from '../../rabbitmq';
 import {
-  GetPropertyByIdRequestBodySchema,
-  GetPropertyByIdRequestQuerySchema,
+  getPropertyByIdRequestBodySchema,
+  getPropertyByIdRequestQuerySchema,
   InviteTenantToPropertyRequestBodySchema,
   InviteTenantToPropertyRequestQuerySchema,
 } from '../../schemas';
@@ -23,8 +23,8 @@ const rabbitMQConnectionPromise = makeMailToSendRabbitMQConnection(
 );
 
 export const getPropertyByIdHandler = makeMakeGetPropertyByIdEndpoint(returnBasedOnAuthenticationAndSafeParseResult)(
-    GetPropertyByIdRequestBodySchema,
-    GetPropertyByIdRequestQuerySchema,
+    getPropertyByIdRequestBodySchema,
+    getPropertyByIdRequestQuerySchema,
     makeGetPropertyByIdCallback(logger, PropertyModel, defaultModelTransform),
 );
 

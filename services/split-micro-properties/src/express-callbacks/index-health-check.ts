@@ -4,6 +4,8 @@ import {Request, Response} from 'express';
 import {
   IndexHealthCheckRequestBody,
   indexHealthCheckRequestBodySchema,
+  IndexHealthCheckRequestHeaders,
+  indexHealthCheckRequestHeadersSchema,
   IndexHealthCheckRequestParams,
   indexHealthCheckRequestParamsSchema,
   IndexHealthCheckRequestQuery,
@@ -17,6 +19,7 @@ export const makeIndexHealthCheckController = (
     IndexHealthCheckRequestBody,
     IndexHealthCheckRequestParams,
     IndexHealthCheckRequestQuery,
+    IndexHealthCheckRequestHeaders,
     never>,
 ) => async (req: Request, res: Response) => {
   try {
@@ -27,6 +30,7 @@ export const makeIndexHealthCheckController = (
       bodyParseResult: indexHealthCheckRequestBodySchema.safeParse(req.body),
       paramsParseResult: indexHealthCheckRequestParamsSchema.safeParse(req.params),
       queryParseResult: indexHealthCheckRequestQuerySchema.safeParse(req.query),
+      headersParseResult: indexHealthCheckRequestHeadersSchema.safeParse(req.headers),
     });
   } catch (err) {
     handleUnhandledControllerError('indexHealthCheckController', err, res);

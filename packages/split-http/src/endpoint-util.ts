@@ -13,11 +13,14 @@ export interface EndpointInformation<TBody, TQuery> {
   next?: NextFunction;
 }
 
-export interface ControllerEndpointInformation<TBody, TParams, TQuery, TData> {
+export interface ControllerEndpointInformation<TBody, TParams, TQuery, THeaders, TData> {
   bodyParseResult: SafeParseSuccess<TBody> | SafeParseError<TBody>;
   paramsParseResult: SafeParseSuccess<TParams> | SafeParseError<TParams>;
   queryParseResult: SafeParseSuccess<TQuery> | SafeParseError<TQuery>;
-  controller: AnonymousController<TBody, TParams, TQuery, TData> | AuthenticatedController<TBody, TParams, TQuery, TData>,
+  headersParseResult: SafeParseSuccess<THeaders> | SafeParseError<THeaders>;
+  controller:
+    AnonymousController<TBody, TParams, TQuery, THeaders, TData> |
+    AuthenticatedController<TBody, TParams, TQuery, THeaders, TData>,
   req: Request | AuthenticatedRequest;
   res: Response;
 }
@@ -45,8 +48,8 @@ const returnBasedOnSafeParseResult = <TBody, TQuery>(
     endpointInformation.callback(endpointInformation.req as any, endpointInformation.res);
 };
 
-export const executeAnonymousController = async <TBody, TParams, TQuery, TData>(
-  controllerEndpointInformation: ControllerEndpointInformation<TBody, TParams, TQuery, TData>,
+export const executeAnonymousController = async <TBody, TParams, TQuery, THeaders, TData>(
+  controllerEndpointInformation: ControllerEndpointInformation<TBody, TParams, TQuery, THeaders, TData>,
 )=> {
   if (!controllerEndpointInformation.bodyParseResult.success) {
     return controllerEndpointInformation.res.status(HttpStatus.BAD_REQUEST).json(controllerEndpointInformation.bodyParseResult.error);
@@ -54,22 +57,28 @@ export const executeAnonymousController = async <TBody, TParams, TQuery, TData>(
     return controllerEndpointInformation.res.status(HttpStatus.BAD_REQUEST).json(controllerEndpointInformation.queryParseResult.error);
   } else if (!controllerEndpointInformation.paramsParseResult.success) {
     return controllerEndpointInformation.res.status(HttpStatus.BAD_REQUEST).json(controllerEndpointInformation.paramsParseResult.error);
+  } else if (!controllerEndpointInformation.headersParseResult.success) {
+    return controllerEndpointInformation.res.status(HttpStatus.BAD_REQUEST).json(controllerEndpointInformation.headersParseResult.error);
   }
 
   let statusDataContainer: StatusDataContainer<TData | ErrorResponse | null | undefined>;
   if (controllerEndpointInformation.req.user &&
     (controllerEndpointInformation.req as AuthenticatedRequest).user.email) {
-    statusDataContainer = await (controllerEndpointInformation.controller as AuthenticatedController<TBody, TParams, TQuery, TData>)(
+    statusDataContainer = await
+    (controllerEndpointInformation.controller as AuthenticatedController<TBody, TParams, TQuery, THeaders, TData>)(
       (controllerEndpointInformation.req as AuthenticatedRequest).user.email as string,
       controllerEndpointInformation.req.body as TBody,
       controllerEndpointInformation.req.params as TParams,
       controllerEndpointInformation.req.query as TQuery,
+      controllerEndpointInformation.req.headers as THeaders,
     );
   } else {
-    statusDataContainer = await (controllerEndpointInformation.controller as AnonymousController<TBody, TParams, TQuery, TData>)(
+    statusDataContainer = await
+    (controllerEndpointInformation.controller as AnonymousController<TBody, TParams, TQuery, THeaders, TData>)(
       controllerEndpointInformation.req.body as TBody,
       controllerEndpointInformation.req.params as TParams,
       controllerEndpointInformation.req.query as TQuery,
+      controllerEndpointInformation.req.headers as THeaders,
     );
   }
 
@@ -78,8 +87,8 @@ export const executeAnonymousController = async <TBody, TParams, TQuery, TData>(
 
 export type ExecuteAnonymousControllerFunction = typeof executeAnonymousController;
 
-export const executeAuthenticatedController = async <TBody, TParams, TQuery, TData>(
-  controllerEndpointInformation: ControllerEndpointInformation<TBody, TParams, TQuery, TData>,
+export const executeAuthenticatedController = async <TBody, TParams, TQuery, THeaders, TData>(
+  controllerEndpointInformation: ControllerEndpointInformation<TBody, TParams, TQuery, THeaders, TData>,
 ) => {
   if (!(controllerEndpointInformation.req as AuthenticatedRequest).user ||
     !(controllerEndpointInformation.req as AuthenticatedRequest).user.email ||
@@ -122,17 +131,19 @@ export type ErrorResponse = {
   error: string;
 }
 
-export type AuthenticatedController<TBody, TParams, TQuery, TTransformed> = (
+export type AuthenticatedController<TBody, TParams, TQuery, THeaders, TTransformed> = (
   requestingUserEmail: string,
   body: TBody,
   params: TParams,
   query: TQuery,
+  headers: THeaders,
 ) => Promise<StatusDataContainer<TTransformed>>;
 
-export type AnonymousController<TBody, TParams, TQuery, TTransformed> = (
+export type AnonymousController<TBody, TParams, TQuery, THeaders, TTransformed> = (
   body: TBody,
   params: TParams,
   query: TQuery,
+  headers: THeaders,
 ) => Promise<StatusDataContainer<TTransformed>>;
 
 export type ReturnBasedOnAuthenticationAndSafeParseResultFunction<TBody, TQuery> = (

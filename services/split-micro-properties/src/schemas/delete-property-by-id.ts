@@ -14,3 +14,7 @@ export type DeletePropertyByIdRequestParams = z.infer<typeof deletePropertyByIdR
 export const deletePropertyByIdRequestQuerySchema = z.object({});
 
 export type DeletePropertyByIdRequestQuery = z.infer<typeof deletePropertyByIdRequestQuerySchema>;
+
+export const deletePropertyByIdRequestHeadersSchema = z.object({});
+
+export type DeletePropertyByIdRequestHeaders = z.infer<typeof deletePropertyByIdRequestHeadersSchema>;

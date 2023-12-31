@@ -5,6 +5,7 @@ import {PropertyDto} from '../dtos';
 import {PropertyEntity} from '../entities';
 import {
   GetPropertiesWhereInvolvedRequestBody,
+  GetPropertiesWhereInvolvedRequestHeaders,
   GetPropertiesWhereInvolvedRequestParams,
   GetPropertiesWhereInvolvedRequestQuery,
 } from '../schemas';
@@ -16,6 +17,7 @@ export const makeGetPropertiesWhereInvolvedController = (
   GetPropertiesWhereInvolvedRequestBody,
   GetPropertiesWhereInvolvedRequestParams,
   GetPropertiesWhereInvolvedRequestQuery,
+  GetPropertiesWhereInvolvedRequestHeaders,
   PropertyDto[]> =>
   async (requestingUserEmail) => {
     logger.info(`Request from <${requestingUserEmail}> to get properties where involved`);
