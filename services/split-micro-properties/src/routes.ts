@@ -7,10 +7,10 @@ import {
   acceptTenantInvitationHandler,
   createPropertyHandler,
   deletePropertyByIdHandler,
+  getPropertiesWhereInvolvedHandler,
   indexHealthCheckHandler,
 } from './express-callbacks';
 import {
-  getPropertiesWhereInvolvedHandler,
   getPropertyByIdHandler,
   inviteTenantToPropertyHandler,
   togglePropertyAdministratorStatusHandler,
@@ -28,7 +28,7 @@ router.patch('/id/:propertyId/accept-invitation', defaultRateLimiter, acceptTena
 // Protected Routes
 router.post('/', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), createPropertyHandler);
 router.get('/id/:propertyId', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), getPropertyByIdHandler as any);
-router.get('/where-involved', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), getPropertiesWhereInvolvedHandler as any);
+router.get('/where-involved', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), getPropertiesWhereInvolvedHandler);
 router.delete('/id/:propertyId', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), deletePropertyByIdHandler);
 router.patch('/id/:propertyId/toggle-property-admin', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), togglePropertyAdministratorStatusHandler as any);
 router.patch('/id/:propertyId/toggle-property-tenant', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), togglePropertyTenantStatusHandler as any);

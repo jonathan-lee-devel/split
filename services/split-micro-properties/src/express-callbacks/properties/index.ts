@@ -1,12 +1,10 @@
 import {returnBasedOnAuthenticationAndSafeParseResult} from '@split-common/split-http';
 import {defaultModelTransform} from '@split-common/split-service-config';
 
-import {makeGetPropertiesWhereInvolvedCallback} from './callbacks/get-properties-where-involved';
 import {makeGetPropertyByIdCallback} from './callbacks/get-property-by-id';
 import {makeInviteTenantToPropertyCallback} from './callbacks/invite-tenant-to-property';
 import {makeTogglePropertyAdministratorStatusCallback} from './callbacks/toggle-property-administrator-status';
 import {makeTogglePropertyTenantStatusCallback} from './callbacks/toggle-property-tenant-status';
-import {makeMakeGetPropertiesWhereInvolvedEndpoint} from './endpoints/get-properties-where-involved';
 import {makeMakeGetPropertyByIdEndpoint} from './endpoints/get-property-by-id';
 import {makeMakeInviteTenantToPropertyEndpoint} from './endpoints/invite-tenant-to-property';
 import {makeMakeTogglePropertyAdministratorStatusEndpoint} from './endpoints/toggle-property-administrator-status';
@@ -16,8 +14,6 @@ import logger from '../../logger';
 import {PropertyInvitationVerificationTokenModel, PropertyModel} from '../../models';
 import {makeMailToSendRabbitMQConnection} from '../../rabbitmq';
 import {
-  getPropertiesWhereInvolvedRequestBodySchema,
-  getPropertiesWhereInvolvedRequestQuerySchema,
   GetPropertyByIdRequestBodySchema,
   GetPropertyByIdRequestQuerySchema,
   InviteTenantToPropertyRequestBodySchema,
@@ -38,12 +34,6 @@ export const getPropertyByIdHandler = makeMakeGetPropertyByIdEndpoint(returnBase
     GetPropertyByIdRequestBodySchema,
     GetPropertyByIdRequestQuerySchema,
     makeGetPropertyByIdCallback(logger, PropertyModel, defaultModelTransform),
-);
-
-export const getPropertiesWhereInvolvedHandler = makeMakeGetPropertiesWhereInvolvedEndpoint(returnBasedOnAuthenticationAndSafeParseResult)(
-    getPropertiesWhereInvolvedRequestBodySchema,
-    getPropertiesWhereInvolvedRequestQuerySchema,
-    makeGetPropertiesWhereInvolvedCallback(logger, PropertyModel, defaultModelTransform),
 );
 
 export const togglePropertyAdministratorStatusHandler =

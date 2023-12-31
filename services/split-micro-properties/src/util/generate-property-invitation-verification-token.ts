@@ -6,7 +6,7 @@ import {addDays} from 'date-fns/addDays';
 import {Model} from 'mongoose';
 import winston from 'winston';
 
-import {PropertyInvitationVerificationToken} from '../../dao/PropertyInvitationVerificationTokenDAO';
+import {PropertyInvitationVerificationToken} from '../dao';
 
 export type GeneratePropertyInvitationVerificationTokenFunction = (
   userEmail: string,
