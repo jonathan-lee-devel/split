@@ -1,6 +1,5 @@
-import {AnonymousEndpointUseCase, ExecuteAnonymousControllerFunction, HttpStatus} from '@split-common/split-http';
+import {AnonymousController, ExecuteAnonymousControllerFunction, HandleUnhandledControllerErrorFunction} from '@split-common/split-http';
 import {Request, Response} from 'express';
-import winston from 'winston';
 
 import {PropertyDto} from '../dtos';
 import {
@@ -12,10 +11,10 @@ import {
   acceptTenantInvitationToPropertyRequestQuerySchema,
 } from '../schemas';
 
-export const makeAcceptTenantInvitationController = (
-    logger: winston.Logger,
+export const makeAcceptTenantInvitationHandler = (
+    handleUnhandledControllerError: HandleUnhandledControllerErrorFunction,
     executeAnonymousController: ExecuteAnonymousControllerFunction,
-    acceptTenantInvitationUseCase: AnonymousEndpointUseCase<
+    acceptTenantInvitationController: AnonymousController<
     AcceptTenantInvitationToPropertyRequestBody,
     AcceptTenantInvitationToPropertyRequestParams,
     AcceptTenantInvitationToPropertyRequestQuery,
@@ -25,13 +24,12 @@ export const makeAcceptTenantInvitationController = (
     await executeAnonymousController({
       req,
       res,
-      useCase: acceptTenantInvitationUseCase,
+      controller: acceptTenantInvitationController,
       bodyParseResult: acceptTenantInvitationToPropertyRequestBodySchema.safeParse(req.body),
       paramsParseResult: acceptTenantInvitationToPropertyRequestParamsSchema.safeParse(req.params),
       queryParseResult: acceptTenantInvitationToPropertyRequestQuerySchema.safeParse(req.query),
     });
   } catch (err) {
-    logger.error(`Unhandled error occurred during execution of accept tenant invitation use case: ${err}`);
-    return res.status(HttpStatus.INTERNAL_SERVER_ERROR).send();
+    handleUnhandledControllerError('acceptTenantInvitationController', err, res);
   }
 };

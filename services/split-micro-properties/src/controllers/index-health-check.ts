@@ -1,25 +1,13 @@
-import {ExecuteAnonymousControllerFunction, HttpStatus} from '@split-common/split-http';
-import {Request, Response} from 'express';
-import winston from 'winston';
+import {AnonymousController, HttpStatus} from '@split-common/split-http';
 
-import {indexHealthCheckRequestBodySchema, indexHealthCheckRequestParamsSchema, indexHealthCheckRequestQuerySchema} from '../schemas';
-import {indexHealthCheckUseCase} from '../use-cases';
+import {IndexHealthCheckRequestBody, IndexHealthCheckRequestParams, IndexHealthCheckRequestQuery} from '../schemas';
 
 export const makeIndexHealthCheckController = (
-    logger: winston.Logger,
-    executeAnonymousController: ExecuteAnonymousControllerFunction,
-) => async (req: Request, res: Response) => {
-  try {
-    await executeAnonymousController({
-      req,
-      res,
-      useCase: indexHealthCheckUseCase,
-      bodyParseResult: indexHealthCheckRequestBodySchema.safeParse(req.body),
-      paramsParseResult: indexHealthCheckRequestParamsSchema.safeParse(req.params),
-      queryParseResult: indexHealthCheckRequestQuerySchema.safeParse(req.query),
-    });
-  } catch (err) {
-    logger.error(`Unhandled error occurred during execution of index health check use case: ${err}`);
-    return res.status(HttpStatus.INTERNAL_SERVER_ERROR).send();
-  }
-};
+): AnonymousController<
+  IndexHealthCheckRequestBody,
+  IndexHealthCheckRequestParams,
+  IndexHealthCheckRequestQuery,
+  never> =>
+  async () => {
+    return {status: HttpStatus.OK};
+  };

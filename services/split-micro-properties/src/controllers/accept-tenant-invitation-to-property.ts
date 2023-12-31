@@ -1,4 +1,4 @@
-import {AnonymousEndpointUseCase, HttpStatus, StatusDataContainer} from '@split-common/split-http';
+import {AnonymousController, HttpStatus, StatusDataContainer} from '@split-common/split-http';
 import winston from 'winston';
 
 import {PropertyDto} from '../dtos';
@@ -9,10 +9,10 @@ import {
   AcceptTenantInvitationToPropertyRequestQuery,
 } from '../schemas';
 
-export const makeAcceptTenantInvitationToPropertyUseCase = (
+export const makeAcceptTenantInvitationToPropertyController = (
     logger: winston.Logger,
     propertyInvitationTokenEntity: PropertyInvitationTokenEntity,
-): AnonymousEndpointUseCase<
+): AnonymousController<
   AcceptTenantInvitationToPropertyRequestBody,
   AcceptTenantInvitationToPropertyRequestParams,
   AcceptTenantInvitationToPropertyRequestQuery,

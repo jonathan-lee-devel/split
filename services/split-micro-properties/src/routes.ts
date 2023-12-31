@@ -3,14 +3,19 @@ import {defaultRateLimiter} from '@split-common/split-service-config';
 import {Router} from 'express';
 import passport from 'passport';
 
-import {acceptTenantInvitationHandler, createPropertyHandler, deletePropertyByIdHandler, indexHealthCheckHandler} from './controllers';
+import {
+  acceptTenantInvitationHandler,
+  createPropertyHandler,
+  deletePropertyByIdHandler,
+  indexHealthCheckHandler,
+} from './express-callbacks';
 import {
   getPropertiesWhereInvolvedHandler,
   getPropertyByIdHandler,
   inviteTenantToPropertyHandler,
   togglePropertyAdministratorStatusHandler,
   togglePropertyTenantStatusHandler,
-} from './controllers/properties';
+} from './express-callbacks/properties';
 
 const router = Router();
 

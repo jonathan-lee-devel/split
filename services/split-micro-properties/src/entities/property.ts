@@ -34,5 +34,15 @@ export const makePropertyEntity = (
         {status: HttpStatus.OK, data: deletedProperty} :
         {status: HttpStatus.INTERNAL_SERVER_ERROR, error: `Property with ID: ${propertyId} could not be deleted`};
     },
+    getPropertiesWhereInvolved: async (requestingUserEmail: string) => {
+      return {
+        status: HttpStatus.OK,
+        data: await propertyDAO.getManyTransformed({
+          $or: [
+            {administratorEmails: requestingUserEmail},
+            {tenantEmails: requestingUserEmail},
+          ]}),
+      };
+    },
   };
 };

@@ -10,34 +10,34 @@ ui:
   name: ui
   image:
     repository: jonathanleedev/split-ui-spa
-    tag: 0.3.15
+    tag: 0.3.16
     pullPolicy: Always
   port: 80
 microUsers:
   name: micro-users
   image:
     repository: jonathanleedev/split-micro-users
-    tag: 0.3.15
+    tag: 0.3.16
     pullPolicy: Always
   port: 3000
 microProperties:
   name: micro-properties
   image:
     repository: jonathanleedev/split-micro-properties
-    tag: 0.3.15
+    tag: 0.3.16
     pullPolicy: Always
   port: 3000
 microExpenses:
   name: micro-expenses
   image:
     repository: jonathanleedev/split-micro-expenses
-    tag: 0.3.15
+    tag: 0.3.16
     pullPolicy: Always
   port: 3000
 microMail:
   name: micro-mail
   image:
     repository: jonathanleedev/split-micro-mail
-    tag: 0.3.15
+    tag: 0.3.16
     pullPolicy: Always
   port: 3000

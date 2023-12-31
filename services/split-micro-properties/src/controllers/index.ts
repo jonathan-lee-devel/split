@@ -1,32 +1,29 @@
-import {executeAnonymousController, executeAuthenticatedController} from '@split-common/split-http';
-
-import {makeAcceptTenantInvitationController} from './accept-tenant-invitation';
+import {makeAcceptTenantInvitationToPropertyController} from './accept-tenant-invitation-to-property';
 import {makeCreatePropertyController} from './create-property';
 import {makeDeletePropertyByIdController} from './delete-property-by-id';
+import {makeGetPropertiesWhereInvolvedController} from './get-properties-where-involved';
 import {makeIndexHealthCheckController} from './index-health-check';
+import {propertyEntity, propertyInvitationTokenEntity} from '../entities';
 import logger from '../logger';
-import {acceptTenantInvitationUseCase, createPropertyUseCase, deletePropertyByIdUseCase} from '../use-cases';
 
+export const indexHealthCheckController = makeIndexHealthCheckController();
 
-export const indexHealthCheckHandler = makeIndexHealthCheckController(
+export const createPropertyController = makeCreatePropertyController(
     logger,
-    executeAnonymousController,
+    propertyEntity,
 );
 
-export const createPropertyHandler = makeCreatePropertyController(
+export const acceptTenantInvitationToPropertyController = makeAcceptTenantInvitationToPropertyController(
     logger,
-    executeAuthenticatedController,
-    createPropertyUseCase,
+    propertyInvitationTokenEntity,
 );
 
-export const acceptTenantInvitationHandler = makeAcceptTenantInvitationController(
+export const deletePropertyByIdController = makeDeletePropertyByIdController(
     logger,
-    executeAnonymousController,
-    acceptTenantInvitationUseCase,
+    propertyEntity,
 );
 
-export const deletePropertyByIdHandler = makeDeletePropertyByIdController(
+export const getPropertiesWhereInvolvedController = makeGetPropertiesWhereInvolvedController(
     logger,
-    executeAuthenticatedController,
-    deletePropertyByIdUseCase,
+    propertyEntity,
 );
