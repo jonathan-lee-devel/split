@@ -2,11 +2,31 @@ import {GenerateIdFunction} from '@split-common/split-auth';
 import {HttpStatus} from '@split-common/split-http';
 
 import {PropertyDAO} from '../dao';
+import {PropertyDto} from '../dtos';
 
 export const makePropertyEntity = (
     propertyDAO: PropertyDAO,
     generateId: GenerateIdFunction,
 ) => {
+  const getPropertyWithErrors = async (requestingUserEmail: string, propertyId: string) => {
+    const property = await propertyDAO.getOneTransformed({id: propertyId});
+    if (!property) {
+      return {status: HttpStatus.NOT_FOUND, error: `Property with ID: ${propertyId} not found`};
+    }
+
+    if (!property.administratorEmails.includes(requestingUserEmail)) {
+      return {status: HttpStatus.FORBIDDEN, error: `${requestingUserEmail} is not allowed to modify property: ${property.name}`};
+    }
+
+    return {status: HttpStatus.OK, data: property};
+  };
+
+  const updatePropertyWithErrors = async (propertyData: PropertyDto) => {
+    const updatedProperty = await propertyDAO.updateOneAndReturnTransformed(propertyData);
+    return (updatedProperty) ?
+      {status: HttpStatus.OK, data: updatedProperty} :
+      {status: HttpStatus.INTERNAL_SERVER_ERROR, error: `Failed to update property with ID: ${propertyData.id}`};
+  };
   return {
     createNewProperty: async (requestingUserEmail: string, name: string, tenantEmails: string[]) => {
       const createdProperty = await propertyDAO.createAndReturnTransformed({
@@ -45,14 +65,11 @@ export const makePropertyEntity = (
       };
     },
     togglePropertyAdministratorStatus: async (requestingUserEmail: string, propertyId: string, emailToToggle: string)=> {
-      const property = await propertyDAO.getOneTransformed({id: propertyId});
-      if (!property) {
-        return {status: HttpStatus.NOT_FOUND, error: `Property with ID: ${propertyId} not found`};
+      const getPropertyResponse = await getPropertyWithErrors(requestingUserEmail, propertyId);
+      if (getPropertyResponse.status !== HttpStatus.OK) {
+        return getPropertyResponse;
       }
-
-      if (!property.administratorEmails.includes(requestingUserEmail)) {
-        return {status: HttpStatus.FORBIDDEN, error: `${requestingUserEmail} is not allowed to modify property: ${property.name}`};
-      }
+      const property = getPropertyResponse.data!; // Known to be defined if status is OK
 
       if (!property.administratorEmails.includes(emailToToggle) &&
         !property.tenantEmails.includes(emailToToggle)) {
@@ -68,10 +85,27 @@ export const makePropertyEntity = (
         property.administratorEmails.push(emailToToggle);
       }
 
-      const updatedProperty = await propertyDAO.updateOneAndReturnTransformed(property);
-      return (updatedProperty) ?
-        {status: HttpStatus.OK, data: updatedProperty} :
-        {status: HttpStatus.INTERNAL_SERVER_ERROR, error: `Failed to update property with ID: ${propertyId}`};
+      return updatePropertyWithErrors(property);
+    },
+    togglePropertyTenantStatus: async (requestingUserEmail: string, propertyId: string, emailToToggle: string) => {
+      const getPropertyResponse = await getPropertyWithErrors(requestingUserEmail, propertyId);
+      if (getPropertyResponse.status !== HttpStatus.OK) {
+        return getPropertyResponse;
+      }
+      const property = getPropertyResponse.data!; // Known to be defined if status is OK
+
+      if (!property.administratorEmails.includes(emailToToggle) &&
+        !property.tenantEmails.includes(emailToToggle)) {
+        return {status: HttpStatus.BAD_REQUEST, error: `E-mail: ${emailToToggle} is not an administrator or tenant`};
+      }
+
+      if (property.tenantEmails.includes(emailToToggle)) {
+        property.tenantEmails.splice(property.tenantEmails.indexOf(emailToToggle), 1);
+      } else {
+        property.tenantEmails.push(emailToToggle);
+      }
+
+      return updatePropertyWithErrors(property);
     },
   };
 };
