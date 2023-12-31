@@ -18,8 +18,8 @@ import {
   GetPropertyByIdRequestQuerySchema,
   InviteTenantToPropertyRequestBodySchema,
   InviteTenantToPropertyRequestQuerySchema,
-  TogglePropertyAdministratorStatusRequestBodySchema,
-  TogglePropertyAdministratorStatusRequestQuerySchema,
+  togglePropertyAdministratorStatusRequestBodySchema,
+  togglePropertyAdministratorStatusRequestQuerySchema,
   TogglePropertyTenantStatusRequestBodySchema,
   TogglePropertyTenantStatusRequestQuerySchema,
 } from '../../schemas';
@@ -38,8 +38,8 @@ export const getPropertyByIdHandler = makeMakeGetPropertyByIdEndpoint(returnBase
 
 export const togglePropertyAdministratorStatusHandler =
   makeMakeTogglePropertyAdministratorStatusEndpoint(returnBasedOnAuthenticationAndSafeParseResult)(
-      TogglePropertyAdministratorStatusRequestBodySchema,
-      TogglePropertyAdministratorStatusRequestQuerySchema,
+      togglePropertyAdministratorStatusRequestBodySchema,
+      togglePropertyAdministratorStatusRequestQuerySchema,
       makeTogglePropertyAdministratorStatusCallback(logger, PropertyModel, defaultModelTransform),
   );
 

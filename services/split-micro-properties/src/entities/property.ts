@@ -44,5 +44,34 @@ export const makePropertyEntity = (
           ]}),
       };
     },
+    togglePropertyAdministratorStatus: async (requestingUserEmail: string, propertyId: string, emailToToggle: string)=> {
+      const property = await propertyDAO.getOneTransformed({id: propertyId});
+      if (!property) {
+        return {status: HttpStatus.NOT_FOUND, error: `Property with ID: ${propertyId} not found`};
+      }
+
+      if (!property.administratorEmails.includes(requestingUserEmail)) {
+        return {status: HttpStatus.FORBIDDEN, error: `${requestingUserEmail} is not allowed to modify property: ${property.name}`};
+      }
+
+      if (!property.administratorEmails.includes(emailToToggle) &&
+        !property.tenantEmails.includes(emailToToggle)) {
+        return {status: HttpStatus.BAD_REQUEST, error: `E-mail: ${emailToToggle} is not an administrator or tenant`};
+      }
+
+      if (property.administratorEmails.includes(emailToToggle)) {
+        if (property.administratorEmails.length === 1) {
+          return {status: HttpStatus.BAD_REQUEST, error: `Property: ${property.name} requires at least one administrator`};
+        }
+        property.administratorEmails = property.administratorEmails.filter((administratorEmail) => administratorEmail !== emailToToggle);
+      } else {
+        property.administratorEmails.push(emailToToggle);
+      }
+
+      const updatedProperty = await propertyDAO.updateOneAndReturnTransformed(property);
+      return (updatedProperty) ?
+        {status: HttpStatus.OK, data: updatedProperty} :
+        {status: HttpStatus.INTERNAL_SERVER_ERROR, error: `Failed to update property with ID: ${propertyId}`};
+    },
   };
 };

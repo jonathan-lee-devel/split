@@ -3,11 +3,8 @@ import {ModelTransformFunction} from '@split-common/split-service-config';
 import {Model} from 'mongoose';
 import winston from 'winston';
 
-import {Property} from '../../../dao/PropertyDAO';
-import {
-  TogglePropertyAdministratorStatusRequestBody,
-  TogglePropertyAdministratorStatusRequestQuery,
-} from '../../../schemas/toggle-property-administrator-status';
+import {Property} from '../../../dao';
+import {TogglePropertyAdministratorStatusRequestBody, TogglePropertyAdministratorStatusRequestQuery} from '../../../schemas';
 
 export const makeTogglePropertyAdministratorStatusCallback = (
     logger: winston.Logger,
