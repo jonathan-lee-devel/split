@@ -2,7 +2,7 @@ import {AnonymousEndpointUseCase, ExecuteAnonymousControllerFunction, HttpStatus
 import {Request, Response} from 'express';
 import winston from 'winston';
 
-import {Property} from '../dao';
+import {PropertyDto} from '../dtos';
 import {
   AcceptTenantInvitationToPropertyRequestBody,
   acceptTenantInvitationToPropertyRequestBodySchema,
@@ -19,7 +19,7 @@ export const makeAcceptTenantInvitationController = (
     AcceptTenantInvitationToPropertyRequestBody,
     AcceptTenantInvitationToPropertyRequestParams,
     AcceptTenantInvitationToPropertyRequestQuery,
-    Property>,
+    PropertyDto>,
 ) => async (req: Request, res: Response) => {
   try {
     await executeAnonymousController({

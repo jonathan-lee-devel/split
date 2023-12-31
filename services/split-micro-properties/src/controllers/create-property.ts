@@ -2,7 +2,7 @@ import {AuthenticatedEndpointUseCase, ExecuteAuthenticatedControllerFunction, Ht
 import {Request, Response} from 'express';
 import winston from 'winston';
 
-import {Property} from '../dao';
+import {PropertyDto} from '../dtos';
 import {
   CreatePropertyRequestBody,
   createPropertyRequestBodySchema,
@@ -19,7 +19,7 @@ export const makeCreatePropertyController = (
       CreatePropertyRequestBody,
       CreatePropertyRequestParams,
       CreatePropertyRequestQuery,
-      Property>,
+      PropertyDto>,
 ) => async (req: Request, res: Response) => {
   try {
     await executeAuthenticatedController({
