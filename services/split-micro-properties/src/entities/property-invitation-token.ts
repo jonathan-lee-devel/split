@@ -1,12 +1,18 @@
+import {MailToSendMessage} from '@split-common/split-constants';
 import {HttpStatus} from '@split-common/split-http';
+import {RabbitMQConnection} from '@split-common/split-service-config';
 import {isAfter} from 'date-fns/isAfter';
 
 import {PropertyDAO, PropertyInvitationVerificationTokenDAO} from '../dao';
 import {PropertyDto, PropertyInvitationVerificationTokenDto} from '../dtos';
+import {GeneratePropertyInvitationVerificationTokenFunction} from '../util/generate-property-invitation-verification-token';
 
 export const makePropertyInvitationTokenEntity = (
+    frontEndUrl: string,
     propertyDAO: PropertyDAO,
     propertyInvitationTokenDAO: PropertyInvitationVerificationTokenDAO,
+    generatePropertyInvitationVerificationToken: GeneratePropertyInvitationVerificationTokenFunction,
+    rabbitMQConnectionPromiseForMailToSend: Promise<RabbitMQConnection<MailToSendMessage>>,
 ) => {
   return {
     verifyToken: async (tokenValue: string) => {
@@ -40,6 +46,25 @@ export const makePropertyInvitationTokenEntity = (
       return (updatedProperty) ?
         {status: HttpStatus.OK, data: updatedProperty} :
         {status: HttpStatus.INTERNAL_SERVER_ERROR, error: `Could not update property with ID: ${property.id}`};
+    },
+    verifyExistingToken: async (propertyId: string, emailToInvite: string) => {
+      const existingToken = await propertyInvitationTokenDAO.getOneTransformed({propertyId, userEmail: emailToInvite});
+      return (existingToken && (existingToken.isAccepted || (isAfter(existingToken.expiryDate, new Date())))) ?
+        {status: HttpStatus.BAD_REQUEST, error: `${emailToInvite} already has a non-expired or accepted invitation to property with ID: ${propertyId}`} :
+        {status: HttpStatus.OK};
+    },
+    generatePropertyInvitationVerificationTokenAndSendEmail: async (propertyId: string, emailToInvite: string) => {
+      const token = await generatePropertyInvitationVerificationToken(emailToInvite, propertyId);
+      const property = await propertyDAO.getOneTransformed({id: propertyId});
+      if (!property) {
+        return {status: HttpStatus.NOT_FOUND, error: `Property with ID: ${propertyId} not found`};
+      }
+      await (await rabbitMQConnectionPromiseForMailToSend).sendData('mail-to-send', {
+        toEmail: emailToInvite,
+        subject: `Split Property: ${property.name} Invitation`,
+        html: `<h3>Click the following link to accept the invitation: <a href="${frontEndUrl}/properties/${property.id}/invitations/accept/${token.value}">Accept</a></h3>`,
+      });
+      return {status: HttpStatus.OK};
     },
   };
 };

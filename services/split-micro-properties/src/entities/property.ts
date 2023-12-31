@@ -121,5 +121,29 @@ export const makePropertyEntity = (
 
       return {status: HttpStatus.OK, data: property};
     },
+    verifyEmailToInvite: async (requestingUserEmail: string, propertyId: string, emailToInvite: string) => {
+      const getPropertyResponse = await getPropertyForModificationWithErrors(requestingUserEmail, propertyId);
+      if (getPropertyResponse.status !== HttpStatus.OK) {
+        return getPropertyResponse;
+      }
+      const property = getPropertyResponse.data!; // Known to be defined if status is OK
+
+      return (property.acceptedInvitationEmails.includes(emailToInvite)) ?
+          {status: HttpStatus.BAD_REQUEST, error: `${emailToInvite} has already accepted invitation to property: ${property.name}`} :
+          {status: HttpStatus.OK};
+    },
+    addTenantEmail: async (requestingUserEmail: string, propertyId: string, emailToAdd: string) => {
+      const getPropertyResponse = await getPropertyForModificationWithErrors(requestingUserEmail, propertyId);
+      if (getPropertyResponse.status !== HttpStatus.OK) {
+        return getPropertyResponse;
+      }
+      const property = getPropertyResponse.data!; // Known to be defined if status is OK
+      property.tenantEmails.push(emailToAdd);
+
+      const updatedProperty = await propertyDAO.updateOneAndReturnTransformed(property);
+      return (updatedProperty) ?
+        {status: HttpStatus.OK, data: updatedProperty} :
+        {status: HttpStatus.INTERNAL_SERVER_ERROR, error: `${requestingUserEmail} could not add ${emailToAdd} to tenants of property with ID: ${propertyId}`};
+    },
   };
 };

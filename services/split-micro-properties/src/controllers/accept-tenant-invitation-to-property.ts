@@ -27,7 +27,7 @@ export const makeAcceptTenantInvitationToPropertyController = (
 
     const tokenVerificationResponse = await propertyInvitationTokenEntity.verifyToken(tokenValue);
     if (tokenVerificationResponse.status !== HttpStatus.OK) {
-      return tokenVerificationResponse as StatusDataContainer<PropertyDto>; // Will contain status and error fields, data undefined
+      return tokenVerificationResponse as StatusDataContainer<never>; // Will contain status and error fields, data undefined
     }
 
     const {token, property} = tokenVerificationResponse.data!; // Known to be defined as status is OK
