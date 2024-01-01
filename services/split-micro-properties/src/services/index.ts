@@ -6,7 +6,6 @@ import {defaultPropertyDao, defaultPropertyInvitationTokenDao} from '../dao';
 import {environment} from '../environment';
 import logger from '../logger';
 import {makeMailToSendRabbitMQConnection} from '../rabbitmq';
-import {generatePropertyInvitationVerificationToken} from '../util';
 
 const generateId = makeGenerateId(logger);
 
@@ -26,7 +25,7 @@ export const propertyInvitationTokenService = makePropertyInvitationTokenService
     environment.FRONT_END_URL,
     defaultPropertyDao,
     defaultPropertyInvitationTokenDao,
-    generatePropertyInvitationVerificationToken,
+    generateId,
     rabbitMQConnectionPromise,
 );
 

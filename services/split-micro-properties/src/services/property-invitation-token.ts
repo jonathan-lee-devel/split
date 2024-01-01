@@ -1,17 +1,25 @@
-import {MailToSendMessage} from '@split-common/split-constants';
+import {randomBytes} from 'node:crypto';
+
+import {GenerateIdFunction} from '@split-common/split-auth';
+import {
+  DEFAULT_TOKEN_BUFFER_ENCODING,
+  DEFAULT_TOKEN_EXPIRY_TIME_DAYS,
+  DEFAULT_TOKEN_SIZE,
+  MailToSendMessage,
+} from '@split-common/split-constants';
 import {HttpStatus} from '@split-common/split-http';
 import {RabbitMQConnection} from '@split-common/split-service-config';
+import {addDays} from 'date-fns/addDays';
 import {isAfter} from 'date-fns/isAfter';
 
 import {PropertyDAO, PropertyInvitationVerificationTokenDAO} from '../dao';
 import {PropertyDto, PropertyInvitationVerificationTokenDto} from '../dtos';
-import {GeneratePropertyInvitationVerificationTokenFunction} from '../util/generate-property-invitation-verification-token';
 
 export const makePropertyInvitationTokenService = (
     frontEndUrl: string,
     propertyDAO: PropertyDAO,
     propertyInvitationTokenDAO: PropertyInvitationVerificationTokenDAO,
-    generatePropertyInvitationVerificationToken: GeneratePropertyInvitationVerificationTokenFunction,
+    generateId: GenerateIdFunction,
     rabbitMQConnectionPromiseForMailToSend: Promise<RabbitMQConnection<MailToSendMessage>>,
 ) => {
   return {
@@ -52,7 +60,17 @@ export const makePropertyInvitationTokenService = (
         {status: HttpStatus.OK};
     },
     generatePropertyInvitationVerificationTokenAndSendEmail: async (propertyId: string, emailToInvite: string) => {
-      const token = await generatePropertyInvitationVerificationToken(emailToInvite, propertyId);
+      const token = await propertyInvitationTokenDAO.createAndReturnTransformed({
+        id: await generateId(),
+        value: randomBytes(DEFAULT_TOKEN_SIZE / 2).toString(DEFAULT_TOKEN_BUFFER_ENCODING),
+        propertyId,
+        expiryDate: addDays(new Date(), DEFAULT_TOKEN_EXPIRY_TIME_DAYS),
+        userEmail: emailToInvite,
+        isAccepted: false,
+      });
+      if (!token) {
+        return {status: HttpStatus.INTERNAL_SERVER_ERROR, error: `Token for user email: ${emailToInvite} could not be generated`};
+      }
       const property = await propertyDAO.getOneTransformed({id: propertyId});
       if (!property) {
         return {status: HttpStatus.NOT_FOUND, error: `Property with ID: ${propertyId} not found`};
