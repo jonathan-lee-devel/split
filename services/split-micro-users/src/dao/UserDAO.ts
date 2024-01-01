@@ -39,13 +39,13 @@ export class UserDAO implements DAO<
     return (updatedUser) ? updatedUser.toJSON({transform: this.transform}) : null;
   }
 
-  async deleteOneById(entityId: string): Promise<void> {
-    await this.userModel.deleteOne({id: entityId}).exec();
+  async deleteOne(filter: FilterQuery<User>): Promise<void> {
+    await this.userModel.deleteOne(filter).exec();
   }
 
-  async deleteOneByIdAndReturnTransformed(entityId: string): Promise<UserDto | null> {
-    const user = await this.userModel.findOne({id: entityId}).exec();
-    await this.userModel.deleteOne({id: entityId}).exec();
+  async deleteOneAndReturnTransformed(filter: FilterQuery<User>): Promise<UserDto | null> {
+    const user = await this.userModel.findOne(filter).exec();
+    await this.userModel.deleteOne(filter).exec();
     return (user) ? user.toJSON({transform: this.transform}) : null;
   }
 

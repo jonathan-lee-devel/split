@@ -9,7 +9,7 @@ export interface DAO<TFilter, TData, TTransformed> {
 
   updateOneAndReturnTransformed(entityData: TData): Promise<TTransformed | null>;
 
-  deleteOneById(entityId: string): Promise<void>;
+  deleteOne(filter: TFilter): Promise<void>;
 
-  deleteOneByIdAndReturnTransformed(entityId: string): Promise<TTransformed | null>;
+  deleteOneAndReturnTransformed(filter: TFilter): Promise<TTransformed | null>;
 }

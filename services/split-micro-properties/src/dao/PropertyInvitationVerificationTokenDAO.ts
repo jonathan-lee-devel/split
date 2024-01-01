@@ -56,14 +56,17 @@ export class PropertyInvitationVerificationTokenDAO implements DAO<
     return (updatedToken) ? updatedToken.toJSON({transform: this.transform}) : null;
   }
 
-  async deleteOneById(entityId: string): Promise<void> {
-    // TODO: Implement
-    throw new Error('Method not implemented.');
+  async deleteOne(filter: FilterQuery<PropertyInvitationVerificationToken>): Promise<void> {
+    await this.propertyInvitationVerificationTokenModel.deleteOne(filter).exec();
   }
 
-  async deleteOneByIdAndReturnTransformed(entityId: string): Promise<PropertyInvitationVerificationTokenDto | null> {
-    // TODO: Implement
-    throw new Error('Method not implemented.');
+  async deleteOneAndReturnTransformed(filter: FilterQuery<PropertyInvitationVerificationToken>)
+    : Promise<PropertyInvitationVerificationTokenDto | null> {
+    const deletedToken = await this.propertyInvitationVerificationTokenModel.findOne(filter).exec();
+    await this.propertyInvitationVerificationTokenModel.deleteOne(filter).exec();
+    return (deletedToken) ?
+      deletedToken.toJSON({transform: this.transform}) :
+      null;
   }
 
   private async updateTokenById(entityData: PropertyInvitationVerificationToken): Promise<void> {

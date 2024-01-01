@@ -50,7 +50,7 @@ export const makePropertyService = (
       if (!property.administratorEmails.includes(requestingUserEmail)) {
         return {status: HttpStatus.FORBIDDEN, error: `${requestingUserEmail} is not permitted to delete property with ID: ${propertyId}`};
       }
-      const deletedProperty = await propertyDAO.deleteOneByIdAndReturnTransformed(propertyId);
+      const deletedProperty = await propertyDAO.deleteOneAndReturnTransformed({id: propertyId});
       return (deletedProperty) ?
         {status: HttpStatus.OK, data: deletedProperty} :
         {status: HttpStatus.INTERNAL_SERVER_ERROR, error: `Property with ID: ${propertyId} could not be deleted`};

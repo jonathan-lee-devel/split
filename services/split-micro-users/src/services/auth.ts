@@ -5,7 +5,7 @@ import {HttpStatus} from '@split-common/split-http';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import {UserDAO} from '../dao/UserDAO';
+import {UserDAO} from '../dao';
 import {UserDto} from '../dtos';
 
 export const makeAuthService = (

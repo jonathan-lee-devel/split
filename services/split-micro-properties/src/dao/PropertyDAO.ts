@@ -47,13 +47,13 @@ export class PropertyDAO implements DAO<
     return (updatedProperty) ? updatedProperty.toJSON({transform: this.transform}) : null;
   }
 
-  async deleteOneById(entityId: string): Promise<void> {
-    await this.propertyModel.deleteOne({id: entityId}).exec();
+  async deleteOne(filter: FilterQuery<Property>): Promise<void> {
+    await this.propertyModel.deleteOne(filter).exec();
   }
 
-  async deleteOneByIdAndReturnTransformed(entityId: string): Promise<PropertyDto | null> {
-    const property = await this.propertyModel.findOne({id: entityId}).exec();
-    await this.propertyModel.deleteOne({id: entityId}).exec();
+  async deleteOneAndReturnTransformed(filter: FilterQuery<Property>): Promise<PropertyDto | null> {
+    const property = await this.propertyModel.findOne(filter).exec();
+    await this.propertyModel.deleteOne(filter).exec();
     return (property) ? property.toJSON({transform: this.transform}) : null;
   }
 
