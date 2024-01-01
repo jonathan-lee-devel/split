@@ -30,11 +30,9 @@ export const makePropertyInvitationTokenEntity = (
       }
 
       const property = await propertyDAO.getOneTransformed({id: token.propertyId});
-      if (!property) {
-        return {status: HttpStatus.BAD_REQUEST, error: `No property found for that token value or property does not match path`};
-      }
-
-      return {status: HttpStatus.OK, data: {token, property}};
+      return (property) ?
+        {status: HttpStatus.OK, data: {token, property}} :
+        {status: HttpStatus.BAD_REQUEST, error: `No property found for that token value or property does not match path`};
     },
     acceptValidInvitationToken: async (token: PropertyInvitationVerificationTokenDto, property: PropertyDto) => {
       const acceptedEmails = new Set<string>(property.acceptedInvitationEmails);

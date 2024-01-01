@@ -22,6 +22,9 @@ export const makeGetPropertyByIdController = (
   PropertyDto> =>
   async (requestingUserEmail, _body, params, _query, headers) => {
     const {propertyId} = params;
-    logger.info(`Request from <${requestingUserEmail}> ${(headers[MICRO_COMMUNICATIONS_REQUEST_HEADER_NAME]) ? `via: ${headers[MICRO_COMMUNICATIONS_REQUEST_HEADER_NAME]}` : ''} to get property with ID: ${propertyId}`);
+    const viaMessage = (headers[MICRO_COMMUNICATIONS_REQUEST_HEADER_NAME]) ?
+      `via: ${headers[MICRO_COMMUNICATIONS_REQUEST_HEADER_NAME]}` :
+      '';
+    logger.info(`Request from <${requestingUserEmail}> ${viaMessage} to get property with ID: ${propertyId}`);
     return await propertyEntity.getPropertyById(requestingUserEmail, propertyId);
   };
