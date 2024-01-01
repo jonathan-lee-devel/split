@@ -7,48 +7,48 @@ import {makeIndexHealthCheckController} from './index-health-check';
 import {makeInviteTenantToPropertyController} from './invite-tenant-to-property';
 import {makeTogglePropertyAdministratorStatusController} from './toggle-property-administrator-status';
 import {makeTogglePropertyTenantStatusController} from './toggle-property-tenant-status';
-import {propertyEntity, propertyInvitationTokenEntity} from '../entities';
 import logger from '../logger';
+import {propertyInvitationTokenService, propertyService} from '../services';
 
 export const indexHealthCheckController = makeIndexHealthCheckController();
 
 export const createPropertyController = makeCreatePropertyController(
     logger,
-    propertyEntity,
+    propertyService,
 );
 
 export const acceptTenantInvitationToPropertyController = makeAcceptTenantInvitationToPropertyController(
     logger,
-    propertyInvitationTokenEntity,
+    propertyInvitationTokenService,
 );
 
 export const deletePropertyByIdController = makeDeletePropertyByIdController(
     logger,
-    propertyEntity,
+    propertyService,
 );
 
 export const getPropertiesWhereInvolvedController = makeGetPropertiesWhereInvolvedController(
     logger,
-    propertyEntity,
+    propertyService,
 );
 
 export const togglePropertyAdministratorStatusController = makeTogglePropertyAdministratorStatusController(
     logger,
-    propertyEntity,
+    propertyService,
 );
 
 export const togglePropertyTenantStatusController = makeTogglePropertyTenantStatusController(
     logger,
-    propertyEntity,
+    propertyService,
 );
 
 export const getPropertyByIdController = makeGetPropertyByIdController(
     logger,
-    propertyEntity,
+    propertyService,
 );
 
 export const inviteTenantToPropertyController = makeInviteTenantToPropertyController(
     logger,
-    propertyEntity,
-    propertyInvitationTokenEntity,
+    propertyService,
+    propertyInvitationTokenService,
 );

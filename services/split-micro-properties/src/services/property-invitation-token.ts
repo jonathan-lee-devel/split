@@ -7,7 +7,7 @@ import {PropertyDAO, PropertyInvitationVerificationTokenDAO} from '../dao';
 import {PropertyDto, PropertyInvitationVerificationTokenDto} from '../dtos';
 import {GeneratePropertyInvitationVerificationTokenFunction} from '../util/generate-property-invitation-verification-token';
 
-export const makePropertyInvitationTokenEntity = (
+export const makePropertyInvitationTokenService = (
     frontEndUrl: string,
     propertyDAO: PropertyDAO,
     propertyInvitationTokenDAO: PropertyInvitationVerificationTokenDAO,

@@ -1,7 +1,7 @@
 import {makeGenerateId} from '@split-common/split-auth';
 
-import {makePropertyEntity} from './property';
-import {makePropertyInvitationTokenEntity} from './property-invitation-token';
+import {makePropertyService} from './property';
+import {makePropertyInvitationTokenService} from './property-invitation-token';
 import {defaultPropertyDao, defaultPropertyInvitationTokenDao} from '../dao';
 import {environment} from '../environment';
 import logger from '../logger';
@@ -10,19 +10,19 @@ import {generatePropertyInvitationVerificationToken} from '../util';
 
 const generateId = makeGenerateId(logger);
 
-export const propertyEntity = makePropertyEntity(
+export const propertyService = makePropertyService(
     defaultPropertyDao,
     generateId,
 );
 
-export type PropertyEntity = typeof propertyEntity;
+export type PropertyService = typeof propertyService;
 
 const rabbitMQConnectionPromise = makeMailToSendRabbitMQConnection(
     logger,
     environment.RABBITMQ_URL,
 );
 
-export const propertyInvitationTokenEntity = makePropertyInvitationTokenEntity(
+export const propertyInvitationTokenService = makePropertyInvitationTokenService(
     environment.FRONT_END_URL,
     defaultPropertyDao,
     defaultPropertyInvitationTokenDao,
@@ -30,4 +30,4 @@ export const propertyInvitationTokenEntity = makePropertyInvitationTokenEntity(
     rabbitMQConnectionPromise,
 );
 
-export type PropertyInvitationTokenEntity = typeof propertyInvitationTokenEntity;
+export type PropertyInvitationTokenService = typeof propertyInvitationTokenService;

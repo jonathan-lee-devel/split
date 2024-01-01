@@ -3,17 +3,17 @@ import {AuthenticatedController} from '@split-common/split-http';
 import winston from 'winston';
 
 import {PropertyDto} from '../dtos';
-import {PropertyEntity} from '../entities';
 import {
   GetPropertyByIdRequestBody,
   GetPropertyByIdRequestHeaders,
   GetPropertyByIdRequestParams,
   GetPropertyByIdRequestQuery,
 } from '../schemas';
+import {PropertyService} from '../services';
 
 export const makeGetPropertyByIdController = (
     logger: winston.Logger,
-    propertyEntity: PropertyEntity,
+    propertyService: PropertyService,
 ): AuthenticatedController<
   GetPropertyByIdRequestBody,
   GetPropertyByIdRequestParams,
@@ -26,5 +26,5 @@ export const makeGetPropertyByIdController = (
       `via: ${headers[MICRO_COMMUNICATIONS_REQUEST_HEADER_NAME]}` :
       '';
     logger.info(`Request from <${requestingUserEmail}> ${viaMessage} to get property with ID: ${propertyId}`);
-    return await propertyEntity.getPropertyById(requestingUserEmail, propertyId);
+    return await propertyService.getPropertyById(requestingUserEmail, propertyId);
   };

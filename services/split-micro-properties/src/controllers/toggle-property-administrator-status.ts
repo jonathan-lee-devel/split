@@ -2,17 +2,17 @@ import {AuthenticatedController} from '@split-common/split-http';
 import winston from 'winston';
 
 import {PropertyDto} from '../dtos';
-import {PropertyEntity} from '../entities';
 import {
   TogglePropertyAdministratorStatusRequestBody,
   TogglePropertyAdministratorStatusRequestHeaders,
   TogglePropertyAdministratorStatusRequestParams,
   TogglePropertyAdministratorStatusRequestQuery,
 } from '../schemas';
+import {PropertyService} from '../services';
 
 export const makeTogglePropertyAdministratorStatusController = (
     logger: winston.Logger,
-    propertyEntity: PropertyEntity,
+    propertyService: PropertyService,
 ): AuthenticatedController<
   TogglePropertyAdministratorStatusRequestBody,
   TogglePropertyAdministratorStatusRequestParams,
@@ -24,5 +24,5 @@ export const makeTogglePropertyAdministratorStatusController = (
     const {propertyId} = params;
     logger.info(`Request from <${requestingUserEmail}> to toggle administrator status for email: <${emailToToggle}> for ID: ${propertyId}`);
 
-    return await propertyEntity.togglePropertyAdministratorStatus(requestingUserEmail, propertyId, emailToToggle);
+    return await propertyService.togglePropertyAdministratorStatus(requestingUserEmail, propertyId, emailToToggle);
   };

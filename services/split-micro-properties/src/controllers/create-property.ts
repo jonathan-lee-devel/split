@@ -2,12 +2,12 @@ import {AuthenticatedController} from '@split-common/split-http';
 import winston from 'winston';
 
 import {PropertyDto} from '../dtos';
-import {PropertyEntity} from '../entities';
 import {CreatePropertyRequestBody, CreatePropertyRequestHeaders, CreatePropertyRequestParams, CreatePropertyRequestQuery} from '../schemas';
+import {PropertyService} from '../services';
 
 export const makeCreatePropertyController = (
     logger: winston.Logger,
-    propertyEntity: PropertyEntity,
+    propertyService: PropertyService,
 ): AuthenticatedController<
   CreatePropertyRequestBody,
   CreatePropertyRequestParams,
@@ -18,5 +18,5 @@ export const makeCreatePropertyController = (
     const {name, tenantEmails} = body;
     logger.info(`Request from <${requestingUserEmail}> to create property with name ${name}`);
 
-    return await propertyEntity.createNewProperty(requestingUserEmail, name, tenantEmails);
+    return await propertyService.createNewProperty(requestingUserEmail, name, tenantEmails);
   };

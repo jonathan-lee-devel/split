@@ -2,17 +2,17 @@ import {AuthenticatedController} from '@split-common/split-http';
 import winston from 'winston';
 
 import {PropertyDto} from '../dtos';
-import {PropertyEntity} from '../entities';
 import {
   GetPropertiesWhereInvolvedRequestBody,
   GetPropertiesWhereInvolvedRequestHeaders,
   GetPropertiesWhereInvolvedRequestParams,
   GetPropertiesWhereInvolvedRequestQuery,
 } from '../schemas';
+import {PropertyService} from '../services';
 
 export const makeGetPropertiesWhereInvolvedController = (
     logger: winston.Logger,
-    propertyEntity: PropertyEntity,
+    propertyService: PropertyService,
 ): AuthenticatedController<
   GetPropertiesWhereInvolvedRequestBody,
   GetPropertiesWhereInvolvedRequestParams,
@@ -21,5 +21,5 @@ export const makeGetPropertiesWhereInvolvedController = (
   PropertyDto[]> =>
   async (requestingUserEmail) => {
     logger.info(`Request from <${requestingUserEmail}> to get properties where involved`);
-    return await propertyEntity.getPropertiesWhereInvolved(requestingUserEmail);
+    return await propertyService.getPropertiesWhereInvolved(requestingUserEmail);
   };

@@ -4,7 +4,7 @@ import {HttpStatus} from '@split-common/split-http';
 import {PropertyDAO} from '../dao';
 import {PropertyDto} from '../dtos';
 
-export const makePropertyEntity = (
+export const makePropertyService = (
     propertyDAO: PropertyDAO,
     generateId: GenerateIdFunction,
 ) => {

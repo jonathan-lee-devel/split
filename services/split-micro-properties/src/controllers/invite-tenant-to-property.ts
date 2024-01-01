@@ -2,18 +2,18 @@ import {AuthenticatedController, HttpStatus} from '@split-common/split-http';
 import winston from 'winston';
 
 import {PropertyDto} from '../dtos';
-import {PropertyEntity, PropertyInvitationTokenEntity} from '../entities';
 import {
   InviteTenantToPropertyRequestBody,
   InviteTenantToPropertyRequestHeaders,
   InviteTenantToPropertyRequestParams,
   InviteTenantToPropertyRequestQuery,
 } from '../schemas';
+import {PropertyInvitationTokenService, PropertyService} from '../services';
 
 export const makeInviteTenantToPropertyController = (
     logger: winston.Logger,
-    propertyEntity: PropertyEntity,
-    propertyInvitationTokenEntity: PropertyInvitationTokenEntity,
+    propertyService: PropertyService,
+    propertyInvitationTokenService: PropertyInvitationTokenService,
 ): AuthenticatedController<
   InviteTenantToPropertyRequestBody,
   InviteTenantToPropertyRequestParams,
@@ -26,24 +26,24 @@ export const makeInviteTenantToPropertyController = (
 
     logger.info(`Request from <${requestingUserEmail}> to invite email: <${emailToInvite}> for ID: ${propertyId}`);
 
-    const propertyInvitationVerificationResponse = await propertyEntity
+    const propertyInvitationVerificationResponse = await propertyService
         .verifyEmailToInvite(requestingUserEmail, propertyId, emailToInvite);
     if (propertyInvitationVerificationResponse.status !== HttpStatus.OK) {
       return propertyInvitationVerificationResponse;
     }
 
-    const existingTokenVerificationResponse = await propertyInvitationTokenEntity
+    const existingTokenVerificationResponse = await propertyInvitationTokenService
         .verifyExistingToken(propertyId, emailToInvite);
     if (existingTokenVerificationResponse.status !== HttpStatus.OK) {
       return existingTokenVerificationResponse;
     }
 
-    const updatePropertyResponse = await propertyEntity.addTenantEmail(requestingUserEmail, propertyId, emailToInvite);
+    const updatePropertyResponse = await propertyService.addTenantEmail(requestingUserEmail, propertyId, emailToInvite);
     if (updatePropertyResponse.status !== HttpStatus.OK) {
       return updatePropertyResponse;
     }
 
-    const tokenGenerationResponse = await propertyInvitationTokenEntity.generatePropertyInvitationVerificationTokenAndSendEmail(
+    const tokenGenerationResponse = await propertyInvitationTokenService.generatePropertyInvitationVerificationTokenAndSendEmail(
         propertyId,
         emailToInvite,
     );
