@@ -38,15 +38,17 @@ export const makeInviteTenantToPropertyController = (
       return existingTokenVerificationResponse;
     }
 
-    const updatePropertyResponse = await propertyService.addTenantEmail(requestingUserEmail, propertyId, emailToInvite);
+    const updatePropertyResponse = await propertyService
+        .addTenantEmail(requestingUserEmail, propertyId, emailToInvite);
     if (updatePropertyResponse.status !== HttpStatus.OK) {
       return updatePropertyResponse;
     }
 
-    const tokenGenerationResponse = await propertyInvitationTokenService.generatePropertyInvitationVerificationTokenAndSendEmail(
-        propertyId,
-        emailToInvite,
-    );
+    const tokenGenerationResponse = await propertyInvitationTokenService
+        .generatePropertyInvitationVerificationTokenAndSendEmail(
+            propertyId,
+            emailToInvite,
+        );
 
     return (tokenGenerationResponse.status === HttpStatus.OK && updatePropertyResponse.data) ?
       updatePropertyResponse :
