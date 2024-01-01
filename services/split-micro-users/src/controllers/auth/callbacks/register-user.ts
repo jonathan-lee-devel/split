@@ -27,6 +27,7 @@ export const makeRegisterUserCallback = (
     }
 
     const newUser: User = {
+      id: '',
       email,
       firstName,
       lastName,

@@ -1,29 +1,15 @@
-export abstract class DAO<TFilter, TBody, TData, TTransformed> {
-  protected body: TBody | undefined;
+export interface DAO<TFilter, TData, TTransformed> {
+  getOneTransformed(filter: TFilter): Promise<TTransformed | null>;
 
-  protected constructor(body?: TBody | undefined) {
-    this.body = body;
-  }
+  getManyTransformed(filter: TFilter): Promise<TTransformed[]>;
 
-  public abstract getBodyTransformed(): Promise<TData | undefined>;
+  createAndReturnTransformed(entityData: TData): Promise<TTransformed | null>;
 
-  public abstract getOne(filter: TFilter): Promise<DAO<TFilter, TBody, TData, TTransformed> | null>;
+  updateOne(entityData: TData): Promise<void>;
 
-  public abstract getOneTransformed(filter: TFilter): Promise<TTransformed | null>;
+  updateOneAndReturnTransformed(entityData: TData): Promise<TTransformed | null>;
 
-  public abstract getMany(filter: TFilter): Promise<DAO<TFilter, TBody, TData, TTransformed>[]>;
+  deleteOneById(entityId: string): Promise<void>;
 
-  public abstract getManyTransformed(filter: TFilter): Promise<TTransformed[]>;
-
-  public abstract create(entityData: TData): Promise<DAO<TFilter, TBody, TData, TTransformed> | null>;
-
-  public abstract createAndReturnTransformed(entityData: TData): Promise<TTransformed | null>;
-
-  public abstract updateOne(entityData: TData): Promise<void>;
-
-  public abstract updateOneAndReturnTransformed(entityData: TData): Promise<TTransformed | null>;
-
-  public abstract deleteOneById(entityId: string): Promise<void>;
-
-  public abstract deleteOneByIdAndReturnTransformed(entityId: string): Promise<TTransformed | null>;
+  deleteOneByIdAndReturnTransformed(entityId: string): Promise<TTransformed | null>;
 }

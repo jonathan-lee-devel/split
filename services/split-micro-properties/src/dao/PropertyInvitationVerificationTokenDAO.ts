@@ -13,29 +13,14 @@ export interface PropertyInvitationVerificationToken {
   isAccepted: boolean;
 }
 
-export class PropertyInvitationVerificationTokenDAO extends DAO<
+export class PropertyInvitationVerificationTokenDAO implements DAO<
   FilterQuery<PropertyInvitationVerificationToken>,
   Document<unknown, {}, PropertyInvitationVerificationToken> & PropertyInvitationVerificationToken & { _id: ObjectId; },
-  PropertyInvitationVerificationToken,
   PropertyInvitationVerificationTokenDto> {
   constructor(
     private readonly propertyInvitationVerificationTokenModel: Model<PropertyInvitationVerificationToken>,
     private readonly transform: ModelTransformFunction,
-    body?: Document<unknown, {}, PropertyInvitationVerificationToken> & PropertyInvitationVerificationToken & { _id: ObjectId; },
-  ) {
-    super(body);
-  }
-
-  async getBodyTransformed(): Promise<PropertyInvitationVerificationToken | undefined> {
-    return (this.body) ? this.body.toJSON({transform: this.transform}) as any : undefined;
-  }
-
-  async getOne(filter: FilterQuery<PropertyInvitationVerificationToken>): Promise<PropertyInvitationVerificationTokenDAO | null> {
-    const resultingToken = await this.propertyInvitationVerificationTokenModel.findOne(filter).exec();
-    return (resultingToken) ?
-      new PropertyInvitationVerificationTokenDAO(this.propertyInvitationVerificationTokenModel, this.transform, resultingToken as any) :
-      null;
-  }
+  ) {}
 
   async getOneTransformed(filter: FilterQuery<PropertyInvitationVerificationToken>)
     : Promise<PropertyInvitationVerificationTokenDto | null> {
@@ -45,28 +30,11 @@ export class PropertyInvitationVerificationTokenDAO extends DAO<
       null;
   }
 
-  async getMany(filter: FilterQuery<PropertyInvitationVerificationToken>): Promise<PropertyInvitationVerificationTokenDAO[]> {
-    const resultingTokens = await this.propertyInvitationVerificationTokenModel.find(filter).exec();
-    return resultingTokens
-        .map((resultingToken) => new PropertyInvitationVerificationTokenDAO(
-            this.propertyInvitationVerificationTokenModel,
-            this.transform,
-          resultingToken as any,
-        ));
-  }
-
   async getManyTransformed(filter: FilterQuery<PropertyInvitationVerificationToken>)
     : Promise<PropertyInvitationVerificationTokenDto[]> {
     const resultingTokens = await this.propertyInvitationVerificationTokenModel.find(filter).exec();
     return resultingTokens
         .map((resultingToken) => resultingToken.toJSON({transform: this.transform}));
-  }
-
-  async create(entityData: PropertyInvitationVerificationToken): Promise<PropertyInvitationVerificationTokenDAO | null> {
-    const createdToken = await this.propertyInvitationVerificationTokenModel.create({...entityData});
-    return (createdToken) ?
-      new PropertyInvitationVerificationTokenDAO(this.propertyInvitationVerificationTokenModel, this.transform, createdToken as any) :
-      null;
   }
 
   async createAndReturnTransformed(entityData: PropertyInvitationVerificationToken)
@@ -89,10 +57,12 @@ export class PropertyInvitationVerificationTokenDAO extends DAO<
   }
 
   async deleteOneById(entityId: string): Promise<void> {
+    // TODO: Implement
     throw new Error('Method not implemented.');
   }
 
   async deleteOneByIdAndReturnTransformed(entityId: string): Promise<PropertyInvitationVerificationTokenDto | null> {
+    // TODO: Implement
     throw new Error('Method not implemented.');
   }
 

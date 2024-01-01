@@ -13,46 +13,23 @@ export interface Property {
   acceptedInvitationEmails: Array<string>;
 }
 
-export class PropertyDAO extends DAO<
+export class PropertyDAO implements DAO<
   FilterQuery<Property>,
   Document<unknown, {}, Property> & Property & { _id: ObjectId; },
-  Property,
   PropertyDto> {
   constructor(
       private readonly propertyModel: Model<Property>,
       private readonly transform: ModelTransformFunction,
-      body?: Document<unknown, {}, Property> & Property & { _id: ObjectId; } | undefined,
-  ) {
-    super(body);
-  }
-
-  async getBodyTransformed(): Promise<PropertyDto | undefined> {
-    return (this.body) ? this.body.toJSON({transform: this.transform}) : undefined;
-  }
-
-  async getOne(filter: FilterQuery<Property>): Promise<PropertyDAO | null> {
-    const resultingProperty = await this.propertyModel.findOne(filter).exec();
-    return (resultingProperty) ? new PropertyDAO(this.propertyModel, this.transform, resultingProperty as any) : null;
-  }
+  ) {}
 
   async getOneTransformed(filter: FilterQuery<Property>): Promise<PropertyDto | null> {
     const resultingProperty = await this.propertyModel.findOne(filter).exec();
     return (resultingProperty) ? resultingProperty.toJSON({transform: this.transform}) : null;
   }
 
-  async getMany(filter: FilterQuery<Property>): Promise<PropertyDAO[]> {
-    const resultingProperties = await this.propertyModel.find(filter).exec();
-    return resultingProperties.map((resultingProperty) => new PropertyDAO(this.propertyModel, this.transform, resultingProperty as any));
-  }
-
   async getManyTransformed(filter: FilterQuery<Property>): Promise<PropertyDto[]> {
     const resultingProperties = await this.propertyModel.find(filter).exec();
     return resultingProperties.map((resultingProperty) => resultingProperty.toJSON({transform: this.transform}));
-  }
-
-  async create(entityData: Property): Promise<PropertyDAO | null> {
-    const createdProperty = await this.propertyModel.create({...entityData});
-    return (createdProperty) ? new PropertyDAO(this.propertyModel, this.transform, createdProperty as any) : null;
   }
 
   async createAndReturnTransformed(entityData: Property): Promise<PropertyDto | null> {
