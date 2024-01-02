@@ -2,16 +2,9 @@ import {executeAnonymousController, executeAuthenticatedController} from '@split
 
 import {makeGetProfileHandler} from './get-profile';
 import {makeGetTokenFromTokenHoldHandler} from './get-token-from-token-hold';
-import {makeIndexHealthCheckHandler} from './index-health-check';
 import {makeLoginHandler} from './login';
 import {makeRegisterHandler} from './register';
-import {
-  getProfileController,
-  getTokenFromTokenHoldController,
-  indexHealthCheckController,
-  loginController,
-  registerController,
-} from '../controllers';
+import {getProfileController, getTokenFromTokenHoldController, loginController, registerController} from '../controllers';
 import {handleUnhandledControllerError} from '../util';
 
 export const loginHandler = makeLoginHandler(
@@ -30,12 +23,6 @@ export const getTokenFromTokenHoldHandler = makeGetTokenFromTokenHoldHandler(
     handleUnhandledControllerError,
     executeAnonymousController,
     getTokenFromTokenHoldController,
-);
-
-export const indexHealthCheckHandler = makeIndexHealthCheckHandler(
-    handleUnhandledControllerError,
-    executeAnonymousController,
-    indexHealthCheckController,
 );
 
 export const getProfileHandler = makeGetProfileHandler(

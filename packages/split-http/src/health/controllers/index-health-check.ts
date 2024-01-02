@@ -1,11 +1,11 @@
-import {AnonymousController, HttpStatus} from '@split-common/split-http';
-
+import {AnonymousController} from '../../endpoint-util';
+import {HttpStatus} from '../../enums';
 import {
   IndexHealthCheckRequestBody,
   IndexHealthCheckRequestHeaders,
   IndexHealthCheckRequestParams,
   IndexHealthCheckRequestQuery,
-} from '../schemas';
+} from '../schemas/index-health-check';
 
 export const makeIndexHealthCheckController = (
 ): AnonymousController<

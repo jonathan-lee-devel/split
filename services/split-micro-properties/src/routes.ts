@@ -1,4 +1,5 @@
 import {JWT_AUTHENTICATION_STRATEGY} from '@split-common/split-constants';
+import {buildIndexHealthCheckHandler} from '@split-common/split-http';
 import {defaultRateLimiter} from '@split-common/split-service-config';
 import {Router} from 'express';
 import passport from 'passport';
@@ -9,13 +10,15 @@ import {
   deletePropertyByIdHandler,
   getPropertiesWhereInvolvedHandler,
   getPropertyByIdHandler,
-  indexHealthCheckHandler,
   inviteTenantToPropertyHandler,
   togglePropertyAdministratorStatusHandler,
   togglePropertyTenantStatusHandler,
 } from './express-callbacks';
+import logger from './logger';
 
 const router = Router();
+
+const indexHealthCheckHandler = buildIndexHealthCheckHandler(logger);
 
 // Health Check Routes
 router.get('/', indexHealthCheckHandler);

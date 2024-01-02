@@ -1,6 +1,7 @@
-import {AnonymousController, ExecuteAnonymousControllerFunction, HandleUnhandledControllerErrorFunction} from '@split-common/split-http';
 import {Request, Response} from 'express';
 
+import {HandleUnhandledControllerErrorFunction} from '../../common-util';
+import {AnonymousController, ExecuteAnonymousControllerFunction} from '../../endpoint-util';
 import {
   IndexHealthCheckRequestBody,
   indexHealthCheckRequestBodySchema,
@@ -10,7 +11,7 @@ import {
   indexHealthCheckRequestParamsSchema,
   IndexHealthCheckRequestQuery,
   indexHealthCheckRequestQuerySchema,
-} from '../schemas';
+} from '../schemas/index-health-check';
 
 export const makeIndexHealthCheckHandler = (
     handleUnhandledControllerError: HandleUnhandledControllerErrorFunction,
