@@ -1,13 +1,18 @@
 import {GenerateIdFunction} from '@split-common/split-auth';
+import {RegistrationStatus} from '@split-common/split-constants';
 import {HttpStatus} from '@split-common/split-http';
+import {isAfter} from 'date-fns/isAfter';
+import winston from 'winston';
 
-import {UserDAO} from '../dao';
+import {RegistrationVerificationTokenDAO, UserDAO} from '../dao';
 import {EncodePasswordFunction} from '../util/password/encode-password';
 
 export const makeRegisterService = (
+    logger: winston.Logger,
     userDao: UserDAO,
     generateId: GenerateIdFunction,
     encodePassword: EncodePasswordFunction,
+    registrationVerificationTokenDao: RegistrationVerificationTokenDAO,
 ) => {
   return {
     registerUser: async (email: string, firstName: string, lastName: string, password: string) => {
@@ -28,6 +33,34 @@ export const makeRegisterService = (
           emailVerified: false,
           googleId: undefined,
         })};
+    },
+    confirmRegistration: async (tokenValue: string) => {
+      const token = await registrationVerificationTokenDao.getOneTransformed({value: tokenValue});
+      if (!token) {
+        return {status: HttpStatus.BAD_REQUEST, data: {status: RegistrationStatus[RegistrationStatus.INVALID_TOKEN]}};
+      }
+
+      const user = await userDao.getOneTransformed({email: token.userEmail});
+      if (!user) {
+        logger.error(`No user found for registration verification token with userEmail: <${token.userEmail}>`);
+        return {status: HttpStatus.INTERNAL_SERVER_ERROR, data: {status: RegistrationStatus[RegistrationStatus.FAILURE]}};
+      }
+
+      if (user.emailVerified && !user.googleId) {
+        logger.error(`User found for registration verification token with userEmail: <${token.userEmail}> already verified`);
+        return {status: HttpStatus.BAD_REQUEST, data: {status: RegistrationStatus[RegistrationStatus.EMAIL_ALREADY_VERIFIED]}};
+      }
+
+      if (isAfter(new Date(), token.expiryDate)) {
+        return {status: HttpStatus.BAD_REQUEST, data: {status: RegistrationStatus[RegistrationStatus.EMAIL_VERIFICATION_EXPIRED]}};
+      }
+
+      user.emailVerified = true;
+      await userDao.updateOne(user);
+      token.expiryDate = new Date();
+      await registrationVerificationTokenDao.updateOne(token);
+      logger.info(`Successful registration confirmation for user with e-mail: <${user.email}>`);
+      return {status: HttpStatus.OK, data: {status: RegistrationStatus[RegistrationStatus.SUCCESS]}};
     },
   };
 };
