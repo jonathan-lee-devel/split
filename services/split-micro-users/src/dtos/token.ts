@@ -9,3 +9,10 @@ export interface RegistrationVerificationTokenDto {
   expiryDate: Date;
   userEmail: string;
 }
+
+export interface PasswordResetVerificationTokenDto {
+  id: string;
+  value: string;
+  expiryDate: Date;
+  userEmail: string;
+}

@@ -1,6 +1,7 @@
 import {Dto} from '@split-common/split-http';
 
 export interface UserDto extends Dto {
+  id: string;
   email: string;
   firstName: string;
   lastName: string;

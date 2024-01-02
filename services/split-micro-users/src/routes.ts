@@ -6,7 +6,7 @@ import passport from 'passport';
 import {confirmRegistrationHandler, getTokenFromTokenHoldHandler} from './controllers/auth';
 import {indexHealthCheckHandler} from './controllers/health';
 import {getProfileHandler} from './controllers/profile';
-import {loginHandler} from './express-callbacks';
+import {loginHandler, registerHandler} from './express-callbacks';
 
 const router = Router();
 
@@ -14,7 +14,7 @@ const router = Router();
 router.get('/', indexHealthCheckHandler as any);
 
 // Registration Endpoints
-// router.post('/register', defaultRateLimiter, registerUserHandler as any);
+router.post('/register', defaultRateLimiter, registerHandler);
 router.post('/register/confirm', defaultRateLimiter, confirmRegistrationHandler as any);
 
 // Login Endpoints
