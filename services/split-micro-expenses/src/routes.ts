@@ -1,9 +1,5 @@
-import {JWT_AUTHENTICATION_STRATEGY} from '@split-common/split-constants';
-import {defaultRateLimiter} from '@split-common/split-service-config';
 import {Router} from 'express';
-import passport from 'passport';
 
-import {createExpenseHandler, deleteExpenseByIdHandler, getExpenseByIdHandler, getExpensesForPropertyHandler} from './controllers/expenses';
 import {indexHealthCheckHandler} from './controllers/health';
 
 const router = Router();
@@ -12,9 +8,9 @@ const router = Router();
 router.get('/', indexHealthCheckHandler);
 
 // Protected Routes
-router.post('/', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), createExpenseHandler as any);
-router.get('/id/:expenseId', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), getExpenseByIdHandler as any);
-router.delete('/id/:expenseId', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), deleteExpenseByIdHandler as any);
-router.get('/for-property/:propertyId', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), getExpensesForPropertyHandler as any);
+// router.post('/', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), createExpenseHandler as any);
+// router.get('/id/:expenseId', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), getExpenseByIdHandler as any);
+// router.delete('/id/:expenseId', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), deleteExpenseByIdHandler as any);
+// router.get('/for-property/:propertyId', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), getExpensesForPropertyHandler as any);
 
 export default router;
