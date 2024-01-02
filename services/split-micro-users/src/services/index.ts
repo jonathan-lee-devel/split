@@ -4,8 +4,9 @@ import {makeAuthService} from './auth';
 import {makeMailService} from './mail';
 import {makeRegisterService} from './register';
 import {makeTokenService} from './token';
+import {makeTokenHoldService} from './token-hold';
 import {makeUserService} from './user';
-import {makeDefaultUserDao} from '../dao';
+import {makeDefaultTokenHoldDao, makeDefaultUserDao} from '../dao';
 import {makeDefaultPasswordResetVerificationTokenDao} from '../dao/PasswordResetVerificationTokenDAO';
 import {makeDefaultRegistrationVerificationTokenDao} from '../dao/RegistrationVerificationTokenDAO';
 import {environment} from '../environment';
@@ -19,6 +20,8 @@ const defaultUserDao = makeDefaultUserDao();
 const defaultRegistrationTokenDao = makeDefaultRegistrationVerificationTokenDao();
 
 const defaultPasswordResetTokenDao = makeDefaultPasswordResetVerificationTokenDao();
+
+const defaultTokenHoldDao = makeDefaultTokenHoldDao();
 
 const generateId = makeGenerateId(logger);
 
@@ -63,3 +66,9 @@ export const mailService = makeMailService(
 );
 
 export type MailService = typeof mailService;
+
+export const tokenHoldService = makeTokenHoldService(
+    defaultTokenHoldDao,
+);
+
+export type TokenHoldService = typeof tokenHoldService;

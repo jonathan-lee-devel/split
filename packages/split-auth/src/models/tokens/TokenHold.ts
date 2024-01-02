@@ -1,6 +1,7 @@
 import {Schema} from 'mongoose';
 
 export interface TokenHold {
+    id: string;
     email: string;
     token: string;
     tokenCode: string;
@@ -9,6 +10,7 @@ export interface TokenHold {
 }
 
 export const tokenHoldModelSchema = new Schema<TokenHold>({
+  id: {type: String, required: true, unique: true},
   email: {type: String, required: true, unique: false},
   token: {type: String, required: true, unique: false},
   tokenCode: {type: String, required: true, unique: true},

@@ -1,7 +1,8 @@
+import {makeGetTokenFromTokenHoldController} from './get-token-from-token-hold';
 import {makeLoginController} from './login';
 import {makeRegisterController} from './register';
 import logger from '../logger';
-import {authService, mailService, registerService, tokenService, userService} from '../services';
+import {authService, mailService, registerService, tokenHoldService, tokenService, userService} from '../services';
 
 export const loginController = makeLoginController(
     logger,
@@ -14,4 +15,9 @@ export const registerController = makeRegisterController(
     registerService,
     tokenService,
     mailService,
+);
+
+export const getTokenFromTokenHoldController = makeGetTokenFromTokenHoldController(
+    logger,
+    tokenHoldService,
 );
