@@ -4,14 +4,13 @@ import {Router} from 'express';
 import passport from 'passport';
 
 import {confirmRegistrationHandler} from './controllers/auth';
-import {indexHealthCheckHandler} from './controllers/health';
 import {getProfileHandler} from './controllers/profile';
-import {getTokenFromTokenHoldHandler, loginHandler, registerHandler} from './express-callbacks';
+import {getTokenFromTokenHoldHandler, indexHealthCheckHandler, loginHandler, registerHandler} from './express-callbacks';
 
 const router = Router();
 
 // Health Check Routes
-router.get('/', indexHealthCheckHandler as any);
+router.get('/', indexHealthCheckHandler);
 
 // Registration Endpoints
 router.post('/register', defaultRateLimiter, registerHandler);

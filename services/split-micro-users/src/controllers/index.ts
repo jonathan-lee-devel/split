@@ -1,4 +1,5 @@
 import {makeGetTokenFromTokenHoldController} from './get-token-from-token-hold';
+import {makeIndexHealthCheckController} from './index-health-check';
 import {makeLoginController} from './login';
 import {makeRegisterController} from './register';
 import logger from '../logger';
@@ -21,3 +22,5 @@ export const getTokenFromTokenHoldController = makeGetTokenFromTokenHoldControll
     logger,
     tokenHoldService,
 );
+
+export const indexHealthCheckController = makeIndexHealthCheckController();

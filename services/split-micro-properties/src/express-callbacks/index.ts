@@ -5,7 +5,7 @@ import {makeCreatePropertyHandler} from './create-property';
 import {makeDeletePropertyByIdHandler} from './delete-property-by-id';
 import {makeGetPropertiesWhereInvolvedHandler} from './get-properties-where-involved';
 import {makeGetPropertyByIdHandler} from './get-property-by-id';
-import {makeIndexHealthCheckController} from './index-health-check';
+import {makeIndexHealthCheckHandler} from './index-health-check';
 import {makeInviteTenantToPropertyHandler} from './invite-tenant-to-property';
 import {makeTogglePropertyAdministratorStatusHandler} from './toggle-property-administrator-status';
 import {makeTogglePropertyTenantStatusHandler} from './toggle-property-tenant-status';
@@ -23,7 +23,7 @@ import {
 import {handleUnhandledControllerError} from '../util';
 
 
-export const indexHealthCheckHandler = makeIndexHealthCheckController(
+export const indexHealthCheckHandler = makeIndexHealthCheckHandler(
     handleUnhandledControllerError,
     executeAnonymousController,
     indexHealthCheckController,
