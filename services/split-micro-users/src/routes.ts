@@ -3,7 +3,6 @@ import {defaultRateLimiter} from '@split-common/split-service-config';
 import {Router} from 'express';
 import passport from 'passport';
 
-import {confirmRegistrationHandler} from './controllers/auth';
 import {getProfileHandler, getTokenFromTokenHoldHandler, indexHealthCheckHandler, loginHandler, registerHandler} from './express-callbacks';
 
 const router = Router();
@@ -13,7 +12,7 @@ router.get('/', indexHealthCheckHandler);
 
 // Registration Endpoints
 router.post('/register', defaultRateLimiter, registerHandler);
-router.post('/register/confirm', defaultRateLimiter, confirmRegistrationHandler as any);
+// router.post('/register/confirm', defaultRateLimiter, confirmRegistrationHandler as any);
 
 // Login Endpoints
 router.post('/login', defaultRateLimiter, loginHandler);
