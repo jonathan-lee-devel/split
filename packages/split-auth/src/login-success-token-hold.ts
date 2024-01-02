@@ -30,29 +30,34 @@ export const makeLoginSuccessTokenHoldCallback = (
     TokenHold: Model<TokenHold>,
     User: Model<User>,
 ): Function => async (req: AuthenticatedRequest, res: Response) => {
-  logger.info(`Successful Google authentication for: <${req.user.email}>`);
-  const user = await User.findOne({email: req.user.email}).exec();
-  if (!user) {
-    logger.error(`User <${req.user.email}> not found after successful Google authentication`);
+  try {
+    logger.info(`Successful Google authentication for: <${req.user.email}>`);
+    const user = await User.findOne({email: req.user.email}).exec();
+    if (!user) {
+      logger.error(`User <${req.user.email}> not found after successful Google authentication`);
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).send();
+    }
+    const token = jwt.sign({
+      email: req.user.email,
+      firstName: req.user.firstName,
+      lastName: req.user.lastName,
+      emailVerified: user.emailVerified,
+    }, jwtSecret);
+    const tokenCode = crypto.randomBytes(DEFAULT_TOKEN_SIZE / 2).toString('hex');
+    const refreshToken = crypto.randomBytes(DEFAULT_TOKEN_SIZE / 2).toString('hex');
+    await TokenHold.create({
+      id: await generateId(),
+      email: req.user.email,
+      token,
+      tokenCode,
+      refreshToken,
+      expiryDate: addMinutes(new Date(), DEFAULT_TOKEN_HOLD_EXPIRY_TIME_MINUTES),
+    });
+    const redirectUrl = `${frontEndUrl}/google-login-success?tokenCode=${encodeURIComponent(tokenCode)}`;
+    logger.info(`Redirecting user <${req.user.email}> to: ${redirectUrl}`);
+    res.redirect(redirectUrl);
+  } catch (err) {
+    logger.error(`Error occurred while handling login success: ${err}`);
     return res.status(HttpStatus.INTERNAL_SERVER_ERROR).send();
   }
-  const token = jwt.sign({
-    email: req.user.email,
-    firstName: req.user.firstName,
-    lastName: req.user.lastName,
-    emailVerified: user.emailVerified,
-  }, jwtSecret);
-  const tokenCode = crypto.randomBytes(DEFAULT_TOKEN_SIZE / 2).toString('hex');
-  const refreshToken = crypto.randomBytes(DEFAULT_TOKEN_SIZE / 2).toString('hex');
-  await TokenHold.create({
-    id: await generateId(),
-    email: req.user.email,
-    token,
-    tokenCode,
-    refreshToken,
-    expiryDate: addMinutes(new Date(), DEFAULT_TOKEN_HOLD_EXPIRY_TIME_MINUTES),
-  });
-  const redirectUrl = `${frontEndUrl}/google-login-success?tokenCode=${encodeURIComponent(tokenCode)}`;
-  logger.info(`Redirecting user <${req.user.email}> to: ${redirectUrl}`);
-  res.redirect(redirectUrl);
 };
