@@ -37,9 +37,11 @@ export const authService = makeAuthService(
 export type AuthService = typeof authService;
 
 export const registerService = makeRegisterService(
+    logger,
     defaultUserDao,
     generateId,
     encodePassword,
+    defaultRegistrationTokenDao,
 );
 
 export type RegisterService = typeof registerService;
