@@ -4,8 +4,7 @@ import {Router} from 'express';
 import passport from 'passport';
 
 import {confirmRegistrationHandler} from './controllers/auth';
-import {getProfileHandler} from './controllers/profile';
-import {getTokenFromTokenHoldHandler, indexHealthCheckHandler, loginHandler, registerHandler} from './express-callbacks';
+import {getProfileHandler, getTokenFromTokenHoldHandler, indexHealthCheckHandler, loginHandler, registerHandler} from './express-callbacks';
 
 const router = Router();
 
@@ -25,6 +24,6 @@ router.post('/token-code', defaultRateLimiter, getTokenFromTokenHoldHandler);
 // router.post('/password/reset/confirm', defaultRateLimiter, confirmPasswordResetHandler as any);
 
 // Protected Routes Example
-router.get('/profile', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), getProfileHandler as any);
+router.get('/profile', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), getProfileHandler);
 
 export default router;

@@ -1,4 +1,4 @@
-import {makeLoginSuccessTokenHoldCallback, TokenHold, User} from '@split-common/split-auth';
+import {makeGenerateId, makeLoginSuccessTokenHoldCallback, TokenHold, User} from '@split-common/split-auth';
 import {DEFAULT_RATE_LIMIT_PER_WINDOW, DEFAULT_RATE_LIMIT_WINDOW_MS} from '@split-common/split-constants/dist/rate-limit';
 import {makeErrorResponseHandler, notFoundCallback} from '@split-common/split-http';
 import {makeLogResponseTime} from '@split-common/split-observability';
@@ -67,6 +67,7 @@ export const configureExpressApp = (
           logger,
           jwtSecret,
           frontEndUrl,
+          makeGenerateId(logger),
           TokenHold,
           User,
       ) as any,

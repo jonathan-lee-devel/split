@@ -1,3 +1,4 @@
+import {makeGetProfileController} from './get-profile';
 import {makeGetTokenFromTokenHoldController} from './get-token-from-token-hold';
 import {makeIndexHealthCheckController} from './index-health-check';
 import {makeLoginController} from './login';
@@ -24,3 +25,5 @@ export const getTokenFromTokenHoldController = makeGetTokenFromTokenHoldControll
 );
 
 export const indexHealthCheckController = makeIndexHealthCheckController();
+
+export const getProfileController = makeGetProfileController(logger, userService);

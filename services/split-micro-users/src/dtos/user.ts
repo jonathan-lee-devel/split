@@ -9,3 +9,9 @@ export interface UserDto extends Dto {
   emailVerified: boolean;
   googleId: string | undefined;
 }
+
+export interface UserProfileDto {
+  email: string;
+  firstName: string;
+  lastName: string;
+}

@@ -32,5 +32,11 @@ export const makeUserService = (
         {status: HttpStatus.OK} :
         {status: HttpStatus.CONFLICT};
     },
+    getUserProfile: async (requestingUserEmail: string) => {
+      const userData = await userDao.getOneTransformed({email: requestingUserEmail, emailVerified: true});
+      return (userData) ?
+        {status: HttpStatus.OK, data: {email: userData.email, firstName: userData.firstName, lastName: userData.lastName}} :
+        {status: HttpStatus.UNAUTHORIZED};
+    },
   };
 };
