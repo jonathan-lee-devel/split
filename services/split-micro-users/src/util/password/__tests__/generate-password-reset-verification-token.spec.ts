@@ -20,6 +20,7 @@ describe('Generate Password Reset Verification Token Unit Tests', () => {
   it('When generate password reset verification token Then token generated, message logged and token returned', async () => {
     let loggedInfoMessage: string | undefined;
     const passwordResetVerificationToken: PasswordResetVerificationToken = {
+      id: '',
       value: '',
       userEmail: '',
       expiryDate: new Date(),
