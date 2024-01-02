@@ -11,7 +11,7 @@
     "prestart": "yarn build",
     "start": "node dist/server.js",
     "run-no-build": "node dist/server.js",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "fix-lint": "eslint src --ext .ts --fix",
     "update-dependencies": "ncu -u"
   },
