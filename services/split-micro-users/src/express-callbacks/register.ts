@@ -34,7 +34,6 @@ export const makeRegisterHandler = (
       headersParseResult: registerRequestHeadersSchema.safeParse(req.headers),
     });
   } catch (err) {
-    // TODO replace source string with call to get filename
     handleUnhandledControllerError('registerController', err, res);
   }
 };
