@@ -6,6 +6,7 @@ export * from './property';
 export * from './expense';
 export * from './axios-request';
 export * from './rabbitmq';
+export * from './environment';
 export * from './enums/registration/RegistrationStatus';
 export * from './enums/password/PasswordResetStatus';
 export * from './enums/organization/OrganizationInvitationStatus';

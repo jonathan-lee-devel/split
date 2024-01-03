@@ -1,10 +1,11 @@
+import {NodeEnvZodUnion} from '@split-common/split-constants';
 import {loadDotEnv} from '@split-common/split-env';
 import {z} from 'zod';
 
 loadDotEnv();
 
 const environmentVariables = z.object({
-  NODE_ENV: z.string(),
+  NODE_ENV: z.union(NodeEnvZodUnion),
   PORT: z.string(),
   DATABASE_URL: z.string(),
   SESSION_SECRET: z.string(),
