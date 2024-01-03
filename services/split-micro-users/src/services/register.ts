@@ -5,13 +5,14 @@ import {isAfter} from 'date-fns/isAfter';
 import winston from 'winston';
 
 import {RegistrationVerificationTokenDAO, UserDAO} from '../dao';
-import {EncodePasswordFunction} from '../util/password/encode-password';
+
+import {PasswordService} from './index';
 
 export const makeRegisterService = (
     logger: winston.Logger,
     userDao: UserDAO,
     generateId: GenerateIdFunction,
-    encodePassword: EncodePasswordFunction,
+    passwordService: PasswordService,
     registrationVerificationTokenDao: RegistrationVerificationTokenDAO,
 ) => {
   return {
@@ -20,7 +21,7 @@ export const makeRegisterService = (
       if (existingGoogleUser) {
         existingGoogleUser.firstName = firstName;
         existingGoogleUser.lastName = lastName;
-        existingGoogleUser.password = await encodePassword(password);
+        existingGoogleUser.password = await passwordService.encodePassword(password);
       }
       return (existingGoogleUser) ?
         {status: HttpStatus.OK, data: await userDao.updateOneAndReturnTransformed(existingGoogleUser)} :
@@ -29,7 +30,7 @@ export const makeRegisterService = (
           email,
           firstName,
           lastName,
-          password: await encodePassword(password),
+          password: await passwordService.encodePassword(password),
           emailVerified: false,
           googleId: undefined,
         })};

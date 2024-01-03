@@ -2,18 +2,20 @@ import {makeGenerateId} from '@split-common/split-auth';
 
 import {makeAuthService} from './auth';
 import {makeMailService} from './mail';
+import {makePasswordService} from './password';
 import {makeRegisterService} from './register';
 import {makeTokenService} from './token';
 import {makeTokenHoldService} from './token-hold';
 import {makeUserService} from './user';
-import {makeDefaultTokenHoldDao, makeDefaultUserDao} from '../dao';
-import {makeDefaultPasswordResetVerificationTokenDao} from '../dao/PasswordResetVerificationTokenDAO';
-import {makeDefaultRegistrationVerificationTokenDao} from '../dao/RegistrationVerificationTokenDAO';
+import {
+  makeDefaultPasswordResetVerificationTokenDao,
+  makeDefaultRegistrationVerificationTokenDao,
+  makeDefaultTokenHoldDao,
+  makeDefaultUserDao,
+} from '../dao';
 import {environment} from '../environment';
 import logger from '../logger';
 import {makeMailToSendRabbitMQConnection} from '../rabbitmq';
-import {makeEncodePassword} from '../util/password/encode-password';
-import {makeGenerateSalt} from '../util/password/generate-salt';
 
 const defaultUserDao = makeDefaultUserDao();
 
@@ -25,9 +27,11 @@ const defaultTokenHoldDao = makeDefaultTokenHoldDao();
 
 const generateId = makeGenerateId(logger);
 
-const encodePassword = makeEncodePassword(makeGenerateSalt());
-
 const mailToSendRabbitMQPromise = makeMailToSendRabbitMQConnection(logger, environment.RABBITMQ_URL);
+
+export const passwordService = makePasswordService();
+
+export type PasswordService = typeof passwordService;
 
 export const authService = makeAuthService(
     environment.JWT_SECRET,
@@ -40,7 +44,7 @@ export const registerService = makeRegisterService(
     logger,
     defaultUserDao,
     generateId,
-    encodePassword,
+    passwordService,
     defaultRegistrationTokenDao,
 );
 
@@ -57,6 +61,7 @@ export type UserService = typeof userService;
 
 export const tokenService = makeTokenService(
     defaultRegistrationTokenDao,
+    defaultPasswordResetTokenDao,
     generateId,
 );
 
