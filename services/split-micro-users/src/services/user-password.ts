@@ -55,7 +55,7 @@ export const makeUserPasswordService = (
         return {status: HttpStatus.INTERNAL_SERVER_ERROR, data: {status: PasswordResetStatus[PasswordResetStatus.FAILURE]}};
       }
 
-      if (isAfter(token.expiryDate, new Date())) {
+      if (isAfter(new Date(), token.expiryDate)) {
         return {status: HttpStatus.BAD_REQUEST, data: {status: PasswordResetStatus[PasswordResetStatus.EMAIL_VERIFICATION_EXPIRED]}};
       }
 
