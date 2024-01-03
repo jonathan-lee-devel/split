@@ -10,6 +10,7 @@ import {
   getTokenFromTokenHoldHandler,
   loginHandler,
   registerHandler,
+  resetPasswordHandler,
 } from './express-callbacks';
 import logger from './logger';
 
@@ -29,8 +30,8 @@ router.post('/login', defaultRateLimiter, loginHandler);
 router.post('/token-code', defaultRateLimiter, getTokenFromTokenHoldHandler);
 
 // Password Endpoints
-// router.post('/password/reset', defaultRateLimiter, resetPasswordHandler as any);
-// router.post('/password/reset/confirm', defaultRateLimiter, confirmPasswordResetHandler as any);
+router.post('/password/reset', defaultRateLimiter, resetPasswordHandler);
+// router.post('/password/reset/confirm', defaultRateLimiter, confirmPasswordResetHandler);
 
 // Protected Routes Example
 router.get('/profile', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), getProfileHandler);

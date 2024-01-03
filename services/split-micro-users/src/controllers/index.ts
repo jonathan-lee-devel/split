@@ -3,8 +3,9 @@ import {makeGetProfileController} from './get-profile';
 import {makeGetTokenFromTokenHoldController} from './get-token-from-token-hold';
 import {makeLoginController} from './login';
 import {makeRegisterController} from './register';
+import {makeResetPasswordController} from './reset-password';
 import logger from '../logger';
-import {authService, mailService, registerService, tokenHoldService, tokenService, userService} from '../services';
+import {authService, mailService, registerService, tokenHoldService, tokenService, userPasswordService, userService} from '../services';
 
 export const loginController = makeLoginController(
     logger,
@@ -29,4 +30,9 @@ export const getProfileController = makeGetProfileController(logger, userService
 export const confirmRegistrationController = makeConfirmRegistrationController(
     logger,
     registerService,
+);
+
+export const resetPasswordController = makeResetPasswordController(
+    logger,
+    userPasswordService,
 );

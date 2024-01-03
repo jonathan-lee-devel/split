@@ -5,12 +5,14 @@ import {makeGetProfileHandler} from './get-profile';
 import {makeGetTokenFromTokenHoldHandler} from './get-token-from-token-hold';
 import {makeLoginHandler} from './login';
 import {makeRegisterHandler} from './register';
+import {makeResetPasswordHandler} from './reset-password';
 import {
   confirmRegistrationController,
   getProfileController,
   getTokenFromTokenHoldController,
   loginController,
   registerController,
+  resetPasswordController,
 } from '../controllers';
 import {handleUnhandledControllerError} from '../util';
 
@@ -42,4 +44,10 @@ export const confirmRegistrationHandler = makeConfirmRegistrationHandler(
     handleUnhandledControllerError,
     executeAnonymousController,
     confirmRegistrationController,
+);
+
+export const resetPasswordHandler = makeResetPasswordHandler(
+    handleUnhandledControllerError,
+    executeAnonymousController,
+    resetPasswordController,
 );

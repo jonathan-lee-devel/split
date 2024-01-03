@@ -7,6 +7,7 @@ import {makeRegisterService} from './register';
 import {makeTokenService} from './token';
 import {makeTokenHoldService} from './token-hold';
 import {makeUserService} from './user';
+import {makeUserPasswordService} from './user-password';
 import {
   makeDefaultPasswordResetVerificationTokenDao,
   makeDefaultRegistrationVerificationTokenDao,
@@ -79,3 +80,15 @@ export const tokenHoldService = makeTokenHoldService(
 );
 
 export type TokenHoldService = typeof tokenHoldService;
+
+export const userPasswordService = makeUserPasswordService(
+    logger,
+    defaultUserDao,
+    defaultPasswordResetTokenDao,
+    tokenService,
+    passwordService,
+    mailToSendRabbitMQPromise,
+    environment.FRONT_END_URL,
+);
+
+export type UserPasswordService = typeof userPasswordService;
