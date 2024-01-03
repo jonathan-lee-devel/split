@@ -5,6 +5,7 @@ import {Router} from 'express';
 import passport from 'passport';
 
 import {
+  confirmPasswordResetHandler,
   confirmRegistrationHandler,
   getProfileHandler,
   getTokenFromTokenHoldHandler,
@@ -31,7 +32,7 @@ router.post('/token-code', defaultRateLimiter, getTokenFromTokenHoldHandler);
 
 // Password Endpoints
 router.post('/password/reset', defaultRateLimiter, resetPasswordHandler);
-// router.post('/password/reset/confirm', defaultRateLimiter, confirmPasswordResetHandler);
+router.post('/password/reset/confirm', defaultRateLimiter, confirmPasswordResetHandler);
 
 // Protected Routes Example
 router.get('/profile', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), getProfileHandler);

@@ -1,5 +1,6 @@
 import {executeAnonymousController, executeAuthenticatedController} from '@split-common/split-http';
 
+import {makeConfirmPasswordResetHandler} from './confirm-password-reset';
 import {makeConfirmRegistrationHandler} from './confirm-registration';
 import {makeGetProfileHandler} from './get-profile';
 import {makeGetTokenFromTokenHoldHandler} from './get-token-from-token-hold';
@@ -7,6 +8,7 @@ import {makeLoginHandler} from './login';
 import {makeRegisterHandler} from './register';
 import {makeResetPasswordHandler} from './reset-password';
 import {
+  confirmPasswordResetController,
   confirmRegistrationController,
   getProfileController,
   getTokenFromTokenHoldController,
@@ -50,4 +52,10 @@ export const resetPasswordHandler = makeResetPasswordHandler(
     handleUnhandledControllerError,
     executeAnonymousController,
     resetPasswordController,
+);
+
+export const confirmPasswordResetHandler = makeConfirmPasswordResetHandler(
+    handleUnhandledControllerError,
+    executeAnonymousController,
+    confirmPasswordResetController,
 );

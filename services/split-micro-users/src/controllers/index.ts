@@ -1,3 +1,4 @@
+import {makeConfirmPasswordResetController} from './confirm-password-reset';
 import {makeConfirmRegistrationController} from './confirm-registration';
 import {makeGetProfileController} from './get-profile';
 import {makeGetTokenFromTokenHoldController} from './get-token-from-token-hold';
@@ -33,6 +34,11 @@ export const confirmRegistrationController = makeConfirmRegistrationController(
 );
 
 export const resetPasswordController = makeResetPasswordController(
+    logger,
+    userPasswordService,
+);
+
+export const confirmPasswordResetController = makeConfirmPasswordResetController(
     logger,
     userPasswordService,
 );
