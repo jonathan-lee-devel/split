@@ -1,3 +1,4 @@
+import {makeConfirmRegistrationController} from './confirm-registration';
 import {makeGetProfileController} from './get-profile';
 import {makeGetTokenFromTokenHoldController} from './get-token-from-token-hold';
 import {makeLoginController} from './login';
@@ -24,3 +25,8 @@ export const getTokenFromTokenHoldController = makeGetTokenFromTokenHoldControll
 );
 
 export const getProfileController = makeGetProfileController(logger, userService);
+
+export const confirmRegistrationController = makeConfirmRegistrationController(
+    logger,
+    registerService,
+);

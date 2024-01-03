@@ -1,10 +1,17 @@
 import {executeAnonymousController, executeAuthenticatedController} from '@split-common/split-http';
 
+import {makeConfirmRegistrationHandler} from './confirm-registration';
 import {makeGetProfileHandler} from './get-profile';
 import {makeGetTokenFromTokenHoldHandler} from './get-token-from-token-hold';
 import {makeLoginHandler} from './login';
 import {makeRegisterHandler} from './register';
-import {getProfileController, getTokenFromTokenHoldController, loginController, registerController} from '../controllers';
+import {
+  confirmRegistrationController,
+  getProfileController,
+  getTokenFromTokenHoldController,
+  loginController,
+  registerController,
+} from '../controllers';
 import {handleUnhandledControllerError} from '../util';
 
 export const loginHandler = makeLoginHandler(
@@ -29,4 +36,10 @@ export const getProfileHandler = makeGetProfileHandler(
     handleUnhandledControllerError,
     executeAuthenticatedController,
     getProfileController,
+);
+
+export const confirmRegistrationHandler = makeConfirmRegistrationHandler(
+    handleUnhandledControllerError,
+    executeAnonymousController,
+    confirmRegistrationController,
 );
