@@ -1,6 +1,7 @@
 import {AuthenticatedController} from '@split-common/split-http';
 import winston from 'winston';
 
+import {ExpenseDto} from '../dtos';
 import {CreateExpenseRequestBody, CreateExpenseRequestHeaders, CreateExpenseRequestParams, CreateExpenseRequestQuery} from '../schemas';
 import {ExpenseService} from '../services';
 
@@ -12,7 +13,7 @@ export const makeCreateExpenseController = (
   CreateExpenseRequestParams,
   CreateExpenseRequestQuery,
   CreateExpenseRequestHeaders,
-  any> => // TODO: Replace any
+  ExpenseDto> =>
   async (requestingUserEmail, body, _params, _query, headers) => {
     const {propertyId, name, amount, currencyCode} = body;
     logger.info(`Request from <${requestingUserEmail}> to create expense with name: ${name}`);

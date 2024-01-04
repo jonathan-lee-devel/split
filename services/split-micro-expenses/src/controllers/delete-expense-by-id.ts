@@ -1,6 +1,7 @@
 import {AuthenticatedController} from '@split-common/split-http';
 import winston from 'winston';
 
+import {ExpenseDto} from '../dtos';
 import {
   DeleteExpenseByIdRequestBody,
   DeleteExpenseByIdRequestHeaders,
@@ -17,7 +18,7 @@ export const makeDeleteExpenseByIdController = (
   DeleteExpenseByIdRequestParams,
   DeleteExpenseByIdRequestQuery,
   DeleteExpenseByIdRequestHeaders,
-  any> => // TODO: Replace any
+  ExpenseDto> =>
   async (requestingUserEmail, _body, params, _query, headers) => {
     const {expenseId} = params;
     logger.info(`Request from <${requestingUserEmail}> to delete expense with ID: ${expenseId}`);

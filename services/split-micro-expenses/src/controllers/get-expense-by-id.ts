@@ -1,6 +1,7 @@
 import {AuthenticatedController} from '@split-common/split-http';
 import winston from 'winston';
 
+import {ExpenseDto} from '../dtos';
 import {
   GetExpenseByIdRequestBody,
   GetExpenseByIdRequestHeaders,
@@ -17,7 +18,7 @@ export const makeGetExpenseByIdController = (
   GetExpenseByIdRequestParams,
   GetExpenseByIdRequestQuery,
   GetExpenseByIdRequestHeaders,
-  any> => // TODO: Replace any
+  ExpenseDto> =>
   async (requestingUserEmail, _body, params, _query, headers) => {
     const {expenseId} = params;
     logger.info(`Request from <${requestingUserEmail}> to get expense with ID: ${expenseId}`);

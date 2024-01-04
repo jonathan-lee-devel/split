@@ -3,7 +3,13 @@ import {executeAuthenticatedController} from '@split-common/split-http';
 import {makeCreateExpenseHandler} from './create-expense';
 import {makeDeleteExpenseByIdHandler} from './delete-expense-by-id';
 import {makeGetExpenseByIdHandler} from './get-expense-by-id';
-import {createExpenseController, getExpenseByIdController} from '../controllers';
+import {makeGetExpensesForPropertyHandler} from './get-expenses-for-property';
+import {
+  createExpenseController,
+  deleteExpenseByIdController,
+  getExpenseByIdController,
+  getExpensesForPropertyController,
+} from '../controllers';
 import {handleUnhandledControllerError} from '../util';
 
 export const getExpenseByIdHandler = makeGetExpenseByIdHandler(
@@ -21,5 +27,11 @@ export const createExpenseHandler = makeCreateExpenseHandler(
 export const deleteExpenseByIdHandler = makeDeleteExpenseByIdHandler(
     handleUnhandledControllerError,
     executeAuthenticatedController,
-    getExpenseByIdController,
+    deleteExpenseByIdController,
+);
+
+export const getExpensesForPropertyHandler = makeGetExpensesForPropertyHandler(
+    handleUnhandledControllerError,
+    executeAuthenticatedController,
+    getExpensesForPropertyController,
 );

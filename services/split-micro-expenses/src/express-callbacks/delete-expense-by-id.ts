@@ -7,6 +7,7 @@ import {
 } from '@split-common/split-http';
 import {Request, Response} from 'express';
 
+import {ExpenseDto} from '../dtos';
 import {
   DeleteExpenseByIdRequestBody,
   deleteExpenseByIdRequestBodySchema,
@@ -26,7 +27,7 @@ export const makeDeleteExpenseByIdHandler = (
       DeleteExpenseByIdRequestParams,
       DeleteExpenseByIdRequestQuery,
       DeleteExpenseByIdRequestHeaders,
-      any>, // TODO: Replace any
+      ExpenseDto>,
 ) => async (req: Request, res: Response) => {
   try {
     await executeAuthenticatedController({
