@@ -4,7 +4,7 @@ import {defaultRateLimiter} from '@split-common/split-service-config';
 import {Router} from 'express';
 import passport from 'passport';
 
-import {createExpenseHandler, getExpenseByIdHandler} from './express-callbacks';
+import {createExpenseHandler, deleteExpenseByIdHandler, getExpenseByIdHandler} from './express-callbacks';
 import logger from './logger';
 
 const router = Router();
@@ -17,7 +17,7 @@ router.get('/', indexHealthCheckHandler);
 // Protected Routes
 router.post('/', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), createExpenseHandler);
 router.get('/id/:expenseId', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), getExpenseByIdHandler);
-// router.delete('/id/:expenseId', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), deleteExpenseByIdHandler as any);
+router.delete('/id/:expenseId', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), deleteExpenseByIdHandler);
 // router.get('/for-property/:propertyId', defaultRateLimiter, passport.authenticate(JWT_AUTHENTICATION_STRATEGY, {session: false}), getExpensesForPropertyHandler as any);
 
 export default router;

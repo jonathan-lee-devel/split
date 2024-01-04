@@ -46,7 +46,7 @@ export const makeExpenseService = (
         {status: HttpStatus.CREATED, data: createdExpense} :
         {status: HttpStatus.INTERNAL_SERVER_ERROR, error: `Error creating expense with name: ${name}`};
     },
-    deleteExpenseById: async (requestingUserEmail: string, expenseId: string, authorizationHeader: string) => {
+    deleteExpenseById: async (requestingUserEmail: string, authorizationHeader: string, expenseId: string) => {
       const expense = await expenseDao.getOneTransformed({id: expenseId});
       if (!expense) {
         return {status: HttpStatus.NOT_FOUND, error: `Expense with ID: ${expenseId} not found`};
