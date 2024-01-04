@@ -3,9 +3,11 @@ import {HttpStatus} from '@split-common/split-http';
 import Dinero, {Currency} from 'dinero.js';
 import winston from 'winston';
 
+import {PropertyService} from './index';
+
 export const makeExpenseService = (
     logger: winston.Logger,
-    propertyService: any,
+    propertyService: PropertyService,
     expenseDao: any,
     generateId: GenerateIdFunction,
 ) => (
