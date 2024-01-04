@@ -59,15 +59,16 @@
               "builtin",
               "external",
               "internal",
-              ["sibling", "parent"],
+              [
+                "sibling",
+                "parent"
+              ],
               "index",
               "unknown"
             ],
             "newlines-between": "always",
             "alphabetize": {
-              /* sort in ascending order. Options: ["ignore", "asc", "desc"] */
               "order": "asc",
-              /* ignore case. Options: [true, false] */
               "caseInsensitive": false
             }
           }
@@ -83,6 +84,14 @@
         "plugin:@angular-eslint/template/accessibility"
       ],
       "rules": {}
+    },
+    {
+      "files": [
+        "*.ts"
+      ],
+      "extends": [
+        "plugin:@ngrx/strict-requiring-type-checking"
+      ]
     }
   ]
 }

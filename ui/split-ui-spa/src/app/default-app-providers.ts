@@ -2,6 +2,7 @@ import {HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi}
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material/snack-bar';
 import {provideAnimations} from '@angular/platform-browser/animations';
 import {provideRouter} from '@angular/router';
+import {provideStore} from '@ngrx/store';
 
 import {routes} from './app.routes';
 import {AuthInterceptor} from './interceptors/auth/auth.interceptor';
@@ -9,6 +10,7 @@ import {ErrorInterceptor} from './interceptors/error/error.interceptor';
 
 
 export const DEFAULT_APP_PROVIDERS = [
+  provideStore(),
   provideRouter(routes),
   provideHttpClient(withFetch(), withInterceptorsFromDi()),
   {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
