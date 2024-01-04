@@ -6,6 +6,7 @@ import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 
 import {decrement, increment, reset} from '../../../+state/counter.actions';
+import {selectCounter} from '../../../+state/counter.selector';
 import {CookiesNoticeService} from '../../../services/cookies-notice/cookies-notice.service';
 
 
@@ -26,16 +27,13 @@ export class LandingPageComponent implements OnInit {
   count$: Observable<number>;
 
   constructor(
-    // eslint-disable-next-line @ngrx/no-typed-global-store
-    private store: Store<{count: number}>,
+    private store: Store,
     private cookiesNoticeService: CookiesNoticeService,
   ) {
-    // eslint-disable-next-line @ngrx/prefer-selector-in-select
-    this.count$ = this.store.select('count');
+    this.count$ = this.store.select(selectCounter);
   }
 
   ngOnInit() {
-    this.store.dispatch(reset());
     this.cookiesNoticeService.triggerIfNotAccepted();
   }
 
