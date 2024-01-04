@@ -3,7 +3,7 @@ describe('Cookies Notice E2E Tests', () => {
     cy.visit('https://staging.split.direct');
     cy.wait(2000);
     const cookiesDialog = cy.get('mat-dialog-container').should('be.visible');
-    cy.get('button').click({force: true});
+    cy.get('[data-test-id="cookiesNoticeAcceptButton"]').click({force: true});
     cookiesDialog.should('not.exist');
   });
 });
