@@ -1,3 +1,5 @@
+import path from 'node:path';
+
 import {
   AuthenticatedController,
   ExecuteAuthenticatedControllerFunction,
@@ -38,6 +40,6 @@ export const makeTogglePropertyTenantStatusHandler = (
       headersParseResult: togglePropertyTenantStatusRequestHeadersSchema.safeParse(req.headers),
     });
   } catch (err) {
-    handleUnhandledControllerError('togglePropertyTenantStatusController', err, res);
+    handleUnhandledControllerError(path.basename(__filename), err, res);
   }
 };

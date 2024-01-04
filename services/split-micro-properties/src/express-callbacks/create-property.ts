@@ -1,3 +1,5 @@
+import path from 'node:path';
+
 import {
   AuthenticatedController,
   ExecuteAuthenticatedControllerFunction,
@@ -38,6 +40,6 @@ export const makeCreatePropertyHandler = (
       headersParseResult: createPropertyRequestHeadersSchema.safeParse(req.headers),
     });
   } catch (err) {
-    handleUnhandledControllerError('createPropertyController', err, res);
+    handleUnhandledControllerError(path.basename(__filename), err, res);
   }
 };

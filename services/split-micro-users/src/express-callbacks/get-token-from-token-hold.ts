@@ -1,3 +1,5 @@
+import path from 'node:path';
+
 import {AnonymousController, ExecuteAnonymousControllerFunction, HandleUnhandledControllerErrorFunction} from '@split-common/split-http';
 import {Request, Response} from 'express';
 
@@ -34,6 +36,6 @@ export const makeGetTokenFromTokenHoldHandler = (
       headersParseResult: getTokenFromTokenHoldRequestHeadersSchema.safeParse(req.headers),
     });
   } catch (err) {
-    handleUnhandledControllerError('getTokenFromTokenHoldController', err, res);
+    handleUnhandledControllerError(path.basename(__filename), err, res);
   }
 };
