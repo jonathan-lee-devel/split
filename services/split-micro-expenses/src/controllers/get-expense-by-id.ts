@@ -17,7 +17,7 @@ export const makeGetExpenseByIdController = (
   GetExpenseByIdRequestParams,
   GetExpenseByIdRequestQuery,
   GetExpenseByIdRequestHeaders,
-  any> =>
+  any> => // TODO: Replace any
   async (requestingUserEmail, _body, params, _query, headers) => {
     const {expenseId} = params;
     logger.info(`Request from <${requestingUserEmail}> to get expense with ID: ${expenseId}`);

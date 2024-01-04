@@ -23,6 +23,8 @@ export const createExpenseRequestQuerySchema = z.object({});
 
 export type CreateExpenseRequestQuery = z.infer<typeof createExpenseRequestQuerySchema>;
 
-export const createExpenseRequestHeadersSchema = z.object({});
+export const createExpenseRequestHeadersSchema = z.object({
+  authorization: z.string(),
+});
 
 export type CreateExpenseRequestHeaders = z.infer<typeof createExpenseRequestHeadersSchema>;

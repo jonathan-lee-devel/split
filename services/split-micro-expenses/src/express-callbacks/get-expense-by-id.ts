@@ -2,7 +2,7 @@ import path from 'node:path';
 
 import {
   AuthenticatedController,
-  ExecuteAnonymousControllerFunction,
+  ExecuteAuthenticatedControllerFunction,
   HandleUnhandledControllerErrorFunction,
 } from '@split-common/split-http';
 import {Request, Response} from 'express';
@@ -20,16 +20,16 @@ import {
 
 export const makeGetExpenseByIdHandler = (
     handleUnhandledControllerError: HandleUnhandledControllerErrorFunction,
-    executeAnonymousController: ExecuteAnonymousControllerFunction,
+    executeAuthenticatedController: ExecuteAuthenticatedControllerFunction,
     getExpenseByIdController: AuthenticatedController<
       GetExpenseByIdRequestBody,
       GetExpenseByIdRequestParams,
       GetExpenseByIdRequestQuery,
       GetExpenseByIdRequestHeaders,
-      any>,
+      any>, // TODO: replace any
 ) => async (req: Request, res: Response) => {
   try {
-    await executeAnonymousController({
+    await executeAuthenticatedController({
       req,
       res,
       controller: getExpenseByIdController,
