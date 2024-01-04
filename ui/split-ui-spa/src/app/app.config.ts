@@ -1,7 +1,7 @@
 import {ApplicationConfig, importProvidersFrom} from '@angular/core';
 import {StoreModule} from '@ngrx/store';
 
-import {counterReducer} from './+state/counter.reducer';
+import {counterReducer} from './+state';
 import {DEFAULT_APP_PROVIDERS} from './default-app-providers';
 
 

@@ -5,8 +5,7 @@ import {RouterLink} from '@angular/router';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 
-import {decrement, increment, reset} from '../../../+state/counter.actions';
-import {selectCounter} from '../../../+state/counter.selector';
+import {decrement, increment, reset, selectCounter} from '../../../+state/';
 import {CookiesNoticeService} from '../../../services/cookies-notice/cookies-notice.service';
 
 
