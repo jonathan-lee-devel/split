@@ -38,3 +38,19 @@ total for rent is 2000 split among 4 tenants.
 Split.Direct is fully dockerized and deployed to a Kubernetes cluster hosted in the cloud.
 
 ![Architecture Diagram](https://github.com/jonathan-lee-devel/split/blob/main/split-arch.png?raw=true)
+
+## Technologies Used
+### MEAN Stack (MongoDB, Express, Angular, Node.js)
+<img src="https://www.svgrepo.com/show/331488/mongodb.svg" alt="MongoDB" width="50" />
+<img src="https://cdn.worldvectorlogo.com/logos/express-109.svg" alt="Express" width="100" />
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/2048px-Angular_full_color_logo.svg.png" alt="Angular" width="50" />
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/2560px-Node.js_logo.svg.png" alt="Node.js" width="50" />
+
+### Kubernetes, Docker, and RabbitMQ
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Kubernetes_logo_without_workmark.svg/1055px-Kubernetes_logo_without_workmark.svg.png" alt="Kubernetes" width="50" />
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Docker_%28container_engine%29_logo.svg/1280px-Docker_%28container_engine%29_logo.svg.png" alt="Docker" width="150" />
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/RabbitMQ_logo.svg/2560px-RabbitMQ_logo.svg.png" alt="RabbitMQ" width="150" />
+
+### NgRx & SCSS
+<img src="https://ngrx.io/assets/images/badge.svg" alt="NgRx" width="50" />
+<img src="https://cdn.worldvectorlogo.com/logos/sass-1.svg" alt="SCSS" width="50" />
