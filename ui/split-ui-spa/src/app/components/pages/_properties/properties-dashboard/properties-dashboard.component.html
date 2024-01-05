@@ -1,15 +1,15 @@
 <section class="container flex justify-center mt-10">
-  <div
-    class="card border-dark-subtle text-center mb-10 bg-[#133247] animate__animated animate__zoomInDown animate__faster">
-    <div class="card-body">
-      <div class="flex justify-center text-center items-center pt-10">
-        <h1 class="text-white text-4xl underline">Manage Property</h1>
-      </div>
-      @if (isLoadingMap_().get(propertyDashboardByIdLoadingKey) || isLoadingMap_().get(expensesForPropertyLoadingKey)) {
-        <div class="flex justify-center items-center mt-2.5 mb-3.5">
-          <mat-spinner/>
+  <ng-container *ngIf="property$ | async as property">
+    <div class="card border-dark-subtle text-center mb-10 bg-[#133247] animate__animated animate__zoomInDown animate__faster">
+      <div class="card-body">
+        <div class="flex justify-center text-center items-center pt-10">
+          <h1 class="text-white text-4xl underline">Manage Property</h1>
         </div>
-      } @else {
+        <ng-container *ngIf="(propertyLoadStatus$ | async) !== 'LOADED'">
+          <div class="flex justify-center items-center mt-2.5 mb-3.5">
+            <mat-spinner/>
+          </div>
+        </ng-container>
         <div class="justify-center items-center mt-2.5 mb-3.5 grid grid-cols-1">
           <div class="row flex justify-center">
             <p class="text-white text-3xl">{{ property.name }}</p>
@@ -19,13 +19,13 @@
               <table class="w-full text-sm text-left rtl:text-right text-gray-500 bg-blue-600">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
                 <tr>
-                  <th scope="col" class="px-6 py-3">
+                  <th class="px-6 py-3" scope="col">
                     E-mail
                   </th>
-                  <th scope="col" class="px-6 py-3">
+                  <th class="px-6 py-3" scope="col">
                     Administrator Status
                   </th>
-                  <th scope="col" class="px-6 py-3">
+                  <th class="px-6 py-3" scope="col">
                     Tenant status
                   </th>
                   @if (property.administratorEmails.includes(currentUser.email)) {
@@ -39,7 +39,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                  @for (combinedEmail of combinedEmails;track $index) {
+                  @for (combinedEmail of combinedEmails; track $index) {
                     <tr class="bg-gray-800 border-b">
                       <td class="px-6 py-4 font-medium text-white whitespace-nowrap">
                         {{ combinedEmail }}
@@ -52,14 +52,14 @@
                       </td>
                       @if (property.administratorEmails.includes(currentUser.email)) {
                         <td class="px-6 py-4">
-                          <button (click)="toggleAdministrator(combinedEmail)"
-                            class="flex items-center px-4 py-2 bg-blue-700 border border-slate-200 rounded-lg text-white">
+                          <button (click)="toggleAdministrator(property, combinedEmail)"
+                                  class="flex items-center px-4 py-2 bg-blue-700 border border-slate-200 rounded-lg text-white">
                             {{ property.administratorEmails.includes(combinedEmail) ? 'Remove Privileges' : 'Make Administrator' }}
                           </button>
                         </td>
                         <td class="px-6 py-4">
-                          <button (click)="toggleTenant(combinedEmail)"
-                            class="flex items-center px-4 py-2 bg-blue-700 border border-slate-200 rounded-lg text-white">
+                          <button (click)="toggleTenant(property, combinedEmail)"
+                                  class="flex items-center px-4 py-2 bg-blue-700 border border-slate-200 rounded-lg text-white">
                             {{ property.tenantEmails.includes(combinedEmail) ? 'Remove Tenant' : 'Make Tenant' }}
                           </button>
                         </td>
@@ -75,13 +75,13 @@
               <table class="w-full text-sm text-left rtl:text-right text-gray-500 bg-blue-600">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
                 <tr>
-                  <th scope="col" class="px-6 py-3">
+                  <th class="px-6 py-3" scope="col">
                     Name
                   </th>
-                  <th scope="col" class="px-6 py-3">
+                  <th class="px-6 py-3" scope="col">
                     Currency
                   </th>
-                  <th scope="col" class="px-6 py-3">
+                  <th class="px-6 py-3" scope="col">
                     Amount
                   </th>
                   @if (property.administratorEmails.includes(currentUser.email)) {
@@ -95,7 +95,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                  @for (expense of propertyExpenses;track propertyExpenses) {
+                  @for (expense of propertyExpenses; track propertyExpenses) {
                     <tr class="bg-gray-800 border-b">
                       <td class="px-6 py-4 font-medium text-white whitespace-nowrap">
                         {{ expense.name }}
@@ -108,12 +108,14 @@
                       </td>
                       @if (property.administratorEmails.includes(currentUser.email)) {
                         <td class="px-6 py-4">
-                          <button class="flex items-center px-4 py-2 bg-blue-700 border border-slate-200 rounded-lg text-white">
+                          <button
+                            class="flex items-center px-4 py-2 bg-blue-700 border border-slate-200 rounded-lg text-white">
                             Update Expense
                           </button>
                         </td>
                         <td class="px-6 py-4">
-                          <button (click)="doDeleteExpense(expense)" class="flex items-center px-4 py-2 bg-red-700 border border-slate-200 rounded-lg text-white">
+                          <button (click)="doDeleteExpense(expense)"
+                                  class="flex items-center px-4 py-2 bg-red-700 border border-slate-200 rounded-lg text-white">
                             Delete Expense
                           </button>
                         </td>
@@ -125,22 +127,25 @@
             </div>
           </div>
         </div>
-      }
-      @if (!isLoadingMap_().get(propertyDashboardByIdLoadingKey) && property.administratorEmails.includes(currentUser.email)) {
+        @if (property.administratorEmails.includes(currentUser.email)) {
+          <div class="flex justify-center items-center mt-2.5 mb-3.5">
+            <a [routerLink]="rebaseRoutePathAsString(RoutePath.EXPENSES_CREATE.replace(':propertyId', propertyId))"
+               class="btn btn-info">Create Expense</a>
+          </div>
+          <div class="flex justify-center items-center mt-2.5 mb-3.5">
+            <a
+              [routerLink]="rebaseRoutePathAsString(RoutePath.PROPERTIES_DASHBOARD_ID_INVITE_TENANTS.replace(':propertyId', propertyId))"
+              class="btn btn-warning">Invite Tenants</a>
+          </div>
+          <div class="flex justify-center items-center mt-2.5 mb-3.5">
+            <button (click)="doDeleteProperty(property)" class="btn btn-danger">Delete Property</button>
+          </div>
+        }
         <div class="flex justify-center items-center mt-2.5 mb-3.5">
-          <a [routerLink]="rebaseRoutePathAsString(RoutePath.EXPENSES_CREATE.replace(':propertyId', propertyId))" class="btn btn-info">Create Expense</a>
+          <a [routerLink]="rebaseRoutePath(RoutePath.PROPERTIES_MANAGE)" class="btn btn-primary">Back to
+            Properties</a>
         </div>
-        <div class="flex justify-center items-center mt-2.5 mb-3.5">
-          <a [routerLink]="rebaseRoutePathAsString(RoutePath.PROPERTIES_DASHBOARD_ID_INVITE_TENANTS.replace(':propertyId', propertyId))" class="btn btn-warning">Invite Tenants</a>
-        </div>
-        <div class="flex justify-center items-center mt-2.5 mb-3.5">
-          <button (click)="doDeleteProperty()" class="btn btn-danger">Delete Property</button>
-        </div>
-      }
-      <div class="flex justify-center items-center mt-2.5 mb-3.5">
-        <a [routerLink]="rebaseRoutePath(RoutePath.PROPERTIES_MANAGE)" class="btn btn-primary">Back to
-          Properties</a>
       </div>
     </div>
-  </div>
+  </ng-container>
 </section>
