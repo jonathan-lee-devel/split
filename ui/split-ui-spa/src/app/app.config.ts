@@ -1,16 +1,15 @@
-import {ApplicationConfig, importProvidersFrom} from '@angular/core';
-import {StoreModule} from '@ngrx/store';
+import {ApplicationConfig} from '@angular/core';
+import {provideState, provideStore} from '@ngrx/store';
 
-import {counterReducer} from './+state';
+import {counterReducer} from './+state/counter/counter.reducer';
+import {COUNT_FEATURE_NAME} from './+state/counter/counter.selector';
 import {DEFAULT_APP_PROVIDERS} from './default-app-providers';
 
 
 export const appConfig: ApplicationConfig = {
   providers: [
     ...DEFAULT_APP_PROVIDERS,
-    importProvidersFrom(
-        StoreModule.forRoot({
-          count: counterReducer,
-        })),
+    provideStore(),
+    provideState({name: COUNT_FEATURE_NAME, reducer: counterReducer}),
   ],
 };
