@@ -47,8 +47,6 @@ export class PropertiesDashboardComponent implements OnInit {
   protected readonly rebaseRoutePath = rebaseRoutePath;
   protected readonly rebaseRoutePathAsString = rebaseRoutePathAsString;
 
-  // TODO: Look into best practice for ngOnDestroy (unsubscribe)
-
   constructor(
     private store: Store,
     private route: ActivatedRoute,
@@ -69,7 +67,6 @@ export class PropertiesDashboardComponent implements OnInit {
     this.route.params
         .subscribe((params) => {
           this.propertyId = params['propertyId'];
-          console.log(`Dispatching get property by ID: ${this.propertyId}`);
           this.store.dispatch(PropertyActions.getPropertyById({propertyId: this.propertyId}));
           this.loadingService.onLoadingStart(this.propertyDashboardByIdLoadingKey);
           this.loadingService.onLoadingStart(this.expensesForPropertyLoadingKey);
