@@ -5,8 +5,8 @@ import {RouterLink} from '@angular/router';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 
-import * as CountActions from '../../../+state/counter/counter.actions';
-import * as CountSelector from '../../../+state/counter/counter.selector';
+import {CounterActions} from '../../../+state/counter/counter.actions';
+import {CounterSelector} from '../../../+state/counter/counter.selector';
 import {CookiesNoticeService} from '../../../services/cookies-notice/cookies-notice.service';
 
 
@@ -30,7 +30,7 @@ export class LandingPageComponent implements OnInit {
     private store: Store,
     private cookiesNoticeService: CookiesNoticeService,
   ) {
-    this.count$ = this.store.select(CountSelector.selectCounter);
+    this.count$ = this.store.select(CounterSelector.selectCounter);
   }
 
   ngOnInit() {
@@ -38,14 +38,14 @@ export class LandingPageComponent implements OnInit {
   }
 
   increment() {
-    this.store.dispatch(CountActions.increment());
+    this.store.dispatch(CounterActions.increment());
   }
 
   decrement() {
-    this.store.dispatch(CountActions.decrement());
+    this.store.dispatch(CounterActions.decrement());
   }
 
   reset() {
-    this.store.dispatch(CountActions.reset());
+    this.store.dispatch(CounterActions.reset());
   }
 }
