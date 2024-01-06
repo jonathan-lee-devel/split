@@ -27,7 +27,6 @@ export const expenseReducer = createReducer(
       return {...state, getExpensesForPropertyLoadStatus: 'LOADING'};
     }),
     on(ExpenseActions.loadedExpensesForProperty, (state, {expenses}): ExpenseState => {
-      console.log(`on => loadedExpensesForProperty`);
       return {...state, expensesForProperty: expenses, getExpensesForPropertyLoadStatus: 'LOADED'};
     }),
 );

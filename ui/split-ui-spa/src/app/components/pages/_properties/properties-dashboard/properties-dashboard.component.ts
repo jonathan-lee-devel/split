@@ -77,8 +77,8 @@ export class PropertiesDashboardComponent implements OnInit {
   }
 
   doDeleteProperty() {
-    this.store.dispatch(PropertyActions.removePropertyById({
-      propertyId: this.propertyId,
+    this.store.dispatch(PropertyActions.promptRemovePropertyById({
+      // Ternary is for type safety, will be defined in most use-cases
       property: (this.property) ? this.property : initialPropertyDto,
     }));
   }

@@ -1,1 +1,1 @@
-export type DeleteEntityByIdFunction = (entityId: string) => void;
+export type DeleteEntityByIdFunction = () => void;

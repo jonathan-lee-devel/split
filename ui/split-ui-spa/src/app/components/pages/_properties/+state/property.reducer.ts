@@ -35,17 +35,28 @@ export const propertyReducer = createReducer(
                   {property, loadStatus: 'LOADED'} :
                   {...existingPropertyInnerState})};
     }),
-    on(PropertyActions.removePropertyById, (state, {propertyId}): PropertyState => {
+    on(PropertyActions.promptRemovePropertyById, (state, {property}): PropertyState => {
       return {...state,
         propertiesById: state.propertiesById.map((existingPropertyInnerState) =>
-          (existingPropertyInnerState.property.id === propertyId) ?
-            {property: existingPropertyInnerState.property, loadStatus: 'LOADING'} :
-            {...existingPropertyInnerState})};
+        (existingPropertyInnerState.property.id === property.id) ?
+          {property: existingPropertyInnerState.property, loadStatus: 'LOADING'} :
+          {...existingPropertyInnerState})};
     }),
-    on(PropertyActions.removedPropertyById, (state, {property}): PropertyState => {
+    on(PropertyActions.removePropertyById, (state, {propertyId}): PropertyState => {
       return {...state,
         propertiesById: state.propertiesById.filter((existingPropertyInnerState) =>
-          (existingPropertyInnerState.property.id !== property.id)),
+          (existingPropertyInnerState.property.id !== propertyId)),
       };
+    }),
+    on(PropertyActions.removePropertyByIdCanceled, (state, {propertyId}): PropertyState => {
+      console.log(`Canceled remove of ID: ${propertyId}`);
+      return {...state,
+        propertiesById: state.propertiesById.map((existingPropertyInnerState) =>
+        (existingPropertyInnerState.property.id === propertyId) ?
+          {property: existingPropertyInnerState.property, loadStatus: 'LOADED'} :
+          {...existingPropertyInnerState})};
+    }),
+    on(PropertyActions.removedPropertyById, (state): PropertyState => {
+      return {...state};
     }),
 );
