@@ -4,20 +4,18 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {Store} from '@ngrx/store';
-import {delay, Observable, of, tap} from 'rxjs';
+import {Observable, of, tap} from 'rxjs';
 
 import {PropertyActions} from '../+state/property.actions';
 import {PropertySelector} from '../+state/property.selector';
-import {environment} from '../../../../../environments/environment';
 import {rebaseRoutePath, rebaseRoutePathAsString, RoutePath} from '../../../../app.routes';
 import {UserDto} from '../../../../dtos/auth/UserDto';
 import {ExpenseDto} from '../../../../dtos/expenses/ExpenseDto';
 import {initialPropertyDto, PropertyDto} from '../../../../dtos/properties/PropertyDto';
 import {AuthService} from '../../../../services/auth/auth.service';
-import {ExpenseService} from '../../../../services/expense/expense.service';
-import {LoadingService} from '../../../../services/loading/loading.service';
-import {PropertyService} from '../../../../services/property/property.service';
 import {LoadStatus} from '../../../../types/load-status';
+import {ExpenseActions} from '../_expenses/+state/expense.actions';
+import {ExpenseSelector} from '../_expenses/+state/expense.selector';
 
 @Component({
   selector: 'app-properties-dashboard',
@@ -36,9 +34,10 @@ import {LoadStatus} from '../../../../types/load-status';
 })
 export class PropertiesDashboardComponent implements OnInit {
   property$: Observable<PropertyDto | null> = of(initialPropertyDto);
-  propertyLoadStatus$: Observable<LoadStatus> = of('LOADING');
+  propertyLoadStatus$: Observable<LoadStatus> = of('LOADING' as LoadStatus);
+  expenses$: Observable<ExpenseDto[] | null> = of([]);
+  expensesLoadStatus$: Observable<LoadStatus> = of('LOADING' as LoadStatus);
   propertyId: string = '';
-  propertyExpenses: ExpenseDto[] = [];
   combinedEmails: Set<string> = new Set<string>();
   currentUser: UserDto = AuthService.INITIAL_USER;
   protected readonly propertyDashboardByIdLoadingKey = 'property-dashboard-by-id-loading-key';
@@ -50,16 +49,15 @@ export class PropertiesDashboardComponent implements OnInit {
   constructor(
     private store: Store,
     private route: ActivatedRoute,
-    private loadingService: LoadingService,
     private authService: AuthService,
-    private propertyService: PropertyService,
-    private expenseService: ExpenseService,
   ) {
     this.property$ = this.store.select(PropertySelector.selectPropertyById);
     this.propertyLoadStatus$ = this.store.select(PropertySelector.selectLoadPropertyByIdStatus);
     this.property$.pipe(
         tap((property) => (property) ? this.updateCombinedEmails(property): undefined),
     ).subscribe(); // Unsubscribed by component async pipe
+    this.expenses$ = this.store.select(ExpenseSelector.selectExpensesForProperty);
+    this.expensesLoadStatus$ = this.store.select(ExpenseSelector.selectLoadExpensesForPropertyStatus);
   }
 
   ngOnInit() {
@@ -67,34 +65,29 @@ export class PropertiesDashboardComponent implements OnInit {
     this.route.params
         .subscribe((params) => {
           this.propertyId = params['propertyId'];
-          this.store.dispatch(PropertyActions.getPropertyById({propertyId: this.propertyId}));
-          this.loadingService.onLoadingStart(this.propertyDashboardByIdLoadingKey);
-          this.loadingService.onLoadingStart(this.expensesForPropertyLoadingKey);
-          this.expenseService.getExpensesForProperty(this.propertyId)
-              .pipe(
-                  delay(environment.SIMULATED_LOADING_DELAY_MS),
-              ).subscribe((expenses) => {
-                this.propertyExpenses = expenses;
-                this.loadingService.onLoadingFinished(this.expensesForPropertyLoadingKey);
-              });
+          [PropertyActions.getPropertyById({propertyId: this.propertyId}),
+            ExpenseActions.getExpensesForProperty({propertyId: this.propertyId})]
+              .forEach((action) => this.store.dispatch(action));
         });
   }
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   doDeleteProperty(property: PropertyDto) {
-    this.propertyService.openDeletePropertyDialog(this.propertyId, property.name);
+    // this.propertyService.openDeletePropertyDialog(this.propertyId, property.name);
+    // TODO: Refactor to use actions
   }
 
   async toggleAdministrator(property: PropertyDto, combinedEmail: string) {
-    await this.propertyService.openTogglePropertyAdminDialog(property, combinedEmail);
+    // await this.propertyService.openTogglePropertyAdminDialog(property, combinedEmail);
     // TODO: Refactor to use actions
   }
 
   async toggleTenant(property: PropertyDto, combinedEmail: string) {
-    await this.propertyService.openTogglePropertyTenantDialog(property, combinedEmail);
+    // await this.propertyService.openTogglePropertyTenantDialog(property, combinedEmail);
     // TODO: Refactor to use actions
   }
 
   async doDeleteExpense(expense: ExpenseDto) {
-    await this.expenseService.openDeleteExpenseDialog(expense.id, expense.name);
+    // await this.expenseService.openDeleteExpenseDialog(expense.id, expense.name);
     // TODO: Refactor to use actions
   }
 

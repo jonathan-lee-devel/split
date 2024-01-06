@@ -1,11 +1,13 @@
 <section class="container flex justify-center mt-10">
   <ng-container *ngIf="property$ | async as property">
-    <div class="card border-dark-subtle text-center mb-10 bg-[#133247] animate__animated animate__zoomInDown animate__faster">
+    <div
+      class="card border-dark-subtle text-center mb-10 bg-[#133247] animate__animated animate__zoomInDown animate__faster">
       <div class="card-body">
         <div class="flex justify-center text-center items-center pt-10">
           <h1 class="text-white text-4xl underline">Manage Property</h1>
         </div>
-        <ng-container *ngIf="(propertyLoadStatus$ | async) !== 'LOADED'">
+        <ng-container
+          *ngIf="(propertyLoadStatus$ | async) !== 'LOADED' || (expensesLoadStatus$ | async) !== 'LOADED'">
           <div class="flex justify-center items-center mt-2.5 mb-3.5">
             <mat-spinner/>
           </div>
@@ -71,60 +73,62 @@
             </div>
           </div>
           <div class="row mt-5 flex justify-center">
-            <div class="relative overflow-x-auto">
-              <table class="w-full text-sm text-left rtl:text-right text-gray-500 bg-blue-600">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
-                <tr>
-                  <th class="px-6 py-3" scope="col">
-                    Name
-                  </th>
-                  <th class="px-6 py-3" scope="col">
-                    Currency
-                  </th>
-                  <th class="px-6 py-3" scope="col">
-                    Amount
-                  </th>
-                  @if (property.administratorEmails.includes(currentUser.email)) {
-                    <th scope="col" class="px-6 py-3">
-                      Update
+            <ng-container *ngIf="expenses$ | async as expenses">
+              <div class="relative overflow-x-auto">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 bg-blue-600">
+                  <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
+                  <tr>
+                    <th class="px-6 py-3" scope="col">
+                      Name
                     </th>
-                    <th scope="col" class="px-6 py-3">
-                      Delete
+                    <th class="px-6 py-3" scope="col">
+                      Currency
                     </th>
-                  }
-                </tr>
-                </thead>
-                <tbody>
-                  @for (expense of propertyExpenses; track propertyExpenses) {
-                    <tr class="bg-gray-800 border-b">
-                      <td class="px-6 py-4 font-medium text-white whitespace-nowrap">
-                        {{ expense.name }}
-                      </td>
-                      <td class="px-6 py-4 font-medium text-white whitespace-nowrap">
-                        {{ expense.currencyCode }}
-                      </td>
-                      <td class="px-6 py-4 font-medium text-white whitespace-nowrap">
-                        {{ expense.amount }}
-                      </td>
-                      @if (property.administratorEmails.includes(currentUser.email)) {
-                        <td class="px-6 py-4">
-                          <button
-                            class="flex items-center px-4 py-2 bg-blue-700 border border-slate-200 rounded-lg text-white">
-                            Update Expense
-                          </button>
+                    <th class="px-6 py-3" scope="col">
+                      Amount
+                    </th>
+                    @if (property.administratorEmails.includes(currentUser.email)) {
+                      <th scope="col" class="px-6 py-3">
+                        Update
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                        Delete
+                      </th>
+                    }
+                  </tr>
+                  </thead>
+                  <tbody>
+                    @for (expense of expenses; track $index) {
+                      <tr class="bg-gray-800 border-b">
+                        <td class="px-6 py-4 font-medium text-white whitespace-nowrap">
+                          {{ expense.name }}
                         </td>
-                        <td class="px-6 py-4">
-                          <button (click)="doDeleteExpense(expense)"
-                                  class="flex items-center px-4 py-2 bg-red-700 border border-slate-200 rounded-lg text-white">
-                            Delete Expense
-                          </button>
+                        <td class="px-6 py-4 font-medium text-white whitespace-nowrap">
+                          {{ expense.currencyCode }}
                         </td>
-                      }
-                    </tr>
-                  }
-                </tbody>
-              </table>
-            </div>
+                        <td class="px-6 py-4 font-medium text-white whitespace-nowrap">
+                          {{ expense.amount }}
+                        </td>
+                        @if (property.administratorEmails.includes(currentUser.email)) {
+                          <td class="px-6 py-4">
+                            <button
+                              class="flex items-center px-4 py-2 bg-blue-700 border border-slate-200 rounded-lg text-white">
+                              Update Expense
+                            </button>
+                          </td>
+                          <td class="px-6 py-4">
+                            <button (click)="doDeleteExpense(expense)"
+                                    class="flex items-center px-4 py-2 bg-red-700 border border-slate-200 rounded-lg text-white">
+                              Delete Expense
+                            </button>
+                          </td>
+                        }
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </ng-container>
           </div>
         </div>
         @if (property.administratorEmails.includes(currentUser.email)) {
