@@ -44,6 +44,7 @@ export class PropertiesDashboardComponent implements OnInit {
   protected readonly RoutePath = RoutePath;
   protected readonly rebaseRoutePath = rebaseRoutePath;
   protected readonly rebaseRoutePathAsString = rebaseRoutePathAsString;
+  private property: PropertyDto | undefined;
 
   constructor(
     private store: Store,
@@ -60,6 +61,7 @@ export class PropertiesDashboardComponent implements OnInit {
 
           this.property$ = this.store.select(PropertySelector.selectPropertyById(this.propertyId));
           this.property$.pipe(
+              tap((property) => this.property = (property) ? property : undefined),
               tap((property) => (property) ? this.updateCombinedEmails(property): undefined),
           ).subscribe(); // Unsubscribed by component async pipe
           this.propertyLoadStatus$ = this.store.select(PropertySelector.selectLoadPropertyByIdStatus(this.propertyId));
@@ -73,11 +75,15 @@ export class PropertiesDashboardComponent implements OnInit {
           ].forEach((action) => this.store.dispatch(action));
         });
   }
-  /* eslint-disable @typescript-eslint/no-unused-vars */
-  doDeleteProperty(property: PropertyDto) {
-    // this.propertyService.openDeletePropertyDialog(this.propertyId, property.name);
-    // TODO: Refactor to use actions
+
+  doDeleteProperty() {
+    this.store.dispatch(PropertyActions.removePropertyById({
+      propertyId: this.propertyId,
+      property: (this.property) ? this.property : initialPropertyDto,
+    }));
   }
+
+  /* eslint-disable @typescript-eslint/no-unused-vars */
 
   async toggleAdministrator(property: PropertyDto, combinedEmail: string) {
     // await this.propertyService.openTogglePropertyAdminDialog(property, combinedEmail);

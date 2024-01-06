@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 
 import {environment} from '../../../environments/environment';
 import {rebaseRoutePath, RoutePath} from '../../app.routes';
@@ -59,14 +59,14 @@ export class PropertyService {
     return this.httpClient.patch<PropertyDto>(`${environment.PROPERTIES_SERVICE_BASE_URL}/id/${propertyId}/invite-tenant`, {emailToInvite});
   }
 
-  public openDeletePropertyDialog(propertyId: string, propertyName: string) {
+  public openDeletePropertyDialog(propertyId: string, property: PropertyDto): Observable<PropertyDto | null> {
     const dialogRef = this.confirmDeleteDialog.open(ConfirmDeleteDialogComponent, {
       disableClose: false,
       enterAnimationDuration: 500,
     });
     dialogRef.componentInstance.entityType = this.entityType;
     dialogRef.componentInstance.entityId = propertyId;
-    dialogRef.componentInstance.entityName = propertyName;
+    dialogRef.componentInstance.entityName = property.name;
     dialogRef.componentInstance.onConfirmCallback = (propertyId) => {
       this.deletePropertyById(propertyId)
           .subscribe((property) => {
@@ -74,8 +74,10 @@ export class PropertyService {
             this.matSnackBar.open(`Property: ${property.name} deleted successfully!`, 'Ok', {
               duration: environment.SNACKBAR_DURATION_MS,
             });
+            return of(property);
           });
     };
+    return of(null);
   }
 
   async openTogglePropertyAdminDialog(property: PropertyDto, combinedEmail: string): Promise<PropertyDto> {

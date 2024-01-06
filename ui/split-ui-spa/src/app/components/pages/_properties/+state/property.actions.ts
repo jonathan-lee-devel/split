@@ -16,11 +16,16 @@ const loadedPropertyById = createAction(
 
 const removePropertyById = createAction(
     '[Property] Remove by ID',
-    props<{propertyId: string}>());
+    props<{propertyId: string, property: PropertyDto}>());
+
+const removedPropertyById = createAction(
+    '[Property] Removed by ID',
+    props<{property: PropertyDto}>());
 
 export const PropertyActions = {
   getPropertyById,
   loadPropertyById,
   loadedPropertyById,
   removePropertyById,
+  removedPropertyById,
 } as const;

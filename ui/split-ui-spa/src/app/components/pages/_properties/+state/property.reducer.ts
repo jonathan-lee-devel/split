@@ -35,7 +35,17 @@ export const propertyReducer = createReducer(
                   {property, loadStatus: 'LOADED'} :
                   {...existingPropertyInnerState})};
     }),
-    on(PropertyActions.removePropertyById, (state): PropertyState => {
-      return {...state};
+    on(PropertyActions.removePropertyById, (state, {propertyId}): PropertyState => {
+      return {...state,
+        propertiesById: state.propertiesById.map((existingPropertyInnerState) =>
+          (existingPropertyInnerState.property.id === propertyId) ?
+            {property: existingPropertyInnerState.property, loadStatus: 'LOADING'} :
+            {...existingPropertyInnerState})};
+    }),
+    on(PropertyActions.removedPropertyById, (state, {property}): PropertyState => {
+      return {...state,
+        propertiesById: state.propertiesById.filter((existingPropertyInnerState) =>
+          (existingPropertyInnerState.property.id !== property.id)),
+      };
     }),
 );
