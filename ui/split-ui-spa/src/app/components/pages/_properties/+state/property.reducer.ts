@@ -4,14 +4,17 @@ import {PropertyActions} from './property.actions';
 import {initialPropertyDto, PropertyDto} from '../../../../dtos/properties/PropertyDto';
 import {LoadStatus} from '../../../../types/load-status';
 
+interface InnerPropertyState {
+  property: PropertyDto;
+  loadStatus: LoadStatus;
+}
+
 export interface PropertyState {
-  property: PropertyDto,
-  propertyLoadByIdStatus: LoadStatus,
+  propertiesById: InnerPropertyState[];
 }
 
 export const initialState: PropertyState = {
-  property: initialPropertyDto,
-  propertyLoadByIdStatus: 'NOT_LOADED',
+  propertiesById: [],
 };
 
 export const propertyReducer = createReducer(
@@ -19,11 +22,18 @@ export const propertyReducer = createReducer(
     on(PropertyActions.getPropertyById, (state): PropertyState => {
       return {...state};
     }),
-    on(PropertyActions.loadPropertyById, (state): PropertyState => {
-      return {...state, propertyLoadByIdStatus: 'LOADING'};
+    on(PropertyActions.loadPropertyById, (state, {propertyId}): PropertyState => {
+      return {...state, propertiesById: [
+        ...state.propertiesById,
+        {property: {...initialPropertyDto, id: propertyId}, loadStatus: 'LOADING'},
+      ]};
     }),
     on(PropertyActions.loadedPropertyById, (state, {property}): PropertyState => {
-      return {...state, property, propertyLoadByIdStatus: 'LOADED'};
+      return {...state,
+        propertiesById: state.propertiesById.map((existingPropertyInnerState) =>
+                (existingPropertyInnerState.property.id === property.id) ?
+                  {property, loadStatus: 'LOADED'} :
+                  {...existingPropertyInnerState})};
     }),
     on(PropertyActions.removePropertyById, (state): PropertyState => {
       return {...state};

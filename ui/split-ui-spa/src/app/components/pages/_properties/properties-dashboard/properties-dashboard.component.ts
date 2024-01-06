@@ -1,5 +1,5 @@
 import {AsyncPipe, NgIf, NgOptimizedImage} from '@angular/common';
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {ActivatedRoute, RouterLink} from '@angular/router';
@@ -31,6 +31,7 @@ import {ExpenseSelector} from '../_expenses/+state/expense.selector';
   ],
   templateUrl: './properties-dashboard.component.html',
   styleUrl: './properties-dashboard.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PropertiesDashboardComponent implements OnInit {
   property$: Observable<PropertyDto | null> = of(initialPropertyDto);
@@ -40,8 +41,6 @@ export class PropertiesDashboardComponent implements OnInit {
   propertyId: string = '';
   combinedEmails: Set<string> = new Set<string>();
   currentUser: UserDto = AuthService.INITIAL_USER;
-  protected readonly propertyDashboardByIdLoadingKey = 'property-dashboard-by-id-loading-key';
-  protected readonly expensesForPropertyLoadingKey = 'expenses-for-property-loading-key';
   protected readonly RoutePath = RoutePath;
   protected readonly rebaseRoutePath = rebaseRoutePath;
   protected readonly rebaseRoutePathAsString = rebaseRoutePathAsString;
@@ -51,13 +50,6 @@ export class PropertiesDashboardComponent implements OnInit {
     private route: ActivatedRoute,
     private authService: AuthService,
   ) {
-    this.property$ = this.store.select(PropertySelector.selectPropertyById);
-    this.propertyLoadStatus$ = this.store.select(PropertySelector.selectLoadPropertyByIdStatus);
-    this.property$.pipe(
-        tap((property) => (property) ? this.updateCombinedEmails(property): undefined),
-    ).subscribe(); // Unsubscribed by component async pipe
-    this.expenses$ = this.store.select(ExpenseSelector.selectExpensesForProperty);
-    this.expensesLoadStatus$ = this.store.select(ExpenseSelector.selectLoadExpensesForPropertyStatus);
   }
 
   ngOnInit() {
@@ -65,9 +57,20 @@ export class PropertiesDashboardComponent implements OnInit {
     this.route.params
         .subscribe((params) => {
           this.propertyId = params['propertyId'];
-          [PropertyActions.getPropertyById({propertyId: this.propertyId}),
-            ExpenseActions.getExpensesForProperty({propertyId: this.propertyId})]
-              .forEach((action) => this.store.dispatch(action));
+
+          this.property$ = this.store.select(PropertySelector.selectPropertyById(this.propertyId));
+          this.property$.pipe(
+              tap((property) => (property) ? this.updateCombinedEmails(property): undefined),
+          ).subscribe(); // Unsubscribed by component async pipe
+          this.propertyLoadStatus$ = this.store.select(PropertySelector.selectLoadPropertyByIdStatus(this.propertyId));
+
+          this.expenses$ = this.store.select(ExpenseSelector.selectExpensesForProperty);
+          this.expensesLoadStatus$ = this.store.select(ExpenseSelector.selectLoadExpensesForPropertyStatus);
+
+          [
+            PropertyActions.getPropertyById({propertyId: this.propertyId}),
+            ExpenseActions.getExpensesForProperty({propertyId: this.propertyId}),
+          ].forEach((action) => this.store.dispatch(action));
         });
   }
   /* eslint-disable @typescript-eslint/no-unused-vars */

@@ -20,7 +20,7 @@ export class PropertyEffects {
   getPropertyById$ = createEffect(() => {
     return this.actions$.pipe(
         ofType(PropertyActions.getPropertyById),
-        concatLatestFrom(() => this.store.select(PropertySelector.selectLoadPropertyByIdStatus)),
+        concatLatestFrom(({propertyId}) => this.store.select(PropertySelector.selectLoadPropertyByIdStatus(propertyId))),
         filter(([, propertyLoadByIdStatus]) => propertyLoadByIdStatus === 'NOT_LOADED'),
         map(([{propertyId}]) => PropertyActions.loadPropertyById({propertyId})),
     );
