@@ -3,24 +3,25 @@
     class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
     Manage your Properties</h1>
 </div>
-@if (isLoadingMap_().get(propertiesWhereInvolvedLoading)) {
+<ng-container *ngIf="(propertiesLoadingState$ | async) === 'LOADING'">
   <div class="flex justify-center">
-    <mat-spinner />
+    <mat-spinner/>
   </div>
-} @else {
+</ng-container>
+<ng-container *ngIf="properties$ | async as properties">
   @if (properties.length > 0) {
-  <div class="grid grid-cols-1 justify-center mt-3">
-    @for (property of properties;track $index) {
-      <app-card-with-link
-        [cardBodyText]="property.administratorEmails.includes(currentUser.email) ? 'You are an Administrator Here' : 'You are a Tenant Here'"
-        [cardButtonTargetLink]="rebaseRoutePathAsString(RoutePath.PROPERTIES_DASHBOARD_ID.valueOf().replace(':propertyId', property.id))"
-        [cardButtonText]="property.administratorEmails.includes(currentUser.email) ? 'Manage' : 'View'"
-        [cardHeaderText]="'Navigation'"
-        [cardTitle]="property.name"
-        class="mt-3 min-w-full animate__animated animate__bounceInUp animate__faster"
-      />
-    }
-  </div>
+    <div class="grid grid-cols-1 justify-center mt-3">
+      @for (property of properties; track $index) {
+        <app-card-with-link
+          [cardBodyText]="property.administratorEmails.includes(currentUser.email) ? 'You are an Administrator Here' : 'You are a Tenant Here'"
+          [cardButtonTargetLink]="rebaseRoutePathAsString(RoutePath.PROPERTIES_DASHBOARD_ID.valueOf().replace(':propertyId', property.id))"
+          [cardButtonText]="property.administratorEmails.includes(currentUser.email) ? 'Manage' : 'View'"
+          [cardHeaderText]="'Navigation'"
+          [cardTitle]="property.name"
+          class="mt-3 min-w-full animate__animated animate__bounceInUp animate__faster"
+        />
+      }
+    </div>
   } @else {
     <div class="flex mt-3">
       <app-card-with-link
@@ -30,7 +31,7 @@
         [cardHeaderText]="'Navigation'"
         [cardTitle]="'You are not currently involved with any properties'"
         class="min-w-full animate__animated animate__bounceInUp animate__faster"
-        />
+      />
     </div>
   }
-}
+</ng-container>

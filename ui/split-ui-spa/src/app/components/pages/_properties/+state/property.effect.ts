@@ -11,10 +11,12 @@ import {PropertySelector} from './property.selector';
 import {environment} from '../../../../../environments/environment';
 import {rebaseRoutePath, RoutePath} from '../../../../app.routes';
 import {PropertyService} from '../../../../services/property/property.service';
+import {EntityType} from '../../../../types/entity';
 import {ConfirmDeleteDialogComponent} from '../../../lib/dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 
 @Injectable()
 export class PropertyEffects {
+  /* Property by ID Effects START */
   loadPropertyById$ = createEffect(() => {
     return this.actions$.pipe(
         ofType(PropertyActions.loadPropertyById),
@@ -45,7 +47,25 @@ export class PropertyEffects {
         }),
     );
   });
-  private readonly entityType = 'Property';
+  /* Properties where Involved Effects START */
+  loadPropertiesWhereInvolved$ = createEffect(() => {
+    return this.actions$.pipe(
+        ofType(PropertyActions.loadPropertiesWhereInvolved),
+        switchMap(() => this.propertyService.getPropertiesWhereInvolved()),
+        map((properties) => PropertyActions.loadedPropertiesWhereInvolved({properties})),
+    );
+  });
+  /* Property by ID Effects END */
+  getPropertiesWhereInvolved$ = createEffect(() => {
+    return this.actions$.pipe(
+        ofType(PropertyActions.getPropertiesWhereInvolved),
+        concatLatestFrom(() => this.store.select(PropertySelector.selectLoadPropertiesWhereInvolvedStatus())),
+        filter(([, propertyLoadByIdStatus]) => propertyLoadByIdStatus !== 'LOADED'),
+        map(() => PropertyActions.loadPropertiesWhereInvolved()),
+    );
+  });
+  /* Properties where Involved Effects END */
+  private readonly entityType: EntityType = 'Property';
   promptRemovePropertyById$ = createEffect(() => {
     return this.actions$.pipe(
         ofType(PropertyActions.promptRemovePropertyById),

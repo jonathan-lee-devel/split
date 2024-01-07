@@ -1,16 +1,17 @@
 import {CommonModule} from '@angular/common';
-import {Component, OnInit, Signal} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {RouterLink} from '@angular/router';
-import {delay} from 'rxjs';
+import {Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
 
-import {environment} from '../../../../../environments/environment';
+import {PropertyActions} from '../+state/property.actions';
+import {PropertySelector} from '../+state/property.selector';
 import {rebaseRoutePath, rebaseRoutePathAsString, RoutePath} from '../../../../app.routes';
 import {UserDto} from '../../../../dtos/auth/UserDto';
 import {PropertyDto} from '../../../../dtos/properties/PropertyDto';
 import {AuthService} from '../../../../services/auth/auth.service';
-import {LoadingService} from '../../../../services/loading/loading.service';
-import {PropertyService} from '../../../../services/property/property.service';
+import {LoadStatus} from '../../../../types/load-status';
 import {CardWithLinkComponent} from '../../../lib/card-with-link/card-with-link.component';
 import {LoadingSpinnerComponent} from '../../../lib/loading-spinner/loading-spinner.component';
 
@@ -22,51 +23,23 @@ import {LoadingSpinnerComponent} from '../../../lib/loading-spinner/loading-spin
   styleUrl: './properties-manage.component.scss',
 })
 export class PropertiesManageComponent implements OnInit {
-  properties: PropertyDto[] = [];
-  currentUser: UserDto = AuthService.INITIAL_USER;
-  isLoadingMap_: Signal<Map<string, boolean>>;
-  readonly propertiesWhereInvolvedLoading = 'properties-where-involved-loading';
+  properties$: Observable<PropertyDto[]>;
+  propertiesLoadingState$: Observable<LoadStatus>;
+  currentUser: UserDto;
   protected readonly rebaseRoutePath = rebaseRoutePath;
   protected readonly RoutePath = RoutePath;
   protected readonly rebaseRoutePathAsString = rebaseRoutePathAsString;
 
   constructor(
-    private loadingService: LoadingService,
+    private store: Store,
     private authService: AuthService,
-    private propertyService: PropertyService,
   ) {
-    this.isLoadingMap_ = this.loadingService.isLoadingMap_;
+    this.properties$ = this.store.select(PropertySelector.selectPropertiesWhereInvolved());
+    this.propertiesLoadingState$ = this.store.select(PropertySelector.selectLoadPropertiesWhereInvolvedStatus());
+    this.currentUser = this.authService.getCurrentUserInfo();
   }
 
   ngOnInit() {
-    this.loadingService.onLoadingStart(this.propertiesWhereInvolvedLoading);
-    this.currentUser = this.authService.getCurrentUserInfo();
-    this.propertyService.getPropertiesWhereInvolved()
-        .pipe(
-            delay(environment.SIMULATED_LOADING_DELAY_MS),
-        ).subscribe((properties) => {
-          this.properties = properties
-              .sort((property, otherProperty) => {
-                if (property.administratorEmails.includes(this.currentUser.email) &&
-                    property.tenantEmails.includes(this.currentUser.email) &&
-                    !otherProperty.administratorEmails.includes(this.currentUser.email)) {
-                  return 2;
-                }
-
-                if (property.administratorEmails.includes(this.currentUser.email) &&
-                !otherProperty.administratorEmails.includes(this.currentUser.email)) {
-                  return 1;
-                }
-
-                if (otherProperty.administratorEmails.includes(this.currentUser.email) &&
-                otherProperty.tenantEmails.includes(this.currentUser.email) &&
-                !property.tenantEmails.includes(this.currentUser.email)) {
-                  return -1;
-                }
-
-                return 0;
-              });
-          this.loadingService.onLoadingFinished(this.propertiesWhereInvolvedLoading);
-        });
+    this.store.dispatch(PropertyActions.getPropertiesWhereInvolved());
   }
 }
