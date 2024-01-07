@@ -68,6 +68,17 @@ export const propertyReducer = createReducer(
           {...existingPropertyInnerState}),
       };
     }),
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    on(PropertyActions.addProperty, (state, {propertyCreateRequest}): PropertyState => {
+      // TODO: Revise
+      return {...state};
+    }),
+    on(PropertyActions.addedProperty, (state, {property}): PropertyState => {
+      return {...state,
+        propertiesById: [...state.propertiesById, {property, loadStatus: 'LOADED'}],
+        propertiesWhereInvolved: [...state.propertiesWhereInvolved, {property, loadStatus: 'LOADED'}],
+      };
+    }),
     on(PropertyActions.loadedPropertiesWhereInvolved, (state, {properties}): PropertyState => {
       return {
         ...state,

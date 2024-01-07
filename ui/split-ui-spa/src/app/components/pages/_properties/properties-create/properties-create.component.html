@@ -1,6 +1,7 @@
 <section class="container flex justify-center mt-10">
-  <div class="card border-dark-subtle text-center mb-10 bg-[#133247] animate__animated animate__zoomInDown animate__faster"
-       style="width: 36rem;">
+  <div
+    class="card border-dark-subtle text-center mb-10 bg-[#133247] animate__animated animate__zoomInDown animate__faster"
+    style="width: 36rem;">
     <div class="card-body">
       <div class="flex justify-center text-center items-center pt-10">
         <a class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white" href="#">
@@ -12,15 +13,18 @@
         <form (ngSubmit)="doCreateProperty()" autocomplete="off">
           <div class="row mt-2 mx-2">
             <label class="form-label text-white" for="nameInput">Name:</label>
-            <input [(ngModel)]="name" class="form-control" id="nameInput" name="name" placeholder="Property Name" type="text"/>
+            <input [(ngModel)]="name" class="form-control" id="nameInput" name="name" placeholder="Property Name"
+                   type="text"/>
           </div>
           <div class="flex justify-center mt-3">
-            @if (!isLoadingMap_().get(isPropertyCreateLoadingKey)) {
-              <button class="flex items-center px-4 py-2 border border-slate-200 rounded-lg text-white" type="submit">Create
-              </button>
-            } @else {
-              <mat-spinner diameter="20" />
-            }
+            <ng-container *ngIf="(loadStatus$ | async) === 'LOADED'">
+            <button class="flex items-center px-4 py-2 border border-slate-200 rounded-lg text-white" type="submit">
+              Create
+            </button>
+            </ng-container>
+            <ng-container *ngIf="(loadStatus$ | async) === 'LOADING'">
+              <mat-spinner diameter="25" />
+            </ng-container>
           </div>
         </form>
       </div>

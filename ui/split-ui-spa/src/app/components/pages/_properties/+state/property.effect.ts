@@ -4,19 +4,18 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
 import {Actions, concatLatestFrom, createEffect, ofType} from '@ngrx/effects';
 import {Store} from '@ngrx/store';
-import {filter, map, switchMap, tap} from 'rxjs';
+import {catchError, EMPTY, filter, map, switchMap, tap} from 'rxjs';
 
 import {PropertyActions} from './property.actions';
 import {PropertySelector} from './property.selector';
 import {environment} from '../../../../../environments/environment';
-import {rebaseRoutePath, RoutePath} from '../../../../app.routes';
+import {rebaseRoutePath, rebaseRoutePathAsString, RoutePath} from '../../../../app.routes';
 import {PropertyService} from '../../../../services/property/property.service';
 import {EntityType} from '../../../../types/entity';
 import {ConfirmDeleteDialogComponent} from '../../../lib/dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 
 @Injectable()
 export class PropertyEffects {
-  /* Property by ID Effects START */
   loadPropertyById$ = createEffect(() => {
     return this.actions$.pipe(
         ofType(PropertyActions.loadPropertyById),
@@ -47,7 +46,6 @@ export class PropertyEffects {
         }),
     );
   });
-  /* Properties where Involved Effects START */
   loadPropertiesWhereInvolved$ = createEffect(() => {
     return this.actions$.pipe(
         ofType(PropertyActions.loadPropertiesWhereInvolved),
@@ -55,7 +53,6 @@ export class PropertyEffects {
         map((properties) => PropertyActions.loadedPropertiesWhereInvolved({properties})),
     );
   });
-  /* Property by ID Effects END */
   getPropertiesWhereInvolved$ = createEffect(() => {
     return this.actions$.pipe(
         ofType(PropertyActions.getPropertiesWhereInvolved),
@@ -64,7 +61,22 @@ export class PropertyEffects {
         map(() => PropertyActions.loadPropertiesWhereInvolved()),
     );
   });
-  /* Properties where Involved Effects END */
+  addProperty$ = createEffect(() => {
+    return this.actions$.pipe(
+        ofType(PropertyActions.addProperty),
+        switchMap(({propertyCreateRequest}) => this.propertyService.createProperty(propertyCreateRequest)),
+        catchError(() => EMPTY), // Let error interceptor handle error
+        map((property) => {
+          this.matSnackBar.open(`Property with name: ${property.name} has successfully been created`, 'OK', {
+            duration: environment.SNACKBAR_DURATION_MS,
+          });
+          this.router.navigate([rebaseRoutePathAsString(RoutePath.PROPERTIES_DASHBOARD_ID
+              .replace(':propertyId', property.id))])
+              .catch((reason) => window.alert(reason));
+          return PropertyActions.addedProperty({property});
+        }),
+    );
+  });
   private readonly entityType: EntityType = 'Property';
   promptRemovePropertyById$ = createEffect(() => {
     return this.actions$.pipe(

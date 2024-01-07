@@ -1,5 +1,6 @@
 import {createAction, props} from '@ngrx/store';
 
+import {PropertyCreateRequestDto} from '../../../../dtos/properties/PropertyCreateRequestDto';
 import {PropertyDto} from '../../../../dtos/properties/PropertyDto';
 
 /* Property by ID Actions START */
@@ -43,6 +44,16 @@ const removedPropertyById = createAction(
     '[Property] Removed by ID',
     props<{propertyId: string}>());
 /* Property by ID Actions END */
+/* Property Modify Actions START */
+const addProperty = createAction(
+    '[Property] Add Property',
+    props<{propertyCreateRequest: PropertyCreateRequestDto}>(),
+);
+const addedProperty = createAction(
+    '[Property] Added Property',
+    props<{property: PropertyDto}>(),
+);
+/* Property Modify Actions END */
 /* Properties where Involved Actions START */
 const getPropertiesWhereInvolved = createAction(
     '[Property] Get where Involved',
@@ -70,6 +81,10 @@ export const PropertyActions = {
   removePropertyByIdCanceled,
   removedPropertyById,
   /* Property by ID Actions END */
+  /* Property Modify Actions START */
+  addProperty,
+  addedProperty,
+  /* Property Modify Actions END */
   /* Properties where Involved Actions START */
   getPropertiesWhereInvolved,
   loadPropertiesWhereInvolved,

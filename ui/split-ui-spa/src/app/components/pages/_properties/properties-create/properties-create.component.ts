@@ -1,17 +1,15 @@
-import {NgOptimizedImage} from '@angular/common';
-import {Component, OnInit} from '@angular/core';
+import {AsyncPipe, NgIf, NgOptimizedImage} from '@angular/common';
+import {Component} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {Router, RouterLink} from '@angular/router';
-import {delay} from 'rxjs';
+import {RouterLink} from '@angular/router';
+import {Store} from '@ngrx/store';
+import {BehaviorSubject, Observable} from 'rxjs';
 
-import {environment} from '../../../../../environments/environment';
-import {rebaseRoutePath, RoutePath} from '../../../../app.routes';
+import {PropertyActions} from '../+state/property.actions';
 import {UserDto} from '../../../../dtos/auth/UserDto';
 import {AuthService} from '../../../../services/auth/auth.service';
-import {LoadingService} from '../../../../services/loading/loading.service';
-import {PropertyService} from '../../../../services/property/property.service';
+import {LoadStatus} from '../../../../types/load-status';
 
 @Component({
   selector: 'app-properties-create',
@@ -21,44 +19,31 @@ import {PropertyService} from '../../../../services/property/property.service';
     FormsModule,
     NgOptimizedImage,
     MatProgressSpinnerModule,
+    NgIf,
+    AsyncPipe,
   ],
   templateUrl: './properties-create.component.html',
   styleUrl: './properties-create.component.scss',
 })
-export class PropertiesCreateComponent implements OnInit {
+export class PropertiesCreateComponent {
   currentUser: UserDto = AuthService.INITIAL_USER;
   name: string = '';
-  isLoadingMap_ = this.loadingService.isLoadingMap_;
-  protected readonly isPropertyCreateLoadingKey = 'is-property-create-loading-key';
+  loadStatus$: Observable<LoadStatus>;
+  private loadStatus = new BehaviorSubject<LoadStatus>('LOADED');
 
   constructor(
-    private propertiesService: PropertyService,
-    private loadingService: LoadingService,
+    private store: Store,
     private authService: AuthService,
-    private matSnackBar: MatSnackBar,
-    private router: Router,
-  ) {}
-
-  ngOnInit() {
+  ) {
     this.currentUser = this.authService.getCurrentUserInfo();
+    this.loadStatus$ = this.loadStatus.asObservable();
   }
 
   doCreateProperty() {
-    this.loadingService.onLoadingStart(this.isPropertyCreateLoadingKey);
-    this.propertiesService.createProperty({
+    this.loadStatus.next('LOADING');
+    this.store.dispatch(PropertyActions.addProperty({propertyCreateRequest: {
       name: this.name,
       tenantEmails: [this.currentUser.email],
-    }).pipe(
-        delay(environment.SIMULATED_LOADING_DELAY_MS),
-    ).subscribe((property) => {
-      this.matSnackBar.open(
-          `Property with name '${property.name}' created successfully`,
-          'OK',
-          {duration: environment.SNACKBAR_DURATION_MS},
-      );
-      this.loadingService.onLoadingFinished(this.isPropertyCreateLoadingKey);
-      this.router.navigate([`${rebaseRoutePath(RoutePath.DASHBOARD)}`])
-          .catch((reason) => window.alert(reason));
-    });
+    }}));
   }
 }
